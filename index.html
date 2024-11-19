@@ -149,18 +149,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -185,6 +185,443 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/winscp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/19/winscp/" class="post-title-link" itemprop="url">C# 使用Winscp上傳檔案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2024-11-19 15:55:53 / 修改時間：16:07:23" itemprop="dateCreated datePublished" datetime="2024-11-19T15:55:53+08:00">2024-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="概述">概述</h2>
+<p>接手了前輩的專案，以前都要自己手動上傳檔案，好麻煩<br>
+因此來看看怎麼用 Winscp 套件來串接，配合後續製作成排程程式，自動上傳</p>
+<h2 id="Install">Install</h2>
+<pre><code class="highlight powershell">dotnet add package WinSCP</code></pre>
+<h2 id="Example">Example</h2>
+<pre><code class="highlight C#"><span class="comment">// 連線設定</span>
+SessionOptions sessionOptions = <span class="keyword">new</span> SessionOptions
+&#123;
+    Protocol = Protocol.Sftp,
+    HostName = <span class="string">&quot;hostname&quot;</span>,
+    PortNumber = port,
+    UserName = <span class="string">&quot;xxxx&quot;</span>,
+    SshHostKeyFingerprint = <span class="string">&quot;ssh-rsa 2048 xxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>,
+    SshPrivateKeyPath = <span class="string">&quot;....&quot;</span> <span class="comment">// 私鑰路徑自行調整(選用)</span>
+&#125;;
+
+<span class="comment">// 開啟會話</span>
+<span class="keyword">using</span> <span class="keyword">var</span> session = <span class="keyword">new</span> Session();
+session.Open(sessionOptions);
+
+<span class="comment">// 定義上傳的文件路徑和遠端目錄</span>
+<span class="built_in">string</span> localFilePath = <span class="string">&quot;文件路徑&quot;</span>;
+<span class="built_in">string</span> remoteDirectory = <span class="string">&quot;伺服器目錄&quot;</span>; <span class="comment">// 遠端伺服器的目錄</span>
+
+<span class="comment">// 上傳文件</span>
+TransferOperationResult transferResult;
+transferResult = <span class="keyword">this</span>.session.PutFiles(localFilePath, remoteDirectory);
+
+<span class="comment">// 檢查上傳是否成功</span>
+transferResult.Check();</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<p><a target="_blank" rel="noopener" href="https://winscp.net/eng/docs/library#csharp">https://winscp.net/eng/docs/library#csharp</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/curl/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/19/curl/" class="post-title-link" itemprop="url">C# 使用 curl.exe 呼叫api</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2024-11-19 15:53:41 / 修改時間：16:08:45" itemprop="dateCreated datePublished" datetime="2024-11-19T15:53:41+08:00">2024-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CSharp/Curl/" itemprop="url" rel="index"><span itemprop="name">Curl</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="概述">概述</h2>
+<p>有時候開發軟體的版本過舊，導致介接 API 會異常困難<br>
+學長說可以用 curl 來呼叫 api，所以就來看看怎麼用</p>
+<h2 id="DownLoad-curl-exe">DownLoad curl.exe</h2>
+<p><a target="_blank" rel="noopener" href="https://curl.se/download.html#Win64">https://curl.se/download.html#Win64</a></p>
+<h2 id="CurlHelper-cs">CurlHelper.cs</h2>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CurlHelper</span>
+    &#123;
+        <span class="comment">// curl.exe 路徑</span>
+        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="built_in">string</span> CurlPath = <span class="string">$&quot;C:\\AP06BZ\\EXE\\CURL.EXE&quot;</span>;
+
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> Get 請求</span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;url&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;headers&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">GetRequest</span>(<span class="params"><span class="built_in">string</span> url, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; headers = <span class="literal">null</span></span>)</span>
+        &#123;
+            <span class="built_in">string</span> arugments = <span class="string">$&quot;-X GET \&quot;<span class="subst">&#123;url&#125;</span>\&quot;&quot;</span>;
+            <span class="keyword">if</span> (headers != <span class="literal">null</span>)
+            &#123;
+                <span class="keyword">foreach</span> (<span class="keyword">var</span> header <span class="keyword">in</span> headers)
+                &#123;
+                    arugments += <span class="string">$&quot; -H \&quot;<span class="subst">&#123;header.Key&#125;</span>: <span class="subst">&#123;header.Value&#125;</span>\&quot;&quot;</span>;
+                &#125;
+            &#125;
+            <span class="keyword">return</span> ExecuteCurlCommand(arugments);
+        &#125;
+
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> POST 請求(JSON資料)</span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;url&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;jsonData&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;headers&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">PostRequest</span>(<span class="params"><span class="built_in">string</span> url, <span class="built_in">string</span> jsonData, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; headers = <span class="literal">null</span></span>)</span>
+        &#123;
+            <span class="built_in">string</span> arguments = <span class="string">$&quot;-X POST -H \&quot;Content-Type: application/json\&quot; -d \&quot;<span class="subst">&#123;jsonData&#125;</span>\&quot; \&quot;<span class="subst">&#123;url&#125;</span>\&quot;&quot;</span>;
+            <span class="keyword">if</span> (headers != <span class="literal">null</span>)
+            &#123;
+                <span class="keyword">foreach</span> (<span class="keyword">var</span> header <span class="keyword">in</span> headers)
+                &#123;
+                    arguments += <span class="string">$&quot; -H \&quot;<span class="subst">&#123;header.Key&#125;</span>: <span class="subst">&#123;header.Value&#125;</span>\&quot;&quot;</span>;
+                &#125;
+            &#125;
+            <span class="keyword">return</span> ExecuteCurlCommand(arguments);
+        &#125;
+
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> POST 請求(表單資料)</span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;url&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;formData&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;headers&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">PostFormRequest</span>(<span class="params"><span class="built_in">string</span> url, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; formData, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; headers = <span class="literal">null</span></span>)</span>
+        &#123;
+            <span class="built_in">string</span> arguments = <span class="string">&quot;-X POST&quot;</span>;
+            <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> formData)
+            &#123;
+                arguments += <span class="string">$&quot; -F \&quot;<span class="subst">&#123;item.Key&#125;</span>=<span class="subst">&#123;item.Value&#125;</span>\&quot;&quot;</span>;
+            &#125;
+            arguments += <span class="string">$&quot; \&quot;<span class="subst">&#123;url&#125;</span>\&quot;&quot;</span>;
+            <span class="keyword">if</span> (headers != <span class="literal">null</span>)
+            &#123;
+                <span class="keyword">foreach</span> (<span class="keyword">var</span> header <span class="keyword">in</span> headers)
+                &#123;
+                    arguments += <span class="string">$&quot; -H \&quot;<span class="subst">&#123;header.Key&#125;</span>: <span class="subst">&#123;header.Value&#125;</span>\&quot;&quot;</span>;
+                &#125;
+            &#125;
+            <span class="keyword">return</span> ExecuteCurlCommand(arguments);
+        &#125;
+
+
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> 執行curl命令返回輸出</span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;arguments&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span>
+        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">ExecuteCurlCommand</span>(<span class="params"><span class="built_in">string</span> arguments</span>)</span>
+        &#123;
+            <span class="keyword">var</span> startInfo = <span class="keyword">new</span> ProcessStartInfo
+            &#123;
+                FileName = CurlPath,
+                Arguments = arguments,
+                RedirectStandardOutput = <span class="literal">true</span>,
+                UseShellExecute = <span class="literal">false</span>,
+                CreateNoWindow = <span class="literal">true</span>,
+            &#125;;
+            <span class="keyword">using</span> (<span class="keyword">var</span> p = Process.Start(startInfo))
+            &#123;
+                <span class="keyword">using</span> (<span class="keyword">var</span> reader = p.StandardOutput)
+                &#123;
+                    <span class="keyword">return</span> reader.ReadToEnd();
+                &#125;
+            &#125;
+        &#125;
+    &#125;</code></pre>
+<h2 id="Usage">Usage</h2>
+<pre><code class="highlight C#"><span class="built_in">string</span> url = <span class="string">&quot;apiurl...&quot;</span>;
+<span class="keyword">var</span> headers = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;
+&#123;
+      &#123;<span class="string">&quot;Authorization&quot;</span>, <span class="string">&quot;Bearer your_api_key&quot;</span>&#125;
+&#125;;
+<span class="built_in">string</span> response = CurlHelper.GetRequest(url, headers);
+Console.WriteLine(<span class="string">&quot;Get Response: &quot;</span> + response);</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/snowflake/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/19/snowflake/" class="post-title-link" itemprop="url">C# 使用IdGen產生Id(雪花算法)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2024-11-19 15:47:39 / 修改時間：16:07:49" itemprop="dateCreated datePublished" datetime="2024-11-19T15:47:39+08:00">2024-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1>雪花算法</h1>
+<h2 id="概述">概述</h2>
+<p>公司的資料表常常使用很奇怪的欄位來去當識別鍵(例如時間戳)，既然都用時間戳了不如用雪花算法產 ID 當 PK<br>
+雪花算法是 Twitter 開源的生成分散式全域產生 ID 的演算法</p>
+<h2 id="格式">格式</h2>
+<p>雪花 ID 有 64 位元</p>
+<ul>
+<li>1 位為符號位始終是 0</li>
+<li>41 位為時間戳，精度毫秒</li>
+<li>10 位可為(10 位機器 ID) 或 (5 位數據中心 ID + 5 位機器 ID)，可識別 1024 台機器</li>
+<li>12 位為序列號 =&gt; 代表每毫秒可以有 4096 個 ID</li>
+</ul>
+<p><img src="/images/snowflake.png" alt="snowflake_structure.image"></p>
+<h2 id="優缺點">優缺點</h2>
+<h3 id="優點">優點</h3>
+<ol>
+<li>ID 包含時間戳，有序可排序</li>
+<li>簡單速度快</li>
+</ol>
+<h3 id="缺點">缺點</h3>
+<ol>
+<li>依賴系統時間，如果系統時間回退或跳躍，會產生不唯一 ID</li>
+<li>自己手動分配機器 ID，分配不當，產生不唯一 ID</li>
+</ol>
+<h2 id="Install">Install</h2>
+<pre><code class="highlight ada">dotnet add <span class="keyword">package</span> <span class="title">IdGen</span></code></pre>
+<h2 id="DI-注入-Optionl">DI 注入(Optionl)</h2>
+<pre><code class="highlight ada">dotnet add <span class="keyword">package</span> <span class="title">IdGen.DependencyInjection</span></code></pre>
+<h2 id="Usage">Usage</h2>
+<h3 id="一般">一般</h3>
+<pre><code class="highlight C#"><span class="keyword">var</span> generator = <span class="keyword">new</span> IdGenerator(<span class="number">0</span>);
+<span class="keyword">var</span> id = generator.CreateId();</code></pre>
+<h3 id="依賴注入">依賴注入</h3>
+<p>Program.cs</p>
+<pre><code class="highlight C#">builder.Services.AddIdGen(<span class="number">0</span>);</code></pre>
+<p>Example.cs</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Example</span>
+&#123;
+    <span class="comment">//private readonly IIdGenerator&lt;long&gt; idGenerator;</span>
+    <span class="comment">//public Example (IIdGenerator&lt;long&gt; idGenerator)</span>
+    <span class="comment">//&#123;</span>
+    <span class="comment">//    this.idGenerator = idGenerator;</span>
+    <span class="comment">//&#125;</span>
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IdGenerator idGenerator;
+    <span class="function"><span class="keyword">public</span> <span class="title">Example</span>(<span class="params">IdGenerator idGenerator</span>)</span>
+    &#123;
+        <span class="keyword">this</span>.idGenerator = idGenerator;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="built_in">long</span> <span class="title">GetId</span>()</span>
+    &#123;
+        <span class="keyword">var</span> id = idGenerator.CreateId();
+        <span class="keyword">return</span> id;
+    &#125;
+&#125;</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<p><a target="_blank" rel="noopener" href="https://github.com/RobThree/IdGen?tab=readme-ov-file">https://github.com/RobThree/IdGen?tab=readme-ov-file</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
