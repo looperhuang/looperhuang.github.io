@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Title -->
+<title>C# Web api使用Quartz進行一次性排程 - Looper&#39;s Blog</title>
+
+<!-- Icon -->
+<link rel="icon" href="/images/LHBlog.svg">
+
+<!-- Fonts -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.onload=null, this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"></noscript>
+
+
+
+<!-- Style -->
+
+<link rel="stylesheet" href="/styles/main.css">
+
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-theme-pure@1.0.1/dist/main.css"> -->
+
+
+
+
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+
+    <meta name="generator" content="Hexo 7.3.0"></head>
+    <body>
+        <div class="main gt-bg-theme-color-first">
+            <div class="main-content">
+                <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/LHBlog.svg" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Looper&#39;s Blog
+        </div>
+    </a>
+    <button aria-label="Navbar Toggler" class="navbar-toggler" type="button" id="changeNavbar">
+        <i class="gt-c-content-color-first" style="font-size: 18px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18px" fill="currentColor">
+                <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+            </svg>
+        </i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center; ">
+            
+                <div class="nav-item">
+                    <a href="/" class="menu gt-a-link" target="_self">首頁</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/archives/" class="menu gt-a-link" target="_self">歸檔</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/tags/" class="menu gt-a-link" target="_self">標籤</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/friends/" class="menu gt-a-link" target="_self">友情鏈接</a>
+                </div>
+            
+        </div>
+    </div>
+</nav>
+
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function() {
+        let element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else { 
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+                <div class="post-container">
+    <div class="post-detail gt-bg-theme-color-second gt-c-content-color-first">
+        <article class="gt-post-content">
+            <h1 class="post-title">C# Web api使用Quartz進行一次性排程</h1>
+            <div class="post-info">
+                <time class="post-time gt-c-content-color-first">
+                    · 2024-11-19 ·</time>
+                
+                    
+                
+            </div>
+            <hr>
+            <div class="post-content gt-c-content-color-first">
+                <h2 id="Install">Install</h2>
+<pre><code class="highlight powershell"><span class="built_in">Install-Package</span> Quartz.AspNetCore
+<span class="built_in">Install-Package</span> Quartz.Extensions.DependencyInjection
+<span class="built_in">Install-Package</span> Quartz.Serialization.Json</code></pre>
+<h2 id="appsetting-json">appsetting.json</h2>
+<p>這邊使用 Oracle 資料庫做為持久化儲存<a target="_blank" rel="noopener" href="https://github.com/quartznet/quartznet/tree/main/database/tables">各類資料庫腳本</a></p>
+<pre><code class="highlight json"><span class="attr">&quot;Quartz&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span>
+  <span class="attr">&quot;quartz.scheduler.instanceName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QuartzOracleScheduler&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;quartz.scheduler.instanceId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;AUTO&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;quartz.jobStore.type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Quartz.Impl.AdoJobStore.JobStoreTX, Quartz&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;quartz.jobStore.useProperties&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;quartz.jobStore.dataSource&quot;</span><span class="punctuation">:</span> <span class="string">&quot;default&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;quartz.jobStore.tablePrefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QRTZ_&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;quartz.jobStore.driverDelegateType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Quartz.Impl.AdoJobStore.OracleDelegate, Quartz&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;quartz.dataSource.default.provider&quot;</span><span class="punctuation">:</span> <span class="string">&quot;OracleODPManaged&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;quartz.dataSource.default.connectionString&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Your Connection String&quot;</span>
+<span class="punctuation">&#125;</span></code></pre>
+<h2 id="Job-cs">Job.cs</h2>
+<pre><code class="highlight C#"> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SendTasJob</span> : <span class="title">IJob</span>
+ &#123;
+     <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">Execute</span>(<span class="params">IJobExecutionContext context</span>)</span>
+     &#123;
+         <span class="comment">//Job要實作的內容</span>
+          <span class="keyword">var</span> tasid = context.MergedJobDataMap.GetString(<span class="string">&quot;tasid&quot;</span>);
+          <span class="keyword">var</span> welcomeText = context.MergedJobDataMap.GetString(<span class="string">&quot;welcomeText&quot;</span>);
+          Console.WriteLine(tasid + welcomeText);
+          <span class="keyword">return</span> Task.CompletedTask;
+     &#125;
+&#125;</code></pre>
+<h2 id="Controller-cs">Controller.cs</h2>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TasController</span> : <span class="title">ControllerBase</span>
+&#123;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> ISchedulerFactory schedulerFactory;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IdGenerator idGenerator;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">TasController</span>(<span class="params">ISchedulerFactory schedulerFactory,</span></span>
+<span class="params"><span class="function">                         IdGenerator idGenerator</span>)</span>
+    &#123;
+        <span class="keyword">this</span>.schedulerFactory = schedulerFactory;
+        <span class="keyword">this</span>.idGenerator = idGenerator;
+    &#125;
+
+    [<span class="meta">HttpPost(<span class="string">&quot;[action]&quot;</span>)</span>]
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">ScheduleTasJob</span>(<span class="params">TasJobRequest request</span>)</span>
+    &#123;
+        <span class="comment">// 使用 SchedulerFactory 取得 Scheduler</span>
+        <span class="keyword">var</span> sch = <span class="keyword">await</span> schedulerFactory.GetScheduler();
+       <span class="comment">// 雪花算法產Id</span>
+        <span class="keyword">var</span> jobid = idGenerator.CreateId();
+        <span class="keyword">var</span> jobKey = <span class="keyword">new</span> JobKey(<span class="string">$&quot;TasJob-<span class="subst">&#123;jobid&#125;</span>&quot;</span>, <span class="string">&quot;TasJobs&quot;</span>);
+        <span class="keyword">var</span> triggerKey = <span class="keyword">new</span> TriggerKey(<span class="string">$&quot;TasJobTrigger-<span class="subst">&#123;jobid&#125;</span>&quot;</span>, <span class="string">&quot;TasJobs&quot;</span>);
+
+        <span class="comment">// 建立Job</span>
+        <span class="keyword">var</span> job = JobBuilder.Create&lt;SendTasJob&gt;()
+            .WithIdentity(jobKey)
+             <span class="comment">//key value 如果有開啟UseProperties 只能有string型別</span>
+            .UsingJobData(<span class="string">&quot;tasid&quot;</span>, request.TasId)
+            .UsingJobData(<span class="string">&quot;welcomeText&quot;</span>, request.WelcomeText)
+            .StoreDurably() <span class="comment">// 使任務持久化</span>
+            .Build();
+
+        <span class="comment">// 設定Trigger</span>
+        ITrigger trigger = TriggerBuilder.Create()
+            .WithIdentity(triggerKey)
+            .StartAt(request.ExecuteAt ?? DateTime.UtcNow) <span class="comment">// 指定執行時間</span>
+            .WithSimpleSchedule(x =&gt; x
+                .WithMisfireHandlingInstructionFireNow() <span class="comment">// 當排程錯過執行時間時立即執行</span>
+                .WithRepeatCount(<span class="number">0</span>) <span class="comment">//只執行一次</span>
+                )
+            .Build();
+
+        <span class="keyword">try</span>
+        &#123;
+           <span class="keyword">await</span> sch.ScheduleJob(job, trigger);
+           Console.WriteLine(<span class="string">$&quot;Scheduled job successfully with JobKey: <span class="subst">&#123;jobKey.Name&#125;</span> and TriggerKey: <span class="subst">&#123;triggerKey.Name&#125;</span>&quot;</span>);
+        &#125;
+        <span class="keyword">catch</span> (Exception ex)
+        &#123;
+            Console.WriteLine(<span class="string">$&quot;Failed to schedule job with JobKey: <span class="subst">&#123;jobKey.Name&#125;</span> and TriggerKey: <span class="subst">&#123;triggerKey.Name&#125;</span>&quot;</span>, ex);
+            <span class="keyword">return</span> StatusCode(<span class="number">500</span>, <span class="string">&quot;Failed to schedule job&quot;</span>);
+        &#125;
+
+        <span class="keyword">return</span> Ok(<span class="string">$&quot;Scheduled job successfully with Job: <span class="subst">&#123;jobKey.Name&#125;</span> and Trigger: <span class="subst">&#123;triggerKey.Name&#125;</span>&quot;</span>);
+    &#125;
+&#125;</code></pre>
+<h2 id="Program-cs">Program.cs</h2>
+<pre><code class="highlight C#"><span class="comment">// 從 appsettings.json 載入 Quartz 配置</span>
+builder.Services.Configure&lt;QuartzOptions&gt;(builder.Configuration.GetSection(<span class="string">&quot;Quartz&quot;</span>));
+
+<span class="comment">// 加入 Quartz 服務</span>
+builder.Services.AddQuartz(q =&gt;
+&#123;
+    q.UseJobFactory&lt;MicrosoftDependencyInjectionJobFactory&gt;();
+
+    <span class="comment">// 持久化</span>
+    q.UsePersistentStore(opt =&gt;
+    &#123;
+        opt.UseProperties = <span class="literal">false</span>;
+        opt.UseOracle(configuration =&gt;
+        &#123;
+            configuration.ConnectionString = builder.Configuration[<span class="string">&quot;Quartz:quartz.dataSource.default.connectionString&quot;</span>];
+        &#125;);
+        opt.UseNewtonsoftJsonSerializer();
+    &#125;);
+&#125;);
+builder.Services.AddQuartzServer(q =&gt; q.WaitForJobsToComplete = <span class="literal">true</span>); <span class="comment">//hosting server</span>
+<span class="comment">//builder.Services.AddQuartzHostedService(options =&gt;</span>
+<span class="comment">//&#123;</span>
+<span class="comment">//    // when shutting down we want jobs to complete gracefully</span>
+<span class="comment">//    options.WaitForJobsToComplete = true;</span>
+<span class="comment">//&#125;);</span>
+builder.Services.AddTransient&lt;SendTasJob&gt;(); <span class="comment">// Job註冊</span>
+</code></pre>
+<h2 id="AddQuartzServer-vs-AddQuartzHostedService">AddQuartzServer vs AddQuartzHostedService</h2>
+<p>AddQuartzServer 會多一個 Health Check 檢查 scheduler<br>
+Source Code 如下</p>
+<pre><code class="highlight C#"><span class="keyword">using</span> System;
+
+<span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;
+
+<span class="meta">#<span class="keyword">if</span> SUPPORTS_HEALTH_CHECKS</span>
+<span class="keyword">using</span> Quartz.AspNetCore.HealthChecks;
+<span class="meta">#<span class="keyword">endif</span></span>
+
+<span class="keyword">namespace</span> <span class="title">Quartz</span>
+&#123;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">QuartzServiceCollectionExtensions</span>
+    &#123;
+        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IServiceCollection <span class="title">AddQuartzServer</span>(<span class="params"></span></span>
+<span class="params"><span class="function">            <span class="keyword">this</span> IServiceCollection services,</span></span>
+<span class="params"><span class="function">            Action&lt;QuartzHostedServiceOptions&gt;? configure = <span class="literal">null</span></span>)</span>
+        &#123;
+            <span class="meta">#<span class="keyword">if</span> SUPPORTS_HEALTH_CHECKS</span>
+            services
+                .AddHealthChecks()
+                .AddTypeActivatedCheck&lt;QuartzHealthCheck&gt;(<span class="string">&quot;quartz-scheduler&quot;</span>);
+            <span class="meta">#<span class="keyword">endif</span></span>
+
+            <span class="keyword">return</span> services.AddQuartzHostedService(configure);
+        &#125;
+    &#125;
+&#125;</code></pre>
+<h2 id="IIS-回收機制，排程失效">IIS 回收機制，排程失效</h2>
+<ul>
+<li>關閉回收機制(程式應用集區 =&gt; 進階設定)<br>
+<img src="/images/InetMgr_ndjANFedAK.png" alt="InetMgr_ndjANFedAK.png"><br>
+<img src="/images/InetMgr_8EXFtPapjN.png" alt="InetMgr_8EXFtPapjN.png"></li>
+<li>定期呼叫 api 維持 server keep alive (ex.使用 window 排程)</li>
+</ul>
+<pre><code class="highlight powershell"><span class="comment"># File: InvokeApi.ps1</span>
+
+<span class="comment"># 設定 URL</span>
+<span class="variable">$url</span> = <span class="string">&quot;your api url&quot;</span>
+<span class="comment"># 設定 Log Path</span>
+<span class="variable">$logFile</span> = <span class="string">&quot;C:\Scripts\InvokeApi.log&quot;</span>
+
+<span class="comment"># 調用 API</span>
+<span class="keyword">try</span> &#123;
+    <span class="variable">$response</span> = <span class="built_in">Invoke-WebRequest</span> <span class="literal">-Uri</span> <span class="variable">$url</span> <span class="literal">-Method</span> Get <span class="literal">-TimeoutSec</span> <span class="number">10</span>
+    <span class="variable">$logEntry</span> = <span class="string">&quot;<span class="variable">$</span>(Get-Date) - API call successfully: <span class="variable">$</span>(<span class="variable">$response</span>.StatusCode)&quot;</span>
+&#125; <span class="keyword">catch</span> &#123;
+    <span class="variable">$logEntry</span> = <span class="string">&quot;<span class="variable">$</span>(Get-Date) - API call failed: <span class="variable">$</span>(<span class="variable">$_</span>.Exception.Message)&quot;</span>
+&#125;
+
+<span class="comment"># 寫入日誌</span>
+<span class="variable">$logEntry</span> | <span class="built_in">Out-File</span> <span class="literal">-FilePath</span> <span class="variable">$logFile</span> <span class="literal">-Append</span>
+</code></pre>
+<ul>
+<li>回收後，應用關閉事件添加應用重啟<br>
+<img src="/images/aplstart.png" alt="aplstart.png"></li>
+</ul>
+<h2 id="參考資料">參考資料</h2>
+<p><a target="_blank" rel="noopener" href="https://www.quartz-scheduler.net/">https://www.quartz-scheduler.net/</a><br>
+<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/75443765/quartz-aspnetcore-and-hosting-in-asp-net-core">https://stackoverflow.com/questions/75443765/quartz-aspnetcore-and-hosting-in-asp-net-core</a><br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_18932003/article/details/139672249">https://blog.csdn.net/qq_18932003/article/details/139672249</a></p>
+
+            </div>
+        </article>
+    </div>
+    <br>
+    
+        <div class="next-prev-post">
+            
+            
+                <div class="next-post">
+                    <div class="next gt-c-content-color-first">
+                        下一篇：<a href="/2024/11/19/hello-world/" 
+                            class="post-title gt-a-link">Hello World</a>
+                    </div>
+                </div>
+            
+        </div>
+    
+    
+
+    
+
+    
+</div>
+
+                <div class="site-footer gt-c-content-color-first">
+    <div class="footer-main">
+        <!-- 建议保留版权信息或者添加主题信息到友链，感谢您的理解 -->
+        <!-- 文件位置：layout/_includes/footer.ejs -->
+        <span style="text-align: right; float: right;">Theme <a 
+            href="https://github.com/renbaoshuo/hexo-theme-pure" target="_blank">Pure</a> | Powered by <a 
+            href="https://hexo.io" target="_blank">Hexo</a></span>
+        <span style="text-align: left;">Footer HTML
+</span>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </body>
+</html>
