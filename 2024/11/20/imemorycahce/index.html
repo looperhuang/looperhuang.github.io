@@ -20,30 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="雪花算法 概述 公司的資料表常常使用很奇怪的欄位來去當識別鍵(例如時間戳)，既然都用時間戳了不如用雪花算法產 ID 當 PK 雪花算法是 Twitter 開源的生成分散式全域產生 ID 的演算法 格式 雪花 ID 有 64 位元  1 位為符號位始終是 0 41 位為時間戳，精度毫秒 10 位可為(10 位機器 ID) 或 (5 位數據中心 ID + 5 位機器 ID)，可識別 1024 台機器">
+    <meta name="description" content="概述 有時候一些大型資料且異動少的資料 每次使用就要從資料重新撈取就很浪費效能資源 這個時候就是快取出場的時候 Install dotnet add package Microsoft.Extensions.Caching.Memory Extensions.cs public static void AddExtension(this IServiceCollection services) &amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C# 使用IdGen產生Id(雪花算法)">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/19/snowflake/index.html">
+<meta property="og:title" content="C# 資料快取">
+<meta property="og:url" content="https://looperhuang.github.io/2024/11/20/imemorycahce/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="雪花算法 概述 公司的資料表常常使用很奇怪的欄位來去當識別鍵(例如時間戳)，既然都用時間戳了不如用雪花算法產 ID 當 PK 雪花算法是 Twitter 開源的生成分散式全域產生 ID 的演算法 格式 雪花 ID 有 64 位元  1 位為符號位始終是 0 41 位為時間戳，精度毫秒 10 位可為(10 位機器 ID) 或 (5 位數據中心 ID + 5 位機器 ID)，可識別 1024 台機器">
+<meta property="og:description" content="概述 有時候一些大型資料且異動少的資料 每次使用就要從資料重新撈取就很浪費效能資源 這個時候就是快取出場的時候 Install dotnet add package Microsoft.Extensions.Caching.Memory Extensions.cs public static void AddExtension(this IServiceCollection services) &amp;">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://looperhuang.github.io/images/snowflake.png">
-<meta property="article:published_time" content="2024-11-19T07:47:39.000Z">
-<meta property="article:modified_time" content="2024-11-19T08:07:49.202Z">
+<meta property="article:published_time" content="2024-11-20T07:07:58.000Z">
+<meta property="article:modified_time" content="2024-11-20T07:16:10.598Z">
 <meta property="article:author" content="looperhuang">
 <meta property="article:tag" content="CSharp">
-<meta property="article:tag" content="演算法">
+<meta property="article:tag" content="Cache">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://looperhuang.github.io/images/snowflake.png">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/19/snowflake/">
+<link rel="canonical" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/19/snowflake/","path":"2024/11/19/snowflake/","title":"C# 使用IdGen產生Id(雪花算法)"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/20/imemorycahce/","path":"2024/11/20/imemorycahce/","title":"C# 資料快取"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>C# 使用IdGen產生Id(雪花算法) | Looper's Blog</title>
+<title>C# 資料快取 | Looper's Blog</title>
   
 
 
@@ -143,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">雪花算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%84%AA%E7%BC%BA%E9%BB%9E"><span class="nav-number">1.3.</span> <span class="nav-text">優缺點</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%84%AA%E9%BB%9E"><span class="nav-number">1.3.1.</span> <span class="nav-text">優點</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E9%BB%9E"><span class="nav-number">1.3.2.</span> <span class="nav-text">缺點</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install"><span class="nav-number">1.4.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DI-%E6%B3%A8%E5%85%A5-Optionl"><span class="nav-number">1.5.</span> <span class="nav-text">DI 注入(Optionl)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage"><span class="nav-number">1.6.</span> <span class="nav-text">Usage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%88%AC"><span class="nav-number">1.6.1.</span> <span class="nav-text">一般</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E8%B3%B4%E6%B3%A8%E5%85%A5"><span class="nav-number">1.6.2.</span> <span class="nav-text">依賴注入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">1.7.</span> <span class="nav-text">參考資料</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install"><span class="nav-number">2.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Extensions-cs"><span class="nav-number">3.</span> <span class="nav-text">Extensions.cs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage"><span class="nav-number">4.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CacheHelper-cs-Optional"><span class="nav-number">5.</span> <span class="nav-text">CacheHelper.cs(Optional)</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -204,7 +202,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/snowflake/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -217,12 +215,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="C# 使用IdGen產生Id(雪花算法) | Looper's Blog">
+      <meta itemprop="name" content="C# 資料快取 | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C# 使用IdGen產生Id(雪花算法)
+          C# 資料快取
         </h1>
 
         <div class="post-meta-container">
@@ -234,7 +232,7 @@
       <span class="post-meta-item-text">發表於</span>
       
 
-      <time title="創建時間：2024-11-19 15:47:39 / 修改時間：16:07:49" itemprop="dateCreated datePublished" datetime="2024-11-19T15:47:39+08:00">2024-11-19</time>
+      <time title="創建時間：2024-11-20 15:07:58 / 修改時間：15:16:10" itemprop="dateCreated datePublished" datetime="2024-11-20T15:07:58+08:00">2024-11-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -255,64 +253,102 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1>雪花算法</h1>
-<h2 id="概述">概述</h2>
-<p>公司的資料表常常使用很奇怪的欄位來去當識別鍵(例如時間戳)，既然都用時間戳了不如用雪花算法產 ID 當 PK<br>
-雪花算法是 Twitter 開源的生成分散式全域產生 ID 的演算法</p>
-<h2 id="格式">格式</h2>
-<p>雪花 ID 有 64 位元</p>
-<ul>
-<li>1 位為符號位始終是 0</li>
-<li>41 位為時間戳，精度毫秒</li>
-<li>10 位可為(10 位機器 ID) 或 (5 位數據中心 ID + 5 位機器 ID)，可識別 1024 台機器</li>
-<li>12 位為序列號 =&gt; 代表每毫秒可以有 4096 個 ID</li>
-</ul>
-<p><img src="/images/snowflake.png" alt="snowflake_structure.image"></p>
-<h2 id="優缺點">優缺點</h2>
-<h3 id="優點">優點</h3>
-<ol>
-<li>ID 包含時間戳，有序可排序</li>
-<li>簡單速度快</li>
-</ol>
-<h3 id="缺點">缺點</h3>
-<ol>
-<li>依賴系統時間，如果系統時間回退或跳躍，會產生不唯一 ID</li>
-<li>自己手動分配機器 ID，分配不當，產生不唯一 ID</li>
-</ol>
+    <div class="post-body" itemprop="articleBody"><h2 id="概述">概述</h2>
+<p>有時候一些大型資料且異動少的資料<br>
+每次使用就要從資料重新撈取就很浪費效能資源<br>
+這個時候就是快取出場的時候</p>
 <h2 id="Install">Install</h2>
-<pre><code class="highlight ada">dotnet add <span class="keyword">package</span> <span class="title">IdGen</span></code></pre>
-<h2 id="DI-注入-Optionl">DI 注入(Optionl)</h2>
-<pre><code class="highlight ada">dotnet add <span class="keyword">package</span> <span class="title">IdGen.DependencyInjection</span></code></pre>
-<h2 id="Usage">Usage</h2>
-<h3 id="一般">一般</h3>
-<pre><code class="highlight C#"><span class="keyword">var</span> generator = <span class="keyword">new</span> IdGenerator(<span class="number">0</span>);
-<span class="keyword">var</span> id = generator.CreateId();</code></pre>
-<h3 id="依賴注入">依賴注入</h3>
-<p>Program.cs</p>
-<pre><code class="highlight C#">builder.Services.AddIdGen(<span class="number">0</span>);</code></pre>
-<p>Example.cs</p>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Example</span>
+<pre><code class="highlight powershell">dotnet add package Microsoft.Extensions.Caching.Memory</code></pre>
+<h2 id="Extensions-cs">Extensions.cs</h2>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddExtension</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services</span>)</span>
 &#123;
-    <span class="comment">//private readonly IIdGenerator&lt;long&gt; idGenerator;</span>
-    <span class="comment">//public Example (IIdGenerator&lt;long&gt; idGenerator)</span>
-    <span class="comment">//&#123;</span>
-    <span class="comment">//    this.idGenerator = idGenerator;</span>
-    <span class="comment">//&#125;</span>
+    services.AddMemoryCache();
+    <span class="comment">// services.AddScoped&lt;CacheHelper&gt;(); //如果有使用整合工具類</span>
+&#125;</code></pre>
+<h2 id="Usage">Usage</h2>
+<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
+ [<span class="meta">ApiController</span>]
+ <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DataController</span> : <span class="title">ControllerBase</span>
+ &#123;
+     <span class="keyword">private</span> <span class="keyword">readonly</span> DataBaseService dataBaseService;
+     <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache memoryCache;
 
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IdGenerator idGenerator;
-    <span class="function"><span class="keyword">public</span> <span class="title">Example</span>(<span class="params">IdGenerator idGenerator</span>)</span>
+     <span class="function"><span class="keyword">public</span> <span class="title">DataController</span>(<span class="params">DataBaseService dataBaseService, IMemoryCache memoryCache</span>)</span>
+     &#123;
+         <span class="keyword">this</span>.memoryCache = memoryCache;
+         <span class="keyword">this</span>.dataBaseService = dataBaseService;
+     &#125;
+
+     [<span class="meta">HttpGet(<span class="string">&quot;/search&quot;</span>)</span>]
+     <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Search</span>(<span class="params"><span class="built_in">string</span> keyword</span>)</span>
+     &#123;
+        <span class="comment">// 從記憶體快取查看是否存在，沒再去資料庫撈資料並儲存快取</span>
+         <span class="keyword">if</span> (memoryCache.TryGetValue(<span class="string">&quot;MainDataCache&quot;</span>, <span class="keyword">out</span> List&lt;Prs006&gt; dataList))
+         &#123;
+             <span class="keyword">var</span> result = dataList?
+                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
+                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
+
+             <span class="keyword">return</span> Ok(result);
+         &#125;
+         <span class="keyword">else</span>
+         &#123;
+             <span class="keyword">var</span> dbData = <span class="keyword">await</span> dataBaseService.GetDatas();
+             <span class="comment">//寫入記憶體儲存，一天後自動過期</span>
+             memoryCache.Set(<span class="string">&quot;MainDataCache&quot;</span>, dbData, TimeSpan.FromDays(<span class="number">1</span>));
+
+             <span class="keyword">var</span> result = dbData?
+                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
+                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
+
+             <span class="keyword">return</span> Ok(result);
+         &#125;
+     &#125;</code></pre>
+<h2 id="CacheHelper-cs-Optional">CacheHelper.cs(Optional)</h2>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CacheHelper</span>
+&#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">CacheHelper</span>(<span class="params">IMemoryCache cache</span>)</span>
     &#123;
-        <span class="keyword">this</span>.idGenerator = idGenerator;
+        <span class="keyword">this</span>.cache = cache;
     &#125;
 
-    <span class="function"><span class="keyword">public</span> <span class="built_in">long</span> <span class="title">GetId</span>()</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Set</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire = <span class="number">300</span></span>)</span>
     &#123;
-        <span class="keyword">var</span> id = idGenerator.CreateId();
-        <span class="keyword">return</span> id;
+        <span class="keyword">var</span> options = <span class="keyword">new</span> MemoryCacheEntryOptions
+        &#123;
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expire),
+        &#125;;
+        cache.Set(key, <span class="keyword">value</span>, options);
+    &#125;
+
+    <span class="keyword">public</span> T? Get&lt;T&gt;(<span class="built_in">string</span> key)
+    &#123;
+        cache.TryGetValue&lt;T&gt;(key, <span class="keyword">out</span> <span class="keyword">var</span> <span class="keyword">value</span>);
+        <span class="keyword">return</span> <span class="keyword">value</span>;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Remove</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
+    &#123;
+        cache.Remove(key);
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Update</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire</span>)</span>
+    &#123;
+        cache.Remove(key);
+        Set&lt;T&gt;(key, <span class="keyword">value</span>, expire);
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">Contains</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
+    &#123;
+        <span class="keyword">return</span> cache.TryGetValue(key, <span class="keyword">out</span> _);
     &#125;
 &#125;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<p><a target="_blank" rel="noopener" href="https://github.com/RobThree/IdGen?tab=readme-ov-file">https://github.com/RobThree/IdGen?tab=readme-ov-file</a></p>
 
     </div>
 
@@ -323,21 +359,18 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/CSharp/" rel="tag"># CSharp</a>
-              <a href="/tags/%E6%BC%94%E7%AE%97%E6%B3%95/" rel="tag"># 演算法</a>
+              <a href="/tags/Cache/" rel="tag"># Cache</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/19/quartz/" rel="prev" title="C# Web api使用Quartz進行一次性排程">
-                  <i class="fa fa-angle-left"></i> C# Web api使用Quartz進行一次性排程
+                <a href="/2024/11/19/winscp/" rel="prev" title="C# 使用Winscp上傳檔案">
+                  <i class="fa fa-angle-left"></i> C# 使用Winscp上傳檔案
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/11/19/curl/" rel="next" title="C# 使用 curl.exe 呼叫api">
-                  C# 使用 curl.exe 呼叫api <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
