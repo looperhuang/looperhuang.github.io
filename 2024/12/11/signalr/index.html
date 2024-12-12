@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LHBlog.svg">
+  <link rel="mask-icon" href="/images/LHBlog.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 簡單利用 SignalR 去時做一個簡易的 Webhook Api Installed dotnet add package Microsoft.AspNet.SignalR.Core Program.cs 註冊 SignalR 服務，且設定路由 public class Program &#123;     public static void Main(string[] args)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SignalR">
+<meta property="og:url" content="https://looperhuang.github.io/2024/12/11/signalr/index.html">
+<meta property="og:site_name" content="Looper&#39;s Blog">
+<meta property="og:description" content="概述 簡單利用 SignalR 去時做一個簡易的 Webhook Api Installed dotnet add package Microsoft.AspNet.SignalR.Core Program.cs 註冊 SignalR 服務，且設定路由 public class Program &#123;     public static void Main(string[] args)">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-12-11T02:26:22.000Z">
+<meta property="article:modified_time" content="2024-12-11T03:30:49.949Z">
+<meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="CSharp">
+<meta property="article:tag" content="SignalR">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://looperhuang.github.io/2024/12/11/signalr/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/12/11/signalr/","path":"2024/12/11/signalr/","title":"SignalR"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SignalR | Looper's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Looper's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一個菜鳥工程師</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Installed"><span class="nav-number">2.</span> <span class="nav-text">Installed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Program-cs"><span class="nav-number">3.</span> <span class="nav-text">Program.cs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MessageHub-cs"><span class="nav-number">4.</span> <span class="nav-text">MessageHub.cs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebhookController-cs"><span class="nav-number">5.</span> <span class="nav-text">WebhookController.cs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webhook-api-curl"><span class="nav-number">6.</span> <span class="nav-text">webhook api curl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E6%8E%A5%E6%94%B6-webhook"><span class="nav-number">7.</span> <span class="nav-text">前端接收 webhook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="looperhuang"
+      src="/images/LHBlog.svg">
+  <p class="site-author-name" itemprop="name">looperhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/looperhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;looperhuang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:looper841213@gmail.com" title="Gmail → mailto:looper841213@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Gmail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/11/signalr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SignalR | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SignalR
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2024-12-11 10:26:22 / 修改時間：11:30:49" itemprop="dateCreated datePublished" datetime="2024-12-11T10:26:22+08:00">2024-12-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述">概述</h3>
+<p>簡單利用 SignalR 去時做一個簡易的 Webhook Api</p>
+<h3 id="Installed">Installed</h3>
+<pre><code class="highlight ada">dotnet add <span class="keyword">package</span> <span class="title">Microsoft.AspNet.SignalR.Core</span></code></pre>
+<h3 id="Program-cs">Program.cs</h3>
+<p>註冊 SignalR 服務，且設定路由</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span>
+&#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span>
+    &#123;
+        <span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
+        <span class="comment">// Add services to the container.</span>
+        builder.Services.AddSignalR();   <span class="comment">// 註冊 SignalR 服務</span>
+        <span class="comment">//....</span>
+        <span class="keyword">var</span> app = builder.Build();
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
+        app.MapControllers();
+        app.MapHub&lt;MessageHub&gt;(<span class="string">&quot;/hub&quot;</span>); <span class="comment">//SignalR路由</span>
+        app.Run();
+    &#125;
+&#125;</code></pre>
+<h3 id="MessageHub-cs">MessageHub.cs</h3>
+<p>實作 Hub 類別<br>
+這邊使用單一使用者群組做簡單的連線管理<br>
+因為是暫存在記憶體，關閉後資料就消失ㄌ<br>
+如果需要持久化，要再配合 DB 去進行持久化</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MessageHub</span> : <span class="title">Hub</span>
+&#123;
+    <span class="comment">// 紀錄用戶的連線(單一使用者群組)</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">readonly</span> Dictionary&lt;<span class="built_in">string</span>, List&lt;<span class="built_in">string</span>&gt;&gt; _userConnections = <span class="keyword">new</span>();
+
+    <span class="comment">// 連線時要做的事</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">async</span> Task <span class="title">OnConnectedAsync</span>()</span>
+    &#123;
+        <span class="keyword">var</span> userName = Context.GetHttpContext()?.Request.Query[<span class="string">&quot;user&quot;</span>]
+          ?? <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="string">&quot;未知使用者&quot;</span>);
+
+        <span class="keyword">if</span> (_userConnections.TryGetValue(userName,<span class="keyword">out</span> <span class="keyword">var</span> connectionIds))
+        &#123;
+            <span class="keyword">if</span> (!connectionIds.Contains(Context.ConnectionId))
+            &#123;
+                connectionIds.Add(Context.ConnectionId);
+            &#125;
+        &#125;
+        <span class="keyword">else</span>
+        &#123;
+            _userConnections.Add(userName, <span class="keyword">new</span> List&lt;<span class="built_in">string</span>&gt; &#123; Context.ConnectionId &#125;);
+        &#125;
+
+        <span class="keyword">await</span> Groups.AddToGroupAsync(Context.ConnectionId, userName);
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnConnectedAsync();
+    &#125;
+
+    <span class="comment">// 斷線時要做的事</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">async</span> Task <span class="title">OnDisconnectedAsync</span>(<span class="params">Exception? exception</span>)</span>
+    &#123;
+
+        <span class="keyword">var</span> user = _userConnections.FirstOrDefault(x =&gt; x.Value.Contains(Context.ConnectionId)).Key;
+
+        <span class="keyword">if</span> (user <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">null</span>)
+        &#123;
+            <span class="comment">// 移除該用戶的連線</span>
+            _userConnections[user].Remove(Context.ConnectionId);
+
+            <span class="comment">// 如果該用戶已經沒有任何連線</span>
+            <span class="keyword">if</span> (!_userConnections[user].Any())
+            &#123;
+                <span class="comment">// 移除用戶</span>
+                _userConnections.Remove(user);
+            &#125;
+
+            <span class="keyword">await</span> Groups.RemoveFromGroupAsync(Context.ConnectionId, user);
+        &#125;
+
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnDisconnectedAsync(exception);
+    &#125;
+&#125;</code></pre>
+<h3 id="WebhookController-cs">WebhookController.cs</h3>
+<p>簡易提供全域、使用者群組、現有連線 api 端點</p>
+<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
+[<span class="meta">ApiController</span>]
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebhookController</span> : <span class="title">ControllerBase</span>
+&#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IHubContext&lt;MessageHub&gt; hub;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">WebhookController</span>(<span class="params">IHubContext&lt;MessageHub&gt; hub</span>)</span>
+    &#123;
+        <span class="keyword">this</span>.hub = hub;
+    &#125;
+
+    <span class="comment">//全域推播</span>
+    [<span class="meta">HttpPost(<span class="string">&quot;all&quot;</span>)</span>]
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">SendAll</span>(<span class="params">[FromBody]MessageDto message</span>)</span>
+    &#123;
+        <span class="keyword">await</span> hub.Clients.All.SendAsync(<span class="string">&quot;ReceiveMessage&quot;</span>, message);
+        <span class="keyword">return</span> Ok();
+    &#125;
+
+    <span class="comment">//群組推播(使用者群組)</span>
+    [<span class="meta">HttpPost(<span class="string">&quot;group&quot;</span>)</span>]
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">SendGroup</span>(<span class="params">[FromBody] WebhookPayload payload</span>)</span>
+    &#123;
+        <span class="keyword">var</span> message = <span class="keyword">new</span> MessageDto
+        &#123;
+            Sender = payload.Sender,
+            Content = payload.Message,
+            TimeSpan = DateTime.Now
+        &#125;;
+        <span class="keyword">await</span> hub.Clients.Groups(payload.Receiver).SendAsync(<span class="string">&quot;ReceiveGroupMessage&quot;</span>, message);
+        <span class="keyword">return</span> Ok();
+    &#125;
+
+    <span class="comment">// 現有連線清單</span>
+    [<span class="meta">HttpGet</span>]
+    <span class="function"><span class="keyword">public</span> IActionResult <span class="title">GetUsers</span>()</span>
+    &#123;
+        <span class="keyword">var</span> users = MessageHub._userConnections;
+        <span class="keyword">return</span> Ok(users);
+    &#125;
+
+    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebhookPayload</span>
+    &#123;
+        <span class="keyword">public</span> <span class="built_in">string</span> Message &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
+        <span class="keyword">public</span> <span class="built_in">string</span> Sender &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
+        <span class="keyword">public</span> <span class="built_in">string</span> Receiver &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
+    &#125;
+&#125;</code></pre>
+<h3 id="webhook-api-curl">webhook api curl</h3>
+<pre><code class="highlight ada">curl -X <span class="symbol">&#x27;POST</span>&#x27; \
+  <span class="symbol">&#x27;https</span>://localhost:<span class="number">7244</span>/api/Webhook/<span class="keyword">all</span>&#x27; \
+  -H <span class="symbol">&#x27;accept</span>: */*&#x27; \
+  -H <span class="symbol">&#x27;Content</span>-<span class="keyword">Type</span>: application/json&#x27; \
+  -d &#x27;&#123;
+  <span class="string">&quot;sender&quot;</span>: <span class="string">&quot;user&quot;</span>,
+  <span class="string">&quot;content&quot;</span>: <span class="string">&quot;test&quot;</span>
+&#125;&#x27;</code></pre>
+<h3 id="前端接收-webhook">前端接收 webhook</h3>
+<p>前端使用 quasar vue typescript</p>
+<pre><code class="highlight ts">&lt;script setup lang=<span class="string">&quot;ts&quot;</span>&gt;
+<span class="keyword">import</span> * <span class="keyword">as</span> signalR <span class="keyword">from</span> <span class="string">&#x27;@microsoft/signalr&#x27;</span>;
+<span class="keyword">import</span> &#123; ref, onMounted &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;
+
+<span class="keyword">type</span> <span class="title class_">MessageDto</span> = &#123;
+  <span class="attr">sender</span>: <span class="built_in">string</span>;
+  <span class="attr">content</span>: <span class="built_in">string</span>;
+  <span class="attr">timeSpan</span>: <span class="title class_">Date</span>;
+&#125;;
+<span class="keyword">const</span> user = <span class="string">&#x27;admin&#x27;</span>;
+<span class="keyword">const</span> receiveMsgs = ref&lt;<span class="title class_">MessageDto</span>[]&gt;([]);
+
+<span class="keyword">const</span> connection = <span class="keyword">new</span> signalR.<span class="title class_">HubConnectionBuilder</span>()
+  .<span class="title function_">withUrl</span>(<span class="string">`https://localhost:7244/hub?user=<span class="subst">$&#123;user&#125;</span>`</span>)
+  .<span class="title function_">withAutomaticReconnect</span>()
+  .<span class="title function_">build</span>();
+
+<span class="comment">//監聽全頻推播</span>
+connection.<span class="title function_">on</span>(<span class="string">&#x27;ReceiveMessage&#x27;</span>, <span class="function">(<span class="params"><span class="attr">res</span>: <span class="title class_">MessageDto</span></span>) =&gt;</span> &#123;
+  receiveMsgs.<span class="property">value</span>.<span class="title function_">push</span>(res);
+&#125;);
+
+<span class="comment">//監聽群組推播</span>
+connection.<span class="title function_">on</span>(<span class="string">&#x27;ReceiveGroupMessage&#x27;</span>, <span class="function">(<span class="params"><span class="attr">res</span>: <span class="title class_">MessageDto</span></span>) =&gt;</span> &#123;
+  receiveMsgs.<span class="property">value</span>.<span class="title function_">push</span>(res);
+&#125;);
+
+<span class="comment">//重新連線</span>
+connection.<span class="title function_">onreconnected</span>(<span class="function">() =&gt;</span> &#123;
+  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Reconnected successfully.&#x27;</span>);
+&#125;);
+
+connection.<span class="title function_">onclose</span>(<span class="title function_">async</span> () =&gt; &#123;
+  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Disconnected. Retrying connection...&#x27;</span>);
+  <span class="keyword">await</span> <span class="title function_">reconnect</span>();
+&#125;);
+
+<span class="keyword">const</span> <span class="title function_">reconnect</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;
+  <span class="keyword">let</span> attempts = <span class="number">0</span>;
+  <span class="keyword">const</span> maxAttempts = <span class="number">100</span>; <span class="comment">// 最大嘗試次數</span>
+  <span class="keyword">const</span> retryDelay = <span class="number">30000</span>; <span class="comment">// 嘗試間隔(ms)</span>
+
+  <span class="keyword">while</span> (attempts &lt; maxAttempts) &#123;
+    <span class="keyword">try</span> &#123;
+      <span class="keyword">await</span> connection.<span class="title function_">start</span>();
+      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Reconnected successfully.&#x27;</span>);
+      <span class="keyword">return</span>; <span class="comment">// 連線成功,退出循環</span>
+    &#125; <span class="keyword">catch</span> (err) &#123;
+      attempts++;
+      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Reconnection attempt <span class="subst">$&#123;attempts&#125;</span> failed.`</span>, err);
+      <span class="keyword">if</span> (attempts &lt; maxAttempts) &#123;
+        <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> <span class="built_in">setTimeout</span>(resolve, retryDelay)); <span class="comment">// 等待后重试</span>
+      &#125; <span class="keyword">else</span> &#123;
+        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Failed to reconnect after several attempts.&#x27;</span>)
+      &#125;
+    &#125;
+  &#125;
+&#125;;
+
+<span class="title function_">onMounted</span>(<span class="title function_">async</span> () =&gt; &#123;
+  <span class="keyword">try</span> &#123;
+    <span class="keyword">await</span> connection.<span class="title function_">start</span>();
+    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;user&#125;</span> has connected`</span>)
+  &#125; <span class="keyword">catch</span> (err) &#123;
+    <span class="variable language_">console</span>.<span class="title function_">log</span>(err);
+  &#125;
+&#125;);
+&lt;/script&gt;</code></pre>
+<h3 id="參考資料">參考資料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/tutorials/signalr?view=aspnetcore-9.0&amp;WT.mc_id=dotnet-35129-website&amp;tabs=visual-studio">https://learn.microsoft.com/zh-tw/aspnet/core/tutorials/signalr?view=aspnetcore-9.0&amp;WT.mc_id=dotnet-35129-website&amp;tabs=visual-studio</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.perplexity.ai/">https://www.perplexity.ai/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/@microsoft/signalr">https://www.npmjs.com/package/@microsoft/signalr</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CSharp/" rel="tag"># CSharp</a>
+              <a href="/tags/SignalR/" rel="tag"># SignalR</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/11/linq-search/" rel="prev" title="LINQ">
+                  <i class="fa fa-angle-left"></i> LINQ
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">looperhuang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>
