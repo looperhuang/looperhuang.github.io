@@ -149,18 +149,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -185,6 +185,150 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/30/image-map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/12/30/image-map/" class="post-title-link" itemprop="url">簡單製作可互動圖片</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2024-12-30 13:37:12 / 修改時間：15:44:19" itemprop="dateCreated datePublished" datetime="2024-12-30T13:37:12+08:00">2024-12-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Vue/" itemprop="url" rel="index"><span itemprop="name">Vue</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="概述">概述</h2>
+<p>在業務上需要對圖片進行互動操作去計算分數，簡單紀錄一下實作過程</p>
+<h3 id="Step1">Step1</h3>
+<p>取得底圖，然後利用相關工具，將需要進行互動的區塊分出來<br>
+<img src="/images/image_split.png" alt="image_split.png"></p>
+<h3 id="Step2">Step2</h3>
+<p>將互動區塊轉換成 svg，<a target="_blank" rel="noopener" href="https://convertio.co/zh/png-svg/">工具</a>轉換後格式應如下</p>
+<pre><code class="highlight svg"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.w3.org/2000/svg&quot;</span></span>
+<span class="tag"> <span class="attr">width</span>=<span class="string">&quot;373.000000pt&quot;</span> <span class="attr">height</span>=<span class="string">&quot;567.000000pt&quot;</span> <span class="attr">viewBox</span>=<span class="string">&quot;0 0 373.000000 567.000000&quot;</span></span>
+<span class="tag"> <span class="attr">preserveAspectRatio</span>=<span class="string">&quot;xMidYMid meet&quot;</span>&gt;</span>
+
+<span class="tag">&lt;<span class="name">g</span> <span class="attr">transform</span>=<span class="string">&quot;translate(0.000000,567.000000) scale(0.100000,-0.100000)&quot;</span></span>
+<span class="tag"><span class="attr">fill</span>=<span class="string">&quot;#000000&quot;</span> <span class="attr">stroke</span>=<span class="string">&quot;none&quot;</span>&gt;</span>
+<span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M933 4763 c-28 -5 -78 -52 -87 -80 -20 -64 52 -155 108 -134 13 6 26</span></span>
+<span class="string"><span class="tag">7 29 4 11 -10 66 31 71 53 10 39 -5 112 -28 133 -23 22 -59 31 -93 24z&quot;</span>/&gt;</span>
+<span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M1213 4763 c-12 -2 -35 -16 -51 -31 -31 -30 -41 -88 -22 -137 11 -28</span></span>
+<span class="string"><span class="tag">67 -57 97 -51 61 11 86 29 101 68 32 84 -36 167 -125 151z&quot;</span>/&gt;</span>
+<span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M2628 4670 c-22 -6 -23 -10 -26 -123 l-3 -117 196 0 195 0 0 120 c0</span></span>
+<span class="string"><span class="tag">107 -2 120 -17 120 -137 4 -327 4 -345 0z&quot;</span>/&gt;</span>
+...
+<span class="tag">&lt;/<span class="name">svg</span>&gt;</span></code></pre>
+<p>其中 path 就是各個互動區塊</p>
+<h3 id="Step3">Step3</h3>
+<p>設定 svg 底圖與區塊事件綁定(使用轉換出來的區塊 Path)<br>
+再根據需求微調 XY 軸 translate 跟縮放 scale 對齊底圖<br>
+以下為點擊區塊就會變色的簡易實作(Vue Typescript)</p>
+<pre><code class="highlight ts">&lt;template&gt;
+  <span class="language-xml"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">&quot;500&quot;</span> <span class="attr">height</span>=<span class="string">&quot;500&quot;</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span></span>
+<span class="language-xml">    <span class="comment">&lt;!-- 底圖 --&gt;</span></span>
+<span class="language-xml">    <span class="tag">&lt;<span class="name">image</span> <span class="attr">href</span>=<span class="string">&quot;src/assets/images/bg.png&quot;</span> <span class="attr">width</span>=<span class="string">&quot;500&quot;</span> <span class="attr">height</span>=<span class="string">&quot;500&quot;</span> /&gt;</span></span>
+<span class="language-xml"></span>
+<span class="language-xml">    <span class="comment">&lt;!-- 圖像互動區塊 --&gt;</span></span>
+<span class="language-xml">    <span class="tag">&lt;<span class="name">g</span> <span class="attr">transform</span>=<span class="string">&quot;translate(55,528) scale(0.1,-0.1)&quot;</span>&gt;</span></span>
+<span class="language-xml">      <span class="tag">&lt;<span class="name">path</span></span></span>
+<span class="tag"><span class="language-xml">        <span class="attr">v-for</span>=<span class="string">&quot;region in wpi_regions&quot;</span></span></span>
+<span class="tag"><span class="language-xml">        <span class="attr">:key</span>=<span class="string">&quot;region.id&quot;</span></span></span>
+<span class="tag"><span class="language-xml">        <span class="attr">:d</span>=<span class="string">&quot;region.path&quot;</span></span></span>
+<span class="tag"><span class="language-xml">        <span class="attr">:fill</span>=<span class="string">&quot;region.click ? &#x27;#F72C5B&#x27; : &#x27;#F4E0AF&#x27;&quot;</span></span></span>
+<span class="tag"><span class="language-xml">        @<span class="attr">click</span>=<span class="string">&quot;region.click = !region.click&quot;</span></span></span>
+<span class="tag"><span class="language-xml">      /&gt;</span></span>
+<span class="language-xml">    <span class="tag">&lt;/<span class="name">g</span>&gt;</span></span>
+<span class="language-xml">  <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span>
+&lt;/template&gt;
+
+<span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span> <span class="attr">lang</span>=<span class="string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript"></span></span>
+<span class="language-javascript"><span class="language-xml">  <span class="keyword">const</span> wpi_regions = <span class="title function_">ref</span>([</span></span>
+<span class="language-javascript"><span class="language-xml">    &#123;</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">id</span>: <span class="string">&quot;01&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">name</span>: <span class="string">&quot;右顳顎關節&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">click</span>: <span class="literal">false</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">path</span>: <span class="string">&quot;M933 4763 c-28 -5 -78 -52 -87 -80 -20 -64 52 -155 108 -134 13 6 26 7 29 4 11 -10 66 31 71 53 10 39 -5 112 -28 133 -23 22 -59 31 -93 24z&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">    &#125;,</span></span>
+<span class="language-javascript"><span class="language-xml">    &#123;</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">id</span>: <span class="string">&quot;02&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">name</span>: <span class="string">&quot;左顳顎關節&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">click</span>: <span class="literal">false</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">path</span>: <span class="string">&quot;M1213 4763 c-12 -2 -35 -16 -51 -31 -31 -30 -41 -88 -22 -137 11 -28 67 -57 97 -51 61 11 86 29 101 68 32 84 -36 167 -125 151z&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">    &#125;,</span></span>
+<span class="language-javascript"><span class="language-xml">    ...</span></span>
+<span class="language-javascript"><span class="language-xml">  ]);</span></span>
+<span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://chatgpt.com/">ChatGpt</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path">https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -224,7 +368,16 @@
       <span class="post-meta-item-text">發表於</span>
       
 
-      <time title="創建時間：2024-12-13 09:31:52 / 修改時間：10:14:52" itemprop="dateCreated datePublished" datetime="2024-12-13T09:31:52+08:00">2024-12-13</time>
+      <time title="創建時間：2024-12-13 09:31:52 / 修改時間：15:04:52" itemprop="dateCreated datePublished" datetime="2024-12-13T09:31:52+08:00">2024-12-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+        </span>
     </span>
 
   
@@ -800,9 +953,15 @@ connection.<span class="title function_">onclose</span>(<span class="title funct
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2024-11-27 13:47:35 / 修改時間：15:10:39" itemprop="dateCreated datePublished" datetime="2024-11-27T13:47:35+08:00">2024-11-27</time>
+      <time title="創建時間：2024-11-27 13:47:35" itemprop="dateCreated datePublished" datetime="2024-11-27T13:47:35+08:00">2024-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-12-30 15:44:50" itemprop="dateModified" datetime="2024-12-30T15:44:50+08:00">2024-12-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -810,7 +969,7 @@ connection.<span class="title function_">onclose</span>(<span class="title funct
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%BC%94%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">演算法</span></a>
+          <a href="/categories/%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">概念</span></a>
         </span>
     </span>
 
@@ -986,9 +1145,15 @@ connection.<span class="title function_">onclose</span>(<span class="title funct
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2024-11-27 08:52:39 / 修改時間：10:04:35" itemprop="dateCreated datePublished" datetime="2024-11-27T08:52:39+08:00">2024-11-27</time>
+      <time title="創建時間：2024-11-27 08:52:39" itemprop="dateCreated datePublished" datetime="2024-11-27T08:52:39+08:00">2024-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-12-30 15:45:14" itemprop="dateModified" datetime="2024-12-30T15:45:14+08:00">2024-12-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -996,7 +1161,7 @@ connection.<span class="title function_">onclose</span>(<span class="title funct
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%BC%94%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">演算法</span></a>
+          <a href="/categories/%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">概念</span></a>
         </span>
     </span>
 
@@ -1755,142 +1920,6 @@ transferResult.Check();</code></pre>
 &#125;;
 <span class="built_in">string</span> response = CurlHelper.GetRequest(url, headers);
 Console.WriteLine(<span class="string">&quot;Get Response: &quot;</span> + response);</code></pre>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/snowflake/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/11/19/snowflake/" class="post-title-link" itemprop="url">C# 使用IdGen產生Id(雪花算法)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2024-11-19 15:47:39 / 修改時間：16:07:49" itemprop="dateCreated datePublished" datetime="2024-11-19T15:47:39+08:00">2024-11-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1>雪花算法</h1>
-<h2 id="概述">概述</h2>
-<p>公司的資料表常常使用很奇怪的欄位來去當識別鍵(例如時間戳)，既然都用時間戳了不如用雪花算法產 ID 當 PK<br>
-雪花算法是 Twitter 開源的生成分散式全域產生 ID 的演算法</p>
-<h2 id="格式">格式</h2>
-<p>雪花 ID 有 64 位元</p>
-<ul>
-<li>1 位為符號位始終是 0</li>
-<li>41 位為時間戳，精度毫秒</li>
-<li>10 位可為(10 位機器 ID) 或 (5 位數據中心 ID + 5 位機器 ID)，可識別 1024 台機器</li>
-<li>12 位為序列號 =&gt; 代表每毫秒可以有 4096 個 ID</li>
-</ul>
-<p><img src="/images/snowflake.png" alt="snowflake_structure.image"></p>
-<h2 id="優缺點">優缺點</h2>
-<h3 id="優點">優點</h3>
-<ol>
-<li>ID 包含時間戳，有序可排序</li>
-<li>簡單速度快</li>
-</ol>
-<h3 id="缺點">缺點</h3>
-<ol>
-<li>依賴系統時間，如果系統時間回退或跳躍，會產生不唯一 ID</li>
-<li>自己手動分配機器 ID，分配不當，產生不唯一 ID</li>
-</ol>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight ada">dotnet add <span class="keyword">package</span> <span class="title">IdGen</span></code></pre>
-<h2 id="DI-注入-Optionl">DI 注入(Optionl)</h2>
-<pre><code class="highlight ada">dotnet add <span class="keyword">package</span> <span class="title">IdGen.DependencyInjection</span></code></pre>
-<h2 id="Usage">Usage</h2>
-<h3 id="一般">一般</h3>
-<pre><code class="highlight C#"><span class="keyword">var</span> generator = <span class="keyword">new</span> IdGenerator(<span class="number">0</span>);
-<span class="keyword">var</span> id = generator.CreateId();</code></pre>
-<h3 id="依賴注入">依賴注入</h3>
-<p>Program.cs</p>
-<pre><code class="highlight C#">builder.Services.AddIdGen(<span class="number">0</span>);</code></pre>
-<p>Example.cs</p>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Example</span>
-&#123;
-    <span class="comment">//private readonly IIdGenerator&lt;long&gt; idGenerator;</span>
-    <span class="comment">//public Example (IIdGenerator&lt;long&gt; idGenerator)</span>
-    <span class="comment">//&#123;</span>
-    <span class="comment">//    this.idGenerator = idGenerator;</span>
-    <span class="comment">//&#125;</span>
-
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IdGenerator idGenerator;
-    <span class="function"><span class="keyword">public</span> <span class="title">Example</span>(<span class="params">IdGenerator idGenerator</span>)</span>
-    &#123;
-        <span class="keyword">this</span>.idGenerator = idGenerator;
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="built_in">long</span> <span class="title">GetId</span>()</span>
-    &#123;
-        <span class="keyword">var</span> id = idGenerator.CreateId();
-        <span class="keyword">return</span> id;
-    &#125;
-&#125;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<p><a target="_blank" rel="noopener" href="https://github.com/RobThree/IdGen?tab=readme-ov-file">https://github.com/RobThree/IdGen?tab=readme-ov-file</a></p>
 
       
     </div>

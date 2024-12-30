@@ -20,27 +20,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="概述 時間複雜度代表的是演算法隨著資料量變大時的增長趨勢 數學符號大O記號(big-O notation) 常見型別  常數階 O(1)  int Constant(int n) &#123;     int count &#x3D; 0;     &#x2F;&#x2F; 迴圈次數與 n 無關     int size &#x3D; 10000;     for (int i &#x3D; 0; i &lt; size; i++)     &amp;#">
+    <meta name="description" content="概述 在業務上需要對圖片進行互動操作去計算分數，簡單紀錄一下實作過程 Step1 取得底圖，然後利用相關工具，將需要進行互動的區塊分出來  Step2 將互動區塊轉換成 svg，工具轉換後格式應如下 &lt;svg version&#x3D;&quot;1.0&quot; xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot;  width&#x3D;&quot;373.000000">
 <meta property="og:type" content="article">
-<meta property="og:title" content="時間複雜度">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/27/time-complexity/index.html">
+<meta property="og:title" content="簡單製作可互動圖片">
+<meta property="og:url" content="https://looperhuang.github.io/2024/12/30/image-map/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="概述 時間複雜度代表的是演算法隨著資料量變大時的增長趨勢 數學符號大O記號(big-O notation) 常見型別  常數階 O(1)  int Constant(int n) &#123;     int count &#x3D; 0;     &#x2F;&#x2F; 迴圈次數與 n 無關     int size &#x3D; 10000;     for (int i &#x3D; 0; i &lt; size; i++)     &amp;#">
+<meta property="og:description" content="概述 在業務上需要對圖片進行互動操作去計算分數，簡單紀錄一下實作過程 Step1 取得底圖，然後利用相關工具，將需要進行互動的區塊分出來  Step2 將互動區塊轉換成 svg，工具轉換後格式應如下 &lt;svg version&#x3D;&quot;1.0&quot; xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot;  width&#x3D;&quot;373.000000">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-11-27T05:47:35.000Z">
-<meta property="article:modified_time" content="2024-12-30T07:44:50.219Z">
+<meta property="og:image" content="https://looperhuang.github.io/images/image_split.png">
+<meta property="article:published_time" content="2024-12-30T05:37:12.000Z">
+<meta property="article:modified_time" content="2024-12-30T07:44:19.099Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="概念">
+<meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://looperhuang.github.io/images/image_split.png">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+<link rel="canonical" href="https://looperhuang.github.io/2024/12/30/image-map/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/27/time-complexity/","path":"2024/11/27/time-complexity/","title":"時間複雜度"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/12/30/image-map/","path":"2024/12/30/image-map/","title":"簡單製作可互動圖片"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>時間複雜度 | Looper's Blog</title>
+<title>簡單製作可互動圖片 | Looper's Blog</title>
   
 
 
@@ -140,7 +142,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%9E%8B%E5%88%A5"><span class="nav-number">2.</span> <span class="nav-text">常見型別</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1"><span class="nav-number">1.1.</span> <span class="nav-text">Step1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2"><span class="nav-number">1.2.</span> <span class="nav-text">Step2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3"><span class="nav-number">1.3.</span> <span class="nav-text">Step3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/30/image-map/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -214,12 +216,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="時間複雜度 | Looper's Blog">
+      <meta itemprop="name" content="簡單製作可互動圖片 | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          時間複雜度
+          簡單製作可互動圖片
         </h1>
 
         <div class="post-meta-container">
@@ -229,15 +231,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2024-11-27 13:47:35" itemprop="dateCreated datePublished" datetime="2024-11-27T13:47:35+08:00">2024-11-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2024-12-30 15:44:50" itemprop="dateModified" datetime="2024-12-30T15:44:50+08:00">2024-12-30</time>
+      <time title="創建時間：2024-12-30 13:37:12 / 修改時間：15:44:19" itemprop="dateCreated datePublished" datetime="2024-12-30T13:37:12+08:00">2024-12-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -245,7 +241,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">概念</span></a>
+          <a href="/categories/Vue/" itemprop="url" rel="index"><span itemprop="name">Vue</span></a>
         </span>
     </span>
 
@@ -259,112 +255,70 @@
     
     
     <div class="post-body" itemprop="articleBody"><h2 id="概述">概述</h2>
-<p>時間複雜度代表的是演算法隨著資料量變大時的增長趨勢<br>
-數學符號<code>大O記號(big-O notation)</code></p>
-<h2 id="常見型別">常見型別</h2>
-<ul>
-<li>常數階 O(1)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Constant</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數與 n 無關</span>
-    <span class="built_in">int</span> size = <span class="number">10000</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; size; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>線性階 O(n)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Linear</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n 次</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>平方階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Quadratic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n*n 次</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; n; j++)
-        &#123;
-            count++;
-        &#125;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>指數階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Exponential</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="built_in">int</span> bas = <span class="number">1</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        <span class="comment">//迴圈次數為2^n次</span>
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; bas; j++)
-        &#123;
-            count++;
-        &#125;
-        bas *= <span class="number">2</span>;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>對數階 O(logn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Logarithmic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="keyword">while</span> (n &gt; <span class="number">1</span>) &#123;
-        n /= <span class="number">2</span>;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>線性對數階 O(nlogn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">LinearLogRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = LinearLogRecur(n / <span class="number">2</span>);
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>階乘階 O(n!)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">FactorialRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// n * (n - 1) * (n - 2) * ... * 2 * 1</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count += FactorialRecur(n - <span class="number">1</span>);
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
+<p>在業務上需要對圖片進行互動操作去計算分數，簡單紀錄一下實作過程</p>
+<h3 id="Step1">Step1</h3>
+<p>取得底圖，然後利用相關工具，將需要進行互動的區塊分出來<br>
+<img src="/images/image_split.png" alt="image_split.png"></p>
+<h3 id="Step2">Step2</h3>
+<p>將互動區塊轉換成 svg，<a target="_blank" rel="noopener" href="https://convertio.co/zh/png-svg/">工具</a>轉換後格式應如下</p>
+<pre><code class="highlight svg"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.w3.org/2000/svg&quot;</span></span>
+<span class="tag"> <span class="attr">width</span>=<span class="string">&quot;373.000000pt&quot;</span> <span class="attr">height</span>=<span class="string">&quot;567.000000pt&quot;</span> <span class="attr">viewBox</span>=<span class="string">&quot;0 0 373.000000 567.000000&quot;</span></span>
+<span class="tag"> <span class="attr">preserveAspectRatio</span>=<span class="string">&quot;xMidYMid meet&quot;</span>&gt;</span>
+
+<span class="tag">&lt;<span class="name">g</span> <span class="attr">transform</span>=<span class="string">&quot;translate(0.000000,567.000000) scale(0.100000,-0.100000)&quot;</span></span>
+<span class="tag"><span class="attr">fill</span>=<span class="string">&quot;#000000&quot;</span> <span class="attr">stroke</span>=<span class="string">&quot;none&quot;</span>&gt;</span>
+<span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M933 4763 c-28 -5 -78 -52 -87 -80 -20 -64 52 -155 108 -134 13 6 26</span></span>
+<span class="string"><span class="tag">7 29 4 11 -10 66 31 71 53 10 39 -5 112 -28 133 -23 22 -59 31 -93 24z&quot;</span>/&gt;</span>
+<span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M1213 4763 c-12 -2 -35 -16 -51 -31 -31 -30 -41 -88 -22 -137 11 -28</span></span>
+<span class="string"><span class="tag">67 -57 97 -51 61 11 86 29 101 68 32 84 -36 167 -125 151z&quot;</span>/&gt;</span>
+<span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M2628 4670 c-22 -6 -23 -10 -26 -123 l-3 -117 196 0 195 0 0 120 c0</span></span>
+<span class="string"><span class="tag">107 -2 120 -17 120 -137 4 -327 4 -345 0z&quot;</span>/&gt;</span>
+...
+<span class="tag">&lt;/<span class="name">svg</span>&gt;</span></code></pre>
+<p>其中 path 就是各個互動區塊</p>
+<h3 id="Step3">Step3</h3>
+<p>設定 svg 底圖與區塊事件綁定(使用轉換出來的區塊 Path)<br>
+再根據需求微調 XY 軸 translate 跟縮放 scale 對齊底圖<br>
+以下為點擊區塊就會變色的簡易實作(Vue Typescript)</p>
+<pre><code class="highlight ts">&lt;template&gt;
+  <span class="language-xml"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">&quot;500&quot;</span> <span class="attr">height</span>=<span class="string">&quot;500&quot;</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span></span>
+<span class="language-xml">    <span class="comment">&lt;!-- 底圖 --&gt;</span></span>
+<span class="language-xml">    <span class="tag">&lt;<span class="name">image</span> <span class="attr">href</span>=<span class="string">&quot;src/assets/images/bg.png&quot;</span> <span class="attr">width</span>=<span class="string">&quot;500&quot;</span> <span class="attr">height</span>=<span class="string">&quot;500&quot;</span> /&gt;</span></span>
+<span class="language-xml"></span>
+<span class="language-xml">    <span class="comment">&lt;!-- 圖像互動區塊 --&gt;</span></span>
+<span class="language-xml">    <span class="tag">&lt;<span class="name">g</span> <span class="attr">transform</span>=<span class="string">&quot;translate(55,528) scale(0.1,-0.1)&quot;</span>&gt;</span></span>
+<span class="language-xml">      <span class="tag">&lt;<span class="name">path</span></span></span>
+<span class="tag"><span class="language-xml">        <span class="attr">v-for</span>=<span class="string">&quot;region in wpi_regions&quot;</span></span></span>
+<span class="tag"><span class="language-xml">        <span class="attr">:key</span>=<span class="string">&quot;region.id&quot;</span></span></span>
+<span class="tag"><span class="language-xml">        <span class="attr">:d</span>=<span class="string">&quot;region.path&quot;</span></span></span>
+<span class="tag"><span class="language-xml">        <span class="attr">:fill</span>=<span class="string">&quot;region.click ? &#x27;#F72C5B&#x27; : &#x27;#F4E0AF&#x27;&quot;</span></span></span>
+<span class="tag"><span class="language-xml">        @<span class="attr">click</span>=<span class="string">&quot;region.click = !region.click&quot;</span></span></span>
+<span class="tag"><span class="language-xml">      /&gt;</span></span>
+<span class="language-xml">    <span class="tag">&lt;/<span class="name">g</span>&gt;</span></span>
+<span class="language-xml">  <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span>
+&lt;/template&gt;
+
+<span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span> <span class="attr">lang</span>=<span class="string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript"></span></span>
+<span class="language-javascript"><span class="language-xml">  <span class="keyword">const</span> wpi_regions = <span class="title function_">ref</span>([</span></span>
+<span class="language-javascript"><span class="language-xml">    &#123;</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">id</span>: <span class="string">&quot;01&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">name</span>: <span class="string">&quot;右顳顎關節&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">click</span>: <span class="literal">false</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">path</span>: <span class="string">&quot;M933 4763 c-28 -5 -78 -52 -87 -80 -20 -64 52 -155 108 -134 13 6 26 7 29 4 11 -10 66 31 71 53 10 39 -5 112 -28 133 -23 22 -59 31 -93 24z&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">    &#125;,</span></span>
+<span class="language-javascript"><span class="language-xml">    &#123;</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">id</span>: <span class="string">&quot;02&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">name</span>: <span class="string">&quot;左顳顎關節&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">click</span>: <span class="literal">false</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">      <span class="attr">path</span>: <span class="string">&quot;M1213 4763 c-12 -2 -35 -16 -51 -31 -31 -30 -41 -88 -22 -137 11 -28 67 -57 97 -51 61 11 86 29 101 68 32 84 -36 167 -125 151z&quot;</span>,</span></span>
+<span class="language-javascript"><span class="language-xml">    &#125;,</span></span>
+<span class="language-javascript"><span class="language-xml">    ...</span></span>
+<span class="language-javascript"><span class="language-xml">  ]);</span></span>
+<span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></code></pre>
 <h2 id="參考資料">參考資料</h2>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/</a></li>
+<li><a target="_blank" rel="noopener" href="https://chatgpt.com/">ChatGpt</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path">https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path</a></li>
 </ul>
 
     </div>
@@ -375,21 +329,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%A6%82%E5%BF%B5/" rel="tag"># 概念</a>
+              <a href="/tags/Vue/" rel="tag"># Vue</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/27/iteration-and-recursion/" rel="prev" title="迭代與遞迴">
-                  <i class="fa fa-angle-left"></i> 迭代與遞迴
+                <a href="/2024/12/13/text-fragments/" rel="prev" title="文字片段">
+                  <i class="fa fa-angle-left"></i> 文字片段
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/12/11/linq-search/" rel="next" title="LINQ">
-                  LINQ <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
