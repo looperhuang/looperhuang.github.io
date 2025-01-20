@@ -20,27 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="概述 時間複雜度代表的是演算法隨著資料量變大時的增長趨勢 數學符號大O記號(big-O notation) 常見型別  常數階 O(1)  int Constant(int n) &#123;     int count &#x3D; 0;     &#x2F;&#x2F; 迴圈次數與 n 無關     int size &#x3D; 10000;     for (int i &#x3D; 0; i &lt; size; i++)     &amp;#">
+    <meta name="description" content="概述 主要就是操作一個視窗的左右邊界，去檢查範圍內的數據，適合用於 Array 或是 String 可以避免重複已經檢查過的數據，優化時間複雜度，但只適用於連續數據 簡易範例 再給定的數組[2, 5, 8 ,6 ,1]中，找出連續 3 個數字最大總和  var arr &#x3D; [2, 5, 8, 6, 1]; var findThreeLargest &#x3D; function (arr) &#123;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="時間複雜度">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/27/time-complexity/index.html">
+<meta property="og:title" content="滑動視窗(Sliding Window)">
+<meta property="og:url" content="https://looperhuang.github.io/2025/01/20/sliding-window/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="概述 時間複雜度代表的是演算法隨著資料量變大時的增長趨勢 數學符號大O記號(big-O notation) 常見型別  常數階 O(1)  int Constant(int n) &#123;     int count &#x3D; 0;     &#x2F;&#x2F; 迴圈次數與 n 無關     int size &#x3D; 10000;     for (int i &#x3D; 0; i &lt; size; i++)     &amp;#">
+<meta property="og:description" content="概述 主要就是操作一個視窗的左右邊界，去檢查範圍內的數據，適合用於 Array 或是 String 可以避免重複已經檢查過的數據，優化時間複雜度，但只適用於連續數據 簡易範例 再給定的數組[2, 5, 8 ,6 ,1]中，找出連續 3 個數字最大總和  var arr &#x3D; [2, 5, 8, 6, 1]; var findThreeLargest &#x3D; function (arr) &#123;">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-11-27T05:47:35.000Z">
-<meta property="article:modified_time" content="2024-12-30T07:44:50.219Z">
+<meta property="og:image" content="https://looperhuang.github.io/images/SlidingWindowExample.png">
+<meta property="article:published_time" content="2025-01-20T02:12:18.000Z">
+<meta property="article:modified_time" content="2025-01-20T02:51:40.959Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="概念">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://looperhuang.github.io/images/SlidingWindowExample.png">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/01/20/sliding-window/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/27/time-complexity/","path":"2024/11/27/time-complexity/","title":"時間複雜度"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/01/20/sliding-window/","path":"2025/01/20/sliding-window/","title":"滑動視窗(Sliding Window)"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>時間複雜度 | Looper's Blog</title>
+<title>滑動視窗(Sliding Window) | Looper's Blog</title>
   
 
 
@@ -140,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%9E%8B%E5%88%A5"><span class="nav-number">2.</span> <span class="nav-text">常見型別</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B0%A1%E6%98%93%E7%AF%84%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">簡易範例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,7 +202,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/01/20/sliding-window/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -214,12 +215,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="時間複雜度 | Looper's Blog">
+      <meta itemprop="name" content="滑動視窗(Sliding Window) | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          時間複雜度
+          滑動視窗(Sliding Window)
         </h1>
 
         <div class="post-meta-container">
@@ -229,24 +230,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2024-11-27 13:47:35" itemprop="dateCreated datePublished" datetime="2024-11-27T13:47:35+08:00">2024-11-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2024-12-30 15:44:50" itemprop="dateModified" datetime="2024-12-30T15:44:50+08:00">2024-12-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">概念</span></a>
-        </span>
+      <time title="創建時間：2025-01-20 10:12:18 / 修改時間：10:51:40" itemprop="dateCreated datePublished" datetime="2025-01-20T10:12:18+08:00">2025-01-20</time>
     </span>
 
   
@@ -258,113 +244,36 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="概述">概述</h2>
-<p>時間複雜度代表的是演算法隨著資料量變大時的增長趨勢<br>
-數學符號<code>大O記號(big-O notation)</code></p>
-<h2 id="常見型別">常見型別</h2>
-<ul>
-<li>常數階 O(1)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Constant</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數與 n 無關</span>
-    <span class="built_in">int</span> size = <span class="number">10000</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; size; i++)
-    &#123;
-        count++;
+    <div class="post-body" itemprop="articleBody"><h3 id="概述">概述</h3>
+<p>主要就是操作一個視窗的左右邊界，去檢查範圍內的數據，適合用於 Array 或是 String<br>
+可以避免重複已經檢查過的數據，<code>優化時間複雜度</code>，但只適用於<code>連續</code>數據</p>
+<h3 id="簡易範例">簡易範例</h3>
+<p>再給定的數組[2, 5, 8 ,6 ,1]中，找出連續 3 個數字最大總和</p>
+<p><img src="/images/SlidingWindowExample.png" alt="slidingWindow.png"></p>
+<pre><code class="highlight js"><span class="keyword">var</span> arr = [<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">1</span>];
+<span class="keyword">var</span> findThreeLargest = <span class="keyword">function</span> (<span class="params">arr</span>) &#123;
+  <span class="keyword">let</span> curSum = <span class="number">0</span>;
+  <span class="comment">// 初始視窗總和(前3個數總和)</span>
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;
+    curSum += arr[i];
+  &#125;
+
+  <span class="keyword">let</span> maxSum = curSum; <span class="comment">// 最大總和</span>
+  <span class="keyword">let</span> maxSumIndex = <span class="number">0</span>; <span class="comment">// 最大總和的起始位置</span>
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;
+    curSum = curSum - arr[i - <span class="number">3</span>] + arr[i];
+    <span class="comment">// 更新最大總和的起始位置</span>
+    <span class="keyword">if</span> (curSum &gt; maxSum) &#123;
+      maxSum = curSum;
+      maxSumIndex = i - <span class="number">3</span>;
     &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
+  &#125;
+  <span class="keyword">return</span> &#123; maxSum, maxSumIndex &#125;;
+&#125;;</code></pre>
+<h3 id="參考資料">參考資料</h3>
 <ul>
-<li>線性階 O(n)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Linear</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n 次</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>平方階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Quadratic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n*n 次</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; n; j++)
-        &#123;
-            count++;
-        &#125;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>指數階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Exponential</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="built_in">int</span> bas = <span class="number">1</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        <span class="comment">//迴圈次數為2^n次</span>
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; bas; j++)
-        &#123;
-            count++;
-        &#125;
-        bas *= <span class="number">2</span>;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>對數階 O(logn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Logarithmic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="keyword">while</span> (n &gt; <span class="number">1</span>) &#123;
-        n /= <span class="number">2</span>;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>線性對數階 O(nlogn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">LinearLogRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = LinearLogRecur(n / <span class="number">2</span>);
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>階乘階 O(n!)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">FactorialRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// n * (n - 1) * (n - 2) * ... * 2 * 1</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count += FactorialRecur(n - <span class="number">1</span>);
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10364268">https://ithelp.ithome.com.tw/articles/10364268</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E6%BC%94%E7%AE%97%E6%B3%95%E7%AD%86%E8%A8%98%E7%B3%BB%E5%88%97-two-pointer-%E8%88%87sliding-window-8742f45f3f55">https://medium.com/技術筆記/演算法筆記系列-two-pointer-與sliding-window-8742f45f3f55</a></li>
 </ul>
 
     </div>
@@ -374,22 +283,16 @@
     
 
     <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E6%A6%82%E5%BF%B5/" rel="tag"># 概念</a>
-          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/27/iteration-and-recursion/" rel="prev" title="迭代與遞迴">
-                  <i class="fa fa-angle-left"></i> 迭代與遞迴
+                <a href="/2024/12/30/image-map/" rel="prev" title="簡單製作可互動圖片">
+                  <i class="fa fa-angle-left"></i> 簡單製作可互動圖片
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/12/11/linq-search/" rel="next" title="LINQ">
-                  LINQ <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
