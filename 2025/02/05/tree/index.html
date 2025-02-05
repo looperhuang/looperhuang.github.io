@@ -20,28 +20,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="概述 有時候一些大型資料且異動少的資料 每次使用就要從資料重新撈取就很浪費效能資源 這個時候就是快取出場的時候 Install dotnet add package Microsoft.Extensions.Caching.Memory Extensions.cs public static void AddExtension(this IServiceCollection services) &amp;">
+    <meta name="description" content="樹狀結構介紹  Node : 樹的基本單位，紀錄節點資料與子節點有哪些 Root Node : 根節點，樹的最高節點 Leaf Node : 葉節點，沒有子節點的節點 Edge : 連接兩個節點的線，表示節點之間的關係 Parent Node : 父節點(上層節點)，一個節點只會有一個父節點 Child Node : 子節點，一個節點可以連結多個子節點 Sibling Node : 兄弟節點，有">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C# 資料快取">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/20/imemorycahce/index.html">
+<meta property="og:title" content="樹狀資料">
+<meta property="og:url" content="https://looperhuang.github.io/2025/02/05/tree/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="概述 有時候一些大型資料且異動少的資料 每次使用就要從資料重新撈取就很浪費效能資源 這個時候就是快取出場的時候 Install dotnet add package Microsoft.Extensions.Caching.Memory Extensions.cs public static void AddExtension(this IServiceCollection services) &amp;">
+<meta property="og:description" content="樹狀結構介紹  Node : 樹的基本單位，紀錄節點資料與子節點有哪些 Root Node : 根節點，樹的最高節點 Leaf Node : 葉節點，沒有子節點的節點 Edge : 連接兩個節點的線，表示節點之間的關係 Parent Node : 父節點(上層節點)，一個節點只會有一個父節點 Child Node : 子節點，一個節點可以連結多個子節點 Sibling Node : 兄弟節點，有">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-11-20T07:07:58.000Z">
-<meta property="article:modified_time" content="2024-11-20T07:16:10.598Z">
+<meta property="og:image" content="https://looperhuang.github.io/images/tree_data_structure.jpg">
+<meta property="article:published_time" content="2025-02-05T08:07:19.000Z">
+<meta property="article:modified_time" content="2025-02-05T09:26:50.497Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="CSharp">
-<meta property="article:tag" content="Cache">
+<meta property="article:tag" content="資料結構">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://looperhuang.github.io/images/tree_data_structure.jpg">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/02/05/tree/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/20/imemorycahce/","path":"2024/11/20/imemorycahce/","title":"C# 資料快取"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/02/05/tree/","path":"2025/02/05/tree/","title":"樹狀資料"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>C# 資料快取 | Looper's Blog</title>
+<title>樹狀資料 | Looper's Blog</title>
   
 
 
@@ -141,7 +142,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install"><span class="nav-number">2.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Extensions-cs"><span class="nav-number">3.</span> <span class="nav-text">Extensions.cs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage"><span class="nav-number">4.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CacheHelper-cs-Optional"><span class="nav-number">5.</span> <span class="nav-text">CacheHelper.cs(Optional)</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%B9%E7%8B%80%E7%B5%90%E6%A7%8B%E4%BB%8B%E7%B4%B9"><span class="nav-number">1.</span> <span class="nav-text">樹狀結構介紹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%B9%E7%9A%84%E7%A8%AE%E9%A1%9E"><span class="nav-number">2.</span> <span class="nav-text">樹的種類</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%B9%E7%9A%84%E9%81%8D%E6%AD%B7-Traversal"><span class="nav-number">3.</span> <span class="nav-text">樹的遍歷(Traversal)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E9%97%9C%E5%AF%A6%E4%BD%9C-C"><span class="nav-number">4.</span> <span class="nav-text">相關實作(C#)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -202,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/05/tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -215,12 +216,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="C# 資料快取 | Looper's Blog">
+      <meta itemprop="name" content="樹狀資料 | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C# 資料快取
+          樹狀資料
         </h1>
 
         <div class="post-meta-container">
@@ -232,7 +233,7 @@
       <span class="post-meta-item-text">發表於</span>
       
 
-      <time title="創建時間：2024-11-20 15:07:58 / 修改時間：15:16:10" itemprop="dateCreated datePublished" datetime="2024-11-20T15:07:58+08:00">2024-11-20</time>
+      <time title="創建時間：2025-02-05 16:07:19 / 修改時間：17:26:50" itemprop="dateCreated datePublished" datetime="2025-02-05T16:07:19+08:00">2025-02-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -240,7 +241,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
+          <a href="/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/" itemprop="url" rel="index"><span itemprop="name">資料結構</span></a>
         </span>
     </span>
 
@@ -253,102 +254,128 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="概述">概述</h2>
-<p>有時候一些大型資料且異動少的資料<br>
-每次使用就要從資料重新撈取就很浪費效能資源<br>
-這個時候就是快取出場的時候</p>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight powershell">dotnet add package Microsoft.Extensions.Caching.Memory</code></pre>
-<h2 id="Extensions-cs">Extensions.cs</h2>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddExtension</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services</span>)</span>
+    <div class="post-body" itemprop="articleBody"><p><img src="/images/tree_data_structure.jpg" alt="tree_data_structure.jpg"></p>
+<h2 id="樹狀結構介紹">樹狀結構介紹</h2>
+<ul>
+<li>Node : 樹的基本單位，紀錄節點資料與子節點有哪些</li>
+<li>Root Node : 根節點，樹的最高節點</li>
+<li>Leaf Node : 葉節點，沒有子節點的節點</li>
+<li>Edge : 連接兩個節點的線，表示節點之間的關係</li>
+<li>Parent Node : 父節點(上層節點)，一個節點只會有一個父節點</li>
+<li>Child Node : 子節點，一個節點可以連結多個子節點</li>
+<li>Sibling Node : 兄弟節點，有相同父節點的節點</li>
+<li>Depth : 從根節點到該節點的路徑長度</li>
+<li>Height : 該節點到最遠葉節點的路徑長度</li>
+<li>Level : 節點層次</li>
+<li>Subtree : 某節點的所有子節點後代</li>
+</ul>
+<h2 id="樹的種類">樹的種類</h2>
+<ol>
+<li>二元樹 (Binary Tree)
+<ul>
+<li>一個節點最多兩個子節點</li>
+</ul>
+</li>
+<li>二元搜尋樹 (Binary Search Tree, BST)
+<ul>
+<li>左子樹所有節點值小於根節點值</li>
+<li>右子樹所有節點值大於根節點值</li>
+</ul>
+</li>
+<li>平衡樹 (Balanced Tree)</li>
+<li>滿二元樹 (Full Binary Tree)</li>
+<li>完全二元樹 (Complete Binary Tree)</li>
+<li>B 樹 (B-Tree)</li>
+<li>堆積 (Heap)</li>
+<li>字典樹 (Trie)</li>
+</ol>
+<h2 id="樹的遍歷-Traversal">樹的遍歷(Traversal)</h2>
+<ol>
+<li>深度優先遍歷 (Depth-First Search, DFS)
+<ul>
+<li>先訪問子節點，再訪問兄弟節點</li>
+<li>3 種遍歷方法
+<ul>
+<li>前序遍歷 (Pre-order)</li>
+<li>中序遍歷 (In-order)</li>
+<li>後續遍歷 (Post-order)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>廣度優先遍歷 (Breadth-First Search, BFS)
+<ul>
+<li>階層遍歷，一層一層從左到右</li>
+</ul>
+</li>
+</ol>
+<h2 id="相關實作-C">相關實作(C#)</h2>
+<pre><code class="highlight C#"><span class="comment">// 節點</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TreeNode</span>
 &#123;
-    services.AddMemoryCache();
-    <span class="comment">// services.AddScoped&lt;CacheHelper&gt;(); //如果有使用整合工具類</span>
-&#125;</code></pre>
-<h2 id="Usage">Usage</h2>
-<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
- [<span class="meta">ApiController</span>]
- <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DataController</span> : <span class="title">ControllerBase</span>
- &#123;
-     <span class="keyword">private</span> <span class="keyword">readonly</span> DataBaseService dataBaseService;
-     <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache memoryCache;
+    <span class="keyword">public</span> <span class="built_in">int</span> val;
+    <span class="keyword">public</span> TreeNode left;
+    <span class="keyword">public</span> TreeNode right;
+    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span>(<span class="params"><span class="built_in">int</span> val = <span class="number">0</span>, TreeNode left = <span class="literal">null</span>, TreeNode right = <span class="literal">null</span></span>)</span>
+    &#123;
+        <span class="keyword">this</span>.val = val;
+        <span class="keyword">this</span>.left = left;
+        <span class="keyword">this</span>.right = right;
+    &#125;
+&#125;
 
-     <span class="function"><span class="keyword">public</span> <span class="title">DataController</span>(<span class="params">DataBaseService dataBaseService, IMemoryCache memoryCache</span>)</span>
-     &#123;
-         <span class="keyword">this</span>.memoryCache = memoryCache;
-         <span class="keyword">this</span>.dataBaseService = dataBaseService;
-     &#125;
-
-     [<span class="meta">HttpGet(<span class="string">&quot;/search&quot;</span>)</span>]
-     <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Search</span>(<span class="params"><span class="built_in">string</span> keyword</span>)</span>
-     &#123;
-        <span class="comment">// 從記憶體快取查看是否存在，沒再去資料庫撈資料並儲存快取</span>
-         <span class="keyword">if</span> (memoryCache.TryGetValue(<span class="string">&quot;MainDataCache&quot;</span>, <span class="keyword">out</span> List&lt;Prs006&gt; dataList))
-         &#123;
-             <span class="keyword">var</span> result = dataList?
-                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
-                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
-
-             <span class="keyword">return</span> Ok(result);
-         &#125;
-         <span class="keyword">else</span>
-         &#123;
-             <span class="keyword">var</span> dbData = <span class="keyword">await</span> dataBaseService.GetDatas();
-             <span class="comment">//寫入記憶體儲存，一天後自動過期</span>
-             memoryCache.Set(<span class="string">&quot;MainDataCache&quot;</span>, dbData, TimeSpan.FromDays(<span class="number">1</span>));
-
-             <span class="keyword">var</span> result = dbData?
-                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
-                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
-
-             <span class="keyword">return</span> Ok(result);
-         &#125;
-     &#125;</code></pre>
-<h2 id="CacheHelper-cs-Optional">CacheHelper.cs(Optional)</h2>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CacheHelper</span>
+<span class="comment">// 深度優先遍歷 (Depth-First Search, DFS)</span>
+<span class="comment">// 前序遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PreorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
 &#123;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+    Console.Write(root.val + <span class="string">&quot; &quot;</span>) <span class="comment">// 訪問節點</span>
+    PreorderTraversal(root.left); <span class="comment">// 遞迴訪問左子樹</span>
+    PreorderTraversal(root.right); <span class="comment">// 遞迴訪問右子樹</span>
+&#125;
 
-    <span class="function"><span class="keyword">public</span> <span class="title">CacheHelper</span>(<span class="params">IMemoryCache cache</span>)</span>
-    &#123;
-        <span class="keyword">this</span>.cache = cache;
-    &#125;
+<span class="comment">// 中序遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">InorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+    InorderTraversal(root.left);    <span class="comment">// 遞迴遍歷左子樹</span>
+    Console.Write(root.val + <span class="string">&quot; &quot;</span>);  <span class="comment">// 訪問節點</span>
+    InorderTraversal(root.right);   <span class="comment">// 遞迴遍歷右子樹</span>
+&#125;
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Set</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire = <span class="number">300</span></span>)</span>
-    &#123;
-        <span class="keyword">var</span> options = <span class="keyword">new</span> MemoryCacheEntryOptions
-        &#123;
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expire),
-        &#125;;
-        cache.Set(key, <span class="keyword">value</span>, options);
-    &#125;
+<span class="comment">// 後序遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PostorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+    PostorderTraversal(root.left);   <span class="comment">// 遞迴遍歷左子樹</span>
+    PostorderTraversal(root.right);  <span class="comment">// 遞迴遍歷右子樹</span>
+    Console.Write(root.val + <span class="string">&quot; &quot;</span>);   <span class="comment">// 訪問節點</span>
+&#125;
 
-    <span class="keyword">public</span> T? Get&lt;T&gt;(<span class="built_in">string</span> key)
-    &#123;
-        cache.TryGetValue&lt;T&gt;(key, <span class="keyword">out</span> <span class="keyword">var</span> <span class="keyword">value</span>);
-        <span class="keyword">return</span> <span class="keyword">value</span>;
-    &#125;
+<span class="comment">// 廣度優先遍歷 (Breadth-First Search, BFS)</span>
+<span class="comment">// 階層遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LevelOrderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Remove</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
-    &#123;
-        cache.Remove(key);
-    &#125;
+    Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> Queue&lt;TreeNode&gt;();
+    queue.Enqueue(root);
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Update</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire</span>)</span>
+    <span class="keyword">while</span> (queue.Count &gt; <span class="number">0</span>)
     &#123;
-        cache.Remove(key);
-        Set&lt;T&gt;(key, <span class="keyword">value</span>, expire);
-    &#125;
+        TreeNode node = queue.Dequeue();
+        Console.Write(node.val + <span class="string">&quot; &quot;</span>);
 
-    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">Contains</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
-    &#123;
-        <span class="keyword">return</span> cache.TryGetValue(key, <span class="keyword">out</span> _);
+        <span class="keyword">if</span> (node.left != <span class="literal">null</span>) queue.Enqueue(node.left);
+        <span class="keyword">if</span> (node.right != <span class="literal">null</span>) queue.Enqueue(node.right);
     &#125;
 &#125;</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E5%9F%BA%E7%A4%8E%E6%BC%94%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-tree-%E6%A8%B9%E7%8B%80%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-d10fe8ac1ce2">基礎演算法系列 — Tree 樹狀資料結構</a></li>
+<li><a target="_blank" rel="noopener" href="https://chat.deepseek.com/">Deepseek</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/data_structures_algorithms/tree_data_structure.htm">Tree Data Structure</a></li>
+</ul>
 
     </div>
 
@@ -358,22 +385,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/CSharp/" rel="tag"># CSharp</a>
-              <a href="/tags/Cache/" rel="tag"># Cache</a>
+              <a href="/tags/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/" rel="tag"># 資料結構</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/19/winscp/" rel="prev" title="C# 使用Winscp上傳檔案">
-                  <i class="fa fa-angle-left"></i> C# 使用Winscp上傳檔案
+                <a href="/2025/01/20/sliding-window/" rel="prev" title="滑動視窗(Sliding Window)">
+                  <i class="fa fa-angle-left"></i> 滑動視窗(Sliding Window)
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/11/26/brotato/" rel="next" title="Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻)">
-                  Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻) <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>

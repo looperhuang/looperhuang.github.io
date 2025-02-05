@@ -149,18 +149,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -185,6 +185,206 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/05/tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/02/05/tree/" class="post-title-link" itemprop="url">樹狀資料</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-02-05 16:07:19 / 修改時間：17:26:50" itemprop="dateCreated datePublished" datetime="2025-02-05T16:07:19+08:00">2025-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/" itemprop="url" rel="index"><span itemprop="name">資料結構</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/tree_data_structure.jpg" alt="tree_data_structure.jpg"></p>
+<h2 id="樹狀結構介紹">樹狀結構介紹</h2>
+<ul>
+<li>Node : 樹的基本單位，紀錄節點資料與子節點有哪些</li>
+<li>Root Node : 根節點，樹的最高節點</li>
+<li>Leaf Node : 葉節點，沒有子節點的節點</li>
+<li>Edge : 連接兩個節點的線，表示節點之間的關係</li>
+<li>Parent Node : 父節點(上層節點)，一個節點只會有一個父節點</li>
+<li>Child Node : 子節點，一個節點可以連結多個子節點</li>
+<li>Sibling Node : 兄弟節點，有相同父節點的節點</li>
+<li>Depth : 從根節點到該節點的路徑長度</li>
+<li>Height : 該節點到最遠葉節點的路徑長度</li>
+<li>Level : 節點層次</li>
+<li>Subtree : 某節點的所有子節點後代</li>
+</ul>
+<h2 id="樹的種類">樹的種類</h2>
+<ol>
+<li>二元樹 (Binary Tree)
+<ul>
+<li>一個節點最多兩個子節點</li>
+</ul>
+</li>
+<li>二元搜尋樹 (Binary Search Tree, BST)
+<ul>
+<li>左子樹所有節點值小於根節點值</li>
+<li>右子樹所有節點值大於根節點值</li>
+</ul>
+</li>
+<li>平衡樹 (Balanced Tree)</li>
+<li>滿二元樹 (Full Binary Tree)</li>
+<li>完全二元樹 (Complete Binary Tree)</li>
+<li>B 樹 (B-Tree)</li>
+<li>堆積 (Heap)</li>
+<li>字典樹 (Trie)</li>
+</ol>
+<h2 id="樹的遍歷-Traversal">樹的遍歷(Traversal)</h2>
+<ol>
+<li>深度優先遍歷 (Depth-First Search, DFS)
+<ul>
+<li>先訪問子節點，再訪問兄弟節點</li>
+<li>3 種遍歷方法
+<ul>
+<li>前序遍歷 (Pre-order)</li>
+<li>中序遍歷 (In-order)</li>
+<li>後續遍歷 (Post-order)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>廣度優先遍歷 (Breadth-First Search, BFS)
+<ul>
+<li>階層遍歷，一層一層從左到右</li>
+</ul>
+</li>
+</ol>
+<h2 id="相關實作-C">相關實作(C#)</h2>
+<pre><code class="highlight C#"><span class="comment">// 節點</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TreeNode</span>
+&#123;
+    <span class="keyword">public</span> <span class="built_in">int</span> val;
+    <span class="keyword">public</span> TreeNode left;
+    <span class="keyword">public</span> TreeNode right;
+    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span>(<span class="params"><span class="built_in">int</span> val = <span class="number">0</span>, TreeNode left = <span class="literal">null</span>, TreeNode right = <span class="literal">null</span></span>)</span>
+    &#123;
+        <span class="keyword">this</span>.val = val;
+        <span class="keyword">this</span>.left = left;
+        <span class="keyword">this</span>.right = right;
+    &#125;
+&#125;
+
+<span class="comment">// 深度優先遍歷 (Depth-First Search, DFS)</span>
+<span class="comment">// 前序遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PreorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+    Console.Write(root.val + <span class="string">&quot; &quot;</span>) <span class="comment">// 訪問節點</span>
+    PreorderTraversal(root.left); <span class="comment">// 遞迴訪問左子樹</span>
+    PreorderTraversal(root.right); <span class="comment">// 遞迴訪問右子樹</span>
+&#125;
+
+<span class="comment">// 中序遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">InorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+    InorderTraversal(root.left);    <span class="comment">// 遞迴遍歷左子樹</span>
+    Console.Write(root.val + <span class="string">&quot; &quot;</span>);  <span class="comment">// 訪問節點</span>
+    InorderTraversal(root.right);   <span class="comment">// 遞迴遍歷右子樹</span>
+&#125;
+
+<span class="comment">// 後序遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PostorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+    PostorderTraversal(root.left);   <span class="comment">// 遞迴遍歷左子樹</span>
+    PostorderTraversal(root.right);  <span class="comment">// 遞迴遍歷右子樹</span>
+    Console.Write(root.val + <span class="string">&quot; &quot;</span>);   <span class="comment">// 訪問節點</span>
+&#125;
+
+<span class="comment">// 廣度優先遍歷 (Breadth-First Search, BFS)</span>
+<span class="comment">// 階層遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LevelOrderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+
+    Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> Queue&lt;TreeNode&gt;();
+    queue.Enqueue(root);
+
+    <span class="keyword">while</span> (queue.Count &gt; <span class="number">0</span>)
+    &#123;
+        TreeNode node = queue.Dequeue();
+        Console.Write(node.val + <span class="string">&quot; &quot;</span>);
+
+        <span class="keyword">if</span> (node.left != <span class="literal">null</span>) queue.Enqueue(node.left);
+        <span class="keyword">if</span> (node.right != <span class="literal">null</span>) queue.Enqueue(node.right);
+    &#125;
+&#125;</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E5%9F%BA%E7%A4%8E%E6%BC%94%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-tree-%E6%A8%B9%E7%8B%80%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-d10fe8ac1ce2">基礎演算法系列 — Tree 樹狀資料結構</a></li>
+<li><a target="_blank" rel="noopener" href="https://chat.deepseek.com/">Deepseek</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/data_structures_algorithms/tree_data_structure.htm">Tree Data Structure</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1713,123 +1913,6 @@ for 的程式碼較簡潔、while 的迴圈控制較靈活</li>
         <span class="keyword">return</span> cache.TryGetValue(key, <span class="keyword">out</span> _);
     &#125;
 &#125;</code></pre>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/winscp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/11/19/winscp/" class="post-title-link" itemprop="url">C# 使用Winscp上傳檔案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-11-19 15:55:53" itemprop="dateCreated datePublished" datetime="2024-11-19T15:55:53+08:00">2024-11-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2024-11-20 08:32:11" itemprop="dateModified" datetime="2024-11-20T08:32:11+08:00">2024-11-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="概述">概述</h2>
-<p>接手了前輩的專案，以前都要自己手動上傳檔案，好麻煩<br>
-因此來看看怎麼用 Winscp 套件來串接，配合後續製作成排程程式，自動上傳</p>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight powershell">dotnet add package WinSCP</code></pre>
-<h2 id="Example">Example</h2>
-<pre><code class="highlight C#"><span class="comment">// 連線設定</span>
-SessionOptions sessionOptions = <span class="keyword">new</span> SessionOptions
-&#123;
-    Protocol = Protocol.Sftp,
-    HostName = <span class="string">&quot;hostname&quot;</span>,
-    PortNumber = port,
-    UserName = <span class="string">&quot;xxxx&quot;</span>,
-    SshHostKeyFingerprint = <span class="string">&quot;ssh-rsa 2048 xxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>,
-    SshPrivateKeyPath = <span class="string">&quot;....&quot;</span> <span class="comment">// 私鑰路徑自行調整(選用)</span>
-&#125;;
-
-<span class="comment">// 開啟會話</span>
-<span class="keyword">using</span> <span class="keyword">var</span> session = <span class="keyword">new</span> Session();
-session.Open(sessionOptions);
-
-<span class="comment">// 定義上傳的文件路徑和遠端目錄</span>
-<span class="built_in">string</span> localFilePath = <span class="string">&quot;文件路徑&quot;</span>;
-<span class="built_in">string</span> remoteDirectory = <span class="string">&quot;伺服器目錄&quot;</span>; <span class="comment">// 遠端伺服器的目錄</span>
-
-<span class="comment">// 上傳文件</span>
-TransferOperationResult transferResult;
-transferResult = <span class="keyword">this</span>.session.PutFiles(localFilePath, remoteDirectory);
-
-<span class="comment">// 檢查上傳是否成功</span>
-transferResult.Check();</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<p><a target="_blank" rel="noopener" href="https://winscp.net/eng/docs/library#csharp">https://winscp.net/eng/docs/library#csharp</a></p>
 
       
     </div>
