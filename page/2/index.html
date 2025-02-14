@@ -149,18 +149,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -185,6 +185,180 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/20/imemorycahce/" class="post-title-link" itemprop="url">C# 資料快取</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2024-11-20 15:07:58 / 修改時間：15:16:10" itemprop="dateCreated datePublished" datetime="2024-11-20T15:07:58+08:00">2024-11-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="概述">概述</h2>
+<p>有時候一些大型資料且異動少的資料<br>
+每次使用就要從資料重新撈取就很浪費效能資源<br>
+這個時候就是快取出場的時候</p>
+<h2 id="Install">Install</h2>
+<pre><code class="highlight powershell">dotnet add package Microsoft.Extensions.Caching.Memory</code></pre>
+<h2 id="Extensions-cs">Extensions.cs</h2>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddExtension</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services</span>)</span>
+&#123;
+    services.AddMemoryCache();
+    <span class="comment">// services.AddScoped&lt;CacheHelper&gt;(); //如果有使用整合工具類</span>
+&#125;</code></pre>
+<h2 id="Usage">Usage</h2>
+<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
+ [<span class="meta">ApiController</span>]
+ <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DataController</span> : <span class="title">ControllerBase</span>
+ &#123;
+     <span class="keyword">private</span> <span class="keyword">readonly</span> DataBaseService dataBaseService;
+     <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache memoryCache;
+
+     <span class="function"><span class="keyword">public</span> <span class="title">DataController</span>(<span class="params">DataBaseService dataBaseService, IMemoryCache memoryCache</span>)</span>
+     &#123;
+         <span class="keyword">this</span>.memoryCache = memoryCache;
+         <span class="keyword">this</span>.dataBaseService = dataBaseService;
+     &#125;
+
+     [<span class="meta">HttpGet(<span class="string">&quot;/search&quot;</span>)</span>]
+     <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Search</span>(<span class="params"><span class="built_in">string</span> keyword</span>)</span>
+     &#123;
+        <span class="comment">// 從記憶體快取查看是否存在，沒再去資料庫撈資料並儲存快取</span>
+         <span class="keyword">if</span> (memoryCache.TryGetValue(<span class="string">&quot;MainDataCache&quot;</span>, <span class="keyword">out</span> List&lt;Prs006&gt; dataList))
+         &#123;
+             <span class="keyword">var</span> result = dataList?
+                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
+                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
+
+             <span class="keyword">return</span> Ok(result);
+         &#125;
+         <span class="keyword">else</span>
+         &#123;
+             <span class="keyword">var</span> dbData = <span class="keyword">await</span> dataBaseService.GetDatas();
+             <span class="comment">//寫入記憶體儲存，一天後自動過期</span>
+             memoryCache.Set(<span class="string">&quot;MainDataCache&quot;</span>, dbData, TimeSpan.FromDays(<span class="number">1</span>));
+
+             <span class="keyword">var</span> result = dbData?
+                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
+                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
+
+             <span class="keyword">return</span> Ok(result);
+         &#125;
+     &#125;</code></pre>
+<h2 id="CacheHelper-cs-Optional">CacheHelper.cs(Optional)</h2>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CacheHelper</span>
+&#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">CacheHelper</span>(<span class="params">IMemoryCache cache</span>)</span>
+    &#123;
+        <span class="keyword">this</span>.cache = cache;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Set</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire = <span class="number">300</span></span>)</span>
+    &#123;
+        <span class="keyword">var</span> options = <span class="keyword">new</span> MemoryCacheEntryOptions
+        &#123;
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expire),
+        &#125;;
+        cache.Set(key, <span class="keyword">value</span>, options);
+    &#125;
+
+    <span class="keyword">public</span> T? Get&lt;T&gt;(<span class="built_in">string</span> key)
+    &#123;
+        cache.TryGetValue&lt;T&gt;(key, <span class="keyword">out</span> <span class="keyword">var</span> <span class="keyword">value</span>);
+        <span class="keyword">return</span> <span class="keyword">value</span>;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Remove</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
+    &#123;
+        cache.Remove(key);
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Update</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire</span>)</span>
+    &#123;
+        cache.Remove(key);
+        Set&lt;T&gt;(key, <span class="keyword">value</span>, expire);
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">Contains</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
+    &#123;
+        <span class="keyword">return</span> cache.TryGetValue(key, <span class="keyword">out</span> _);
+    &#125;
+&#125;</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 

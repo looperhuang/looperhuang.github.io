@@ -20,26 +20,32 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="BIOS 基本輸入輸出系統(Basic Input&#x2F;Output System) 主要作用為將系統硬體帶到可以準備交給作業系統的狀態，通常包含下列步驟:  系統初始化 測試記憶體與其他周邊 檢測儲存裝置 在數個儲存裝置之間找出作業系統的起始點  且提供操作介面，供使用者設定系統的低階參數、選擇開機裝置、配置系統資源等等。 日期與時間 BIOS 的主要功能之一是管理主機板內建的硬體時鐘。 作業系統本">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/19/hello-world/index.html">
+<meta property="og:title" content="系統架構">
+<meta property="og:url" content="https://looperhuang.github.io/2025/02/13/linuxSysArc/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="BIOS 基本輸入輸出系統(Basic Input&#x2F;Output System) 主要作用為將系統硬體帶到可以準備交給作業系統的狀態，通常包含下列步驟:  系統初始化 測試記憶體與其他周邊 檢測儲存裝置 在數個儲存裝置之間找出作業系統的起始點  且提供操作介面，供使用者設定系統的低階參數、選擇開機裝置、配置系統資源等等。 日期與時間 BIOS 的主要功能之一是管理主機板內建的硬體時鐘。 作業系統本">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-11-19T02:10:27.496Z">
-<meta property="article:modified_time" content="2024-11-19T02:10:27.496Z">
+<meta property="og:image" content="https://looperhuang.github.io/images/linuxSysArc/proc_interrupts.png">
+<meta property="og:image" content="https://looperhuang.github.io/images/linuxSysArc/proc_dma.png">
+<meta property="og:image" content="https://looperhuang.github.io/images/linuxSysArc/proc_ioports.png">
+<meta property="og:image" content="https://looperhuang.github.io/images/linuxSysArc/lsusb.png">
+<meta property="article:published_time" content="2025-02-13T01:24:48.000Z">
+<meta property="article:modified_time" content="2025-02-14T00:21:47.979Z">
 <meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://looperhuang.github.io/images/linuxSysArc/proc_interrupts.png">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/19/hello-world/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/02/13/linuxSysArc/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/19/hello-world/","path":"2024/11/19/hello-world/","title":"Hello World"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/02/13/linuxSysArc/","path":"2025/02/13/linuxSysArc/","title":"系統架構"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hello World | Looper's Blog</title>
+<title>系統架構 | Looper's Blog</title>
   
 
 
@@ -139,7 +145,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BIOS"><span class="nav-number">1.</span> <span class="nav-text">BIOS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%BC%B8%E5%85%A5%E8%BC%B8%E5%87%BA%E7%B3%BB%E7%B5%B1-Basic-Input-Output-System"><span class="nav-number">1.1.</span> <span class="nav-text">基本輸入輸出系統(Basic Input&#x2F;Output System)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E6%9C%9F%E8%88%87%E6%99%82%E9%96%93"><span class="nav-number">1.2.</span> <span class="nav-text">日期與時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A3%81%E7%A2%9F%E8%88%87%E9%96%8B%E6%A9%9F%E8%A3%9D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">磁碟與開機裝置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%8B%E7%94%A8-proc-%E6%AA%94%E6%A1%88%E7%B3%BB%E7%B5%B1"><span class="nav-number">1.4.</span> <span class="nav-text">運用&#x2F;proc 檔案系統</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#USB"><span class="nav-number">2.</span> <span class="nav-text">USB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#USB-%E6%8B%93%E6%A8%B8%E9%82%8F%E8%BC%AF"><span class="nav-number">2.1.</span> <span class="nav-text">USB 拓樸邏輯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USB-%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">USB 控制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USB-%E8%A3%9D%E7%BD%AE"><span class="nav-number">2.3.</span> <span class="nav-text">USB 裝置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USB-%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F"><span class="nav-number">2.4.</span> <span class="nav-text">USB 驅動程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USB-%E7%86%B1%E6%8F%92%E6%8B%94"><span class="nav-number">2.5.</span> <span class="nav-text">USB 熱插拔</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -200,7 +206,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/13/linuxSysArc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -213,12 +219,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Hello World | Looper's Blog">
+      <meta itemprop="name" content="系統架構 | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          系統架構
         </h1>
 
         <div class="post-meta-container">
@@ -229,7 +235,23 @@
       </span>
       <span class="post-meta-item-text">發表於</span>
 
-      <time title="創建時間：2024-11-19 10:10:27" itemprop="dateCreated datePublished" datetime="2024-11-19T10:10:27+08:00">2024-11-19</time>
+      <time title="創建時間：2025-02-13 09:24:48" itemprop="dateCreated datePublished" datetime="2025-02-13T09:24:48+08:00">2025-02-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-02-14 08:21:47" itemprop="dateModified" datetime="2025-02-14T08:21:47+08:00">2025-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+        </span>
     </span>
 
   
@@ -241,20 +263,107 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<pre><code class="highlight bash">$ hexo new <span class="string">&quot;My New Post&quot;</span></code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<pre><code class="highlight bash">$ hexo server</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<pre><code class="highlight bash">$ hexo generate</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<pre><code class="highlight bash">$ hexo deploy</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+    <div class="post-body" itemprop="articleBody"><h2 id="BIOS">BIOS</h2>
+<h3 id="基本輸入輸出系統-Basic-Input-Output-System">基本輸入輸出系統(Basic Input/Output System)</h3>
+<p>主要作用為<code>將系統硬體帶到可以準備交給作業系統的狀態</code>，通常包含下列步驟:</p>
+<ul>
+<li>系統初始化</li>
+<li>測試記憶體與其他周邊</li>
+<li>檢測儲存裝置</li>
+<li>在數個儲存裝置之間找出作業系統的起始點</li>
+</ul>
+<p>且提供操作介面，供使用者設定系統的低階參數、選擇開機裝置、配置系統資源等等。</p>
+<h3 id="日期與時間">日期與時間</h3>
+<p>BIOS 的主要功能之一是<code>管理主機板內建的硬體時鐘</code>。<br>
+<code>作業系統本身也有設定硬體時鐘的能力</code>，可以依靠精準的外部較時參考來源(ex: NTPD 伺服器)來保持硬體時鐘的精準。</p>
+<h3 id="磁碟與開機裝置">磁碟與開機裝置</h3>
+<p>BIOS 設定工具中其中一項重要功能就是<code>開機裝置的選擇</code>。<br>
+大多數 PC 至少支援三種開機媒體</p>
+<ul>
+<li>內接式硬碟(IDE 或 SCSI 或 SATA，或三者皆是)</li>
+<li>光碟機(同上)</li>
+<li>軟碟機</li>
+</ul>
+<h3 id="運用-proc-檔案系統">運用/proc 檔案系統</h3>
+<p>/proc 檔案系統 (核心的運作狀態庫)目錄下的 interrupts、dma、ioports 三個檔案，提供目前系統資源的使用狀況</p>
+<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/interrupts</code></pre>
+<p><img src="/images/linuxSysArc/proc_interrupts.png" alt="interrupts.png"></p>
+<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/dma</code></pre>
+<p><img src="/images/linuxSysArc/proc_dma.png" alt="interrupts.png"></p>
+<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/ioports</code></pre>
+<p><img src="/images/linuxSysArc/proc_ioports.png" alt="interrupts.png"></p>
+<h2 id="USB">USB</h2>
+<h3 id="USB-拓樸邏輯">USB 拓樸邏輯</h3>
+<p>電腦主機與 USB 裝置之間，是透過<code>集線器(HUB)</code>連接一起，構成一個樹狀結構。<br>
+使用<code>lsusb</code>指令可顯示 Linux 系統上所有 USB 裝置的實際連接方式。</p>
+<p><img src="/images/linuxSysArc/lsusb.png" alt="lsusb.png"></p>
+<h3 id="USB-控制器">USB 控制器</h3>
+<p>主要分成 4 種類型</p>
+<ul>
+<li>開放型主控界面 ( Open Host Controller Interface , OHCI )</li>
+<li>通用型主控界面 ( Universal Host Controller Interface , UJCI )</li>
+<li>強化型主控界面 ( Enhanced Host Controller Interface , EHCI )</li>
+<li>擴充型主控界面 ( eXtented Host Controller Interface , xHCI )</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>規格</th>
+<th>控制器</th>
+<th>傳輸速率</th>
+<th>向下相容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB1.1</td>
+<td>OHCI、UHCI</td>
+<td>12Mbps</td>
+<td>否</td>
+</tr>
+<tr>
+<td>USB2.0</td>
+<td>EHCI</td>
+<td>480Mbps</td>
+<td>否</td>
+</tr>
+<tr>
+<td>USB3.0</td>
+<td>xHCI</td>
+<td>5Gbps</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<h3 id="USB-裝置">USB 裝置</h3>
+<ul>
+<li>人機界面裝置 ( Human Interface Device , HID)<br>
+輸入裝置 (滑鼠、鍵盤…等等)</li>
+<li>通訊裝置<br>
+數據機</li>
+<li>大量儲存裝置<br>
+磁碟機、讀卡機…等</li>
+<li>音訊<br>
+揚聲器、音效裝置</li>
+<li>IrDA<br>
+紅外線裝置</li>
+<li>印表機<br>
+印表機以及 USB-to-parallel 轉換器</li>
+</ul>
+<h3 id="USB-驅動程式">USB 驅動程式</h3>
+<p><code>Linux 核心 2.0.x 以及更早版本，不支援 USB</code></p>
+<p>主要分成三大類</p>
+<ol>
+<li>主控器驅動程式</li>
+<li>通類驅動程式</li>
+<li>雜項裝置驅動程式</li>
+</ol>
+<h3 id="USB-熱插拔">USB 熱插拔</h3>
+<p>模組化的 USB 驅動程式，是藉由核心對於/sbin/hotplug 的通用支援機制來載入</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010517791?srsltid=AfmBOoqFrQZp9GsdBk5fTNGzq01OkJ2O4TBNwF0sK7VWkoij1MlNaG1X">LPI Linux 第一級資格檢定 第三版</a></li>
+</ul>
 
     </div>
 
@@ -263,16 +372,19 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2025/02/05/tree/" rel="prev" title="樹狀資料">
+                  <i class="fa fa-angle-left"></i> 樹狀資料
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/11/19/quartz/" rel="next" title="C# Web api使用Quartz進行一次性排程">
-                  C# Web api使用Quartz進行一次性排程 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
