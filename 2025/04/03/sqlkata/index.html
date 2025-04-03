@@ -20,28 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="LINQ ( Language Integrated Query) 微軟開發的技術具有查詢資料的程式語言 讓工程師能夠使用原生 C#對資料進行處理 且相同語法可以查詢不同類型的資料，降低學習成本 擴充類型 :  LINQ to Objects LINQ to SQL LINQ to XML …etc  LINQ 查詢的兩種語法  查詢表達式 ( Query Expression Syntax )">
+    <meta name="description" content="簡介 SqlKata 查詢生成器是一個用 C#編寫的功能強大 SQL 生成器，它安全、不受框架影響，靈感來源於 Laravel Query Builder 和 Knex 等頂級查詢建立工具  乾淨的命名，與 SQL 語法相似 允許統一 API 處理多個數據庫，且可搭配 Dapper 使用，有效替代數據庫的存儲過程 支持複雜查詢，如:嵌套條件、子查詢…等 目前有支援的資料庫 SqlServer、My">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LINQ">
-<meta property="og:url" content="https://looperhuang.github.io/2024/12/11/linq-search/index.html">
+<meta property="og:title" content="sqlkata">
+<meta property="og:url" content="https://looperhuang.github.io/2025/04/03/sqlkata/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="LINQ ( Language Integrated Query) 微軟開發的技術具有查詢資料的程式語言 讓工程師能夠使用原生 C#對資料進行處理 且相同語法可以查詢不同類型的資料，降低學習成本 擴充類型 :  LINQ to Objects LINQ to SQL LINQ to XML …etc  LINQ 查詢的兩種語法  查詢表達式 ( Query Expression Syntax )">
+<meta property="og:description" content="簡介 SqlKata 查詢生成器是一個用 C#編寫的功能強大 SQL 生成器，它安全、不受框架影響，靈感來源於 Laravel Query Builder 和 Knex 等頂級查詢建立工具  乾淨的命名，與 SQL 語法相似 允許統一 API 處理多個數據庫，且可搭配 Dapper 使用，有效替代數據庫的存儲過程 支持複雜查詢，如:嵌套條件、子查詢…等 目前有支援的資料庫 SqlServer、My">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-12-11T00:57:01.000Z">
-<meta property="article:modified_time" content="2024-12-11T02:04:37.143Z">
+<meta property="article:published_time" content="2025-04-03T03:20:10.000Z">
+<meta property="article:modified_time" content="2025-04-03T07:46:33.436Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="CSharp">
-<meta property="article:tag" content="linq">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="SQL">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/12/11/linq-search/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/04/03/sqlkata/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/12/11/linq-search/","path":"2024/12/11/linq-search/","title":"LINQ"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/04/03/sqlkata/","path":"2025/04/03/sqlkata/","title":"sqlkata"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>LINQ | Looper's Blog</title>
+<title>sqlkata | Looper's Blog</title>
   
 
 
@@ -141,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#LINQ-Language-Integrated-Query"><span class="nav-number">1.</span> <span class="nav-text">LINQ ( Language Integrated Query)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINQ-%E6%9F%A5%E8%A9%A2%E7%9A%84%E5%85%A9%E7%A8%AE%E8%AA%9E%E6%B3%95"><span class="nav-number"></span> <span class="nav-text">LINQ 查詢的兩種語法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D"><span class="nav-number">2.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AF%84%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">範例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B0%A1%E6%98%93%E5%AF%A6%E4%BD%9C-%E4%BB%A5-Oracle-%E7%82%BA%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">簡易實作(以 Oracle 為例)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dependency-injection-%E6%B3%A8%E5%85%A5%E5%AF%A6%E4%BD%9C-For-NET-6"><span class="nav-number">3.2.</span> <span class="nav-text">Dependency injection 注入實作(For .NET 6)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -202,7 +202,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/11/linq-search/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/03/sqlkata/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -215,12 +215,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="LINQ | Looper's Blog">
+      <meta itemprop="name" content="sqlkata | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LINQ
+          sqlkata
         </h1>
 
         <div class="post-meta-container">
@@ -232,7 +232,7 @@
       <span class="post-meta-item-text">發表於</span>
       
 
-      <time title="創建時間：2024-12-11 08:57:01 / 修改時間：10:04:37" itemprop="dateCreated datePublished" datetime="2024-12-11T08:57:01+08:00">2024-12-11</time>
+      <time title="創建時間：2025-04-03 11:20:10 / 修改時間：15:46:33" itemprop="dateCreated datePublished" datetime="2025-04-03T11:20:10+08:00">2025-04-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -240,7 +240,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
+          <a href="/categories/SqlKata/" itemprop="url" rel="index"><span itemprop="name">SqlKata</span></a>
         </span>
     </span>
 
@@ -253,108 +253,92 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h3 id="LINQ-Language-Integrated-Query">LINQ ( Language Integrated Query)</h3>
-<p>微軟開發的技術<code>具有查詢資料的程式語言</code><br>
-讓工程師能夠使用原生 C#對資料進行處理<br>
-且相同語法可以查詢不同類型的資料，降低學習成本<br>
-擴充類型 :</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="簡介">簡介</h2>
+<p>SqlKata 查詢生成器是一個用 C#編寫的功能強大 SQL 生成器，它安全、不受框架影響，靈感來源於 Laravel Query Builder 和 Knex 等頂級查詢建立工具</p>
 <ul>
-<li>LINQ to Objects</li>
-<li>LINQ to SQL</li>
-<li>LINQ to XML</li>
-<li>…etc</li>
+<li>乾淨的命名，與 SQL 語法相似</li>
+<li>允許統一 API 處理多個數據庫，且可搭配 Dapper 使用，有效替代數據庫的存儲過程</li>
+<li>支持複雜查詢，如:嵌套條件、子查詢…等</li>
+<li>目前有支援的資料庫 SqlServer、MySql、PostgreSql、Oracle …等</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/fairking/FluentSqlKata">擴充項目</a>，搭配 EntityFramework Core 6 使用</li>
+<li><a target="_blank" rel="noopener" href="https://sqlkata.com/docs">詳細文檔</a></li>
+<li><a target="_blank" rel="noopener" href="https://sqlkata.com/playground">PlayGround</a></li>
 </ul>
-<h2 id="LINQ-查詢的兩種語法">LINQ 查詢的兩種語法</h2>
-<ol>
-<li>查詢表達式 ( Query Expression Syntax )</li>
-</ol>
-<ul>
-<li>類似 SQL 的語法 : 使用 select 、 from 、where 等關鍵字</li>
-<li>較容易理解</li>
-<li>結構固定 : 必須 from 起始，select 或 group by 結尾</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
+<h2 id="安裝">安裝</h2>
+<pre><code class="highlight ada">$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata</span>
+$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Execution # (選用) 如果您希望執行支援</span></code></pre>
+<h2 id="範例">範例</h2>
+<h3 id="簡易實作-以-Oracle-為例">簡易實作(以 Oracle 為例)</h3>
+<pre><code class="highlight C#"><span class="keyword">var</span> connection = <span class="keyword">new</span> OracleConnection(connectionString);
+<span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
+<span class="keyword">var</span> db = <span class="keyword">new</span> QueryFactory(conn, compiler);
+<span class="comment">// QueryFactory 由 SqlKata.Execution 套件提供</span>
+<span class="keyword">var</span> books = db.Query(<span class="string">&quot;Books&quot;</span>).Get();</code></pre>
+<h3 id="Dependency-injection-注入實作-For-NET-6">Dependency injection 注入實作(For .NET 6)</h3>
+<p>QueryFactoryFactory.cs</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">QueryFactoryFactory</span> : <span class="title">IQueryFactoryFactory</span>
 &#123;
-    <span class="comment">// Data source.</span>
-    <span class="built_in">int</span>[] scores = <span class="keyword">new</span> <span class="built_in">int</span>[] &#123; <span class="number">90</span>, <span class="number">71</span>, <span class="number">82</span>, <span class="number">93</span>, <span class="number">75</span>, <span class="number">82</span> &#125;;
-
-    <span class="comment">// Query Expression.</span>
-    IEnumerable&lt;<span class="built_in">int</span>&gt; scoreQuery = <span class="comment">//query variable</span>
-        <span class="keyword">from</span> score <span class="keyword">in</span> scores <span class="comment">//required</span>
-        <span class="keyword">where</span> score &gt; <span class="number">80</span> <span class="comment">// optional</span>
-        <span class="keyword">orderby</span> score <span class="keyword">descending</span> <span class="comment">// optional</span>
-        <span class="keyword">select</span> score; <span class="comment">//must end with select or group</span>
-
-    <span class="comment">// Execute the query to produce the results</span>
-    <span class="keyword">foreach</span> (<span class="keyword">var</span> testScore <span class="keyword">in</span> scoreQuery)
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IConfiguration _configuration;
+    <span class="function"><span class="keyword">public</span> <span class="title">QueryFactoryFactory</span>(<span class="params">IConfiguration configuration</span>)</span>
     &#123;
-        Console.WriteLine(testScore);
+        _configuration = configuration;
+    &#125;
+    <span class="function"><span class="keyword">public</span> QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>
+    &#123;
+        <span class="keyword">var</span> cs = _configuration.GetConnectionString(dbKey);
+        <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(cs))
+        &#123;
+            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">$&quot;Connection string for <span class="subst">&#123;dbKey&#125;</span> is not found.&quot;</span>);
+        &#125;
+        <span class="keyword">var</span> conn = <span class="keyword">new</span> OracleConnection(cs);
+        <span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
+        <span class="keyword">return</span> <span class="keyword">new</span> QueryFactory(conn, compiler);
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IQueryFactoryFactory</span>
+&#123;
+    <span class="function">QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>;
+&#125;
+</code></pre>
+<p>Program.cs</p>
+<pre><code class="highlight C#">builder.Services.AddTransient&lt;IQueryFactoryFactory, QueryFactoryFactory&gt;();</code></pre>
+<p>HomeController.cs</p>
+<pre><code class="highlight C#"><span class="keyword">using</span> SqlKata;
+<span class="keyword">using</span> SqlKata.Execution;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> &#123;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IQueryFactoryFactory factory;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">IQueryFactoryFactory factory</span>)</span>
+    &#123;
+       <span class="keyword">this</span>.factory = factory;
     &#125;
 
-    <span class="comment">// Output: 93 90 82 82</span>
-&#125;</code></pre>
-<ol start="2">
-<li>流利語法（Fluent Syntax）</li>
-</ol>
-<ul>
-<li>靈活性高 : 可以方便地鏈結調用多個方法</li>
-<li>Lambda 表達式 : 代碼簡潔</li>
-<li>沒有固定結構 : 沒有特定的開始或結束語句</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
-&#123;
-    <span class="comment">// Data source.</span>
-    <span class="built_in">int</span>[] scores = <span class="keyword">new</span> <span class="built_in">int</span>[] &#123; <span class="number">90</span>, <span class="number">71</span>, <span class="number">82</span>, <span class="number">93</span>, <span class="number">75</span>, <span class="number">82</span> &#125;;
-
-    <span class="comment">// Query Expression.</span>
-    <span class="keyword">var</span> scoreQuery = scores
-        .Where(score =&gt; score &gt; <span class="number">80</span>)
-        .OrderByDescending(score =&gt; score);
-
-    <span class="comment">// Execute the query to produce the results</span>
-    <span class="keyword">foreach</span> (<span class="keyword">var</span> testScore <span class="keyword">in</span> scoreQuery)
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Get</span>()</span>
     &#123;
-        Console.WriteLine(testScore);
-    &#125;
+       <span class="keyword">using</span> <span class="keyword">var</span> db = factory.CreateQueryFactory(dbKey);
 
-    <span class="comment">// Output: 93 90 82 82</span>
-&#125;</code></pre>
-<table>
-<thead>
-<tr>
-<th>特徵</th>
-<th>查詢表達式</th>
-<th>流利語法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>風格</td>
-<td>類似 sql</td>
-<td>方法鏈結</td>
-</tr>
-<tr>
-<td>可讀性</td>
-<td>高</td>
-<td>中</td>
-</tr>
-<tr>
-<td>結構要求</td>
-<td>from 開頭、select 或 group by 結尾</td>
-<td>無特定要求</td>
-</tr>
-<tr>
-<td>靈活性</td>
-<td>某些情況下較低</td>
-<td>更高的靈活性，尤其是動態</td>
-</tr>
-</tbody>
-</table>
-<h3 id="參考資料">參考資料</h3>
+       <span class="comment">// 這裡 books 的類型是 `IEnumerable&lt;dynamic&gt;`</span>
+       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
+           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
+           .GetAsync();
+
+       <span class="comment">// or `IEnumerable&lt;Book&gt;` if using the Generic overload</span>
+       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
+           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
+           .GetAsync&lt;Book&gt;();
+
+       <span class="keyword">return</span> Ok(books);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="參考資料">參考資料</h2>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-tw/%E8%AF%AD%E8%A8%80%E9%9B%86%E6%88%90%E6%9F%A5%E8%AF%A2">https://zh.wikipedia.org/zh-tw/语言集成查询</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.perplexity.ai/">https://www.perplexity.ai/</a></li>
-<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10194251">https://ithelp.ithome.com.tw/articles/10194251</a></li>
+<li><a target="_blank" rel="noopener" href="https://sqlkata.com/">https://sqlkata.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sqlkata/querybuilder">https://github.com/sqlkata/querybuilder</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shanyou/p/16756669.html">https://www.cnblogs.com/shanyou/p/16756669.html</a></li>
 </ul>
 
     </div>
@@ -365,22 +349,19 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/CSharp/" rel="tag"># CSharp</a>
-              <a href="/tags/linq/" rel="tag"># linq</a>
+              <a href="/tags/C/" rel="tag"># C#</a>
+              <a href="/tags/SQL/" rel="tag"># SQL</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/27/time-complexity/" rel="prev" title="時間複雜度">
-                  <i class="fa fa-angle-left"></i> 時間複雜度
+                <a href="/2025/02/14/server-certificate/" rel="prev" title="IIS 安裝憑證">
+                  <i class="fa fa-angle-left"></i> IIS 安裝憑證
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/12/11/signalr/" rel="next" title="SignalR">
-                  SignalR <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>

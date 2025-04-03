@@ -149,18 +149,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -185,6 +185,192 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/iteration-and-recursion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/27/iteration-and-recursion/" class="post-title-link" itemprop="url">迭代與遞迴</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-27 08:52:39" itemprop="dateCreated datePublished" datetime="2024-11-27T08:52:39+08:00">2024-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-12-30 15:45:14" itemprop="dateModified" datetime="2024-12-30T15:45:14+08:00">2024-12-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">概念</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="迭代">迭代</h2>
+<p><code>迭代(iteration)</code>是一種重複執行任務的控制結構<br>
+在一定的<code>條件</code>下重複執行，直到<code>條件</code>不再滿足</p>
+<ul>
+<li>for<br>
+最常見的迭代形式</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">ForLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> result = <span class="number">0</span>;
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= n; i--)
+    &#123;
+        result += i;
+    &#125;
+    <span class="keyword">return</span> result;
+&#125;</code></pre>
+<ul>
+<li>while<br>
+while 跟 for 類似，但是 while 會比較好控制條件的設定與變化<br>
+for 的程式碼較簡潔、while 的迴圈控制較靈活</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">WhileLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> result = <span class="number">0</span>;
+    <span class="built_in">int</span> i = <span class="number">1</span>; <span class="comment">//初始條件</span>
+    <span class="keyword">while</span> (i &lt;= n)
+    &#123;
+        result += i;
+        <span class="comment">//更新條件</span>
+        i +=<span class="number">1</span>;
+        i *=<span class="number">2</span>;
+    &#125;
+    <span class="keyword">return</span> result;
+&#125;</code></pre>
+<ul>
+<li>巢狀<br>
+迴圈包迴圈</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">string</span> <span class="title">NestForLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="keyword">var</span> result = <span class="keyword">new</span> StringBuilder();
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= n; i++)
+    &#123;
+        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">1</span>; j &lt;= n; j++)
+        &#123;
+            result.Append(<span class="string">$&quot;(<span class="subst">&#123;i&#125;</span>,<span class="subst">&#123;j&#125;</span>)&quot;</span>);
+        &#125;
+    &#125;
+    <span class="keyword">return</span> result.ToString();
+&#125;</code></pre>
+<h2 id="遞迴">遞迴</h2>
+<p><code>遞迴(recursion)</code>函式呼叫自己本身<br>
+<strong>主要三要素</strong></p>
+<ol>
+<li>終止條件 : 什麼時候結束往下層傳遞</li>
+<li>遞迴呼叫 : 將參數往下層傳遞給自己</li>
+<li>結果返回 : 回傳結果給上層</li>
+</ol>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Recur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="comment">// 終止條件</span>
+    <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="comment">// 遞迴呼叫</span>
+    <span class="built_in">int</span> res = Recur(n - <span class="number">1</span>);
+    <span class="comment">// 返回結果</span>
+    <span class="keyword">return</span> n + res;
+&#125;</code></pre>
+<p><img src="/images/recursion_sum_depth.png" alt="recursion_sum_depth.png"></p>
+<p>由於遞迴每次都要呼叫重新產生本身函式，會有額外的資源開銷<br>
+所以遞迴的次數是有限的，太多記憶體會爆炸，效率也會比迭代來的低</p>
+<h2 id="比較">比較</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>迭代</th>
+<th>遞迴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>效率</td>
+<td>較高，沒有函式產生開銷</td>
+<td>每次遞迴呼叫都有產生開銷</td>
+</tr>
+<tr>
+<td>記憶體</td>
+<td>通常固定大小</td>
+<td>根據遞迴函式產生占用大量記憶體</td>
+</tr>
+<tr>
+<td>適用</td>
+<td>簡單任務、直觀、可讀佳</td>
+<td>複雜任務分解(樹、圖、分治、回溯等)、結構明確</td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/iteration_and_recursion/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/iteration_and_recursion/</a></li>
+<li><a target="_blank" rel="noopener" href="https://hackmd.io/@PythonTutor/By9P6avKd#%E9%81%9E%E8%BF%B4VS%E8%BF%AD%E4%BB%A3-%E5%8F%AF%E8%AE%80%E6%80%A7%E8%88%87%E5%8F%AF%E6%94%B9%E6%80%A7">https://hackmd.io/@PythonTutor/By9P6avKd#遞迴VS迭代-可讀性與可改性</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
