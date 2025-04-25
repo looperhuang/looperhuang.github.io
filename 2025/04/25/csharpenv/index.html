@@ -20,26 +20,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="概述 時間複雜度代表的是演算法隨著資料量變大時的增長趨勢 數學符號大O記號(big-O notation) 常見型別  常數階 O(1)  int Constant(int n) &#123;     int count &#x3D; 0;     &#x2F;&#x2F; 迴圈次數與 n 無關     int size &#x3D; 10000;     for (int i &#x3D; 0; i &lt; size; i++)     &amp;#">
+    <meta name="description" content="Program.cs 設定 var builder &#x3D; WebApplication.CreateBuilder(args);  builder.Configuration     .AddUserSecrets&lt;Program&gt;() &#x2F;&#x2F; 使用秘密管理員(本地開發用)     .AddEnvironmentVariables(); &#x2F;&#x2F; 讀取環境變數     &#x2F;&#x2F; .AddEnvir">
 <meta property="og:type" content="article">
-<meta property="og:title" content="時間複雜度">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/27/time-complexity/index.html">
+<meta property="og:title" content="Asp.Net Core 讀取環境變數連線字串">
+<meta property="og:url" content="https://looperhuang.github.io/2025/04/25/csharpenv/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="概述 時間複雜度代表的是演算法隨著資料量變大時的增長趨勢 數學符號大O記號(big-O notation) 常見型別  常數階 O(1)  int Constant(int n) &#123;     int count &#x3D; 0;     &#x2F;&#x2F; 迴圈次數與 n 無關     int size &#x3D; 10000;     for (int i &#x3D; 0; i &lt; size; i++)     &amp;#">
+<meta property="og:description" content="Program.cs 設定 var builder &#x3D; WebApplication.CreateBuilder(args);  builder.Configuration     .AddUserSecrets&lt;Program&gt;() &#x2F;&#x2F; 使用秘密管理員(本地開發用)     .AddEnvironmentVariables(); &#x2F;&#x2F; 讀取環境變數     &#x2F;&#x2F; .AddEnvir">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-11-27T05:47:35.000Z">
-<meta property="article:modified_time" content="2025-04-25T02:52:09.131Z">
+<meta property="article:published_time" content="2025-04-25T08:06:49.000Z">
+<meta property="article:modified_time" content="2025-04-25T09:16:36.346Z">
 <meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="C#">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/04/25/csharpenv/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/27/time-complexity/","path":"2024/11/27/time-complexity/","title":"時間複雜度"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/04/25/csharpenv/","path":"2025/04/25/csharpenv/","title":"Asp.Net Core 讀取環境變數連線字串"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>時間複雜度 | Looper's Blog</title>
+<title>Asp.Net Core 讀取環境變數連線字串 | Looper's Blog</title>
   
 
 
@@ -139,7 +140,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%9E%8B%E5%88%A5"><span class="nav-number">2.</span> <span class="nav-text">常見型別</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Program-cs-%E8%A8%AD%E5%AE%9A"><span class="nav-number">1.</span> <span class="nav-text">Program.cs 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8%E8%A8%AD%E5%AE%9A%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">環境變數設定方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A0%90%E8%A8%AD%E4%B8%BB%E6%A9%9F%E8%A8%AD%E5%AE%9A%E4%BE%86%E6%BA%90"><span class="nav-number">3.</span> <span class="nav-text">預設主機設定來源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%AC%E8%A9%A6"><span class="nav-number">4.</span> <span class="nav-text">測試</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E"><span class="nav-number">5.</span> <span class="nav-text">進階</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8%E7%9A%84%E4%BE%B7%E9%99%90"><span class="nav-number">5.1.</span> <span class="nav-text">環境變數的侷限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Azure-Key-Vault-%E7%82%BA%E4%BE%8B%E7%9A%84%E5%84%AA%E5%8B%A2"><span class="nav-number">5.2.</span> <span class="nav-text">Azure Key Vault 為例的優勢</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -200,7 +201,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/25/csharpenv/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -213,12 +214,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="時間複雜度 | Looper's Blog">
+      <meta itemprop="name" content="Asp.Net Core 讀取環境變數連線字串 | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          時間複雜度
+          Asp.Net Core 讀取環境變數連線字串
         </h1>
 
         <div class="post-meta-container">
@@ -228,15 +229,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2024-11-27 13:47:35" itemprop="dateCreated datePublished" datetime="2024-11-27T13:47:35+08:00">2024-11-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:09" itemprop="dateModified" datetime="2025-04-25T10:52:09+08:00">2025-04-25</time>
+      <time title="創建時間：2025-04-25 16:06:49 / 修改時間：17:16:36" itemprop="dateCreated datePublished" datetime="2025-04-25T16:06:49+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -244,7 +239,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
         </span>
     </span>
 
@@ -257,113 +252,140 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="概述">概述</h2>
-<p>時間複雜度代表的是演算法隨著資料量變大時的增長趨勢<br>
-數學符號<code>大O記號(big-O notation)</code></p>
-<h2 id="常見型別">常見型別</h2>
+    <div class="post-body" itemprop="articleBody"><h2 id="Program-cs-設定">Program.cs 設定</h2>
+<pre><code class="highlight C#"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddUserSecrets&lt;Program&gt;() <span class="comment">// 使用秘密管理員(本地開發用)</span>
+    .AddEnvironmentVariables(); <span class="comment">// 讀取環境變數</span>
+    <span class="comment">// .AddEnvironmentVariables(prefix:&#123;前墜&#125;) 預設ASPNETCORE_或DOTNET_</span></code></pre>
+<h2 id="環境變數設定方式">環境變數設定方式</h2>
+<ol>
+<li>在主機上開啟：</li>
+</ol>
 <ul>
-<li>常數階 O(1)</li>
+<li>Win + S 搜尋「環境變數」或</li>
+<li>控制台 → 系統 → 進階系統設定 → 環境變數</li>
 </ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Constant</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+<ol start="2">
+<li>在「系統變數」中新增：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASPNETCORE_ConnectionStrings__DefaultConnection</td>
+<td>User Id=prod;Password=XXX;Data Source=oraclehost:1521/PRODDB;</td>
+</tr>
+</tbody>
+</table>
+<p>★ 注意前墜預設要為 <code>ASPNETCORE_</code>或 <code>DOTNET_</code><br>
+★ <code>ConnectionStrings__DefaultConnection</code>是雙底線<code>__</code></p>
+<h2 id="預設主機設定來源">預設主機設定來源</h2>
+<p>WebApplicationBuilder(.NET6 後) 優先級別</p>
+<ol>
+<li>使用命令列設定提供者的命令列引數</li>
+<li>使用 DOTNET_且具有 前置詞的環境變數</li>
+<li>使用 ASPNETCORE_且具有 前置詞的環境變數</li>
+</ol>
+<p>IHostedService (.NET5 前) 優先級別</p>
+<ol>
+<li>使用 ASPNETCORE_且具有 前置詞的環境變數。</li>
+<li>使用命令列設定提供者的命令列引數</li>
+<li>使用 DOTNET_且具有 前置詞的環境變數</li>
+</ol>
+<h2 id="測試">測試</h2>
+<p>在 program.cs 添加 debug endpoint</p>
+<pre><code class="highlight C#">app.MapGet(<span class="string">&quot;/env-check&quot;</span>, (IConfiguration config) =&gt;
 &#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數與 n 無關</span>
-    <span class="built_in">int</span> size = <span class="number">10000</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; size; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>線性階 O(n)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Linear</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n 次</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>平方階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Quadratic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n*n 次</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; n; j++)
-        &#123;
-            count++;
-        &#125;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>指數階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Exponential</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="built_in">int</span> bas = <span class="number">1</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        <span class="comment">//迴圈次數為2^n次</span>
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; bas; j++)
-        &#123;
-            count++;
-        &#125;
-        bas *= <span class="number">2</span>;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>對數階 O(logn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Logarithmic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="keyword">while</span> (n &gt; <span class="number">1</span>) &#123;
-        n /= <span class="number">2</span>;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>線性對數階 O(nlogn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">LinearLogRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = LinearLogRecur(n / <span class="number">2</span>);
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>階乘階 O(n!)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">FactorialRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// n * (n - 1) * (n - 2) * ... * 2 * 1</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count += FactorialRecur(n - <span class="number">1</span>);
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
+    <span class="keyword">return</span> config.GetConnectionString(<span class="string">&quot;DefaultConnection&quot;</span>) ?? <span class="string">&quot;no conn string&quot;</span>;
+&#125;);</code></pre>
+<ol>
+<li>部署後呼叫 /env-check</li>
+<li>檢查回傳的連線字串內容是否正確</li>
+<li>看有沒有缺少冒號、斜線、空格或打錯字</li>
+</ol>
+<h2 id="進階">進階</h2>
+<p>就算設定環境變數來避免將敏感資料寫入程式，比 appsettings.json 安全，但是還是有相關風險<br>
+所以可能會進一步需要<code>機密管理服務（Secrets Management Services）</code>來去管理敏感資訊<br>
+但這邊用不到就大概紀錄一下可能的更優解，因為要 💸</p>
+<h3 id="環境變數的侷限">環境變數的侷限</h3>
+<table>
+<thead>
+<tr>
+<th>問題點</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>被誤讀</td>
+<td>足夠權限的使用者可透過指令查看所有變數</td>
+</tr>
+<tr>
+<td>難管理</td>
+<td>每台機器都要單獨設定，不適合大型或多環境部署</td>
+</tr>
+<tr>
+<td>無審計紀錄</td>
+<td>無法追蹤誰改了哪個變數、何時改的</td>
+</tr>
+<tr>
+<td>版本控管</td>
+<td>無法追蹤歷史紀錄或自動回復舊版本</td>
+</tr>
+<tr>
+<td>變更難通知</td>
+<td>改變值，需要人為通知開發 / 系統人員重啟服務</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Azure-Key-Vault-為例的優勢">Azure Key Vault 為例的優勢</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>好處</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>集中管理</td>
+<td>所有機密集中存於一個 Vault，減少散落風險</td>
+</tr>
+<tr>
+<td>權限控管</td>
+<td>使用 Azure AD、RBAC 控制誰能取用哪些機密</td>
+</tr>
+<tr>
+<td>自動輪換密鑰</td>
+<td>可結合自動化工具定期更新連線密碼、憑證等</td>
+</tr>
+<tr>
+<td>加密儲存</td>
+<td>Vault 本身以高強度加密保存內容</td>
+</tr>
+<tr>
+<td>稽核與日誌</td>
+<td>每次存取都會記錄，便於日後查詢與調查</td>
+</tr>
+<tr>
+<td>不用再碰密碼</td>
+<td>程式碼用 Identity 存取 Vault，不需要明碼存在任何地方</td>
+</tr>
+</tbody>
+</table>
 <h2 id="參考資料">參考資料</h2>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/configuration/?view=aspnetcore-9.0">ASP.NET Core 的設定</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-9.0">Use multiple environments in ASP.NET Core</a></li>
+<li>ChatGpt</li>
+<li><a target="_blank" rel="noopener" href="https://azure.microsoft.com/en-us/products/key-vault">Azure Key Vault</a></li>
 </ul>
 
     </div>
@@ -373,19 +395,19 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/27/iteration-and-recursion/" rel="prev" title="迭代與遞迴">
-                  <i class="fa fa-angle-left"></i> 迭代與遞迴
+                <a href="/2025/04/25/htmlpdf/" rel="prev" title="前端生成PDF">
+                  <i class="fa fa-angle-left"></i> 前端生成PDF
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/12/11/linq-search/" rel="next" title="LINQ">
-                  LINQ <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
