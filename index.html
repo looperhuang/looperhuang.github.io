@@ -224,7 +224,7 @@
       <span class="post-meta-item-text">發表於</span>
       
 
-      <time title="創建時間：2025-04-25 10:07:30 / 修改時間：10:52:23" itemprop="dateCreated datePublished" datetime="2025-04-25T10:07:30+08:00">2025-04-25</time>
+      <time title="創建時間：2025-04-25 10:07:30 / 修改時間：11:12:56" itemprop="dateCreated datePublished" datetime="2025-04-25T10:07:30+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,10 +258,10 @@
 <pre><code class="highlight ts"><span class="keyword">import</span> jsPDF <span class="keyword">from</span> <span class="string">&quot;jspdf&quot;</span>;
 <span class="keyword">import</span> html2canvas <span class="keyword">from</span> <span class="string">&quot;html2canvas&quot;</span>;
 
-<span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">generatePDF</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">generatePDF</span> = <span class="keyword">async</span> (<span class="params"><span class="attr">id</span>: <span class="built_in">string</span></span>) =&gt; &#123;
   <span class="keyword">try</span> &#123;
     <span class="comment">// 取得要擷取的部分</span>
-    <span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;&#123;Id&#125;&quot;</span>) <span class="keyword">as</span> <span class="title class_">HTMLElement</span>;
+    <span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id) <span class="keyword">as</span> <span class="title class_">HTMLElement</span>;
     <span class="keyword">if</span> (!el) <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;
 
     <span class="comment">// 截圖</span>
