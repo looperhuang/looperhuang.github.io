@@ -149,18 +149,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -185,6 +185,168 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/25/htmlpdf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/04/25/htmlpdf/" class="post-title-link" itemprop="url">前端生成PDF</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-04-25 10:07:30 / 修改時間：10:52:23" itemprop="dateCreated datePublished" datetime="2025-04-25T10:07:30+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言">前言</h2>
+<p>因為業務需求的關係，需要將填寫的表單轉換成 PDF，進行資料儲存供後續使用<br>
+最便捷的方法為是使用前端套件<a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a>搭配<a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a><br>
+利用<code>html2canvas</code>進行截圖，然後貼到<code>jspdf</code>產生的 PDF 檔<br>
+但最穩妥的方法建議是使用後端服務器去專門產生 PDF 比較合適(ex. <a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a> 或是 <a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a> )</p>
+<h2 id="Install">Install</h2>
+<pre><code class="highlight cmake">npm <span class="keyword">install</span> html2canvas jspdf</code></pre>
+<h2 id="Usage">Usage</h2>
+<p>pdfHelper.ts</p>
+<pre><code class="highlight ts"><span class="keyword">import</span> jsPDF <span class="keyword">from</span> <span class="string">&quot;jspdf&quot;</span>;
+<span class="keyword">import</span> html2canvas <span class="keyword">from</span> <span class="string">&quot;html2canvas&quot;</span>;
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">generatePDF</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;
+  <span class="keyword">try</span> &#123;
+    <span class="comment">// 取得要擷取的部分</span>
+    <span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;&#123;Id&#125;&quot;</span>) <span class="keyword">as</span> <span class="title class_">HTMLElement</span>;
+    <span class="keyword">if</span> (!el) <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;
+
+    <span class="comment">// 截圖</span>
+    <span class="keyword">const</span> canvas = <span class="keyword">await</span> <span class="title function_">html2canvas</span>(el, &#123;
+      <span class="attr">useCORS</span>: <span class="literal">true</span>, <span class="comment">// 允許跨域圖片</span>
+      <span class="attr">scale</span>: <span class="number">2</span>, <span class="comment">// 提高清晰度</span>
+    &#125;);
+
+    <span class="comment">// 轉換圖片</span>
+    <span class="comment">// toDataURL(&#123;轉換格式&#125;, &#123;品質&#125;)</span>
+    <span class="keyword">const</span> imgData = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/jpeg&quot;</span>, <span class="number">0.7</span>);
+
+    <span class="comment">// 創建PDF文檔</span>
+    <span class="keyword">const</span> pdf = <span class="keyword">new</span> <span class="title function_">jsPDF</span>(&#123;
+      <span class="attr">orientation</span>: <span class="string">&quot;portrait&quot;</span>, <span class="comment">// 頁面方向</span>
+      <span class="attr">unit</span>: <span class="string">&quot;pt&quot;</span>, <span class="comment">// 單位</span>
+      <span class="attr">format</span>: <span class="string">&quot;a4&quot;</span>, <span class="comment">// 紙張大小</span>
+    &#125;);
+
+    <span class="comment">// 取得PDF尺寸</span>
+    <span class="keyword">const</span> pageWidth = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getWidth</span>();
+    <span class="keyword">const</span> pageHeight = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getHeight</span>();
+
+    <span class="comment">// 調整為A4寬度且維持原本寬高比</span>
+    <span class="keyword">const</span> imgWidth = pageWidth;
+    <span class="keyword">const</span> imgHeight = (canvas.<span class="property">height</span> * imgWidth) / canvas.<span class="property">width</span>;
+
+    <span class="comment">// 若圖像高度超出頁面高度，則縮小</span>
+    <span class="keyword">const</span> finalHeight = imgHeight &gt; pageHeight ? pageHeight : imgHeight;
+    <span class="keyword">const</span> finalWidth = (canvas.<span class="property">width</span> * finalHeight) / canvas.<span class="property">height</span>;
+
+    <span class="comment">// 可選：讓圖片置中</span>
+    <span class="keyword">const</span> marginX = (pageWidth - finalWidth) / <span class="number">2</span>;
+    <span class="keyword">const</span> marginY = (pageHeight - finalHeight) / <span class="number">2</span>;
+
+    <span class="comment">// 添加圖片到PDF</span>
+    pdf.<span class="title function_">addImage</span>(
+      imgData, <span class="comment">// 圖片資料</span>
+      <span class="string">&quot;JPEG&quot;</span>, <span class="comment">// 圖片格式</span>
+      marginX, <span class="comment">// X座標</span>
+      marginY, <span class="comment">// Y座標</span>
+      finalWidth, <span class="comment">//圖片寬度</span>
+      finalHeight, <span class="comment">//圖片高度</span>
+      <span class="literal">undefined</span>, <span class="comment">// 別名</span>
+      <span class="string">&quot;FAST&quot;</span> <span class="comment">// 壓縮方法</span>
+    );
+
+    <span class="comment">// 取得包含 Base64 的 Data URL</span>
+    <span class="keyword">const</span> pdfDataUrl = pdf.<span class="title function_">output</span>(<span class="string">&quot;datauristring&quot;</span>);
+
+    <span class="comment">// Data URL 的格式通常是 &quot;data:application/pdf;base64,BASE64_STRING&quot;</span>
+    <span class="comment">// 我們需要提取逗號後面的 Base64 部分</span>
+    <span class="keyword">const</span> base64String = pdfDataUrl.<span class="title function_">split</span>(<span class="string">&quot;,&quot;</span>)[<span class="number">1</span>];
+
+    <span class="keyword">return</span> base64String;
+  &#125; <span class="keyword">catch</span> (e) &#123;
+    <span class="variable language_">console</span>.<span class="title function_">log</span>(e);
+    <span class="keyword">throw</span> e;
+  &#125;
+&#125;;</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a></li>
+<li><a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a></li>
+<li><a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a></li>
+<li>ChatGpt</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -222,9 +384,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2025-04-03 11:20:10 / 修改時間：15:46:33" itemprop="dateCreated datePublished" datetime="2025-04-03T11:20:10+08:00">2025-04-03</time>
+      <time title="創建時間：2025-04-03 11:20:10" itemprop="dateCreated datePublished" datetime="2025-04-03T11:20:10+08:00">2025-04-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:51:48" itemprop="dateModified" datetime="2025-04-25T10:51:48+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,7 +400,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/SqlKata/" itemprop="url" rel="index"><span itemprop="name">SqlKata</span></a>
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
         </span>
     </span>
 
@@ -387,9 +555,15 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2025-02-14 08:32:46 / 修改時間：08:49:25" itemprop="dateCreated datePublished" datetime="2025-02-14T08:32:46+08:00">2025-02-14</time>
+      <time title="創建時間：2025-02-14 08:32:46" itemprop="dateCreated datePublished" datetime="2025-02-14T08:32:46+08:00">2025-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:23" itemprop="dateModified" datetime="2025-04-25T10:52:23+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -397,7 +571,7 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iis/" itemprop="url" rel="index"><span itemprop="name">iis</span></a>
+          <a href="/categories/IIS/" itemprop="url" rel="index"><span itemprop="name">IIS</span></a>
         </span>
     </span>
 
@@ -487,7 +661,7 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-02-14 08:21:47" itemprop="dateModified" datetime="2025-02-14T08:21:47+08:00">2025-02-14</time>
+      <time title="修改時間：2025-04-25 10:50:14" itemprop="dateModified" datetime="2025-04-25T10:50:14+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -495,7 +669,7 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
         </span>
     </span>
 
@@ -664,9 +838,15 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2025-02-05 16:07:19 / 修改時間：17:26:50" itemprop="dateCreated datePublished" datetime="2025-02-05T16:07:19+08:00">2025-02-05</time>
+      <time title="創建時間：2025-02-05 16:07:19" itemprop="dateCreated datePublished" datetime="2025-02-05T16:07:19+08:00">2025-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:14" itemprop="dateModified" datetime="2025-04-25T10:52:14+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -674,7 +854,7 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/" itemprop="url" rel="index"><span itemprop="name">資料結構</span></a>
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
         </span>
     </span>
 
@@ -864,9 +1044,24 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2025-01-20 10:12:18 / 修改時間：10:51:40" itemprop="dateCreated datePublished" datetime="2025-01-20T10:12:18+08:00">2025-01-20</time>
+      <time title="創建時間：2025-01-20 10:12:18" itemprop="dateCreated datePublished" datetime="2025-01-20T10:12:18+08:00">2025-01-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:23" itemprop="dateModified" datetime="2025-04-25T10:52:23+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
     </span>
 
   
@@ -964,9 +1159,15 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2024-12-30 13:37:12 / 修改時間：15:44:19" itemprop="dateCreated datePublished" datetime="2024-12-30T13:37:12+08:00">2024-12-30</time>
+      <time title="創建時間：2024-12-30 13:37:12" itemprop="dateCreated datePublished" datetime="2024-12-30T13:37:12+08:00">2024-12-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:48:38" itemprop="dateModified" datetime="2025-04-25T10:48:38+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -974,7 +1175,7 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Vue/" itemprop="url" rel="index"><span itemprop="name">Vue</span></a>
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
         </span>
     </span>
 
@@ -1108,9 +1309,15 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2024-12-13 09:31:52 / 修改時間：15:04:52" itemprop="dateCreated datePublished" datetime="2024-12-13T09:31:52+08:00">2024-12-13</time>
+      <time title="創建時間：2024-12-13 09:31:52" itemprop="dateCreated datePublished" datetime="2024-12-13T09:31:52+08:00">2024-12-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:02" itemprop="dateModified" datetime="2025-04-25T10:52:02+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1118,7 +1325,7 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
         </span>
     </span>
 
@@ -1223,9 +1430,15 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2024-12-11 10:26:22 / 修改時間：11:30:49" itemprop="dateCreated datePublished" datetime="2024-12-11T10:26:22+08:00">2024-12-11</time>
+      <time title="創建時間：2024-12-11 10:26:22" itemprop="dateCreated datePublished" datetime="2024-12-11T10:26:22+08:00">2024-12-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:50:57" itemprop="dateModified" datetime="2025-04-25T10:50:57+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1233,7 +1446,7 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
         </span>
     </span>
 
@@ -1514,9 +1727,15 @@ connection.<span class="title function_">onclose</span>(<span class="title funct
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2024-12-11 08:57:01 / 修改時間：10:04:37" itemprop="dateCreated datePublished" datetime="2024-12-11T08:57:01+08:00">2024-12-11</time>
+      <time title="創建時間：2024-12-11 08:57:01" itemprop="dateCreated datePublished" datetime="2024-12-11T08:57:01+08:00">2024-12-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:50:07" itemprop="dateModified" datetime="2025-04-25T10:50:07+08:00">2025-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1524,7 +1743,7 @@ connection.<span class="title function_">onclose</span>(<span class="title funct
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a>
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
         </span>
     </span>
 
@@ -1640,198 +1859,6 @@ connection.<span class="title function_">onclose</span>(<span class="title funct
 <li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-tw/%E8%AF%AD%E8%A8%80%E9%9B%86%E6%88%90%E6%9F%A5%E8%AF%A2">https://zh.wikipedia.org/zh-tw/语言集成查询</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.perplexity.ai/">https://www.perplexity.ai/</a></li>
 <li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10194251">https://ithelp.ithome.com.tw/articles/10194251</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/11/27/time-complexity/" class="post-title-link" itemprop="url">時間複雜度</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-11-27 13:47:35" itemprop="dateCreated datePublished" datetime="2024-11-27T13:47:35+08:00">2024-11-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2024-12-30 15:44:50" itemprop="dateModified" datetime="2024-12-30T15:44:50+08:00">2024-12-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">概念</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="概述">概述</h2>
-<p>時間複雜度代表的是演算法隨著資料量變大時的增長趨勢<br>
-數學符號<code>大O記號(big-O notation)</code></p>
-<h2 id="常見型別">常見型別</h2>
-<ul>
-<li>常數階 O(1)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Constant</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數與 n 無關</span>
-    <span class="built_in">int</span> size = <span class="number">10000</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; size; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>線性階 O(n)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Linear</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n 次</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>平方階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Quadratic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n*n 次</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; n; j++)
-        &#123;
-            count++;
-        &#125;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>指數階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Exponential</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="built_in">int</span> bas = <span class="number">1</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        <span class="comment">//迴圈次數為2^n次</span>
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; bas; j++)
-        &#123;
-            count++;
-        &#125;
-        bas *= <span class="number">2</span>;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>對數階 O(logn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Logarithmic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="keyword">while</span> (n &gt; <span class="number">1</span>) &#123;
-        n /= <span class="number">2</span>;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>線性對數階 O(nlogn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">LinearLogRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = LinearLogRecur(n / <span class="number">2</span>);
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>階乘階 O(n!)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">FactorialRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// n * (n - 1) * (n - 2) * ... * 2 * 1</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count += FactorialRecur(n - <span class="number">1</span>);
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/</a></li>
 </ul>
 
       
