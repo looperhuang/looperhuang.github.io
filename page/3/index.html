@@ -19,27 +19,22 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="前言 因為業務需求的關係，需要將填寫的表單轉換成 PDF，進行資料儲存供後續使用 最便捷的方法為是使用前端套件html2canvas搭配jspdf 利用html2canvas進行截圖，然後貼到jspdf產生的 PDF 檔 但最穩妥的方法建議是使用後端服務器去專門產生 PDF 比較合適(ex. wkhtmltopdf 或是 Puppeteer ) Install npm install html2c">
-<meta property="og:type" content="article">
-<meta property="og:title" content="前端生成PDF">
-<meta property="og:url" content="https://looperhuang.github.io/2025/04/25/htmlpdf/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Looper&#39;s Blog">
+<meta property="og:url" content="https://looperhuang.github.io/page/3/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="前言 因為業務需求的關係，需要將填寫的表單轉換成 PDF，進行資料儲存供後續使用 最便捷的方法為是使用前端套件html2canvas搭配jspdf 利用html2canvas進行截圖，然後貼到jspdf產生的 PDF 檔 但最穩妥的方法建議是使用後端服務器去專門產生 PDF 比較合適(ex. wkhtmltopdf 或是 Puppeteer ) Install npm install html2c">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2025-04-25T02:07:30.000Z">
-<meta property="article:modified_time" content="2025-04-25T03:12:56.446Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2025/04/25/htmlpdf/">
+<link rel="canonical" href="https://looperhuang.github.io/page/3/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/04/25/htmlpdf/","path":"2025/04/25/htmlpdf/","title":"前端生成PDF"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/3/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>前端生成PDF | Looper's Blog</title>
+<title>Looper's Blog</title>
   
 
 
@@ -72,7 +67,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">Looper's Blog</p>
+      <h1 class="site-title">Looper's Blog</h1>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">一個菜鳥工程師</p>
@@ -126,7 +121,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目錄
@@ -139,7 +134,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install"><span class="nav-number">2.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage"><span class="nav-number">3.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -189,18 +183,17 @@
 
     </div>
 
-    <div class="main-inner post posts-expand">
+    <div class="main-inner index posts-expand">
 
-
-  
+    
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/25/htmlpdf/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -213,13 +206,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="前端生成PDF | Looper's Blog">
+      <meta itemprop="name" content="undefined | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          前端生成PDF
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/19/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+        </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -228,18 +221,8 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2025-04-25 10:07:30 / 修改時間：11:12:56" itemprop="dateCreated datePublished" datetime="2025-04-25T10:07:30+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-        </span>
+      <time title="創建時間：2024-11-19 10:10:27" itemprop="dateCreated datePublished" datetime="2024-11-19T10:10:27+08:00">2024-11-19</time>
     </span>
 
   
@@ -251,91 +234,23 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="前言">前言</h2>
-<p>因為業務需求的關係，需要將填寫的表單轉換成 PDF，進行資料儲存供後續使用<br>
-最便捷的方法為是使用前端套件<a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a>搭配<a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a><br>
-利用<code>html2canvas</code>進行截圖，然後貼到<code>jspdf</code>產生的 PDF 檔<br>
-但最穩妥的方法建議是使用後端服務器去專門產生 PDF 比較合適(ex. <a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a> 或是 <a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a> )</p>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight cmake">npm <span class="keyword">install</span> html2canvas jspdf</code></pre>
-<h2 id="Usage">Usage</h2>
-<p>pdfHelper.ts</p>
-<pre><code class="highlight ts"><span class="keyword">import</span> jsPDF <span class="keyword">from</span> <span class="string">&quot;jspdf&quot;</span>;
-<span class="keyword">import</span> html2canvas <span class="keyword">from</span> <span class="string">&quot;html2canvas&quot;</span>;
+    <div class="post-body" itemprop="articleBody">
+          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<pre><code class="highlight bash">$ hexo new <span class="string">&quot;My New Post&quot;</span></code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<pre><code class="highlight bash">$ hexo server</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<pre><code class="highlight bash">$ hexo generate</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<pre><code class="highlight bash">$ hexo deploy</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
-<span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">generatePDF</span> = <span class="keyword">async</span> (<span class="params"><span class="attr">id</span>: <span class="built_in">string</span></span>) =&gt; &#123;
-  <span class="keyword">try</span> &#123;
-    <span class="comment">// 取得要擷取的部分</span>
-    <span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id) <span class="keyword">as</span> <span class="title class_">HTMLElement</span>;
-    <span class="keyword">if</span> (!el) <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;
-
-    <span class="comment">// 截圖</span>
-    <span class="keyword">const</span> canvas = <span class="keyword">await</span> <span class="title function_">html2canvas</span>(el, &#123;
-      <span class="attr">useCORS</span>: <span class="literal">true</span>, <span class="comment">// 允許跨域圖片</span>
-      <span class="attr">scale</span>: <span class="number">2</span>, <span class="comment">// 提高清晰度</span>
-    &#125;);
-
-    <span class="comment">// 轉換圖片</span>
-    <span class="comment">// toDataURL(&#123;轉換格式&#125;, &#123;品質&#125;)</span>
-    <span class="keyword">const</span> imgData = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/jpeg&quot;</span>, <span class="number">0.7</span>);
-
-    <span class="comment">// 創建PDF文檔</span>
-    <span class="keyword">const</span> pdf = <span class="keyword">new</span> <span class="title function_">jsPDF</span>(&#123;
-      <span class="attr">orientation</span>: <span class="string">&quot;portrait&quot;</span>, <span class="comment">// 頁面方向</span>
-      <span class="attr">unit</span>: <span class="string">&quot;pt&quot;</span>, <span class="comment">// 單位</span>
-      <span class="attr">format</span>: <span class="string">&quot;a4&quot;</span>, <span class="comment">// 紙張大小</span>
-    &#125;);
-
-    <span class="comment">// 取得PDF尺寸</span>
-    <span class="keyword">const</span> pageWidth = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getWidth</span>();
-    <span class="keyword">const</span> pageHeight = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getHeight</span>();
-
-    <span class="comment">// 調整為A4寬度且維持原本寬高比</span>
-    <span class="keyword">const</span> imgWidth = pageWidth;
-    <span class="keyword">const</span> imgHeight = (canvas.<span class="property">height</span> * imgWidth) / canvas.<span class="property">width</span>;
-
-    <span class="comment">// 若圖像高度超出頁面高度，則縮小</span>
-    <span class="keyword">const</span> finalHeight = imgHeight &gt; pageHeight ? pageHeight : imgHeight;
-    <span class="keyword">const</span> finalWidth = (canvas.<span class="property">width</span> * finalHeight) / canvas.<span class="property">height</span>;
-
-    <span class="comment">// 可選：讓圖片置中</span>
-    <span class="keyword">const</span> marginX = (pageWidth - finalWidth) / <span class="number">2</span>;
-    <span class="keyword">const</span> marginY = (pageHeight - finalHeight) / <span class="number">2</span>;
-
-    <span class="comment">// 添加圖片到PDF</span>
-    pdf.<span class="title function_">addImage</span>(
-      imgData, <span class="comment">// 圖片資料</span>
-      <span class="string">&quot;JPEG&quot;</span>, <span class="comment">// 圖片格式</span>
-      marginX, <span class="comment">// X座標</span>
-      marginY, <span class="comment">// Y座標</span>
-      finalWidth, <span class="comment">//圖片寬度</span>
-      finalHeight, <span class="comment">//圖片高度</span>
-      <span class="literal">undefined</span>, <span class="comment">// 別名</span>
-      <span class="string">&quot;FAST&quot;</span> <span class="comment">// 壓縮方法</span>
-    );
-
-    <span class="comment">// 取得包含 Base64 的 Data URL</span>
-    <span class="keyword">const</span> pdfDataUrl = pdf.<span class="title function_">output</span>(<span class="string">&quot;datauristring&quot;</span>);
-
-    <span class="comment">// Data URL 的格式通常是 &quot;data:application/pdf;base64,BASE64_STRING&quot;</span>
-    <span class="comment">// 我們需要提取逗號後面的 Base64 部分</span>
-    <span class="keyword">const</span> base64String = pdfDataUrl.<span class="title function_">split</span>(<span class="string">&quot;,&quot;</span>)[<span class="number">1</span>];
-
-    <span class="keyword">return</span> base64String;
-  &#125; <span class="keyword">catch</span> (e) &#123;
-    <span class="variable language_">console</span>.<span class="title function_">log</span>(e);
-    <span class="keyword">throw</span> e;
-  &#125;
-&#125;;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a></li>
-<li><a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a></li>
-<li><a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a></li>
-<li>ChatGpt</li>
-</ul>
-
+      
     </div>
 
     
@@ -343,24 +258,8 @@
     
 
     <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Vue/" rel="tag"># Vue</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2025/04/03/sqlkata/" rel="prev" title="sqlkata">
-                  <i class="fa fa-angle-left"></i> sqlkata
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2025/04/25/csharpenv/" rel="next" title="Asp.Net Core 讀取環境變數連線字串">
-                  Asp.Net Core 讀取環境變數連線字串 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
+        <div class="post-eof"></div>
+      
     </footer>
   </article>
 </div>
@@ -368,7 +267,9 @@
 
 
 
-
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </div>
   </main>

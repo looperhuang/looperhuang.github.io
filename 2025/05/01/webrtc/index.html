@@ -19,29 +19,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="簡介 SqlKata 查詢生成器是一個用 C#編寫的功能強大 SQL 生成器，它安全、不受框架影響，靈感來源於 Laravel Query Builder 和 Knex 等頂級查詢建立工具  乾淨的命名，與 SQL 語法相似 允許統一 API 處理多個數據庫，且可搭配 Dapper 使用，有效替代數據庫的存儲過程 支持複雜查詢，如:嵌套條件、子查詢…等 目前有支援的資料庫 SqlServer、My">
+    <meta name="description" content="簡易記錄一下 WebRTC 的基本概念 基本建立點對點連線的流程  信令 (Signaling)：  兩個 WebRTC 客户端（Peer A 和 Peer B）透過一個信令伺服器進行初始的資訊交換。這個伺服器不參與實際的媒體傳輸。 Peer A (發起方 - Offerer) 創建一個包含其媒體能力和網路資訊的 SDP Offer。 Peer A 收集其 ICE Candidates（潛在的網路">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sqlkata">
-<meta property="og:url" content="https://looperhuang.github.io/2025/04/03/sqlkata/index.html">
+<meta property="og:title" content="WebRTC">
+<meta property="og:url" content="https://looperhuang.github.io/2025/05/01/webrtc/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="簡介 SqlKata 查詢生成器是一個用 C#編寫的功能強大 SQL 生成器，它安全、不受框架影響，靈感來源於 Laravel Query Builder 和 Knex 等頂級查詢建立工具  乾淨的命名，與 SQL 語法相似 允許統一 API 處理多個數據庫，且可搭配 Dapper 使用，有效替代數據庫的存儲過程 支持複雜查詢，如:嵌套條件、子查詢…等 目前有支援的資料庫 SqlServer、My">
+<meta property="og:description" content="簡易記錄一下 WebRTC 的基本概念 基本建立點對點連線的流程  信令 (Signaling)：  兩個 WebRTC 客户端（Peer A 和 Peer B）透過一個信令伺服器進行初始的資訊交換。這個伺服器不參與實際的媒體傳輸。 Peer A (發起方 - Offerer) 創建一個包含其媒體能力和網路資訊的 SDP Offer。 Peer A 收集其 ICE Candidates（潛在的網路">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2025-04-03T03:20:10.000Z">
-<meta property="article:modified_time" content="2025-04-25T02:51:48.042Z">
+<meta property="og:image" content="https://looperhuang.github.io/images/webrtc/P2PConnFlow.png">
+<meta property="article:published_time" content="2025-05-01T03:32:40.000Z">
+<meta property="article:modified_time" content="2025-05-01T03:57:50.379Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="C#">
-<meta property="article:tag" content="SQL">
-<meta property="article:tag" content="SqlKata">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="webrtc">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://looperhuang.github.io/images/webrtc/P2PConnFlow.png">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2025/04/03/sqlkata/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/05/01/webrtc/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/04/03/sqlkata/","path":"2025/04/03/sqlkata/","title":"sqlkata"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/05/01/webrtc/","path":"2025/05/01/webrtc/","title":"WebRTC"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>sqlkata | Looper's Blog</title>
+<title>WebRTC | Looper's Blog</title>
   
 
 
@@ -141,7 +142,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D"><span class="nav-number">2.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AF%84%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">範例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B0%A1%E6%98%93%E5%AF%A6%E4%BD%9C-%E4%BB%A5-Oracle-%E7%82%BA%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">簡易實作(以 Oracle 為例)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dependency-injection-%E6%B3%A8%E5%85%A5%E5%AF%A6%E4%BD%9C-For-NET-6"><span class="nav-number">3.2.</span> <span class="nav-text">Dependency injection 注入實作(For .NET 6)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%BB%BA%E7%AB%8B%E9%BB%9E%E5%B0%8D%E9%BB%9E%E9%80%A3%E7%B7%9A%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">基本建立點對點連線的流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E4%BB%A4-Signaling-%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">信令 (Signaling)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ICE-%E9%80%A3%E7%B7%9A%E5%BB%BA%E7%AB%8B-ICE-Connection-Establishment-%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">ICE 連線建立 (ICE Connection Establishment)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AA%92%E9%AB%94%E5%92%8C%E8%B3%87%E6%96%99%E5%82%B3%E8%BC%B8%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">媒體和資料傳輸：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E9%97%9C%E5%90%8D%E8%A9%9E%E7%B0%A1%E4%BB%8B%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">相關名詞簡介：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WebRTC-Web-Real-Time-Communication-%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">WebRTC (Web Real-Time Communication)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Peer-%E5%B0%8D%E7%AD%89%E6%96%B9-%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">Peer (對等方)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%9E%E5%B0%8D%E9%BB%9E-Peer-to-Peer-P2P-%EF%BC%9A"><span class="nav-number">2.3.</span> <span class="nav-text">點對點 (Peer-to-Peer, P2P)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E4%BB%A4-Signaling-%EF%BC%9A-t2"><span class="nav-number">2.4.</span> <span class="nav-text">信令 (Signaling)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E4%BB%A4%E4%BC%BA%E6%9C%8D%E5%99%A8-Signaling-Server-%EF%BC%9A"><span class="nav-number">2.5.</span> <span class="nav-text">信令伺服器 (Signaling Server)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDP-Session-Description-Protocol-%EF%BC%9A"><span class="nav-number">2.6.</span> <span class="nav-text">SDP (Session Description Protocol)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Offer-Answer-%E6%A8%A1%E5%9E%8B-Offer-Answer-Model-%EF%BC%9A"><span class="nav-number">2.7.</span> <span class="nav-text">Offer&#x2F;Answer 模型 (Offer&#x2F;Answer Model)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ICE-Interactive-Connectivity-Establishment-%EF%BC%9A"><span class="nav-number">2.8.</span> <span class="nav-text">ICE (Interactive Connectivity Establishment)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ICE-Candidate-ICE-%E5%80%99%E9%81%B8%E8%80%85-%EF%BC%9A"><span class="nav-number">2.9.</span> <span class="nav-text">ICE Candidate (ICE 候選者)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STUN-Session-Traversal-Utilities-for-NAT-%E4%BC%BA%E6%9C%8D%E5%99%A8%EF%BC%9A"><span class="nav-number">2.10.</span> <span class="nav-text">STUN (Session Traversal Utilities for NAT) 伺服器：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TURN-Traversal-Using-Relays-around-NAT-%E4%BC%BA%E6%9C%8D%E5%99%A8%EF%BC%9A"><span class="nav-number">2.11.</span> <span class="nav-text">TURN (Traversal Using Relays around NAT) 伺服器：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NAT-Network-Address-Translator-%EF%BC%9A"><span class="nav-number">2.12.</span> <span class="nav-text">NAT (Network Address Translator)：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AF%84%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -202,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/03/sqlkata/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/01/webrtc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -215,12 +216,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="sqlkata | Looper's Blog">
+      <meta itemprop="name" content="WebRTC | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          sqlkata
+          WebRTC
         </h1>
 
         <div class="post-meta-container">
@@ -230,15 +231,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2025-04-03 11:20:10" itemprop="dateCreated datePublished" datetime="2025-04-03T11:20:10+08:00">2025-04-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:51:48" itemprop="dateModified" datetime="2025-04-25T10:51:48+08:00">2025-04-25</time>
+      <time title="創建時間：2025-05-01 11:32:40 / 修改時間：11:57:50" itemprop="dateCreated datePublished" datetime="2025-05-01T11:32:40+08:00">2025-05-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -259,92 +254,64 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="簡介">簡介</h2>
-<p>SqlKata 查詢生成器是一個用 C#編寫的功能強大 SQL 生成器，它安全、不受框架影響，靈感來源於 Laravel Query Builder 和 Knex 等頂級查詢建立工具</p>
-<ul>
-<li>乾淨的命名，與 SQL 語法相似</li>
-<li>允許統一 API 處理多個數據庫，且可搭配 Dapper 使用，有效替代數據庫的存儲過程</li>
-<li>支持複雜查詢，如:嵌套條件、子查詢…等</li>
-<li>目前有支援的資料庫 SqlServer、MySql、PostgreSql、Oracle …等</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/fairking/FluentSqlKata">擴充項目</a>，搭配 EntityFramework Core 6 使用</li>
-<li><a target="_blank" rel="noopener" href="https://sqlkata.com/docs">詳細文檔</a></li>
-<li><a target="_blank" rel="noopener" href="https://sqlkata.com/playground">PlayGround</a></li>
-</ul>
-<h2 id="安裝">安裝</h2>
-<pre><code class="highlight ada">$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata</span>
-$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Execution # (選用) 如果您希望執行支援</span></code></pre>
+    <div class="post-body" itemprop="articleBody"><p>簡易記錄一下 WebRTC 的基本概念</p>
+<h2 id="基本建立點對點連線的流程">基本建立點對點連線的流程</h2>
+<p><img src="/images/webrtc/P2PConnFlow.png" alt="p2pConnFlow.png"></p>
+<h3 id="信令-Signaling-：">信令 (Signaling)：</h3>
+<ol>
+<li>兩個 WebRTC 客户端（Peer A 和 Peer B）透過一個<code>信令伺服器</code>進行初始的資訊交換。這個伺服器不參與實際的媒體傳輸。</li>
+<li>Peer A (發起方 - Offerer) 創建一個包含其媒體能力和網路資訊的 SDP Offer。</li>
+<li>Peer A 收集其 ICE Candidates（潛在的網路位址）。</li>
+<li>Peer A 將 SDP Offer 和 ICE Candidates 透過信令伺服器發送給 Peer B。</li>
+<li>Peer B (接收方 - Answerer) 收到 SDP Offer 和 ICE Candidates。</li>
+<li>Peer B 設定遠端的 SDP Offer，並創建包含其自身媒體能力和網路資訊的 SDP Answer。</li>
+<li>Peer B 也收集其 ICE Candidates。</li>
+<li>Peer B 將 SDP Answer 和 ICE Candidates 透過信令伺服器發送回 Peer A。</li>
+<li>Peer A 收到 SDP Answer 和 ICE Candidates，並設定遠端的 SDP Answer。</li>
+<li>雙方持續透過信令伺服器交換 ICE Candidates。</li>
+</ol>
+<h3 id="ICE-連線建立-ICE-Connection-Establishment-：">ICE 連線建立 (ICE Connection Establishment)：</h3>
+<ol>
+<li>每個 Peer 在收到對方的 ICE Candidates 後，會嘗試與這些候選者建立網路連線。</li>
+<li>這個過程會嘗試各種可能的路徑（直接連接、透過 STUN、透過 TURN）。</li>
+<li>當找到一個可用的連線路徑時，ICE 連線建立成功。</li>
+</ol>
+<h3 id="媒體和資料傳輸：">媒體和資料傳輸：</h3>
+<ol>
+<li>一旦 ICE 連線建立，兩個 Peer 就可以直接透過這個點對點連線傳輸音訊、視訊或任意資料（使用 Data Channels）。</li>
+</ol>
+<h2 id="相關名詞簡介：">相關名詞簡介：</h2>
+<h3 id="WebRTC-Web-Real-Time-Communication-：">WebRTC (Web Real-Time Communication)：</h3>
+<p>一個開放原始碼專案，提供瀏覽器和行動應用程式之間即時音訊、視訊和資料交換的能力，無需外掛程式。(目前只有 js)</p>
+<h3 id="Peer-對等方-：">Peer (對等方)：</h3>
+<p>在 WebRTC 通訊中的一個端點，通常是一個瀏覽器或應用程式。</p>
+<h3 id="點對點-Peer-to-Peer-P2P-：">點對點 (Peer-to-Peer, P2P)：</h3>
+<p>一種網路模型，其中兩個或多個參與者可以直接互相通信，而不需要透過中央伺服器（在媒體和資料傳輸階段）。</p>
+<h3 id="信令-Signaling-：-t2">信令 (Signaling)：</h3>
+<p>在 WebRTC 連線建立之前，兩個 Peer 之間交換控制資訊（例如 SDP 和 ICE Candidates）的過程。信令機制不是 WebRTC 本身定義的，需要開發者自行實作。</p>
+<h3 id="信令伺服器-Signaling-Server-：">信令伺服器 (Signaling Server)：</h3>
+<p>一個中介伺服器，用於在 WebRTC 連線建立的初始階段協助 Peer 發現彼此並交換信令訊息。</p>
+<h3 id="SDP-Session-Description-Protocol-：">SDP (Session Description Protocol)：</h3>
+<p>一種標準化的文字格式，用於描述多媒體會話的屬性，例如支援的媒體類型、編解碼器、網路位址等。在 WebRTC 中，SDP 用於在連接建立前協商媒體格式。</p>
+<h3 id="Offer-Answer-模型-Offer-Answer-Model-：">Offer/Answer 模型 (Offer/Answer Model)：</h3>
+<p>WebRTC 使用這個模型來協商會話參數。發起方創建一個 Offer SDP，接收方回應一個 Answer SDP。</p>
+<h3 id="ICE-Interactive-Connectivity-Establishment-：">ICE (Interactive Connectivity Establishment)：</h3>
+<p>一個用於 NAT 穿透的協定。ICE 的目標是找到兩個 Peer 之間最佳的網路路徑來建立直接連線。</p>
+<h3 id="ICE-Candidate-ICE-候選者-：">ICE Candidate (ICE 候選者)：</h3>
+<p>描述一個 Peer 可能的網路位址和連接埠的資訊，用於 ICE 連線建立過程。</p>
+<h3 id="STUN-Session-Traversal-Utilities-for-NAT-伺服器：">STUN (Session Traversal Utilities for NAT) 伺服器：</h3>
+<p>一種協助位於 NAT 後面的 Peer 發現其公有 IP 位址和連接埠的伺服器。</p>
+<h3 id="TURN-Traversal-Using-Relays-around-NAT-伺服器：">TURN (Traversal Using Relays around NAT) 伺服器：</h3>
+<p>一種在直接連線和 STUN 無法工作時，作為中繼伺服器轉發 Peer 之間流量的伺服器。</p>
+<h3 id="NAT-Network-Address-Translator-：">NAT (Network Address Translator)：</h3>
+<p>一種網路設備，用於將私有網路中的多個裝置的 IP 位址轉換為一個或少數幾個公有 IP 位址，以便它們可以存取網際網路。NAT 會導致直接的點對點連線變得困難。</p>
 <h2 id="範例">範例</h2>
-<h3 id="簡易實作-以-Oracle-為例">簡易實作(以 Oracle 為例)</h3>
-<pre><code class="highlight C#"><span class="keyword">var</span> connection = <span class="keyword">new</span> OracleConnection(connectionString);
-<span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
-<span class="keyword">var</span> db = <span class="keyword">new</span> QueryFactory(conn, compiler);
-<span class="comment">// QueryFactory 由 SqlKata.Execution 套件提供</span>
-<span class="keyword">var</span> books = db.Query(<span class="string">&quot;Books&quot;</span>).Get();</code></pre>
-<h3 id="Dependency-injection-注入實作-For-NET-6">Dependency injection 注入實作(For .NET 6)</h3>
-<p>QueryFactoryFactory.cs</p>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">QueryFactoryFactory</span> : <span class="title">IQueryFactoryFactory</span>
-&#123;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IConfiguration _configuration;
-    <span class="function"><span class="keyword">public</span> <span class="title">QueryFactoryFactory</span>(<span class="params">IConfiguration configuration</span>)</span>
-    &#123;
-        _configuration = configuration;
-    &#125;
-    <span class="function"><span class="keyword">public</span> QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>
-    &#123;
-        <span class="keyword">var</span> cs = _configuration.GetConnectionString(dbKey);
-        <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(cs))
-        &#123;
-            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">$&quot;Connection string for <span class="subst">&#123;dbKey&#125;</span> is not found.&quot;</span>);
-        &#125;
-        <span class="keyword">var</span> conn = <span class="keyword">new</span> OracleConnection(cs);
-        <span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
-        <span class="keyword">return</span> <span class="keyword">new</span> QueryFactory(conn, compiler);
-    &#125;
-&#125;
-
-<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IQueryFactoryFactory</span>
-&#123;
-    <span class="function">QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>;
-&#125;
-</code></pre>
-<p>Program.cs</p>
-<pre><code class="highlight C#">builder.Services.AddTransient&lt;IQueryFactoryFactory, QueryFactoryFactory&gt;();</code></pre>
-<p>HomeController.cs</p>
-<pre><code class="highlight C#"><span class="keyword">using</span> SqlKata;
-<span class="keyword">using</span> SqlKata.Execution;
-
-<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> &#123;
-
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IQueryFactoryFactory factory;
-
-    <span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">IQueryFactoryFactory factory</span>)</span>
-    &#123;
-       <span class="keyword">this</span>.factory = factory;
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Get</span>()</span>
-    &#123;
-       <span class="keyword">using</span> <span class="keyword">var</span> db = factory.CreateQueryFactory(dbKey);
-
-       <span class="comment">// 這裡 books 的類型是 `IEnumerable&lt;dynamic&gt;`</span>
-       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
-           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
-           .GetAsync();
-
-       <span class="comment">// or `IEnumerable&lt;Book&gt;` if using the Generic overload</span>
-       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
-           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
-           .GetAsync&lt;Book&gt;();
-
-       <span class="keyword">return</span> Ok(books);
-    &#125;
-&#125;
-</code></pre>
+<p>Google 給的範例，可以參考參考對照學習 <a target="_blank" rel="noopener" href="https://github.com/webrtc/samples">Samples</a></p>
 <h2 id="參考資料">參考資料</h2>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://sqlkata.com/">https://sqlkata.com/</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/sqlkata/querybuilder">https://github.com/sqlkata/querybuilder</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shanyou/p/16756669.html">https://www.cnblogs.com/shanyou/p/16756669.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/">https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/</a></li>
+<li><a target="_blank" rel="noopener" href="https://webrtc.org/?hl=zh-tw">https://webrtc.org/?hl=zh-tw</a></li>
+<li><a target="_blank" rel="noopener" href="https://webrtcforthecurious.com/zh/">https://webrtcforthecurious.com/zh/</a></li>
 </ul>
 
     </div>
@@ -355,23 +322,19 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/C/" rel="tag"># C#</a>
-              <a href="/tags/SQL/" rel="tag"># SQL</a>
-              <a href="/tags/SqlKata/" rel="tag"># SqlKata</a>
+              <a href="/tags/js/" rel="tag"># js</a>
+              <a href="/tags/webrtc/" rel="tag"># webrtc</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2025/02/14/server-certificate/" rel="prev" title="IIS 安裝憑證">
-                  <i class="fa fa-angle-left"></i> IIS 安裝憑證
+                <a href="/2025/04/25/csharpenv/" rel="prev" title="Asp.Net Core 讀取環境變數連線字串">
+                  <i class="fa fa-angle-left"></i> Asp.Net Core 讀取環境變數連線字串
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/04/25/htmlpdf/" rel="next" title="前端生成PDF">
-                  前端生成PDF <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
