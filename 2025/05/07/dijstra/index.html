@@ -19,26 +19,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="概述 時間複雜度代表的是演算法隨著資料量變大時的增長趨勢 數學符號大O記號(big-O notation) 常見型別  常數階 O(1)  int Constant(int n) &#123;     int count &#x3D; 0;     &#x2F;&#x2F; 迴圈次數與 n 無關     int size &#x3D; 10000;     for (int i &#x3D; 0; i &lt; size; i++)     &amp;#">
+    <meta name="description" content="🧠 簡述 由荷蘭計算機科學家 Edsger W. Dijkstra 於 1956 年提出  用來尋找單一源點到其他節點的最短路徑 適用於加權圖(所以邊的權重為正) 常用的資料結構 : 優先佇列(Priority Queue) 或 最小堆(Min-Heap)  🧭 步驟  將所有節點分為兩組：已確定最短路徑（S）與未確定（U） 初始時，起點在 S，其餘在 U，距離設為 ∞，起點設為 0 從 U">
 <meta property="og:type" content="article">
-<meta property="og:title" content="時間複雜度">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/27/time-complexity/index.html">
+<meta property="og:title" content="Dijkstra 演算法">
+<meta property="og:url" content="https://looperhuang.github.io/2025/05/07/dijstra/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="概述 時間複雜度代表的是演算法隨著資料量變大時的增長趨勢 數學符號大O記號(big-O notation) 常見型別  常數階 O(1)  int Constant(int n) &#123;     int count &#x3D; 0;     &#x2F;&#x2F; 迴圈次數與 n 無關     int size &#x3D; 10000;     for (int i &#x3D; 0; i &lt; size; i++)     &amp;#">
+<meta property="og:description" content="🧠 簡述 由荷蘭計算機科學家 Edsger W. Dijkstra 於 1956 年提出  用來尋找單一源點到其他節點的最短路徑 適用於加權圖(所以邊的權重為正) 常用的資料結構 : 優先佇列(Priority Queue) 或 最小堆(Min-Heap)  🧭 步驟  將所有節點分為兩組：已確定最短路徑（S）與未確定（U） 初始時，起點在 S，其餘在 U，距離設為 ∞，起點設為 0 從 U">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-11-27T05:47:35.000Z">
-<meta property="article:modified_time" content="2025-04-25T02:52:09.131Z">
+<meta property="og:image" content="https://looperhuang.github.io/images/dijkstra/samplegraph.png">
+<meta property="article:published_time" content="2025-05-07T05:53:03.000Z">
+<meta property="article:modified_time" content="2025-05-07T07:10:16.113Z">
 <meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="演算法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://looperhuang.github.io/images/dijkstra/samplegraph.png">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/05/07/dijstra/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/27/time-complexity/","path":"2024/11/27/time-complexity/","title":"時間複雜度"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/05/07/dijstra/","path":"2025/05/07/dijstra/","title":"Dijkstra 演算法"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>時間複雜度 | Looper's Blog</title>
+<title>Dijkstra 演算法 | Looper's Blog</title>
   
 
 
@@ -138,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%9E%8B%E5%88%A5"><span class="nav-number">2.</span> <span class="nav-text">常見型別</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%A0-%E7%B0%A1%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">🧠 簡述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%AD-%E6%AD%A5%E9%A9%9F"><span class="nav-number">2.</span> <span class="nav-text">🧭 步驟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%91%E2%80%8D%F0%9F%92%BB-C-%E5%AF%A6%E4%BD%9C%EF%BC%88%E5%90%AB%E7%AF%84%E4%BE%8B%E5%9C%96%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">🧑‍💻 C# 實作（含範例圖）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -199,7 +202,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/07/dijstra/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -212,12 +215,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="時間複雜度 | Looper's Blog">
+      <meta itemprop="name" content="Dijkstra 演算法 | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          時間複雜度
+          Dijkstra 演算法
         </h1>
 
         <div class="post-meta-container">
@@ -227,15 +230,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2024-11-27 13:47:35" itemprop="dateCreated datePublished" datetime="2024-11-27T13:47:35+08:00">2024-11-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:09" itemprop="dateModified" datetime="2025-04-25T10:52:09+08:00">2025-04-25</time>
+      <time title="創建時間：2025-05-07 13:53:03 / 修改時間：15:10:16" itemprop="dateCreated datePublished" datetime="2025-05-07T13:53:03+08:00">2025-05-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,113 +253,121 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="概述">概述</h2>
-<p>時間複雜度代表的是演算法隨著資料量變大時的增長趨勢<br>
-數學符號<code>大O記號(big-O notation)</code></p>
-<h2 id="常見型別">常見型別</h2>
+    <div class="post-body" itemprop="articleBody"><h2 id="🧠-簡述">🧠 簡述</h2>
+<p>由荷蘭計算機科學家 Edsger W. Dijkstra 於 1956 年提出</p>
 <ul>
-<li>常數階 O(1)</li>
+<li>用來尋找單一源點到其他節點的最短路徑</li>
+<li>適用於加權圖(所以邊的權重為正)</li>
+<li>常用的資料結構 : 優先佇列(Priority Queue) 或 最小堆(Min-Heap)</li>
 </ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Constant</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+<h2 id="🧭-步驟">🧭 步驟</h2>
+<ol>
+<li>將所有節點分為兩組：已確定最短路徑（S）與未確定（U）</li>
+<li>初始時，起點在 S，其餘在 U，距離設為 ∞，起點設為 0</li>
+<li>從 U 中選擇目前與起點距離最短的節點加入 S</li>
+<li>更新該節點鄰接點的距離（鬆弛）</li>
+<li>重複步驟 3~4，直到所有節點都加入 S 或無法再更新</li>
+</ol>
+<h2 id="🧑‍💻-C-實作（含範例圖）">🧑‍💻 C# 實作（含範例圖）</h2>
+<p><img src="/images/dijkstra/samplegraph.png" alt="sampleGraph.png"></p>
+<p>以下為對應圖形的 C# 程式實作</p>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
 &#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數與 n 無關</span>
-    <span class="built_in">int</span> size = <span class="number">10000</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; size; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>線性階 O(n)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Linear</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n 次</span>
+    <span class="built_in">int</span> n = <span class="number">7</span>; <span class="comment">// 節點數</span>
+    List&lt;Edge&gt;[] graph = <span class="keyword">new</span> List&lt;Edge&gt;[n];
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) graph[i] = <span class="keyword">new</span> List&lt;Edge&gt;();
+
+    <span class="comment">// 建立圖的鄰接表（根據圖像）</span>
+    AddEdge(graph, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);
+    AddEdge(graph, <span class="number">0</span>, <span class="number">2</span>, <span class="number">6</span>);
+    AddEdge(graph, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>);
+    AddEdge(graph, <span class="number">2</span>, <span class="number">3</span>, <span class="number">8</span>);
+    AddEdge(graph, <span class="number">3</span>, <span class="number">4</span>, <span class="number">10</span>);
+    AddEdge(graph, <span class="number">3</span>, <span class="number">5</span>, <span class="number">15</span>);
+    AddEdge(graph, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);
+    AddEdge(graph, <span class="number">4</span>, <span class="number">6</span>, <span class="number">2</span>);
+    AddEdge(graph, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>);
+
+    <span class="built_in">int</span> start = <span class="number">0</span>;
+    <span class="built_in">int</span>[] dist = Dijkstra(graph, start);
+
+    Console.WriteLine(<span class="string">&quot;起點到各節點的最短距離&quot;</span>);
     <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
     &#123;
-        count++;
+        Console.WriteLine(<span class="string">$&quot;到節點<span class="subst">&#123;i&#125;</span>的最短距離 : <span class="subst">&#123;dist[i]&#125;</span>&quot;</span>);
     &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>平方階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Quadratic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#125;
+
+<span class="keyword">class</span> <span class="title">Edge</span>
 &#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// 迴圈次數 n*n 次</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    <span class="keyword">public</span> <span class="built_in">int</span> To, Weight;
+    <span class="function"><span class="keyword">public</span> <span class="title">Edge</span>(<span class="params"><span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
     &#123;
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; n; j++)
+        To = to; Weight = weight;
+    &#125;
+&#125;
+
+<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddEdge</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> <span class="keyword">from</span>, <span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
+&#123;
+    graph[<span class="keyword">from</span>].Add(<span class="keyword">new</span> Edge(to, weight));
+    graph[to].Add(<span class="keyword">new</span> Edge(<span class="keyword">from</span>, weight)); <span class="comment">// 無向圖需要雙向邊</span>
+&#125;
+
+<span class="function"><span class="keyword">static</span> <span class="built_in">int</span>[] <span class="title">Dijkstra</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> start</span>)</span>
+&#123;
+    <span class="built_in">int</span> n = graph.Length;
+    <span class="built_in">int</span>[] dist = <span class="keyword">new</span> <span class="built_in">int</span>[n];
+    <span class="built_in">bool</span>[] visited = <span class="keyword">new</span> <span class="built_in">bool</span>[n];
+
+    <span class="comment">// 初始化距離與訪問狀態</span>
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) dist[i] = <span class="built_in">int</span>.MaxValue;
+    dist[start] = <span class="number">0</span>;
+
+    <span class="comment">// 使用NET6+ 的 PriorityQueue&lt;TElement, TPriority&gt;</span>
+    <span class="comment">// 舊版要自己實作 MinHeap</span>
+    <span class="comment">// 使用優先佇列處理節點，依距離最小優先處理</span>
+    <span class="keyword">var</span> pq = <span class="keyword">new</span> PriorityQueue&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt;();
+    pq.Enqueue(start, <span class="number">0</span>);
+
+    <span class="keyword">while</span> (pq.Count &gt; <span class="number">0</span>)
+    &#123;
+        <span class="built_in">int</span> u = pq.Dequeue();
+
+        <span class="comment">// 確認是否處理過節點，並更新註記</span>
+        <span class="keyword">if</span> (visited[u]) <span class="keyword">continue</span>;
+        visited[u] = <span class="literal">true</span>;
+
+        <span class="comment">// 遍歷所有相鄰邊</span>
+        <span class="keyword">foreach</span> (<span class="keyword">var</span> edge <span class="keyword">in</span> graph[u])
         &#123;
-            count++;
+            <span class="built_in">int</span> v = edge.To;
+            <span class="built_in">int</span> weight = edge.Weight;
+
+           <span class="comment">// 若從 u 到 v 的新距離更短，則更新 dist 並放入優先佇列</span>
+            <span class="keyword">if</span> (dist[u] + weight &lt; dist[v])
+            &#123;
+                dist[v] = dist[u] + weight;
+                pq.Enqueue(v, dist[v]);
+            &#125;
         &#125;
     &#125;
-    <span class="keyword">return</span> count;
+
+    <span class="keyword">return</span> dist;
 &#125;</code></pre>
-<ul>
-<li>指數階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Exponential</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="built_in">int</span> bas = <span class="number">1</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        <span class="comment">//迴圈次數為2^n次</span>
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; bas; j++)
-        &#123;
-            count++;
-        &#125;
-        bas *= <span class="number">2</span>;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>對數階 O(logn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Logarithmic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="keyword">while</span> (n &gt; <span class="number">1</span>) &#123;
-        n /= <span class="number">2</span>;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>線性對數階 O(nlogn)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">LinearLogRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = LinearLogRecur(n / <span class="number">2</span>);
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count++;
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
-<ul>
-<li>階乘階 O(n!)</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">FactorialRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="built_in">int</span> count = <span class="number">0</span>;
-    <span class="comment">// n * (n - 1) * (n - 2) * ... * 2 * 1</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        count += FactorialRecur(n - <span class="number">1</span>);
-    &#125;
-    <span class="keyword">return</span> count;
-&#125;</code></pre>
+<p>輸出結果</p>
+<pre><code class="highlight ada">起點到各節點的最短距離
+到節點<span class="number">0</span>的最短距離 : 0
+到節點<span class="number">1</span>的最短距離 : 2
+到節點<span class="number">2</span>的最短距離 : 6
+到節點<span class="number">3</span>的最短距離 : 7
+到節點<span class="number">4</span>的最短距離 : 17
+到節點<span class="number">5</span>的最短距離 : 22
+到節點<span class="number">6</span>的最短距離 : 19</code></pre>
 <h2 id="參考資料">參考資料</h2>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/">https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@amber.fragments/%E6%BC%94%E7%AE%97%E6%B3%95-%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98-14-dijkstra-algorithm-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%91%E6%BC%94%E7%AE%97%E6%B3%95-745983dd4332">https://medium.com/@amber.fragments/演算法-學習筆記-14-dijkstra-algorithm-最短路徑演算法-745983dd4332</a></li>
+<li>chatgpt</li>
 </ul>
 
     </div>
@@ -372,19 +377,19 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%BC%94%E7%AE%97%E6%B3%95/" rel="tag"># 演算法</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/27/iteration-and-recursion/" rel="prev" title="迭代與遞迴">
-                  <i class="fa fa-angle-left"></i> 迭代與遞迴
+                <a href="/2025/05/01/webrtc/" rel="prev" title="WebRTC">
+                  <i class="fa fa-angle-left"></i> WebRTC
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/12/11/linq-search/" rel="next" title="LINQ">
-                  LINQ <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
