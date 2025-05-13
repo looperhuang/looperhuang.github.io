@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -184,6 +184,155 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/13/rust-basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/13/rust-basic/" class="post-title-link" itemprop="url">🦀 Rust 基礎教學：變數、常數與遮蔽（Shadowing）</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-05-13 15:04:36 / 修改時間：15:32:04" itemprop="dateCreated datePublished" datetime="2025-05-13T15:04:36+08:00">2025-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="📌-變數的宣告">📌 變數的宣告</h2>
+<p>Rust 使用 <code>let</code> 來宣告變數，預設為<strong>不可變</strong>（immutable）。如果想讓變數的值可以改變，需要加上 <code>mut</code>。</p>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">456</span>;       <span class="comment">// 不可變變數</span>
+<span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">b</span> = <span class="number">789</span>;   <span class="comment">// 可變變數</span>
+<span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b);
+
+<span class="comment">// a = 999; // ❌ 錯誤：a 是不可變的</span>
+b = <span class="number">111</span>;   <span class="comment">// ✅ 合法：b 是可變的</span>
+<span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b);</code></pre>
+<h2 id="🔒-常數（const）">🔒 常數（const）</h2>
+<p>常數使用 <code>const</code> 宣告，與 <code>let</code> 不同的是：</p>
+<ul>
+<li>必須加上資料別</li>
+<li>永遠不可變(不能加 mut)</li>
+<li>通常用於全域設定或固定值</li>
+<li>命名習慣 SCREAMING_SNAKE_CASE</li>
+</ul>
+<pre><code class="highlight rust"><span class="keyword">const</span> MAX_POINTS: <span class="type">u32</span> = <span class="number">100_000</span>;
+<span class="built_in">println!</span>(<span class="string">&quot;The maximum points are: &#123;&#125;&quot;</span>, MAX_POINTS);</code></pre>
+<blockquote>
+<p>⚠️ 常數不能遮蔽（shadow），也不能重新指定</p>
+</blockquote>
+<h2 id="🎭-變數遮蔽（Shadowing）">🎭 變數遮蔽（Shadowing）</h2>
+<p>Rust 允許重新宣告相同名稱的變數，這稱為<strong>遮蔽（shadowing）</strong>。<br>
+遮蔽可以讓你重新指定值甚至改變變數型別，而不用使用 <code>mut</code>。</p>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">c</span> = <span class="number">10</span>;
+<span class="keyword">let</span> <span class="variable">c</span> = <span class="string">&quot;abc&quot;</span>; <span class="comment">// 遮蔽了上一個 c，型別從 i32 → &amp;str</span>
+<span class="built_in">println!</span>(<span class="string">&quot;The value of c is: &#123;&#125;&quot;</span>, c);</code></pre>
+<p>與<code>mut</code>有何不同?</p>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">x</span> = <span class="number">5</span>;
+x = <span class="string">&quot;hello&quot;</span>; <span class="comment">// ❌ 錯誤：型別不能變</span>
+
+<span class="keyword">let</span> <span class="variable">y</span> = <span class="number">5</span>;
+<span class="keyword">let</span> <span class="variable">y</span> = <span class="string">&quot;hello&quot;</span>; <span class="comment">// ✅ 合法：因為是新的變數，遮蔽前一個</span></code></pre>
+<blockquote>
+<p>✅ 使用遮蔽能讓變數在不改變可變性的情況下重新定義或轉換型別。</p>
+</blockquote>
+<h2 id="📝-小結">📝 小結</h2>
+<table>
+<thead>
+<tr>
+<th>宣告方式</th>
+<th>是否可變</th>
+<th>是否可遮蔽</th>
+<th>是否需要型別註記</th>
+<th>命名風格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>let</td>
+<td>❌ 預設不可變（可加 mut）</td>
+<td>✅ 可以遮蔽</td>
+<td>❌ 可省略</td>
+<td>snake_case</td>
+</tr>
+<tr>
+<td>const</td>
+<td>❌ 永遠不可變</td>
+<td>❌ 不可遮蔽</td>
+<td>✅ 必須註明型別</td>
+<td>SCREAMING_SNAKE_CASE</td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/rust/rust-basic-syntax.html">菜鳥教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html">Rust 官方變數文件</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/reference/items/constant-items.html">Rust 常數與靜態變數</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1750,121 +1899,6 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 <li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E5%9F%BA%E7%A4%8E%E6%BC%94%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-tree-%E6%A8%B9%E7%8B%80%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-d10fe8ac1ce2">基礎演算法系列 — Tree 樹狀資料結構</a></li>
 <li><a target="_blank" rel="noopener" href="https://chat.deepseek.com/">Deepseek</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/data_structures_algorithms/tree_data_structure.htm">Tree Data Structure</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/01/20/sliding-window/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/01/20/sliding-window/" class="post-title-link" itemprop="url">滑動視窗(Sliding Window)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-01-20 10:12:18" itemprop="dateCreated datePublished" datetime="2025-01-20T10:12:18+08:00">2025-01-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:23" itemprop="dateModified" datetime="2025-04-25T10:52:23+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="概述">概述</h3>
-<p>主要就是操作一個視窗的左右邊界，去檢查範圍內的數據，適合用於 Array 或是 String<br>
-可以避免重複已經檢查過的數據，<code>優化時間複雜度</code>，但只適用於<code>連續</code>數據</p>
-<h3 id="簡易範例">簡易範例</h3>
-<p>再給定的數組[2, 5, 8 ,6 ,1]中，找出連續 3 個數字最大總和</p>
-<p><img src="/images/SlidingWindowExample.png" alt="slidingWindow.png"></p>
-<pre><code class="highlight js"><span class="keyword">var</span> arr = [<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">1</span>];
-<span class="keyword">var</span> findThreeLargest = <span class="keyword">function</span> (<span class="params">arr</span>) &#123;
-  <span class="keyword">let</span> curSum = <span class="number">0</span>;
-  <span class="comment">// 初始視窗總和(前3個數總和)</span>
-  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;
-    curSum += arr[i];
-  &#125;
-
-  <span class="keyword">let</span> maxSum = curSum; <span class="comment">// 最大總和</span>
-  <span class="keyword">let</span> maxSumIndex = <span class="number">0</span>; <span class="comment">// 最大總和的起始位置</span>
-  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;
-    curSum = curSum - arr[i - <span class="number">3</span>] + arr[i];
-    <span class="comment">// 更新最大總和的起始位置</span>
-    <span class="keyword">if</span> (curSum &gt; maxSum) &#123;
-      maxSum = curSum;
-      maxSumIndex = i - <span class="number">3</span>;
-    &#125;
-  &#125;
-  <span class="keyword">return</span> &#123; maxSum, maxSumIndex &#125;;
-&#125;;</code></pre>
-<h3 id="參考資料">參考資料</h3>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10364268">https://ithelp.ithome.com.tw/articles/10364268</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E6%BC%94%E7%AE%97%E6%B3%95%E7%AD%86%E8%A8%98%E7%B3%BB%E5%88%97-two-pointer-%E8%88%87sliding-window-8742f45f3f55">https://medium.com/技術筆記/演算法筆記系列-two-pointer-與sliding-window-8742f45f3f55</a></li>
 </ul>
 
       
