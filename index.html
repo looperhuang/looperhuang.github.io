@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -184,6 +184,218 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/13/IServiceCollection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/13/IServiceCollection/" class="post-title-link" itemprop="url">讓ASP.NET Core服務註冊更優雅</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-05-13 09:17:38 / 修改時間：09:54:55" itemprop="dateCreated datePublished" datetime="2025-05-13T09:17:38+08:00">2025-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言">前言</h2>
+<p>隨著應用程式變得越來越龐大，需要註冊的服務也隨之增加，<code>Program.cs</code> 中的 <code>builder.Services</code> 區塊可能會變得冗長且難以維護。<br>
+這時候，<code>IServiceCollection</code> 的擴充方法便能派上用場，幫助我們整理程式碼，使其更加清晰和易於管理。</p>
+<blockquote>
+<p>本文範例基於 .NET 6 或更新版本（如 .NET 8）</p>
+</blockquote>
+<h2 id="什麼是-IServiceCollection-擴充方法？">什麼是 IServiceCollection 擴充方法？</h2>
+<p>簡單來說，擴充方法允許我們向現有的型別(<code>IServiceCollection</code>介面)添加新的方法，而無需修改原始型別的程式碼。<br>
+這是一個強大的 C#語言特性，可以幫助我們編寫更具表達力和可重用的程式碼。</p>
+<h2 id="為什麼要使用-IServiceCollection-擴充方法？">為什麼要使用 IServiceCollection 擴充方法？</h2>
+<p>使用<code>IServiceCollection</code>擴充方法帶來了諸多好處</p>
+<ul>
+<li><strong>提升可讀性</strong>：將特定功能的服務註冊邏輯封裝在擴充方法中，可使 <code>Program.cs</code> 更加簡潔，一眼看出應用程式的核心服務。</li>
+<li><strong>增加可重用性</strong>：若多個專案或模組需註冊相同的服務集合，可將邏輯提取成擴充方法，便於重複使用。</li>
+<li><strong>更好的組織結構</strong>：可依照模組或類型，將註冊邏輯組織到不同擴充類別中。</li>
+<li><strong>簡化複雜的註冊邏輯</strong>：封裝需額外配置或條件註冊的服務，讓主要註冊區塊更乾淨。</li>
+</ul>
+<h2 id="如何建立和使用-IServiceCollection-擴充方法？">如何建立和使用 IServiceCollection 擴充方法？</h2>
+<p>建立擴充方法很簡單，只需定義一個靜態類別，並撰寫靜態方法，第一個參數用 <code>this</code> 修飾 <code>IServiceCollection</code>。</p>
+<h3 id="1️⃣-註冊自定義服務">1️⃣ 註冊自定義服務</h3>
+<p>假設我們有一個 <code>MyAwesomeService</code> 實作 <code>IMyAwesomeService</code>，我們希望註冊為單例：</p>
+<pre><code class="highlight C#"><span class="comment">// Extensions/ServiceCollectionExtensions.cs</span>
+<span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;
+
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">ServiceCollectionExtensions</span>
+&#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IServiceCollection <span class="title">AddMyAwesomeService</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services</span>)</span>
+    &#123;
+        <span class="keyword">return</span> services.AddSingleton&lt;IMyAwesomeService, MyAwesomeService&gt;();
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IMyAwesomeService</span>
+&#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">DoSomethingAwesome</span>()</span>;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyAwesomeService</span> : <span class="title">IMyAwesomeService</span>
+&#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DoSomethingAwesome</span>()</span>
+    &#123;
+        Console.WriteLine(<span class="string">&quot;執行一些很棒的操作！&quot;</span>);
+    &#125;
+&#125;
+</code></pre>
+<p>然後在 <code>Program.cs</code> 中使用</p>
+<pre><code class="highlight C#"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMyAwesomeService();
+<span class="comment">// 其他服務註冊...</span>
+
+<span class="keyword">var</span> app = builder.Build();
+app.Run();</code></pre>
+<h3 id="2️⃣-註冊多個相關服務">2️⃣ 註冊多個相關服務</h3>
+<p>我們可以一次註冊一組資料存取服務：</p>
+<pre><code class="highlight C#"><span class="comment">// Extensions/DataAccessServiceExtensions.cs</span>
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">DataAccessServiceExtensions</span>
+&#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IServiceCollection <span class="title">AddDataAccessServices</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services, <span class="built_in">string</span> connectionString</span>)</span>
+    &#123;
+        services.AddScoped&lt;IDataContext&gt;(provider =&gt; <span class="keyword">new</span> DataContext(connectionString));
+        services.AddScoped&lt;IUserRepository, UserRepository&gt;();
+        services.AddScoped&lt;IProductRepository, ProductRepository&gt;();
+        <span class="keyword">return</span> services;
+    &#125;
+&#125;</code></pre>
+<p>在 <code>Program.cs</code> 中使用：</p>
+<pre><code class="highlight C#"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
+<span class="keyword">var</span> connectionString = builder.Configuration.GetConnectionString(<span class="string">&quot;DefaultConnection&quot;</span>);
+
+builder.Services.AddDataAccessServices(connectionString);
+
+<span class="keyword">var</span> app = builder.Build();
+app.Run();
+</code></pre>
+<h3 id="3️⃣-根據環境註冊不同的服務">3️⃣ 根據環境註冊不同的服務</h3>
+<p>根據開發或生產環境註冊不同的實作類別：</p>
+<pre><code class="highlight C#"><span class="comment">// Extensions/EnvironmentSpecificServiceExtensions.cs</span>
+<span class="keyword">using</span> Microsoft.Extensions.Hosting;
+
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">EnvironmentSpecificServiceExtensions</span>
+&#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IServiceCollection <span class="title">AddEnvironmentSpecificServices</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services, IHostEnvironment environment</span>)</span>
+    &#123;
+        <span class="keyword">if</span> (environment.IsDevelopment())
+        &#123;
+            services.AddTransient&lt;IEmailService, DevelopmentEmailService&gt;();
+        &#125;
+        <span class="keyword">else</span>
+        &#123;
+            services.AddTransient&lt;IEmailService, ProductionEmailService&gt;();
+        &#125;
+        <span class="keyword">return</span> services;
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IEmailService</span>
+&#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">SendEmail</span>(<span class="params"><span class="built_in">string</span> to, <span class="built_in">string</span> subject, <span class="built_in">string</span> body</span>)</span>;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DevelopmentEmailService</span> : <span class="title">IEmailService</span>
+&#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendEmail</span>(<span class="params"><span class="built_in">string</span> to, <span class="built_in">string</span> subject, <span class="built_in">string</span> body</span>)</span>
+    &#123;
+        Console.WriteLine(<span class="string">$&quot;[開發環境] 發送郵件至 <span class="subst">&#123;to&#125;</span>，標題：<span class="subst">&#123;subject&#125;</span>&quot;</span>);
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ProductionEmailService</span> : <span class="title">IEmailService</span>
+&#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendEmail</span>(<span class="params"><span class="built_in">string</span> to, <span class="built_in">string</span> subject, <span class="built_in">string</span> body</span>)</span>
+    &#123;
+        Console.WriteLine(<span class="string">$&quot;[生產環境] 正在發送郵件至 <span class="subst">&#123;to&#125;</span>，標題：<span class="subst">&#123;subject&#125;</span>...&quot;</span>);
+        <span class="comment">// 真正的發送程式碼</span>
+    &#125;
+&#125;</code></pre>
+<p>在 <code>Program.cs</code> 中使用：</p>
+<pre><code class="highlight C#"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddEnvironmentSpecificServices(builder.Environment);
+
+<span class="keyword">var</span> app = builder.Build();
+app.Run();</code></pre>
+<h2 id="結語">結語</h2>
+<p><code>IServiceCollection</code> 擴充方法是一個強大且實用的工具，能幫助我們更好地組織與管理 <a target="_blank" rel="noopener" href="http://ASP.NET">ASP.NET</a> Core 中的服務註冊邏輯。<br>
+透過封裝服務註冊至擴充方法，可讓 <code>Program.cs</code> 更加清晰、模組化，並提升可維護性與重用性。</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/dotnet/api/microsoft.extensions.dependencyinjection.iservicecollection?view=net-8.0">IServiceCollection 介面 (Microsoft Learn)</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/?view=aspnetcore-8.0&amp;tabs=windows">.NET Hosting 模型變更</a></li>
+<li><a target="_blank" rel="noopener" href="https://gemini.google.com/app">Gemini</a></li>
+<li><a target="_blank" rel="noopener" href="https://chatgpt.com/?model=auto">ChatGpt</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1653,156 +1865,6 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 <ul>
 <li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10364268">https://ithelp.ithome.com.tw/articles/10364268</a></li>
 <li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E6%BC%94%E7%AE%97%E6%B3%95%E7%AD%86%E8%A8%98%E7%B3%BB%E5%88%97-two-pointer-%E8%88%87sliding-window-8742f45f3f55">https://medium.com/技術筆記/演算法筆記系列-two-pointer-與sliding-window-8742f45f3f55</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/30/image-map/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/12/30/image-map/" class="post-title-link" itemprop="url">簡單製作可互動圖片</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-12-30 13:37:12" itemprop="dateCreated datePublished" datetime="2024-12-30T13:37:12+08:00">2024-12-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:48:38" itemprop="dateModified" datetime="2025-04-25T10:48:38+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="概述">概述</h2>
-<p>在業務上需要對圖片進行互動操作去計算分數，簡單紀錄一下實作過程</p>
-<h3 id="Step1">Step1</h3>
-<p>取得底圖，然後利用相關工具，將需要進行互動的區塊分出來<br>
-<img src="/images/image_split.png" alt="image_split.png"></p>
-<h3 id="Step2">Step2</h3>
-<p>將互動區塊轉換成 svg，<a target="_blank" rel="noopener" href="https://convertio.co/zh/png-svg/">工具</a>轉換後格式應如下</p>
-<pre><code class="highlight svg"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.w3.org/2000/svg&quot;</span></span>
-<span class="tag"> <span class="attr">width</span>=<span class="string">&quot;373.000000pt&quot;</span> <span class="attr">height</span>=<span class="string">&quot;567.000000pt&quot;</span> <span class="attr">viewBox</span>=<span class="string">&quot;0 0 373.000000 567.000000&quot;</span></span>
-<span class="tag"> <span class="attr">preserveAspectRatio</span>=<span class="string">&quot;xMidYMid meet&quot;</span>&gt;</span>
-
-<span class="tag">&lt;<span class="name">g</span> <span class="attr">transform</span>=<span class="string">&quot;translate(0.000000,567.000000) scale(0.100000,-0.100000)&quot;</span></span>
-<span class="tag"><span class="attr">fill</span>=<span class="string">&quot;#000000&quot;</span> <span class="attr">stroke</span>=<span class="string">&quot;none&quot;</span>&gt;</span>
-<span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M933 4763 c-28 -5 -78 -52 -87 -80 -20 -64 52 -155 108 -134 13 6 26</span></span>
-<span class="string"><span class="tag">7 29 4 11 -10 66 31 71 53 10 39 -5 112 -28 133 -23 22 -59 31 -93 24z&quot;</span>/&gt;</span>
-<span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M1213 4763 c-12 -2 -35 -16 -51 -31 -31 -30 -41 -88 -22 -137 11 -28</span></span>
-<span class="string"><span class="tag">67 -57 97 -51 61 11 86 29 101 68 32 84 -36 167 -125 151z&quot;</span>/&gt;</span>
-<span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M2628 4670 c-22 -6 -23 -10 -26 -123 l-3 -117 196 0 195 0 0 120 c0</span></span>
-<span class="string"><span class="tag">107 -2 120 -17 120 -137 4 -327 4 -345 0z&quot;</span>/&gt;</span>
-...
-<span class="tag">&lt;/<span class="name">svg</span>&gt;</span></code></pre>
-<p>其中 path 就是各個互動區塊</p>
-<h3 id="Step3">Step3</h3>
-<p>設定 svg 底圖與區塊事件綁定(使用轉換出來的區塊 Path)<br>
-再根據需求微調 XY 軸 translate 跟縮放 scale 對齊底圖<br>
-以下為點擊區塊就會變色的簡易實作(Vue Typescript)</p>
-<pre><code class="highlight ts">&lt;template&gt;
-  <span class="language-xml"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">&quot;500&quot;</span> <span class="attr">height</span>=<span class="string">&quot;500&quot;</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span></span>
-<span class="language-xml">    <span class="comment">&lt;!-- 底圖 --&gt;</span></span>
-<span class="language-xml">    <span class="tag">&lt;<span class="name">image</span> <span class="attr">href</span>=<span class="string">&quot;src/assets/images/bg.png&quot;</span> <span class="attr">width</span>=<span class="string">&quot;500&quot;</span> <span class="attr">height</span>=<span class="string">&quot;500&quot;</span> /&gt;</span></span>
-<span class="language-xml"></span>
-<span class="language-xml">    <span class="comment">&lt;!-- 圖像互動區塊 --&gt;</span></span>
-<span class="language-xml">    <span class="tag">&lt;<span class="name">g</span> <span class="attr">transform</span>=<span class="string">&quot;translate(55,528) scale(0.1,-0.1)&quot;</span>&gt;</span></span>
-<span class="language-xml">      <span class="tag">&lt;<span class="name">path</span></span></span>
-<span class="tag"><span class="language-xml">        <span class="attr">v-for</span>=<span class="string">&quot;region in wpi_regions&quot;</span></span></span>
-<span class="tag"><span class="language-xml">        <span class="attr">:key</span>=<span class="string">&quot;region.id&quot;</span></span></span>
-<span class="tag"><span class="language-xml">        <span class="attr">:d</span>=<span class="string">&quot;region.path&quot;</span></span></span>
-<span class="tag"><span class="language-xml">        <span class="attr">:fill</span>=<span class="string">&quot;region.click ? &#x27;#F72C5B&#x27; : &#x27;#F4E0AF&#x27;&quot;</span></span></span>
-<span class="tag"><span class="language-xml">        @<span class="attr">click</span>=<span class="string">&quot;region.click = !region.click&quot;</span></span></span>
-<span class="tag"><span class="language-xml">      /&gt;</span></span>
-<span class="language-xml">    <span class="tag">&lt;/<span class="name">g</span>&gt;</span></span>
-<span class="language-xml">  <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span>
-&lt;/template&gt;
-
-<span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span> <span class="attr">lang</span>=<span class="string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript"></span></span>
-<span class="language-javascript"><span class="language-xml">  <span class="keyword">const</span> wpi_regions = <span class="title function_">ref</span>([</span></span>
-<span class="language-javascript"><span class="language-xml">    &#123;</span></span>
-<span class="language-javascript"><span class="language-xml">      <span class="attr">id</span>: <span class="string">&quot;01&quot;</span>,</span></span>
-<span class="language-javascript"><span class="language-xml">      <span class="attr">name</span>: <span class="string">&quot;右顳顎關節&quot;</span>,</span></span>
-<span class="language-javascript"><span class="language-xml">      <span class="attr">click</span>: <span class="literal">false</span>,</span></span>
-<span class="language-javascript"><span class="language-xml">      <span class="attr">path</span>: <span class="string">&quot;M933 4763 c-28 -5 -78 -52 -87 -80 -20 -64 52 -155 108 -134 13 6 26 7 29 4 11 -10 66 31 71 53 10 39 -5 112 -28 133 -23 22 -59 31 -93 24z&quot;</span>,</span></span>
-<span class="language-javascript"><span class="language-xml">    &#125;,</span></span>
-<span class="language-javascript"><span class="language-xml">    &#123;</span></span>
-<span class="language-javascript"><span class="language-xml">      <span class="attr">id</span>: <span class="string">&quot;02&quot;</span>,</span></span>
-<span class="language-javascript"><span class="language-xml">      <span class="attr">name</span>: <span class="string">&quot;左顳顎關節&quot;</span>,</span></span>
-<span class="language-javascript"><span class="language-xml">      <span class="attr">click</span>: <span class="literal">false</span>,</span></span>
-<span class="language-javascript"><span class="language-xml">      <span class="attr">path</span>: <span class="string">&quot;M1213 4763 c-12 -2 -35 -16 -51 -31 -31 -30 -41 -88 -22 -137 11 -28 67 -57 97 -51 61 11 86 29 101 68 32 84 -36 167 -125 151z&quot;</span>,</span></span>
-<span class="language-javascript"><span class="language-xml">    &#125;,</span></span>
-<span class="language-javascript"><span class="language-xml">    ...</span></span>
-<span class="language-javascript"><span class="language-xml">  ]);</span></span>
-<span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://chatgpt.com/">ChatGpt</a></li>
-<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path">https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path</a></li>
 </ul>
 
       
