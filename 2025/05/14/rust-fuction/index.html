@@ -19,29 +19,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="迭代(iteration)是一種重複執行任務的控制結構 在一定的條件下重複執行，直到條件不再滿足  for 最常見的迭代形式  int ForLoop(int n) &#123;     int result &#x3D; 0;     for (int i &#x3D; 1; i &lt;&#x3D; n; i--)     &#123;         result +&#x3D; i;     &#125;     return">
+    <meta name="description" content="在 Rust 中，函式（Function）是一等公民。 這篇筆記會介紹函式的定義、參數、回傳值，以及函式表達式與語句的差別。  📖 參考自 Rust 官方書籍：How Functions Work  ✅ 函式基本結構 Rust 中的函式使用 fn 關鍵字定義，函式名稱慣例使用 snake_case 命名。 fn main() &#123;     println!(&quot;Hello fro">
 <meta property="og:type" content="article">
-<meta property="og:title" content="迭代與遞迴">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/27/iteration-and-recursion/index.html">
+<meta property="og:title" content="🦀 Rust 基礎教學：函式的使用與運作方式">
+<meta property="og:url" content="https://looperhuang.github.io/2025/05/14/rust-fuction/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="迭代(iteration)是一種重複執行任務的控制結構 在一定的條件下重複執行，直到條件不再滿足  for 最常見的迭代形式  int ForLoop(int n) &#123;     int result &#x3D; 0;     for (int i &#x3D; 1; i &lt;&#x3D; n; i--)     &#123;         result +&#x3D; i;     &#125;     return">
+<meta property="og:description" content="在 Rust 中，函式（Function）是一等公民。 這篇筆記會介紹函式的定義、參數、回傳值，以及函式表達式與語句的差別。  📖 參考自 Rust 官方書籍：How Functions Work  ✅ 函式基本結構 Rust 中的函式使用 fn 關鍵字定義，函式名稱慣例使用 snake_case 命名。 fn main() &#123;     println!(&quot;Hello fro">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://looperhuang.github.io/images/recursion_sum_depth.png">
-<meta property="article:published_time" content="2024-11-27T00:52:39.000Z">
-<meta property="article:modified_time" content="2025-04-29T08:13:14.709Z">
+<meta property="article:published_time" content="2025-05-14T02:51:22.000Z">
+<meta property="article:modified_time" content="2025-05-14T03:12:33.699Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="迭代">
+<meta property="article:tag" content="rust">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://looperhuang.github.io/images/recursion_sum_depth.png">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/27/iteration-and-recursion/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/05/14/rust-fuction/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/27/iteration-and-recursion/","path":"2024/11/27/iteration-and-recursion/","title":"迭代與遞迴"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/05/14/rust-fuction/","path":"2025/05/14/rust-fuction/","title":"🦀 Rust 基礎教學：函式的使用與運作方式"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>迭代與遞迴 | Looper's Blog</title>
+<title>🦀 Rust 基礎教學：函式的使用與運作方式 | Looper's Blog</title>
   
 
 
@@ -141,7 +139,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%9E%E8%BF%B4"><span class="nav-number">1.</span> <span class="nav-text">遞迴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%94%E8%BC%83"><span class="nav-number">2.</span> <span class="nav-text">比較</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E5%87%BD%E5%BC%8F%E5%9F%BA%E6%9C%AC%E7%B5%90%E6%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">✅ 函式基本結構</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%A5-%E5%87%BD%E5%BC%8F%E5%8F%83%E6%95%B8%EF%BC%88Parameters%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">📥 函式參數（Parameters）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%81-%E8%A1%A8%E9%81%94%E5%BC%8F%E8%88%87%E8%AA%9E%E5%8F%A5%E7%9A%84%E5%B7%AE%E7%95%B0"><span class="nav-number">3.</span> <span class="nav-text">🔁 表達式與語句的差異</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%9A-%E5%9B%9E%E5%82%B3%E5%80%BC%EF%BC%88Return-Values%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">🔚 回傳值（Return Values）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%8C-%E5%B0%8F%E7%B5%90"><span class="nav-number">5.</span> <span class="nav-text">📌 小結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E5%8F%83%E8%80%83%E5%8F%8A%E5%BB%B6%E4%BC%B8"><span class="nav-number">6.</span> <span class="nav-text">📚 參考及延伸</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -202,7 +200,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/iteration-and-recursion/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/14/rust-fuction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -215,12 +213,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="迭代與遞迴 | Looper's Blog">
+      <meta itemprop="name" content="🦀 Rust 基礎教學：函式的使用與運作方式 | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          迭代與遞迴
+          🦀 Rust 基礎教學：函式的使用與運作方式
         </h1>
 
         <div class="post-meta-container">
@@ -230,15 +228,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2024-11-27 08:52:39" itemprop="dateCreated datePublished" datetime="2024-11-27T08:52:39+08:00">2024-11-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-29 16:13:14" itemprop="dateModified" datetime="2025-04-29T16:13:14+08:00">2025-04-29</time>
+      <time title="創建時間：2025-05-14 10:51:22 / 修改時間：11:12:33" itemprop="dateCreated datePublished" datetime="2025-05-14T10:51:22+08:00">2025-05-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -246,7 +238,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
         </span>
     </span>
 
@@ -259,106 +251,120 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><code>迭代(iteration)</code>是一種重複執行任務的控制結構<br>
-在一定的<code>條件</code>下重複執行，直到<code>條件</code>不再滿足</p>
+    <div class="post-body" itemprop="articleBody"><p>在 Rust 中，函式（Function）是一等公民。<br>
+這篇筆記會介紹函式的定義、參數、回傳值，以及函式表達式與語句的差別。</p>
+<blockquote>
+<p>📖 參考自 Rust 官方書籍：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-03-how-functions-work.html">How Functions Work</a></p>
+</blockquote>
+<h2 id="✅-函式基本結構">✅ 函式基本結構</h2>
+<p>Rust 中的函式使用 <code>fn</code> 關鍵字定義，函式名稱慣例使用 <strong>snake_case</strong> 命名。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="built_in">println!</span>(<span class="string">&quot;Hello from the main function!&quot;</span>);
+    <span class="title function_ invoke__">another_function</span>();
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">another_function</span>() &#123;
+    <span class="built_in">println!</span>(<span class="string">&quot;Hello from another function!&quot;</span>);
+&#125;</code></pre>
+<p>執行結果：</p>
+<pre><code class="highlight bash">Hello from the main <span class="keyword">function</span>!
+Hello from another <span class="keyword">function</span>!</code></pre>
+<h2 id="📥-函式參數（Parameters）">📥 函式參數（Parameters）</h2>
+<p>函式可以接受參數，並透過型別註記指定參數型別。<br>
+Rust 是靜態型別語言，必須為每個參數指定型別。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="title function_ invoke__">print_number</span>(<span class="number">42</span>);
+    <span class="title function_ invoke__">print_two_numbers</span>(<span class="number">10</span>, <span class="number">20</span>);
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">print_number</span>(x: <span class="type">i32</span>) &#123;
+    <span class="built_in">println!</span>(<span class="string">&quot;The number is: &#123;&#125;&quot;</span>, x);
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">print_two_numbers</span>(a: <span class="type">i32</span>, b: <span class="type">i32</span>) &#123;
+    <span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b);
+&#125;</code></pre>
+<blockquote>
+<p>💡 多個參數間用逗號分隔，型別註記不能省略。</p>
+</blockquote>
+<h2 id="🔁-表達式與語句的差異">🔁 表達式與語句的差異</h2>
+<p>Rust 的函式主體由「語句（statements）」和「表達式（expressions）」組成。<br>
+理解這兩者的差別對寫出正確的函式非常重要。</p>
 <ul>
-<li>for<br>
-最常見的迭代形式</li>
+<li>語句：執行動作，但不回傳值。例如 let x = 5; 是語句。</li>
+<li>表達式：會產生值，可以用在變數賦值或函式回傳中。例如 5 + 1 是表達式。</li>
 </ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">ForLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> result = <span class="number">0</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= n; i--)
-    &#123;
-        result += i;
-    &#125;
-    <span class="keyword">return</span> result;
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">y</span> = &#123;
+        <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">3</span>;
+        x + <span class="number">1</span> <span class="comment">// 注意：這裡沒有分號，這是表達式</span>
+    &#125;;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;The value of y is: &#123;&#125;&quot;</span>, y); <span class="comment">// y = 4</span>
+&#125;</code></pre>
+<blockquote>
+<p>⚠️ 如果在 x + 1; 加了分號，它就變成語句，y 將不會得到任何值，會導致錯誤。</p>
+</blockquote>
+<h2 id="🔚-回傳值（Return-Values）">🔚 回傳值（Return Values）</h2>
+<p>Rust 的函式可以回傳值，透過函式主體中最後一行的表達式實現。<br>
+不需要使用 return 關鍵字（雖然也可以使用）。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">five</span>() <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;
+    <span class="number">5</span> <span class="comment">// 回傳值是這個表達式</span>
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">plus_one</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;
+    x + <span class="number">1</span>
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">x</span> = <span class="title function_ invoke__">five</span>();
+    <span class="keyword">let</span> <span class="variable">y</span> = <span class="title function_ invoke__">plus_one</span>(x);
+    <span class="built_in">println!</span>(<span class="string">&quot;x = &#123;&#125;, y = &#123;&#125;&quot;</span>, x, y); <span class="comment">// x = 5, y = 6</span>
 &#125;</code></pre>
 <ul>
-<li>while<br>
-while 跟 for 類似，但是 while 會比較好控制條件的設定與變化<br>
-for 的程式碼較簡潔、while 的迴圈控制較靈活</li>
+<li><code>-&gt; i32</code> 表示回傳一個整數型別。</li>
+<li>最後一行不能有分號，否則會變成語句而非回傳值。</li>
 </ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">WhileLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> result = <span class="number">0</span>;
-    <span class="built_in">int</span> i = <span class="number">1</span>; <span class="comment">//初始條件</span>
-    <span class="keyword">while</span> (i &lt;= n)
-    &#123;
-        result += i;
-        <span class="comment">//更新條件</span>
-        i +=<span class="number">1</span>;
-        i *=<span class="number">2</span>;
-    &#125;
-    <span class="keyword">return</span> result;
-&#125;</code></pre>
-<ul>
-<li>巢狀<br>
-迴圈包迴圈</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">string</span> <span class="title">NestForLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">var</span> result = <span class="keyword">new</span> StringBuilder();
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= n; i++)
-    &#123;
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">1</span>; j &lt;= n; j++)
-        &#123;
-            result.Append(<span class="string">$&quot;(<span class="subst">&#123;i&#125;</span>,<span class="subst">&#123;j&#125;</span>)&quot;</span>);
-        &#125;
-    &#125;
-    <span class="keyword">return</span> result.ToString();
-&#125;</code></pre>
-<h2 id="遞迴">遞迴</h2>
-<p><code>遞迴(recursion)</code>函式呼叫自己本身<br>
-<strong>主要三要素</strong></p>
-<ol>
-<li>終止條件 : 什麼時候結束往下層傳遞</li>
-<li>遞迴呼叫 : 將參數往下層傳遞給自己</li>
-<li>結果返回 : 回傳結果給上層</li>
-</ol>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Recur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="comment">// 終止條件</span>
-    <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="comment">// 遞迴呼叫</span>
-    <span class="built_in">int</span> res = Recur(n - <span class="number">1</span>);
-    <span class="comment">// 返回結果</span>
-    <span class="keyword">return</span> n + res;
-&#125;</code></pre>
-<p><img src="/images/recursion_sum_depth.png" alt="recursion_sum_depth.png"></p>
-<p>由於遞迴每次都要呼叫重新產生本身函式，會有額外的資源開銷<br>
-所以遞迴的次數是有限的，太多記憶體會爆炸，效率也會比迭代來的低</p>
-<h2 id="比較">比較</h2>
+<blockquote>
+<p>✨ 可以使用 return 提早結束函式並指定回傳值，例如 : <code>return x + 1;</code></p>
+</blockquote>
+<h2 id="📌-小結">📌 小結</h2>
 <table>
 <thead>
 <tr>
-<th></th>
-<th>迭代</th>
-<th>遞迴</th>
+<th>概念</th>
+<th>重點說明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>效率</td>
-<td>較高，沒有函式產生開銷</td>
-<td>每次遞迴呼叫都有產生開銷</td>
+<td>函式定義</td>
+<td>使用 <code>fn</code> 關鍵字，名稱使用 <code>snake_case</code> 命名</td>
 </tr>
 <tr>
-<td>記憶體</td>
-<td>通常固定大小</td>
-<td>根據遞迴函式產生占用大量記憶體</td>
+<td>函式參數</td>
+<td>必須指定型別，格式為 <code>name: type</code></td>
 </tr>
 <tr>
-<td>適用</td>
-<td>簡單任務、直觀、可讀佳</td>
-<td>複雜任務分解(樹、圖、分治、回溯等)、結構明確</td>
+<td>語句</td>
+<td>執行某些動作，<strong>不回傳值</strong></td>
+</tr>
+<tr>
+<td>表達式</td>
+<td>產生值，<strong>可以回傳</strong> 或用於賦值</td>
+</tr>
+<tr>
+<td>回傳值</td>
+<td>最後一行為表達式，或使用 <code>return</code> 明確回傳</td>
 </tr>
 </tbody>
 </table>
-<h2 id="參考資料">參考資料</h2>
+<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/iteration_and_recursion/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/iteration_and_recursion/</a></li>
-<li><a target="_blank" rel="noopener" href="https://hackmd.io/@PythonTutor/By9P6avKd#%E9%81%9E%E8%BF%B4VS%E8%BF%AD%E4%BB%A3-%E5%8F%AF%E8%AE%80%E6%80%A7%E8%88%87%E5%8F%AF%E6%94%B9%E6%80%A7">https://hackmd.io/@PythonTutor/By9P6avKd#遞迴VS迭代-可讀性與可改性</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/rust/rust-basic-syntax.html">菜鳥教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-03-how-functions-work.html">Rust 官方文件：函式與控制流程</a></li>
+<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
+<li><a target="_blank" rel="noopener" href="https://chatgpt.com/?model=auto">ChatGpt</a></li>
 </ul>
 
     </div>
@@ -369,21 +375,18 @@ for 的程式碼較簡潔、while 的迴圈控制較靈活</li>
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E8%BF%AD%E4%BB%A3/" rel="tag"># 迭代</a>
+              <a href="/tags/rust/" rel="tag"># rust</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/26/brotato/" rel="prev" title="Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻)">
-                  <i class="fa fa-angle-left"></i> Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻)
+                <a href="/2025/05/13/rust-basic/" rel="prev" title="🦀 Rust 基礎教學：變數、常數與遮蔽（Shadowing）">
+                  <i class="fa fa-angle-left"></i> 🦀 Rust 基礎教學：變數、常數與遮蔽（Shadowing）
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/11/27/time-complexity/" rel="next" title="時間複雜度">
-                  時間複雜度 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>

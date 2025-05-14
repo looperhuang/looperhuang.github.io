@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -193,6 +193,199 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/14/rust-fuction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/14/rust-fuction/" class="post-title-link" itemprop="url">🦀 Rust 基礎教學：函式的使用與運作方式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-05-14 10:51:22 / 修改時間：11:12:33" itemprop="dateCreated datePublished" datetime="2025-05-14T10:51:22+08:00">2025-05-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在 Rust 中，函式（Function）是一等公民。<br>
+這篇筆記會介紹函式的定義、參數、回傳值，以及函式表達式與語句的差別。</p>
+<blockquote>
+<p>📖 參考自 Rust 官方書籍：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-03-how-functions-work.html">How Functions Work</a></p>
+</blockquote>
+<h2 id="✅-函式基本結構">✅ 函式基本結構</h2>
+<p>Rust 中的函式使用 <code>fn</code> 關鍵字定義，函式名稱慣例使用 <strong>snake_case</strong> 命名。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="built_in">println!</span>(<span class="string">&quot;Hello from the main function!&quot;</span>);
+    <span class="title function_ invoke__">another_function</span>();
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">another_function</span>() &#123;
+    <span class="built_in">println!</span>(<span class="string">&quot;Hello from another function!&quot;</span>);
+&#125;</code></pre>
+<p>執行結果：</p>
+<pre><code class="highlight bash">Hello from the main <span class="keyword">function</span>!
+Hello from another <span class="keyword">function</span>!</code></pre>
+<h2 id="📥-函式參數（Parameters）">📥 函式參數（Parameters）</h2>
+<p>函式可以接受參數，並透過型別註記指定參數型別。<br>
+Rust 是靜態型別語言，必須為每個參數指定型別。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="title function_ invoke__">print_number</span>(<span class="number">42</span>);
+    <span class="title function_ invoke__">print_two_numbers</span>(<span class="number">10</span>, <span class="number">20</span>);
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">print_number</span>(x: <span class="type">i32</span>) &#123;
+    <span class="built_in">println!</span>(<span class="string">&quot;The number is: &#123;&#125;&quot;</span>, x);
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">print_two_numbers</span>(a: <span class="type">i32</span>, b: <span class="type">i32</span>) &#123;
+    <span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b);
+&#125;</code></pre>
+<blockquote>
+<p>💡 多個參數間用逗號分隔，型別註記不能省略。</p>
+</blockquote>
+<h2 id="🔁-表達式與語句的差異">🔁 表達式與語句的差異</h2>
+<p>Rust 的函式主體由「語句（statements）」和「表達式（expressions）」組成。<br>
+理解這兩者的差別對寫出正確的函式非常重要。</p>
+<ul>
+<li>語句：執行動作，但不回傳值。例如 let x = 5; 是語句。</li>
+<li>表達式：會產生值，可以用在變數賦值或函式回傳中。例如 5 + 1 是表達式。</li>
+</ul>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">y</span> = &#123;
+        <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">3</span>;
+        x + <span class="number">1</span> <span class="comment">// 注意：這裡沒有分號，這是表達式</span>
+    &#125;;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;The value of y is: &#123;&#125;&quot;</span>, y); <span class="comment">// y = 4</span>
+&#125;</code></pre>
+<blockquote>
+<p>⚠️ 如果在 x + 1; 加了分號，它就變成語句，y 將不會得到任何值，會導致錯誤。</p>
+</blockquote>
+<h2 id="🔚-回傳值（Return-Values）">🔚 回傳值（Return Values）</h2>
+<p>Rust 的函式可以回傳值，透過函式主體中最後一行的表達式實現。<br>
+不需要使用 return 關鍵字（雖然也可以使用）。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">five</span>() <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;
+    <span class="number">5</span> <span class="comment">// 回傳值是這個表達式</span>
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">plus_one</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;
+    x + <span class="number">1</span>
+&#125;
+
+<span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">x</span> = <span class="title function_ invoke__">five</span>();
+    <span class="keyword">let</span> <span class="variable">y</span> = <span class="title function_ invoke__">plus_one</span>(x);
+    <span class="built_in">println!</span>(<span class="string">&quot;x = &#123;&#125;, y = &#123;&#125;&quot;</span>, x, y); <span class="comment">// x = 5, y = 6</span>
+&#125;</code></pre>
+<ul>
+<li><code>-&gt; i32</code> 表示回傳一個整數型別。</li>
+<li>最後一行不能有分號，否則會變成語句而非回傳值。</li>
+</ul>
+<blockquote>
+<p>✨ 可以使用 return 提早結束函式並指定回傳值，例如 : <code>return x + 1;</code></p>
+</blockquote>
+<h2 id="📌-小結">📌 小結</h2>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>重點說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>函式定義</td>
+<td>使用 <code>fn</code> 關鍵字，名稱使用 <code>snake_case</code> 命名</td>
+</tr>
+<tr>
+<td>函式參數</td>
+<td>必須指定型別，格式為 <code>name: type</code></td>
+</tr>
+<tr>
+<td>語句</td>
+<td>執行某些動作，<strong>不回傳值</strong></td>
+</tr>
+<tr>
+<td>表達式</td>
+<td>產生值，<strong>可以回傳</strong> 或用於賦值</td>
+</tr>
+<tr>
+<td>回傳值</td>
+<td>最後一行為表達式，或使用 <code>return</code> 明確回傳</td>
+</tr>
+</tbody>
+</table>
+<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/rust/rust-basic-syntax.html">菜鳥教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-03-how-functions-work.html">Rust 官方文件：函式與控制流程</a></li>
+<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
+<li><a target="_blank" rel="noopener" href="https://chatgpt.com/?model=auto">ChatGpt</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/13/rust-basic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -221,9 +414,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2025-05-13 15:04:36 / 修改時間：15:32:04" itemprop="dateCreated datePublished" datetime="2025-05-13T15:04:36+08:00">2025-05-13</time>
+      <time title="創建時間：2025-05-13 15:04:36" itemprop="dateCreated datePublished" datetime="2025-05-13T15:04:36+08:00">2025-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-05-14 11:12:41" itemprop="dateModified" datetime="2025-05-14T11:12:41+08:00">2025-05-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -310,11 +509,12 @@ x = <span class="string">&quot;hello&quot;</span>; <span class="comment">// ❌ 
 </tr>
 </tbody>
 </table>
-<h2 id="參考資料">參考資料</h2>
+<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.runoob.com/rust/rust-basic-syntax.html">菜鳥教程</a></li>
 <li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html">Rust 官方變數文件</a></li>
 <li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/reference/items/constant-items.html">Rust 常數與靜態變數</a></li>
+<li><a target="_blank" rel="noopener" href="https://chatgpt.com/?model=auto">ChatGpt</a></li>
 </ul>
 
       
@@ -1693,212 +1893,6 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 <h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010517791?srsltid=AfmBOoqFrQZp9GsdBk5fTNGzq01OkJ2O4TBNwF0sK7VWkoij1MlNaG1X">LPI Linux 第一級資格檢定 第三版</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/05/tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/05/tree/" class="post-title-link" itemprop="url">樹狀資料</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-02-05 16:07:19" itemprop="dateCreated datePublished" datetime="2025-02-05T16:07:19+08:00">2025-02-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:14" itemprop="dateModified" datetime="2025-04-25T10:52:14+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><img src="/images/tree_data_structure.jpg" alt="tree_data_structure.jpg"></p>
-<h2 id="樹狀結構介紹">樹狀結構介紹</h2>
-<ul>
-<li>Node : 樹的基本單位，紀錄節點資料與子節點有哪些</li>
-<li>Root Node : 根節點，樹的最高節點</li>
-<li>Leaf Node : 葉節點，沒有子節點的節點</li>
-<li>Edge : 連接兩個節點的線，表示節點之間的關係</li>
-<li>Parent Node : 父節點(上層節點)，一個節點只會有一個父節點</li>
-<li>Child Node : 子節點，一個節點可以連結多個子節點</li>
-<li>Sibling Node : 兄弟節點，有相同父節點的節點</li>
-<li>Depth : 從根節點到該節點的路徑長度</li>
-<li>Height : 該節點到最遠葉節點的路徑長度</li>
-<li>Level : 節點層次</li>
-<li>Subtree : 某節點的所有子節點後代</li>
-</ul>
-<h2 id="樹的種類">樹的種類</h2>
-<ol>
-<li>二元樹 (Binary Tree)
-<ul>
-<li>一個節點最多兩個子節點</li>
-</ul>
-</li>
-<li>二元搜尋樹 (Binary Search Tree, BST)
-<ul>
-<li>左子樹所有節點值小於根節點值</li>
-<li>右子樹所有節點值大於根節點值</li>
-</ul>
-</li>
-<li>平衡樹 (Balanced Tree)</li>
-<li>滿二元樹 (Full Binary Tree)</li>
-<li>完全二元樹 (Complete Binary Tree)</li>
-<li>B 樹 (B-Tree)</li>
-<li>堆積 (Heap)</li>
-<li>字典樹 (Trie)</li>
-</ol>
-<h2 id="樹的遍歷-Traversal">樹的遍歷(Traversal)</h2>
-<ol>
-<li>深度優先遍歷 (Depth-First Search, DFS)
-<ul>
-<li>先訪問子節點，再訪問兄弟節點</li>
-<li>3 種遍歷方法
-<ul>
-<li>前序遍歷 (Pre-order)</li>
-<li>中序遍歷 (In-order)</li>
-<li>後續遍歷 (Post-order)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>廣度優先遍歷 (Breadth-First Search, BFS)
-<ul>
-<li>階層遍歷，一層一層從左到右</li>
-</ul>
-</li>
-</ol>
-<h2 id="相關實作-C">相關實作(C#)</h2>
-<pre><code class="highlight C#"><span class="comment">// 節點</span>
-<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TreeNode</span>
-&#123;
-    <span class="keyword">public</span> <span class="built_in">int</span> val;
-    <span class="keyword">public</span> TreeNode left;
-    <span class="keyword">public</span> TreeNode right;
-    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span>(<span class="params"><span class="built_in">int</span> val = <span class="number">0</span>, TreeNode left = <span class="literal">null</span>, TreeNode right = <span class="literal">null</span></span>)</span>
-    &#123;
-        <span class="keyword">this</span>.val = val;
-        <span class="keyword">this</span>.left = left;
-        <span class="keyword">this</span>.right = right;
-    &#125;
-&#125;
-
-<span class="comment">// 深度優先遍歷 (Depth-First Search, DFS)</span>
-<span class="comment">// 前序遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PreorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-    Console.Write(root.val + <span class="string">&quot; &quot;</span>) <span class="comment">// 訪問節點</span>
-    PreorderTraversal(root.left); <span class="comment">// 遞迴訪問左子樹</span>
-    PreorderTraversal(root.right); <span class="comment">// 遞迴訪問右子樹</span>
-&#125;
-
-<span class="comment">// 中序遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">InorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-    InorderTraversal(root.left);    <span class="comment">// 遞迴遍歷左子樹</span>
-    Console.Write(root.val + <span class="string">&quot; &quot;</span>);  <span class="comment">// 訪問節點</span>
-    InorderTraversal(root.right);   <span class="comment">// 遞迴遍歷右子樹</span>
-&#125;
-
-<span class="comment">// 後序遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PostorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-    PostorderTraversal(root.left);   <span class="comment">// 遞迴遍歷左子樹</span>
-    PostorderTraversal(root.right);  <span class="comment">// 遞迴遍歷右子樹</span>
-    Console.Write(root.val + <span class="string">&quot; &quot;</span>);   <span class="comment">// 訪問節點</span>
-&#125;
-
-<span class="comment">// 廣度優先遍歷 (Breadth-First Search, BFS)</span>
-<span class="comment">// 階層遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LevelOrderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-
-    Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> Queue&lt;TreeNode&gt;();
-    queue.Enqueue(root);
-
-    <span class="keyword">while</span> (queue.Count &gt; <span class="number">0</span>)
-    &#123;
-        TreeNode node = queue.Dequeue();
-        Console.Write(node.val + <span class="string">&quot; &quot;</span>);
-
-        <span class="keyword">if</span> (node.left != <span class="literal">null</span>) queue.Enqueue(node.left);
-        <span class="keyword">if</span> (node.right != <span class="literal">null</span>) queue.Enqueue(node.right);
-    &#125;
-&#125;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E5%9F%BA%E7%A4%8E%E6%BC%94%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-tree-%E6%A8%B9%E7%8B%80%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-d10fe8ac1ce2">基礎演算法系列 — Tree 樹狀資料結構</a></li>
-<li><a target="_blank" rel="noopener" href="https://chat.deepseek.com/">Deepseek</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/data_structures_algorithms/tree_data_structure.htm">Tree Data Structure</a></li>
 </ul>
 
       
