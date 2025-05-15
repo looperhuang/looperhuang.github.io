@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="Looper&#39;s Blog">
@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -184,6 +184,216 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/15/rust-control-flow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/15/rust-control-flow/" class="post-title-link" itemprop="url">🦀 Rust 基礎教學：流程控制（Control Flow）</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-05-15 10:33:25 / 修改時間：10:52:50" itemprop="dateCreated datePublished" datetime="2025-05-15T10:33:25+08:00">2025-05-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在這篇學習筆記中，我們會介紹 Rust 中常見的流程控制方式，包括：</p>
+<ul>
+<li>條件判斷：<code>if</code></li>
+<li>無限迴圈：<code>loop</code></li>
+<li>條件迴圈：<code>while</code></li>
+<li>集合迴圈：<code>for</code></li>
+</ul>
+<p>這些控制結構與其他語言類似，但也有一些語法特色和安全性設計值得注意。</p>
+<blockquote>
+<p>📖 本筆記整理自 Rust 官方書籍：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-05-control-flow.html">Control Flow</a></p>
+</blockquote>
+<h2 id="✅-if-條件判斷">✅ if 條件判斷</h2>
+<p>Rust 的 <code>if</code> 表達式 <strong>不需要括號</strong> 包住條件，但<strong>主體需用大括號 <code>&#123;&#125;</code> 包起來</strong>。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">number</span> = <span class="number">7</span>;
+
+    <span class="keyword">if</span> number &lt; <span class="number">5</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;小於 5&quot;</span>);
+    &#125; <span class="keyword">else</span> <span class="keyword">if</span> number == <span class="number">7</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;是 7&quot;</span>);
+    &#125; <span class="keyword">else</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;大於等於 5 且不等於 7&quot;</span>);
+    &#125;
+&#125;</code></pre>
+<ul>
+<li>條件必須是布林值（不能像 C 語言、js 那樣用整數當作條件）。</li>
+<li>每個區塊需用<code>&#123;&#125;</code>包起來。</li>
+</ul>
+<h2 id="💡-if-是一個「表達式」">💡 if 是一個「表達式」</h2>
+<p>你可以將 if 當作一個值來賦值給變數。前提是兩個分支的型別必須一致：</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">condition</span> = <span class="literal">true</span>;
+
+    <span class="keyword">let</span> <span class="variable">number</span> = <span class="keyword">if</span> condition &#123;
+        <span class="number">5</span>
+    &#125; <span class="keyword">else</span> &#123;
+        <span class="number">6</span>
+    &#125;;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;The number is: &#123;&#125;&quot;</span>, number); <span class="comment">// 印出 5</span>
+&#125;</code></pre>
+<blockquote>
+<p>❗ 如果 if 和 else 的區塊回傳型別不同，會產生編譯錯誤。</p>
+</blockquote>
+<h2 id="🔁-loop：無限迴圈">🔁 loop：無限迴圈</h2>
+<p>loop 是 Rust 中最基本的迴圈，會永遠執行直到被手動跳出（通常搭配 break 使用）。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">loop</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;再來一次！&quot;</span>);
+        <span class="keyword">break</span>;
+    &#125;
+&#125;</code></pre>
+<h3 id="loop-可以回傳值！">loop 可以回傳值！</h3>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">result</span> = <span class="keyword">loop</span> &#123;
+        <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">2</span> + <span class="number">2</span>;
+        <span class="keyword">if</span> x == <span class="number">4</span> &#123;
+            <span class="keyword">break</span> x * <span class="number">10</span>; <span class="comment">// 回傳值</span>
+        &#125;
+    &#125;;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;結果是: &#123;&#125;&quot;</span>, result); <span class="comment">// 40</span>
+&#125;</code></pre>
+<blockquote>
+<p>💡 使用 break &lt;值&gt; 可以讓 loop 的值被賦給變數。</p>
+</blockquote>
+<h2 id="🌀-while：條件迴圈">🌀 while：條件迴圈</h2>
+<p><code>while</code> 會根據條件判斷是否繼續執行。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">number</span> = <span class="number">3</span>;
+
+    <span class="keyword">while</span> number != <span class="number">0</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;!&quot;</span>, number);
+        number -= <span class="number">1</span>;
+    &#125;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;發射！&quot;</span>);
+&#125;</code></pre>
+<blockquote>
+<p>⚠️ 不建議用 <code>while</code> 走訪集合（因為容易出錯），建議使用 <code>for</code>。</p>
+</blockquote>
+<h2 id="🔁-for：集合迴圈（推薦使用）">🔁 for：集合迴圈（推薦使用）</h2>
+<p><code>for</code> 是走訪集合最安全、最簡潔的方法，避免了索引溢位等問題。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>];
+
+    <span class="keyword">for</span> <span class="variable">element</span> <span class="keyword">in</span> a.<span class="title function_ invoke__">iter</span>() &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;元素是: &#123;&#125;&quot;</span>, element);
+    &#125;
+&#125;</code></pre>
+<h3 id="搭配範圍語法">搭配範圍語法</h3>
+<p>你也可以用 <code>for</code> 搭配範圍（range）語法進行倒數：</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">for</span> <span class="variable">number</span> <span class="keyword">in</span> (<span class="number">1</span>..=<span class="number">3</span>).<span class="title function_ invoke__">rev</span>() &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;!&quot;</span>, number);
+    &#125;
+    <span class="built_in">println!</span>(<span class="string">&quot;發射！&quot;</span>);
+&#125;
+
+<span class="comment">// (1..=3) 表示包含 1 到 3，.rev() 反轉順序。</span></code></pre>
+<h2 id="📝-小結">📝 小結</h2>
+<table>
+<thead>
+<tr>
+<th>語法</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>if</code></td>
+<td>條件判斷，不能省略布林值，表達式</td>
+</tr>
+<tr>
+<td><code>loop</code></td>
+<td>永遠執行，直到 <code>break</code> 結束</td>
+</tr>
+<tr>
+<td><code>while</code></td>
+<td>根據條件執行，類似其他語言</td>
+</tr>
+<tr>
+<td><code>for</code></td>
+<td>走訪集合或範圍，<strong>最推薦的迴圈寫法</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-05-control-flow.html">Rust Book §3.5 Control Flow</a></li>
+<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/">Rust Playground 練習</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1727,191 +1937,6 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/13/linuxSysArc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/13/linuxSysArc/" class="post-title-link" itemprop="url">系統架構</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-02-13 09:24:48" itemprop="dateCreated datePublished" datetime="2025-02-13T09:24:48+08:00">2025-02-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:50:14" itemprop="dateModified" datetime="2025-04-25T10:50:14+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="BIOS">BIOS</h2>
-<h3 id="基本輸入輸出系統-Basic-Input-Output-System">基本輸入輸出系統(Basic Input/Output System)</h3>
-<p>主要作用為<code>將系統硬體帶到可以準備交給作業系統的狀態</code>，通常包含下列步驟:</p>
-<ul>
-<li>系統初始化</li>
-<li>測試記憶體與其他周邊</li>
-<li>檢測儲存裝置</li>
-<li>在數個儲存裝置之間找出作業系統的起始點</li>
-</ul>
-<p>且提供操作介面，供使用者設定系統的低階參數、選擇開機裝置、配置系統資源等等。</p>
-<h3 id="日期與時間">日期與時間</h3>
-<p>BIOS 的主要功能之一是<code>管理主機板內建的硬體時鐘</code>。<br>
-<code>作業系統本身也有設定硬體時鐘的能力</code>，可以依靠精準的外部較時參考來源(ex: NTPD 伺服器)來保持硬體時鐘的精準。</p>
-<h3 id="磁碟與開機裝置">磁碟與開機裝置</h3>
-<p>BIOS 設定工具中其中一項重要功能就是<code>開機裝置的選擇</code>。<br>
-大多數 PC 至少支援三種開機媒體</p>
-<ul>
-<li>內接式硬碟(IDE 或 SCSI 或 SATA，或三者皆是)</li>
-<li>光碟機(同上)</li>
-<li>軟碟機</li>
-</ul>
-<h3 id="運用-proc-檔案系統">運用/proc 檔案系統</h3>
-<p>/proc 檔案系統 (核心的運作狀態庫)目錄下的 interrupts、dma、ioports 三個檔案，提供目前系統資源的使用狀況</p>
-<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/interrupts</code></pre>
-<p><img src="/images/linuxSysArc/proc_interrupts.png" alt="interrupts.png"></p>
-<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/dma</code></pre>
-<p><img src="/images/linuxSysArc/proc_dma.png" alt="interrupts.png"></p>
-<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/ioports</code></pre>
-<p><img src="/images/linuxSysArc/proc_ioports.png" alt="interrupts.png"></p>
-<h2 id="USB">USB</h2>
-<h3 id="USB-拓樸邏輯">USB 拓樸邏輯</h3>
-<p>電腦主機與 USB 裝置之間，是透過<code>集線器(HUB)</code>連接一起，構成一個樹狀結構。<br>
-使用<code>lsusb</code>指令可顯示 Linux 系統上所有 USB 裝置的實際連接方式。</p>
-<p><img src="/images/linuxSysArc/lsusb.png" alt="lsusb.png"></p>
-<h3 id="USB-控制器">USB 控制器</h3>
-<p>主要分成 4 種類型</p>
-<ul>
-<li>開放型主控界面 ( Open Host Controller Interface , OHCI )</li>
-<li>通用型主控界面 ( Universal Host Controller Interface , UJCI )</li>
-<li>強化型主控界面 ( Enhanced Host Controller Interface , EHCI )</li>
-<li>擴充型主控界面 ( eXtented Host Controller Interface , xHCI )</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>規格</th>
-<th>控制器</th>
-<th>傳輸速率</th>
-<th>向下相容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>USB1.1</td>
-<td>OHCI、UHCI</td>
-<td>12Mbps</td>
-<td>否</td>
-</tr>
-<tr>
-<td>USB2.0</td>
-<td>EHCI</td>
-<td>480Mbps</td>
-<td>否</td>
-</tr>
-<tr>
-<td>USB3.0</td>
-<td>xHCI</td>
-<td>5Gbps</td>
-<td>是</td>
-</tr>
-</tbody>
-</table>
-<h3 id="USB-裝置">USB 裝置</h3>
-<ul>
-<li>人機界面裝置 ( Human Interface Device , HID)<br>
-輸入裝置 (滑鼠、鍵盤…等等)</li>
-<li>通訊裝置<br>
-數據機</li>
-<li>大量儲存裝置<br>
-磁碟機、讀卡機…等</li>
-<li>音訊<br>
-揚聲器、音效裝置</li>
-<li>IrDA<br>
-紅外線裝置</li>
-<li>印表機<br>
-印表機以及 USB-to-parallel 轉換器</li>
-</ul>
-<h3 id="USB-驅動程式">USB 驅動程式</h3>
-<p><code>Linux 核心 2.0.x 以及更早版本，不支援 USB</code></p>
-<p>主要分成三大類</p>
-<ol>
-<li>主控器驅動程式</li>
-<li>通類驅動程式</li>
-<li>雜項裝置驅動程式</li>
-</ol>
-<h3 id="USB-熱插拔">USB 熱插拔</h3>
-<p>模組化的 USB 驅動程式，是藉由核心對於/sbin/hotplug 的通用支援機制來載入</p>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010517791?srsltid=AfmBOoqFrQZp9GsdBk5fTNGzq01OkJ2O4TBNwF0sK7VWkoij1MlNaG1X">LPI Linux 第一級資格檢定 第三版</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1976,8 +2001,8 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 <script>
 var options = {
   bottom: '64px',
-  right: 'unset',
-  left: '32px',
+  right: '32px',
+  left: 'unset',
   time: '0.5s',
   mixColor: 'transparent',
   backgroundColor: 'transparent',

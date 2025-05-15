@@ -19,27 +19,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="📌 變數的宣告 Rust 使用 let 來宣告變數，預設為不可變（immutable）。如果想讓變數的值可以改變，需要加上 mut。 let a &#x3D; 456;       &#x2F;&#x2F; 不可變變數 let mut b &#x3D; 789;   &#x2F;&#x2F; 可變變數 println!(&quot;a &#x3D; &#123;&#125;, b &#x3D; &#123;&#125;&quot;, a, b);  &#x2F;&#x2F; a &#x3D; 999;">
+    <meta name="description" content="在這篇學習筆記中，我們會介紹 Rust 中常見的流程控制方式，包括：  條件判斷：if 無限迴圈：loop 條件迴圈：while 集合迴圈：for  這些控制結構與其他語言類似，但也有一些語法特色和安全性設計值得注意。  📖 本筆記整理自 Rust 官方書籍：Control Flow  ✅ if 條件判斷 Rust 的 if 表達式 不需要括號 包住條件，但主體需用大括號 &#123;&amp;#125">
 <meta property="og:type" content="article">
-<meta property="og:title" content="🦀 Rust 基礎教學：變數、常數與遮蔽（Shadowing）">
-<meta property="og:url" content="https://looperhuang.github.io/2025/05/13/rust-basic/index.html">
+<meta property="og:title" content="🦀 Rust 基礎教學：流程控制（Control Flow）">
+<meta property="og:url" content="https://looperhuang.github.io/2025/05/15/rust-control-flow/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="📌 變數的宣告 Rust 使用 let 來宣告變數，預設為不可變（immutable）。如果想讓變數的值可以改變，需要加上 mut。 let a &#x3D; 456;       &#x2F;&#x2F; 不可變變數 let mut b &#x3D; 789;   &#x2F;&#x2F; 可變變數 println!(&quot;a &#x3D; &#123;&#125;, b &#x3D; &#123;&#125;&quot;, a, b);  &#x2F;&#x2F; a &#x3D; 999;">
+<meta property="og:description" content="在這篇學習筆記中，我們會介紹 Rust 中常見的流程控制方式，包括：  條件判斷：if 無限迴圈：loop 條件迴圈：while 集合迴圈：for  這些控制結構與其他語言類似，但也有一些語法特色和安全性設計值得注意。  📖 本筆記整理自 Rust 官方書籍：Control Flow  ✅ if 條件判斷 Rust 的 if 表達式 不需要括號 包住條件，但主體需用大括號 &#123;&amp;#125">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2025-05-13T07:04:36.000Z">
-<meta property="article:modified_time" content="2025-05-14T03:12:41.874Z">
+<meta property="article:published_time" content="2025-05-15T02:33:25.000Z">
+<meta property="article:modified_time" content="2025-05-15T02:52:50.584Z">
 <meta property="article:author" content="looperhuang">
 <meta property="article:tag" content="rust">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2025/05/13/rust-basic/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/05/15/rust-control-flow/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/05/13/rust-basic/","path":"2025/05/13/rust-basic/","title":"🦀 Rust 基礎教學：變數、常數與遮蔽（Shadowing）"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/05/15/rust-control-flow/","path":"2025/05/15/rust-control-flow/","title":"🦀 Rust 基礎教學：流程控制（Control Flow）"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>🦀 Rust 基礎教學：變數、常數與遮蔽（Shadowing） | Looper's Blog</title>
+<title>🦀 Rust 基礎教學：流程控制（Control Flow） | Looper's Blog</title>
   
 
 
@@ -139,7 +139,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%8C-%E8%AE%8A%E6%95%B8%E7%9A%84%E5%AE%A3%E5%91%8A"><span class="nav-number">1.</span> <span class="nav-text">📌 變數的宣告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%92-%E5%B8%B8%E6%95%B8%EF%BC%88const%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">🔒 常數（const）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%8E%AD-%E8%AE%8A%E6%95%B8%E9%81%AE%E8%94%BD%EF%BC%88Shadowing%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">🎭 變數遮蔽（Shadowing）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9D-%E5%B0%8F%E7%B5%90"><span class="nav-number">4.</span> <span class="nav-text">📝 小結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E5%8F%83%E8%80%83%E5%8F%8A%E5%BB%B6%E4%BC%B8"><span class="nav-number">5.</span> <span class="nav-text">📚 參考及延伸</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-if-%E6%A2%9D%E4%BB%B6%E5%88%A4%E6%96%B7"><span class="nav-number">1.</span> <span class="nav-text">✅ if 條件判斷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%92%A1-if-%E6%98%AF%E4%B8%80%E5%80%8B%E3%80%8C%E8%A1%A8%E9%81%94%E5%BC%8F%E3%80%8D"><span class="nav-number">2.</span> <span class="nav-text">💡 if 是一個「表達式」</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%81-loop%EF%BC%9A%E7%84%A1%E9%99%90%E8%BF%B4%E5%9C%88"><span class="nav-number">3.</span> <span class="nav-text">🔁 loop：無限迴圈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#loop-%E5%8F%AF%E4%BB%A5%E5%9B%9E%E5%82%B3%E5%80%BC%EF%BC%81"><span class="nav-number">3.1.</span> <span class="nav-text">loop 可以回傳值！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%8C%80-while%EF%BC%9A%E6%A2%9D%E4%BB%B6%E8%BF%B4%E5%9C%88"><span class="nav-number">4.</span> <span class="nav-text">🌀 while：條件迴圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%81-for%EF%BC%9A%E9%9B%86%E5%90%88%E8%BF%B4%E5%9C%88%EF%BC%88%E6%8E%A8%E8%96%A6%E4%BD%BF%E7%94%A8%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">🔁 for：集合迴圈（推薦使用）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E9%85%8D%E7%AF%84%E5%9C%8D%E8%AA%9E%E6%B3%95"><span class="nav-number">5.1.</span> <span class="nav-text">搭配範圍語法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9D-%E5%B0%8F%E7%B5%90"><span class="nav-number">6.</span> <span class="nav-text">📝 小結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E5%8F%83%E8%80%83%E5%8F%8A%E5%BB%B6%E4%BC%B8"><span class="nav-number">7.</span> <span class="nav-text">📚 參考及延伸</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -200,7 +200,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/13/rust-basic/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/15/rust-control-flow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -213,12 +213,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="🦀 Rust 基礎教學：變數、常數與遮蔽（Shadowing） | Looper's Blog">
+      <meta itemprop="name" content="🦀 Rust 基礎教學：流程控制（Control Flow） | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          🦀 Rust 基礎教學：變數、常數與遮蔽（Shadowing）
+          🦀 Rust 基礎教學：流程控制（Control Flow）
         </h1>
 
         <div class="post-meta-container">
@@ -228,15 +228,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2025-05-13 15:04:36" itemprop="dateCreated datePublished" datetime="2025-05-13T15:04:36+08:00">2025-05-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-05-14 11:12:41" itemprop="dateModified" datetime="2025-05-14T11:12:41+08:00">2025-05-14</time>
+      <time title="創建時間：2025-05-15 10:33:25 / 修改時間：10:52:50" itemprop="dateCreated datePublished" datetime="2025-05-15T10:33:25+08:00">2025-05-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -257,77 +251,137 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="📌-變數的宣告">📌 變數的宣告</h2>
-<p>Rust 使用 <code>let</code> 來宣告變數，預設為<strong>不可變</strong>（immutable）。如果想讓變數的值可以改變，需要加上 <code>mut</code>。</p>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">456</span>;       <span class="comment">// 不可變變數</span>
-<span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">b</span> = <span class="number">789</span>;   <span class="comment">// 可變變數</span>
-<span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b);
-
-<span class="comment">// a = 999; // ❌ 錯誤：a 是不可變的</span>
-b = <span class="number">111</span>;   <span class="comment">// ✅ 合法：b 是可變的</span>
-<span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b);</code></pre>
-<h2 id="🔒-常數（const）">🔒 常數（const）</h2>
-<p>常數使用 <code>const</code> 宣告，與 <code>let</code> 不同的是：</p>
+    <div class="post-body" itemprop="articleBody"><p>在這篇學習筆記中，我們會介紹 Rust 中常見的流程控制方式，包括：</p>
 <ul>
-<li>必須加上資料別</li>
-<li>永遠不可變(不能加 mut)</li>
-<li>通常用於全域設定或固定值</li>
-<li>命名習慣 SCREAMING_SNAKE_CASE</li>
+<li>條件判斷：<code>if</code></li>
+<li>無限迴圈：<code>loop</code></li>
+<li>條件迴圈：<code>while</code></li>
+<li>集合迴圈：<code>for</code></li>
 </ul>
-<pre><code class="highlight rust"><span class="keyword">const</span> MAX_POINTS: <span class="type">u32</span> = <span class="number">100_000</span>;
-<span class="built_in">println!</span>(<span class="string">&quot;The maximum points are: &#123;&#125;&quot;</span>, MAX_POINTS);</code></pre>
+<p>這些控制結構與其他語言類似，但也有一些語法特色和安全性設計值得注意。</p>
 <blockquote>
-<p>⚠️ 常數不能遮蔽（shadow），也不能重新指定</p>
+<p>📖 本筆記整理自 Rust 官方書籍：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-05-control-flow.html">Control Flow</a></p>
 </blockquote>
-<h2 id="🎭-變數遮蔽（Shadowing）">🎭 變數遮蔽（Shadowing）</h2>
-<p>Rust 允許重新宣告相同名稱的變數，這稱為<strong>遮蔽（shadowing）</strong>。<br>
-遮蔽可以讓你重新指定值甚至改變變數型別，而不用使用 <code>mut</code>。</p>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">c</span> = <span class="number">10</span>;
-<span class="keyword">let</span> <span class="variable">c</span> = <span class="string">&quot;abc&quot;</span>; <span class="comment">// 遮蔽了上一個 c，型別從 i32 → &amp;str</span>
-<span class="built_in">println!</span>(<span class="string">&quot;The value of c is: &#123;&#125;&quot;</span>, c);</code></pre>
-<p>與<code>mut</code>有何不同?</p>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">x</span> = <span class="number">5</span>;
-x = <span class="string">&quot;hello&quot;</span>; <span class="comment">// ❌ 錯誤：型別不能變</span>
+<h2 id="✅-if-條件判斷">✅ if 條件判斷</h2>
+<p>Rust 的 <code>if</code> 表達式 <strong>不需要括號</strong> 包住條件，但<strong>主體需用大括號 <code>&#123;&#125;</code> 包起來</strong>。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">number</span> = <span class="number">7</span>;
 
-<span class="keyword">let</span> <span class="variable">y</span> = <span class="number">5</span>;
-<span class="keyword">let</span> <span class="variable">y</span> = <span class="string">&quot;hello&quot;</span>; <span class="comment">// ✅ 合法：因為是新的變數，遮蔽前一個</span></code></pre>
+    <span class="keyword">if</span> number &lt; <span class="number">5</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;小於 5&quot;</span>);
+    &#125; <span class="keyword">else</span> <span class="keyword">if</span> number == <span class="number">7</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;是 7&quot;</span>);
+    &#125; <span class="keyword">else</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;大於等於 5 且不等於 7&quot;</span>);
+    &#125;
+&#125;</code></pre>
+<ul>
+<li>條件必須是布林值（不能像 C 語言、js 那樣用整數當作條件）。</li>
+<li>每個區塊需用<code>&#123;&#125;</code>包起來。</li>
+</ul>
+<h2 id="💡-if-是一個「表達式」">💡 if 是一個「表達式」</h2>
+<p>你可以將 if 當作一個值來賦值給變數。前提是兩個分支的型別必須一致：</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">condition</span> = <span class="literal">true</span>;
+
+    <span class="keyword">let</span> <span class="variable">number</span> = <span class="keyword">if</span> condition &#123;
+        <span class="number">5</span>
+    &#125; <span class="keyword">else</span> &#123;
+        <span class="number">6</span>
+    &#125;;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;The number is: &#123;&#125;&quot;</span>, number); <span class="comment">// 印出 5</span>
+&#125;</code></pre>
 <blockquote>
-<p>✅ 使用遮蔽能讓變數在不改變可變性的情況下重新定義或轉換型別。</p>
+<p>❗ 如果 if 和 else 的區塊回傳型別不同，會產生編譯錯誤。</p>
 </blockquote>
+<h2 id="🔁-loop：無限迴圈">🔁 loop：無限迴圈</h2>
+<p>loop 是 Rust 中最基本的迴圈，會永遠執行直到被手動跳出（通常搭配 break 使用）。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">loop</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;再來一次！&quot;</span>);
+        <span class="keyword">break</span>;
+    &#125;
+&#125;</code></pre>
+<h3 id="loop-可以回傳值！">loop 可以回傳值！</h3>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">result</span> = <span class="keyword">loop</span> &#123;
+        <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">2</span> + <span class="number">2</span>;
+        <span class="keyword">if</span> x == <span class="number">4</span> &#123;
+            <span class="keyword">break</span> x * <span class="number">10</span>; <span class="comment">// 回傳值</span>
+        &#125;
+    &#125;;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;結果是: &#123;&#125;&quot;</span>, result); <span class="comment">// 40</span>
+&#125;</code></pre>
+<blockquote>
+<p>💡 使用 break &lt;值&gt; 可以讓 loop 的值被賦給變數。</p>
+</blockquote>
+<h2 id="🌀-while：條件迴圈">🌀 while：條件迴圈</h2>
+<p><code>while</code> 會根據條件判斷是否繼續執行。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">number</span> = <span class="number">3</span>;
+
+    <span class="keyword">while</span> number != <span class="number">0</span> &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;!&quot;</span>, number);
+        number -= <span class="number">1</span>;
+    &#125;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;發射！&quot;</span>);
+&#125;</code></pre>
+<blockquote>
+<p>⚠️ 不建議用 <code>while</code> 走訪集合（因為容易出錯），建議使用 <code>for</code>。</p>
+</blockquote>
+<h2 id="🔁-for：集合迴圈（推薦使用）">🔁 for：集合迴圈（推薦使用）</h2>
+<p><code>for</code> 是走訪集合最安全、最簡潔的方法，避免了索引溢位等問題。</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>];
+
+    <span class="keyword">for</span> <span class="variable">element</span> <span class="keyword">in</span> a.<span class="title function_ invoke__">iter</span>() &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;元素是: &#123;&#125;&quot;</span>, element);
+    &#125;
+&#125;</code></pre>
+<h3 id="搭配範圍語法">搭配範圍語法</h3>
+<p>你也可以用 <code>for</code> 搭配範圍（range）語法進行倒數：</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">for</span> <span class="variable">number</span> <span class="keyword">in</span> (<span class="number">1</span>..=<span class="number">3</span>).<span class="title function_ invoke__">rev</span>() &#123;
+        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;!&quot;</span>, number);
+    &#125;
+    <span class="built_in">println!</span>(<span class="string">&quot;發射！&quot;</span>);
+&#125;
+
+<span class="comment">// (1..=3) 表示包含 1 到 3，.rev() 反轉順序。</span></code></pre>
 <h2 id="📝-小結">📝 小結</h2>
 <table>
 <thead>
 <tr>
-<th>宣告方式</th>
-<th>是否可變</th>
-<th>是否可遮蔽</th>
-<th>是否需要型別註記</th>
-<th>命名風格</th>
+<th>語法</th>
+<th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>let</td>
-<td>❌ 預設不可變（可加 mut）</td>
-<td>✅ 可以遮蔽</td>
-<td>❌ 可省略</td>
-<td>snake_case</td>
+<td><code>if</code></td>
+<td>條件判斷，不能省略布林值，表達式</td>
 </tr>
 <tr>
-<td>const</td>
-<td>❌ 永遠不可變</td>
-<td>❌ 不可遮蔽</td>
-<td>✅ 必須註明型別</td>
-<td>SCREAMING_SNAKE_CASE</td>
+<td><code>loop</code></td>
+<td>永遠執行，直到 <code>break</code> 結束</td>
+</tr>
+<tr>
+<td><code>while</code></td>
+<td>根據條件執行，類似其他語言</td>
+</tr>
+<tr>
+<td><code>for</code></td>
+<td>走訪集合或範圍，<strong>最推薦的迴圈寫法</strong></td>
 </tr>
 </tbody>
 </table>
 <h2 id="📚-參考及延伸">📚 參考及延伸</h2>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.runoob.com/rust/rust-basic-syntax.html">菜鳥教程</a></li>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html">Rust 官方變數文件</a></li>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/reference/items/constant-items.html">Rust 常數與靜態變數</a></li>
-<li><a target="_blank" rel="noopener" href="https://chatgpt.com/?model=auto">ChatGpt</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-05-control-flow.html">Rust Book §3.5 Control Flow</a></li>
+<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/">Rust Playground 練習</a></li>
 </ul>
 
     </div>
@@ -345,14 +399,11 @@ x = <span class="string">&quot;hello&quot;</span>; <span class="comment">// ❌ 
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2025/05/13/IServiceCollection/" rel="prev" title="讓ASP.NET Core服務註冊更優雅">
-                  <i class="fa fa-angle-left"></i> 讓ASP.NET Core服務註冊更優雅
+                <a href="/2025/05/14/rust-fuction/" rel="prev" title="🦀 Rust 基礎教學：函式的使用與運作方式">
+                  <i class="fa fa-angle-left"></i> 🦀 Rust 基礎教學：函式的使用與運作方式
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/05/14/rust-fuction/" rel="next" title="🦀 Rust 基礎教學：函式的使用與運作方式">
-                  🦀 Rust 基礎教學：函式的使用與運作方式 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
