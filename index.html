@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -184,6 +184,194 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/21/rust-slice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/21/rust-slice/" class="post-title-link" itemprop="url">🦀 Rust The Slice Type</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-05-21 08:09:03 / 修改時間：09:05:11" itemprop="dateCreated datePublished" datetime="2025-05-21T08:09:03+08:00">2025-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="📌-什麼是-Slice？">📌 什麼是 Slice？</h2>
+<p>在 Rust 中，<code>Slice</code> 是一種 <strong>不具所有權的資料引用</strong>。<br>
+它允許你<strong>引用一段連續的元素</strong>（如字串或陣列）而非整個集合，實現更靈活與安全的資料處理。</p>
+<h2 id="📚-基本語法">📚 基本語法</h2>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world&quot;</span>);
+<span class="keyword">let</span> <span class="variable">hello</span> = &amp;s[<span class="number">0</span>..<span class="number">5</span>];  <span class="comment">// &quot;hello&quot;（索引 0 到 4）</span>
+<span class="keyword">let</span> <span class="variable">world</span> = &amp;s[<span class="number">6</span>..<span class="number">11</span>]; <span class="comment">// &quot;world&quot;（索引 6 到 10）</span></code></pre>
+<img src="/images/rust_slice/trpl04-07.svg" alt="Rust Slice" width="500" height="300">
+<h2 id="📏-簡化語法">📏 簡化語法</h2>
+<p>Rust 提供更簡潔的切片語法：</p>
+<ul>
+<li><code>&amp;s[..5]</code> 等同於 <code>&amp;s[0..5]</code></li>
+<li><code>&amp;s[6..]</code> 等同於 <code>&amp;s[6..s.len()]</code></li>
+<li><code>&amp;s[..]</code> 代表整個字串的切片</li>
+</ul>
+<h2 id="🔐-Slice-的安全性">🔐 Slice 的安全性</h2>
+<p>Rust 會在執行時檢查索引是否越界，避免非法記憶體存取。</p>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
+<span class="keyword">let</span> <span class="variable">slice</span> = &amp;s[<span class="number">0</span>..<span class="number">6</span>]; <span class="comment">// ⚠️ 錯誤！超出索引範圍</span></code></pre>
+<h2 id="🧠-使用範例：尋找第一個單字的結尾">🧠 使用範例：尋找第一個單字的結尾</h2>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;
+    <span class="keyword">let</span> <span class="variable">bytes</span> = s.<span class="title function_ invoke__">as_bytes</span>();
+    <span class="keyword">for</span> (i, &amp;item) <span class="keyword">in</span> bytes.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">enumerate</span>() &#123;
+        <span class="keyword">if</span> item == <span class="string">b&#x27; &#x27;</span> &#123;
+            <span class="keyword">return</span> &amp;s[<span class="number">0</span>..i];
+        &#125;
+    &#125;
+    &amp;s[..]
+&#125;</code></pre>
+<p>此函式尋找第一個空格前的字串切片。</p>
+<h2 id="❗-為何使用-Slice？">❗ 為何使用 Slice？</h2>
+<p>可以避免資料與索引失效之間的錯誤關聯：</p>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world&quot;</span>);
+    <span class="keyword">let</span> <span class="variable">word</span> = <span class="title function_ invoke__">first_word</span>(&amp;s);
+    s.<span class="title function_ invoke__">clear</span>(); <span class="comment">// 清空整個字串</span>
+    <span class="built_in">println!</span>(<span class="string">&quot;the first word is: &#123;word&#125;&quot;</span>); <span class="comment">// ❌ 錯誤！使用了已失效的 slice</span>
+&#125;</code></pre>
+<p>Rust 的 借用檢查器（borrow checker） 將禁止這種情況，強化記憶體安全。</p>
+<h2 id="🧩-使用-str-取代-String（參數泛化）">🧩 使用 <code>&amp;str</code> 取代 <code>&amp;String</code>（參數泛化）</h2>
+<h3 id="❌-原本版本：只接受-String">❌ 原本版本：只接受 <code>&amp;String</code></h3>
+<pre><code class="highlight rust">
+<span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;
+    <span class="comment">// ...略</span>
+&#125;</code></pre>
+<p>限制只能傳入 <code>&amp;String</code>，無法處理字串字面值（例如 <code>&quot;hello world&quot;</code>）。</p>
+<h3 id="✅-改寫版本：接受更通用的-str">✅ 改寫版本：接受更通用的 <code>&amp;str</code></h3>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;
+    <span class="comment">// ...略</span>
+&#125;</code></pre>
+<p>這樣的版本更通用，支援所有字串切片，包括：</p>
+<ul>
+<li>字串字面值：<code>&quot;hello world&quot;</code></li>
+<li>String 型別：<code>String::from(&quot;...&quot;)</code> 可自動轉為 <code>&amp;str</code></li>
+</ul>
+<h3 id="🧪-使用範例">🧪 使用範例</h3>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world&quot;</span>);
+    <span class="keyword">let</span> <span class="variable">s2</span> = <span class="string">&quot;hello world&quot;</span>; <span class="comment">// 字串字面值（&amp;&#x27;static str）</span>
+
+    <span class="comment">// 都可以傳入 &amp;str 函式</span>
+    <span class="keyword">let</span> <span class="variable">word1</span> = <span class="title function_ invoke__">first_word</span>(&amp;s1); <span class="comment">// OK，自動轉型為 &amp;str</span>
+    <span class="keyword">let</span> <span class="variable">word2</span> = <span class="title function_ invoke__">first_word</span>(s2);  <span class="comment">// OK，已是 &amp;str</span>
+
+    <span class="built_in">println!</span>(<span class="string">&quot;word1: &#123;&#125;&quot;</span>, word1);
+    <span class="built_in">println!</span>(<span class="string">&quot;word2: &#123;&#125;&quot;</span>, word2);
+&#125;
+</code></pre>
+<h2 id="📌-其他類型的切片">📌 其他類型的切片</h2>
+<ul>
+<li>陣列</li>
+</ul>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+<span class="keyword">let</span> <span class="variable">slice</span> = &amp;a[<span class="number">1</span>..<span class="number">3</span>]; <span class="comment">// [2, 3]</span></code></pre>
+<h2 id="✅-小結">✅ 小結</h2>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slice</td>
+<td>不擁有資料的部分引用</td>
+</tr>
+<tr>
+<td>語法</td>
+<td><code>&amp;s[start..end]</code></td>
+</tr>
+<tr>
+<td>用途</td>
+<td>引用部分資料，如字串的一部分</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>編譯器與執行時會檢查索引範圍</td>
+</tr>
+<tr>
+<td>借用規則整合</td>
+<td>與所有權和借用機制緊密整合，防止錯誤</td>
+</tr>
+</tbody>
+</table>
+<h2 id="📚-參考與延伸">📚 參考與延伸</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch04-03-slices.html">The Rust Programming Language - 4.3. The Slice Type</a></li>
+<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1933,168 +2121,6 @@ builder.Configuration
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-9.0">Use multiple environments in ASP.NET Core</a></li>
 <li>ChatGpt</li>
 <li><a target="_blank" rel="noopener" href="https://azure.microsoft.com/en-us/products/key-vault">Azure Key Vault</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/25/htmlpdf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/04/25/htmlpdf/" class="post-title-link" itemprop="url">前端生成PDF</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-04-25 10:07:30 / 修改時間：11:12:56" itemprop="dateCreated datePublished" datetime="2025-04-25T10:07:30+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言">前言</h2>
-<p>因為業務需求的關係，需要將填寫的表單轉換成 PDF，進行資料儲存供後續使用<br>
-最便捷的方法為是使用前端套件<a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a>搭配<a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a><br>
-利用<code>html2canvas</code>進行截圖，然後貼到<code>jspdf</code>產生的 PDF 檔<br>
-但最穩妥的方法建議是使用後端服務器去專門產生 PDF 比較合適(ex. <a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a> 或是 <a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a> )</p>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight cmake">npm <span class="keyword">install</span> html2canvas jspdf</code></pre>
-<h2 id="Usage">Usage</h2>
-<p>pdfHelper.ts</p>
-<pre><code class="highlight ts"><span class="keyword">import</span> jsPDF <span class="keyword">from</span> <span class="string">&quot;jspdf&quot;</span>;
-<span class="keyword">import</span> html2canvas <span class="keyword">from</span> <span class="string">&quot;html2canvas&quot;</span>;
-
-<span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">generatePDF</span> = <span class="keyword">async</span> (<span class="params"><span class="attr">id</span>: <span class="built_in">string</span></span>) =&gt; &#123;
-  <span class="keyword">try</span> &#123;
-    <span class="comment">// 取得要擷取的部分</span>
-    <span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id) <span class="keyword">as</span> <span class="title class_">HTMLElement</span>;
-    <span class="keyword">if</span> (!el) <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;
-
-    <span class="comment">// 截圖</span>
-    <span class="keyword">const</span> canvas = <span class="keyword">await</span> <span class="title function_">html2canvas</span>(el, &#123;
-      <span class="attr">useCORS</span>: <span class="literal">true</span>, <span class="comment">// 允許跨域圖片</span>
-      <span class="attr">scale</span>: <span class="number">2</span>, <span class="comment">// 提高清晰度</span>
-    &#125;);
-
-    <span class="comment">// 轉換圖片</span>
-    <span class="comment">// toDataURL(&#123;轉換格式&#125;, &#123;品質&#125;)</span>
-    <span class="keyword">const</span> imgData = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/jpeg&quot;</span>, <span class="number">0.7</span>);
-
-    <span class="comment">// 創建PDF文檔</span>
-    <span class="keyword">const</span> pdf = <span class="keyword">new</span> <span class="title function_">jsPDF</span>(&#123;
-      <span class="attr">orientation</span>: <span class="string">&quot;portrait&quot;</span>, <span class="comment">// 頁面方向</span>
-      <span class="attr">unit</span>: <span class="string">&quot;pt&quot;</span>, <span class="comment">// 單位</span>
-      <span class="attr">format</span>: <span class="string">&quot;a4&quot;</span>, <span class="comment">// 紙張大小</span>
-    &#125;);
-
-    <span class="comment">// 取得PDF尺寸</span>
-    <span class="keyword">const</span> pageWidth = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getWidth</span>();
-    <span class="keyword">const</span> pageHeight = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getHeight</span>();
-
-    <span class="comment">// 調整為A4寬度且維持原本寬高比</span>
-    <span class="keyword">const</span> imgWidth = pageWidth;
-    <span class="keyword">const</span> imgHeight = (canvas.<span class="property">height</span> * imgWidth) / canvas.<span class="property">width</span>;
-
-    <span class="comment">// 若圖像高度超出頁面高度，則縮小</span>
-    <span class="keyword">const</span> finalHeight = imgHeight &gt; pageHeight ? pageHeight : imgHeight;
-    <span class="keyword">const</span> finalWidth = (canvas.<span class="property">width</span> * finalHeight) / canvas.<span class="property">height</span>;
-
-    <span class="comment">// 可選：讓圖片置中</span>
-    <span class="keyword">const</span> marginX = (pageWidth - finalWidth) / <span class="number">2</span>;
-    <span class="keyword">const</span> marginY = (pageHeight - finalHeight) / <span class="number">2</span>;
-
-    <span class="comment">// 添加圖片到PDF</span>
-    pdf.<span class="title function_">addImage</span>(
-      imgData, <span class="comment">// 圖片資料</span>
-      <span class="string">&quot;JPEG&quot;</span>, <span class="comment">// 圖片格式</span>
-      marginX, <span class="comment">// X座標</span>
-      marginY, <span class="comment">// Y座標</span>
-      finalWidth, <span class="comment">//圖片寬度</span>
-      finalHeight, <span class="comment">//圖片高度</span>
-      <span class="literal">undefined</span>, <span class="comment">// 別名</span>
-      <span class="string">&quot;FAST&quot;</span> <span class="comment">// 壓縮方法</span>
-    );
-
-    <span class="comment">// 取得包含 Base64 的 Data URL</span>
-    <span class="keyword">const</span> pdfDataUrl = pdf.<span class="title function_">output</span>(<span class="string">&quot;datauristring&quot;</span>);
-
-    <span class="comment">// Data URL 的格式通常是 &quot;data:application/pdf;base64,BASE64_STRING&quot;</span>
-    <span class="comment">// 我們需要提取逗號後面的 Base64 部分</span>
-    <span class="keyword">const</span> base64String = pdfDataUrl.<span class="title function_">split</span>(<span class="string">&quot;,&quot;</span>)[<span class="number">1</span>];
-
-    <span class="keyword">return</span> base64String;
-  &#125; <span class="keyword">catch</span> (e) &#123;
-    <span class="variable language_">console</span>.<span class="title function_">log</span>(e);
-    <span class="keyword">throw</span> e;
-  &#125;
-&#125;;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a></li>
-<li><a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a></li>
-<li><a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a></li>
-<li>ChatGpt</li>
 </ul>
 
       
