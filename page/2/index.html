@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -184,6 +184,225 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/25/csharpenv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/04/25/csharpenv/" class="post-title-link" itemprop="url">Asp.Net Core 讀取環境變數連線字串</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-04-25 16:06:49" itemprop="dateCreated datePublished" datetime="2025-04-25T16:06:49+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-05-01 12:00:19" itemprop="dateModified" datetime="2025-05-01T12:00:19+08:00">2025-05-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Program-cs-設定">Program.cs 設定</h2>
+<pre><code class="highlight C#"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddUserSecrets&lt;Program&gt;() <span class="comment">// 使用秘密管理員(本地開發用)</span>
+    .AddEnvironmentVariables(); <span class="comment">// 讀取環境變數</span>
+    <span class="comment">// .AddEnvironmentVariables(prefix:&#123;前墜&#125;) 預設ASPNETCORE_或DOTNET_</span></code></pre>
+<h2 id="環境變數設定方式">環境變數設定方式</h2>
+<ol>
+<li>在主機上開啟：</li>
+</ol>
+<ul>
+<li>Win + S 搜尋「環境變數」或</li>
+<li>控制台 → 系統 → 進階系統設定 → 環境變數</li>
+</ul>
+<ol start="2">
+<li>在「系統變數」中新增：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASPNETCORE_ConnectionStrings__DefaultConnection</td>
+<td>User Id=prod;Password=XXX;Data Source=oraclehost:1521/PRODDB;</td>
+</tr>
+</tbody>
+</table>
+<p>★ 注意前墜預設要為 <code>ASPNETCORE_</code>或 <code>DOTNET_</code><br>
+★ <code>ConnectionStrings__DefaultConnection</code>是雙底線<code>__</code></p>
+<h2 id="預設主機設定來源">預設主機設定來源</h2>
+<p>WebApplicationBuilder(.NET6 後) 優先級別</p>
+<ol>
+<li>使用命令列設定提供者的命令列引數</li>
+<li>使用 DOTNET_且具有 前置詞的環境變數</li>
+<li>使用 ASPNETCORE_且具有 前置詞的環境變數</li>
+</ol>
+<p>IHostedService (.NET5 前) 優先級別</p>
+<ol>
+<li>使用 ASPNETCORE_且具有 前置詞的環境變數。</li>
+<li>使用命令列設定提供者的命令列引數</li>
+<li>使用 DOTNET_且具有 前置詞的環境變數</li>
+</ol>
+<h2 id="測試">測試</h2>
+<p>在 program.cs 添加 debug endpoint</p>
+<pre><code class="highlight C#">app.MapGet(<span class="string">&quot;/env-check&quot;</span>, (IConfiguration config) =&gt;
+&#123;
+    <span class="keyword">return</span> config.GetConnectionString(<span class="string">&quot;DefaultConnection&quot;</span>) ?? <span class="string">&quot;no conn string&quot;</span>;
+&#125;);</code></pre>
+<ol>
+<li>部署後呼叫 /env-check</li>
+<li>檢查回傳的連線字串內容是否正確</li>
+<li>看有沒有缺少冒號、斜線、空格或打錯字</li>
+</ol>
+<h2 id="進階">進階</h2>
+<p>就算設定環境變數來避免將敏感資料寫入程式，比 appsettings.json 安全，但是還是有相關風險<br>
+所以可能會進一步需要<code>機密管理服務（Secrets Management Services）</code>來去管理敏感資訊<br>
+但這邊用不到就大概紀錄一下可能的更優解，因為要 💸</p>
+<h3 id="環境變數的侷限">環境變數的侷限</h3>
+<table>
+<thead>
+<tr>
+<th>問題點</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>被誤讀</td>
+<td>足夠權限的使用者可透過指令查看所有變數</td>
+</tr>
+<tr>
+<td>難管理</td>
+<td>每台機器都要單獨設定，不適合大型或多環境部署</td>
+</tr>
+<tr>
+<td>無審計紀錄</td>
+<td>無法追蹤誰改了哪個變數、何時改的</td>
+</tr>
+<tr>
+<td>版本控管</td>
+<td>無法追蹤歷史紀錄或自動回復舊版本</td>
+</tr>
+<tr>
+<td>變更難通知</td>
+<td>改變值，需要人為通知開發 / 系統人員重啟服務</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Azure-Key-Vault-為例的優勢">Azure Key Vault 為例的優勢</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>好處</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>集中管理</td>
+<td>所有機密集中存於一個 Vault，減少散落風險</td>
+</tr>
+<tr>
+<td>權限控管</td>
+<td>使用 Azure AD、RBAC 控制誰能取用哪些機密</td>
+</tr>
+<tr>
+<td>自動輪換密鑰</td>
+<td>可結合自動化工具定期更新連線密碼、憑證等</td>
+</tr>
+<tr>
+<td>加密儲存</td>
+<td>Vault 本身以高強度加密保存內容</td>
+</tr>
+<tr>
+<td>稽核與日誌</td>
+<td>每次存取都會記錄，便於日後查詢與調查</td>
+</tr>
+<tr>
+<td>不用再碰密碼</td>
+<td>程式碼用 Identity 存取 Vault，不需要明碼存在任何地方</td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/configuration/?view=aspnetcore-9.0">ASP.NET Core 的設定</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-9.0">Use multiple environments in ASP.NET Core</a></li>
+<li>ChatGpt</li>
+<li><a target="_blank" rel="noopener" href="https://azure.microsoft.com/en-us/products/key-vault">Azure Key Vault</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1671,193 +1890,6 @@ connection.<span class="title function_">onclose</span>(<span class="title funct
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/tutorials/signalr?view=aspnetcore-9.0&amp;WT.mc_id=dotnet-35129-website&amp;tabs=visual-studio">https://learn.microsoft.com/zh-tw/aspnet/core/tutorials/signalr?view=aspnetcore-9.0&amp;WT.mc_id=dotnet-35129-website&amp;tabs=visual-studio</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.perplexity.ai/">https://www.perplexity.ai/</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/@microsoft/signalr">https://www.npmjs.com/package/@microsoft/signalr</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/11/linq-search/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/12/11/linq-search/" class="post-title-link" itemprop="url">LINQ</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-12-11 08:57:01" itemprop="dateCreated datePublished" datetime="2024-12-11T08:57:01+08:00">2024-12-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:50:07" itemprop="dateModified" datetime="2025-04-25T10:50:07+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="LINQ-Language-Integrated-Query">LINQ ( Language Integrated Query)</h3>
-<p>微軟開發的技術<code>具有查詢資料的程式語言</code><br>
-讓工程師能夠使用原生 C#對資料進行處理<br>
-且相同語法可以查詢不同類型的資料，降低學習成本<br>
-擴充類型 :</p>
-<ul>
-<li>LINQ to Objects</li>
-<li>LINQ to SQL</li>
-<li>LINQ to XML</li>
-<li>…etc</li>
-</ul>
-<h2 id="LINQ-查詢的兩種語法">LINQ 查詢的兩種語法</h2>
-<ol>
-<li>查詢表達式 ( Query Expression Syntax )</li>
-</ol>
-<ul>
-<li>類似 SQL 的語法 : 使用 select 、 from 、where 等關鍵字</li>
-<li>較容易理解</li>
-<li>結構固定 : 必須 from 起始，select 或 group by 結尾</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
-&#123;
-    <span class="comment">// Data source.</span>
-    <span class="built_in">int</span>[] scores = <span class="keyword">new</span> <span class="built_in">int</span>[] &#123; <span class="number">90</span>, <span class="number">71</span>, <span class="number">82</span>, <span class="number">93</span>, <span class="number">75</span>, <span class="number">82</span> &#125;;
-
-    <span class="comment">// Query Expression.</span>
-    IEnumerable&lt;<span class="built_in">int</span>&gt; scoreQuery = <span class="comment">//query variable</span>
-        <span class="keyword">from</span> score <span class="keyword">in</span> scores <span class="comment">//required</span>
-        <span class="keyword">where</span> score &gt; <span class="number">80</span> <span class="comment">// optional</span>
-        <span class="keyword">orderby</span> score <span class="keyword">descending</span> <span class="comment">// optional</span>
-        <span class="keyword">select</span> score; <span class="comment">//must end with select or group</span>
-
-    <span class="comment">// Execute the query to produce the results</span>
-    <span class="keyword">foreach</span> (<span class="keyword">var</span> testScore <span class="keyword">in</span> scoreQuery)
-    &#123;
-        Console.WriteLine(testScore);
-    &#125;
-
-    <span class="comment">// Output: 93 90 82 82</span>
-&#125;</code></pre>
-<ol start="2">
-<li>流利語法（Fluent Syntax）</li>
-</ol>
-<ul>
-<li>靈活性高 : 可以方便地鏈結調用多個方法</li>
-<li>Lambda 表達式 : 代碼簡潔</li>
-<li>沒有固定結構 : 沒有特定的開始或結束語句</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
-&#123;
-    <span class="comment">// Data source.</span>
-    <span class="built_in">int</span>[] scores = <span class="keyword">new</span> <span class="built_in">int</span>[] &#123; <span class="number">90</span>, <span class="number">71</span>, <span class="number">82</span>, <span class="number">93</span>, <span class="number">75</span>, <span class="number">82</span> &#125;;
-
-    <span class="comment">// Query Expression.</span>
-    <span class="keyword">var</span> scoreQuery = scores
-        .Where(score =&gt; score &gt; <span class="number">80</span>)
-        .OrderByDescending(score =&gt; score);
-
-    <span class="comment">// Execute the query to produce the results</span>
-    <span class="keyword">foreach</span> (<span class="keyword">var</span> testScore <span class="keyword">in</span> scoreQuery)
-    &#123;
-        Console.WriteLine(testScore);
-    &#125;
-
-    <span class="comment">// Output: 93 90 82 82</span>
-&#125;</code></pre>
-<table>
-<thead>
-<tr>
-<th>特徵</th>
-<th>查詢表達式</th>
-<th>流利語法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>風格</td>
-<td>類似 sql</td>
-<td>方法鏈結</td>
-</tr>
-<tr>
-<td>可讀性</td>
-<td>高</td>
-<td>中</td>
-</tr>
-<tr>
-<td>結構要求</td>
-<td>from 開頭、select 或 group by 結尾</td>
-<td>無特定要求</td>
-</tr>
-<tr>
-<td>靈活性</td>
-<td>某些情況下較低</td>
-<td>更高的靈活性，尤其是動態</td>
-</tr>
-</tbody>
-</table>
-<h3 id="參考資料">參考資料</h3>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-tw/%E8%AF%AD%E8%A8%80%E9%9B%86%E6%88%90%E6%9F%A5%E8%AF%A2">https://zh.wikipedia.org/zh-tw/语言集成查询</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.perplexity.ai/">https://www.perplexity.ai/</a></li>
-<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10194251">https://ithelp.ithome.com.tw/articles/10194251</a></li>
 </ul>
 
       
