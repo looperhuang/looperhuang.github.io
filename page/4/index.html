@@ -19,28 +19,22 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="概述 接手了前輩的專案，以前都要自己手動上傳檔案，好麻煩 因此來看看怎麼用 Winscp 套件來串接，配合後續製作成排程程式，自動上傳 Install dotnet add package WinSCP Example &#x2F;&#x2F; 連線設定 SessionOptions sessionOptions &#x3D; new SessionOptions &#123;     Protocol &#x3D; Protocol.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="C# 使用Winscp上傳檔案">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/19/winscp/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Looper&#39;s Blog">
+<meta property="og:url" content="https://looperhuang.github.io/page/4/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="概述 接手了前輩的專案，以前都要自己手動上傳檔案，好麻煩 因此來看看怎麼用 Winscp 套件來串接，配合後續製作成排程程式，自動上傳 Install dotnet add package WinSCP Example &#x2F;&#x2F; 連線設定 SessionOptions sessionOptions &#x3D; new SessionOptions &#123;     Protocol &#x3D; Protocol.">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-11-19T07:55:53.000Z">
-<meta property="article:modified_time" content="2025-04-25T02:52:22.438Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="C#">
-<meta property="article:tag" content="Winscp">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/19/winscp/">
+<link rel="canonical" href="https://looperhuang.github.io/page/4/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/19/winscp/","path":"2024/11/19/winscp/","title":"C# 使用Winscp上傳檔案"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/4/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>C# 使用Winscp上傳檔案 | Looper's Blog</title>
+<title>Looper's Blog</title>
   
 
 
@@ -73,7 +67,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">Looper's Blog</p>
+      <h1 class="site-title">Looper's Blog</h1>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">一個菜鳥工程師</p>
@@ -127,7 +121,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目錄
@@ -140,7 +134,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install"><span class="nav-number">2.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Example"><span class="nav-number">3.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -190,18 +183,17 @@
 
     </div>
 
-    <div class="main-inner post posts-expand">
+    <div class="main-inner index posts-expand">
 
-
-  
+    
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/winscp/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -214,13 +206,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="C# 使用Winscp上傳檔案 | Looper's Blog">
+      <meta itemprop="name" content="undefined | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          C# 使用Winscp上傳檔案
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/19/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+        </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -230,23 +222,7 @@
       </span>
       <span class="post-meta-item-text">發表於</span>
 
-      <time title="創建時間：2024-11-19 15:55:53" itemprop="dateCreated datePublished" datetime="2024-11-19T15:55:53+08:00">2024-11-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:22" itemprop="dateModified" datetime="2025-04-25T10:52:22+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
-        </span>
+      <time title="創建時間：2024-11-19 10:10:27" itemprop="dateCreated datePublished" datetime="2024-11-19T10:10:27+08:00">2024-11-19</time>
     </span>
 
   
@@ -258,40 +234,23 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="概述">概述</h2>
-<p>接手了前輩的專案，以前都要自己手動上傳檔案，好麻煩<br>
-因此來看看怎麼用 Winscp 套件來串接，配合後續製作成排程程式，自動上傳</p>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight powershell">dotnet add package WinSCP</code></pre>
-<h2 id="Example">Example</h2>
-<pre><code class="highlight C#"><span class="comment">// 連線設定</span>
-SessionOptions sessionOptions = <span class="keyword">new</span> SessionOptions
-&#123;
-    Protocol = Protocol.Sftp,
-    HostName = <span class="string">&quot;hostname&quot;</span>,
-    PortNumber = port,
-    UserName = <span class="string">&quot;xxxx&quot;</span>,
-    SshHostKeyFingerprint = <span class="string">&quot;ssh-rsa 2048 xxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>,
-    SshPrivateKeyPath = <span class="string">&quot;....&quot;</span> <span class="comment">// 私鑰路徑自行調整(選用)</span>
-&#125;;
+    <div class="post-body" itemprop="articleBody">
+          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<pre><code class="highlight bash">$ hexo new <span class="string">&quot;My New Post&quot;</span></code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<pre><code class="highlight bash">$ hexo server</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<pre><code class="highlight bash">$ hexo generate</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<pre><code class="highlight bash">$ hexo deploy</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
-<span class="comment">// 開啟會話</span>
-<span class="keyword">using</span> <span class="keyword">var</span> session = <span class="keyword">new</span> Session();
-session.Open(sessionOptions);
-
-<span class="comment">// 定義上傳的文件路徑和遠端目錄</span>
-<span class="built_in">string</span> localFilePath = <span class="string">&quot;文件路徑&quot;</span>;
-<span class="built_in">string</span> remoteDirectory = <span class="string">&quot;伺服器目錄&quot;</span>; <span class="comment">// 遠端伺服器的目錄</span>
-
-<span class="comment">// 上傳文件</span>
-TransferOperationResult transferResult;
-transferResult = <span class="keyword">this</span>.session.PutFiles(localFilePath, remoteDirectory);
-
-<span class="comment">// 檢查上傳是否成功</span>
-transferResult.Check();</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<p><a target="_blank" rel="noopener" href="https://winscp.net/eng/docs/library#csharp">https://winscp.net/eng/docs/library#csharp</a></p>
-
+      
     </div>
 
     
@@ -299,25 +258,8 @@ transferResult.Check();</code></pre>
     
 
     <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/C/" rel="tag"># C#</a>
-              <a href="/tags/Winscp/" rel="tag"># Winscp</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2024/11/19/curl/" rel="prev" title="C# 使用 curl.exe 呼叫api">
-                  <i class="fa fa-angle-left"></i> C# 使用 curl.exe 呼叫api
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2024/11/20/imemorycahce/" rel="next" title="C# 資料快取">
-                  C# 資料快取 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
+        <div class="post-eof"></div>
+      
     </footer>
   </article>
 </div>
@@ -325,7 +267,9 @@ transferResult.Check();</code></pre>
 
 
 
-
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
 
 </div>
   </main>
