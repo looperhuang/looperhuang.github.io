@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -184,6 +184,127 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/13/text-fragments/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/12/13/text-fragments/" class="post-title-link" itemprop="url">文字片段</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-12-13 09:31:52" itemprop="dateCreated datePublished" datetime="2024-12-13T09:31:52+08:00">2024-12-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:02" itemprop="dateModified" datetime="2025-04-25T10:52:02+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="什麼是文字片段-Text-Fragments">什麼是文字片段(Text Fragments)</h3>
+<p>Text Fragments 是一種新的網頁功能<br>
+不需使用錨點標記（anchor tags）就可以讓使用者連結至特定文字<br>
+且會自動高亮顯示並滾動至該文本位置<br>
+<a target="_blank" rel="noopener" href="https://caniuse.com/mdn-html_elements_a_text_fragments">目前支援的版本與瀏覽器</a></p>
+<h3 id="使用方法">使用方法</h3>
+<p>基本結構 :</p>
+<pre><code class="highlight asciidoc"><span class="link">https://example.com/page.html#:~:text=</span>[<span class="string">前綴文字-,</span>]開始文字[,結束文字][,-後綴文字]</code></pre>
+<p>主要組成 :</p>
+<ul>
+<li>:~: 指令代表這是文字片段</li>
+<li>text= 要搜尋的文字</li>
+<li>[] 選用組件</li>
+</ul>
+<p>組件說明 :</p>
+<ul>
+<li>前綴文字 : 應出現在開始文字前面的文字</li>
+<li>開始文字 : 目標片段開頭文字</li>
+<li>結束文字 : 目標片段結尾文字</li>
+<li>後綴文字 : 應出現在結尾文字後面的文字</li>
+</ul>
+<p>樣式調整可透過<code>::target-text</code>進行調整</p>
+<pre><code class="highlight css">::target-text &#123;
+  <span class="attribute">background-color</span>: yellow;
+&#125;</code></pre>
+<h3 id="使用範例">使用範例</h3>
+<pre><code class="highlight dts"><span class="symbol">http:</span><span class="comment">//127.0.0.1:5500/index.html</span></code></pre>
+<p><img src="/images/txtfrag1.png" alt="txtfrag1.png"></p>
+<pre><code class="highlight avrasm"><span class="symbol">http:</span>//<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">5500</span>/index.html<span class="meta">#:~:text=心放地,學的有</span></code></pre>
+<p><img src="/images/txtfrag2.png" alt="txtfrag2.png"></p>
+<pre><code class="highlight pgsql">http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">5500</span>/<span class="keyword">index</span>.html#:~:<span class="type">text</span>=如及間沒人說利驗於民物時人&amp;<span class="type">text</span>=沒才雨叫訴</code></pre>
+<p><img src="/images/txtfrag3.png" alt="txtfrag3.png"></p>
+<h3 id="參考資料">參考資料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html">https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://claude.ai/new">https://claude.ai/new</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1821,266 +1942,6 @@ Console.WriteLine(<span class="string">&quot;Get Response: &quot;</span> + respo
 &#125;</code></pre>
 <h2 id="參考資料">參考資料</h2>
 <p><a target="_blank" rel="noopener" href="https://github.com/RobThree/IdGen?tab=readme-ov-file">https://github.com/RobThree/IdGen?tab=readme-ov-file</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/quartz/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/11/19/quartz/" class="post-title-link" itemprop="url">C# Web api使用Quartz進行一次性排程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-11-19 11:43:00" itemprop="dateCreated datePublished" datetime="2024-11-19T11:43:00+08:00">2024-11-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:50:24" itemprop="dateModified" datetime="2025-04-25T10:50:24+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Install">Install</h2>
-<pre><code class="highlight powershell"><span class="built_in">Install-Package</span> Quartz.AspNetCore
-<span class="built_in">Install-Package</span> Quartz.Extensions.DependencyInjection
-<span class="built_in">Install-Package</span> Quartz.Serialization.Json</code></pre>
-<h2 id="appsetting-json">appsetting.json</h2>
-<p>這邊使用 Oracle 資料庫做為持久化儲存<a target="_blank" rel="noopener" href="https://github.com/quartznet/quartznet/tree/main/database/tables">各類資料庫腳本</a></p>
-<pre><code class="highlight json"><span class="attr">&quot;Quartz&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span>
-  <span class="attr">&quot;quartz.scheduler.instanceName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QuartzOracleScheduler&quot;</span><span class="punctuation">,</span>
-  <span class="attr">&quot;quartz.scheduler.instanceId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;AUTO&quot;</span><span class="punctuation">,</span>
-  <span class="attr">&quot;quartz.jobStore.type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Quartz.Impl.AdoJobStore.JobStoreTX, Quartz&quot;</span><span class="punctuation">,</span>
-  <span class="attr">&quot;quartz.jobStore.useProperties&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span>
-  <span class="attr">&quot;quartz.jobStore.dataSource&quot;</span><span class="punctuation">:</span> <span class="string">&quot;default&quot;</span><span class="punctuation">,</span>
-  <span class="attr">&quot;quartz.jobStore.tablePrefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QRTZ_&quot;</span><span class="punctuation">,</span>
-  <span class="attr">&quot;quartz.jobStore.driverDelegateType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Quartz.Impl.AdoJobStore.OracleDelegate, Quartz&quot;</span><span class="punctuation">,</span>
-  <span class="attr">&quot;quartz.dataSource.default.provider&quot;</span><span class="punctuation">:</span> <span class="string">&quot;OracleODPManaged&quot;</span><span class="punctuation">,</span>
-  <span class="attr">&quot;quartz.dataSource.default.connectionString&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Your Connection String&quot;</span>
-<span class="punctuation">&#125;</span></code></pre>
-<h2 id="Job-cs">Job.cs</h2>
-<pre><code class="highlight C#"> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SendTasJob</span> : <span class="title">IJob</span>
- &#123;
-     <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">Execute</span>(<span class="params">IJobExecutionContext context</span>)</span>
-     &#123;
-         <span class="comment">//Job要實作的內容</span>
-          <span class="keyword">var</span> tasid = context.MergedJobDataMap.GetString(<span class="string">&quot;tasid&quot;</span>);
-          <span class="keyword">var</span> welcomeText = context.MergedJobDataMap.GetString(<span class="string">&quot;welcomeText&quot;</span>);
-          Console.WriteLine(tasid + welcomeText);
-          <span class="keyword">return</span> Task.CompletedTask;
-     &#125;
-&#125;</code></pre>
-<h2 id="Controller-cs">Controller.cs</h2>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TasController</span> : <span class="title">ControllerBase</span>
-&#123;
-
-    <span class="keyword">private</span> <span class="keyword">readonly</span> ISchedulerFactory schedulerFactory;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IdGenerator idGenerator;
-
-    <span class="function"><span class="keyword">public</span> <span class="title">TasController</span>(<span class="params">ISchedulerFactory schedulerFactory,</span></span>
-<span class="params"><span class="function">                         IdGenerator idGenerator</span>)</span>
-    &#123;
-        <span class="keyword">this</span>.schedulerFactory = schedulerFactory;
-        <span class="keyword">this</span>.idGenerator = idGenerator;
-    &#125;
-
-    [<span class="meta">HttpPost(<span class="string">&quot;[action]&quot;</span>)</span>]
-    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">ScheduleTasJob</span>(<span class="params">TasJobRequest request</span>)</span>
-    &#123;
-        <span class="comment">// 使用 SchedulerFactory 取得 Scheduler</span>
-        <span class="keyword">var</span> sch = <span class="keyword">await</span> schedulerFactory.GetScheduler();
-       <span class="comment">// 雪花算法產Id</span>
-        <span class="keyword">var</span> jobid = idGenerator.CreateId();
-        <span class="keyword">var</span> jobKey = <span class="keyword">new</span> JobKey(<span class="string">$&quot;TasJob-<span class="subst">&#123;jobid&#125;</span>&quot;</span>, <span class="string">&quot;TasJobs&quot;</span>);
-        <span class="keyword">var</span> triggerKey = <span class="keyword">new</span> TriggerKey(<span class="string">$&quot;TasJobTrigger-<span class="subst">&#123;jobid&#125;</span>&quot;</span>, <span class="string">&quot;TasJobs&quot;</span>);
-
-        <span class="comment">// 建立Job</span>
-        <span class="keyword">var</span> job = JobBuilder.Create&lt;SendTasJob&gt;()
-            .WithIdentity(jobKey)
-             <span class="comment">//key value 如果有開啟UseProperties 只能有string型別</span>
-            .UsingJobData(<span class="string">&quot;tasid&quot;</span>, request.TasId)
-            .UsingJobData(<span class="string">&quot;welcomeText&quot;</span>, request.WelcomeText)
-            .StoreDurably() <span class="comment">// 使任務持久化</span>
-            .Build();
-
-        <span class="comment">// 設定Trigger</span>
-        ITrigger trigger = TriggerBuilder.Create()
-            .WithIdentity(triggerKey)
-            .StartAt(request.ExecuteAt ?? DateTime.UtcNow) <span class="comment">// 指定執行時間</span>
-            .WithSimpleSchedule(x =&gt; x
-                .WithMisfireHandlingInstructionFireNow() <span class="comment">// 當排程錯過執行時間時立即執行</span>
-                .WithRepeatCount(<span class="number">0</span>) <span class="comment">//只執行一次</span>
-                )
-            .Build();
-
-        <span class="keyword">try</span>
-        &#123;
-           <span class="keyword">await</span> sch.ScheduleJob(job, trigger);
-           Console.WriteLine(<span class="string">$&quot;Scheduled job successfully with JobKey: <span class="subst">&#123;jobKey.Name&#125;</span> and TriggerKey: <span class="subst">&#123;triggerKey.Name&#125;</span>&quot;</span>);
-        &#125;
-        <span class="keyword">catch</span> (Exception ex)
-        &#123;
-            Console.WriteLine(<span class="string">$&quot;Failed to schedule job with JobKey: <span class="subst">&#123;jobKey.Name&#125;</span> and TriggerKey: <span class="subst">&#123;triggerKey.Name&#125;</span>&quot;</span>, ex);
-            <span class="keyword">return</span> StatusCode(<span class="number">500</span>, <span class="string">&quot;Failed to schedule job&quot;</span>);
-        &#125;
-
-        <span class="keyword">return</span> Ok(<span class="string">$&quot;Scheduled job successfully with Job: <span class="subst">&#123;jobKey.Name&#125;</span> and Trigger: <span class="subst">&#123;triggerKey.Name&#125;</span>&quot;</span>);
-    &#125;
-&#125;</code></pre>
-<h2 id="Program-cs">Program.cs</h2>
-<pre><code class="highlight C#"><span class="comment">// 從 appsettings.json 載入 Quartz 配置</span>
-builder.Services.Configure&lt;QuartzOptions&gt;(builder.Configuration.GetSection(<span class="string">&quot;Quartz&quot;</span>));
-
-<span class="comment">// 加入 Quartz 服務</span>
-builder.Services.AddQuartz(q =&gt;
-&#123;
-    q.UseJobFactory&lt;MicrosoftDependencyInjectionJobFactory&gt;();
-
-    <span class="comment">// 持久化</span>
-    q.UsePersistentStore(opt =&gt;
-    &#123;
-        opt.UseProperties = <span class="literal">false</span>;
-        opt.UseOracle(configuration =&gt;
-        &#123;
-            configuration.ConnectionString = builder.Configuration[<span class="string">&quot;Quartz:quartz.dataSource.default.connectionString&quot;</span>];
-        &#125;);
-        opt.UseNewtonsoftJsonSerializer();
-    &#125;);
-&#125;);
-builder.Services.AddQuartzServer(q =&gt; q.WaitForJobsToComplete = <span class="literal">true</span>); <span class="comment">//hosting server</span>
-<span class="comment">//builder.Services.AddQuartzHostedService(options =&gt;</span>
-<span class="comment">//&#123;</span>
-<span class="comment">//    // when shutting down we want jobs to complete gracefully</span>
-<span class="comment">//    options.WaitForJobsToComplete = true;</span>
-<span class="comment">//&#125;);</span>
-builder.Services.AddTransient&lt;SendTasJob&gt;(); <span class="comment">// Job註冊</span>
-</code></pre>
-<h2 id="AddQuartzServer-vs-AddQuartzHostedService">AddQuartzServer vs AddQuartzHostedService</h2>
-<p>AddQuartzServer 會多一個 Health Check 檢查 scheduler<br>
-Source Code 如下</p>
-<pre><code class="highlight C#"><span class="keyword">using</span> System;
-
-<span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;
-
-<span class="meta">#<span class="keyword">if</span> SUPPORTS_HEALTH_CHECKS</span>
-<span class="keyword">using</span> Quartz.AspNetCore.HealthChecks;
-<span class="meta">#<span class="keyword">endif</span></span>
-
-<span class="keyword">namespace</span> <span class="title">Quartz</span>
-&#123;
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">QuartzServiceCollectionExtensions</span>
-    &#123;
-        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IServiceCollection <span class="title">AddQuartzServer</span>(<span class="params"></span></span>
-<span class="params"><span class="function">            <span class="keyword">this</span> IServiceCollection services,</span></span>
-<span class="params"><span class="function">            Action&lt;QuartzHostedServiceOptions&gt;? configure = <span class="literal">null</span></span>)</span>
-        &#123;
-            <span class="meta">#<span class="keyword">if</span> SUPPORTS_HEALTH_CHECKS</span>
-            services
-                .AddHealthChecks()
-                .AddTypeActivatedCheck&lt;QuartzHealthCheck&gt;(<span class="string">&quot;quartz-scheduler&quot;</span>);
-            <span class="meta">#<span class="keyword">endif</span></span>
-
-            <span class="keyword">return</span> services.AddQuartzHostedService(configure);
-        &#125;
-    &#125;
-&#125;</code></pre>
-<h2 id="IIS-回收機制，排程失效">IIS 回收機制，排程失效</h2>
-<ul>
-<li>關閉回收機制(程式應用集區 =&gt; 進階設定)<br>
-<img src="/images/InetMgr_ndjANFedAK.png" alt="InetMgr_ndjANFedAK.png"><br>
-<img src="/images/InetMgr_8EXFtPapjN.png" alt="InetMgr_8EXFtPapjN.png"></li>
-<li>定期呼叫 api 維持 server keep alive (ex.使用 window 排程)</li>
-</ul>
-<pre><code class="highlight powershell"><span class="comment"># File: InvokeApi.ps1</span>
-
-<span class="comment"># 設定 URL</span>
-<span class="variable">$url</span> = <span class="string">&quot;your api url&quot;</span>
-<span class="comment"># 設定 Log Path</span>
-<span class="variable">$logFile</span> = <span class="string">&quot;C:\Scripts\InvokeApi.log&quot;</span>
-
-<span class="comment"># 調用 API</span>
-<span class="keyword">try</span> &#123;
-    <span class="variable">$response</span> = <span class="built_in">Invoke-WebRequest</span> <span class="literal">-Uri</span> <span class="variable">$url</span> <span class="literal">-Method</span> Get <span class="literal">-TimeoutSec</span> <span class="number">10</span>
-    <span class="variable">$logEntry</span> = <span class="string">&quot;<span class="variable">$</span>(Get-Date) - API call successfully: <span class="variable">$</span>(<span class="variable">$response</span>.StatusCode)&quot;</span>
-&#125; <span class="keyword">catch</span> &#123;
-    <span class="variable">$logEntry</span> = <span class="string">&quot;<span class="variable">$</span>(Get-Date) - API call failed: <span class="variable">$</span>(<span class="variable">$_</span>.Exception.Message)&quot;</span>
-&#125;
-
-<span class="comment"># 寫入日誌</span>
-<span class="variable">$logEntry</span> | <span class="built_in">Out-File</span> <span class="literal">-FilePath</span> <span class="variable">$logFile</span> <span class="literal">-Append</span>
-</code></pre>
-<ul>
-<li>回收後，應用關閉事件添加應用重啟<br>
-<img src="/images/aplstart.png" alt="aplstart.png"></li>
-</ul>
-<h2 id="參考資料">參考資料</h2>
-<p><a target="_blank" rel="noopener" href="https://www.quartz-scheduler.net/">https://www.quartz-scheduler.net/</a><br>
-<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/75443765/quartz-aspnetcore-and-hosting-in-asp-net-core">https://stackoverflow.com/questions/75443765/quartz-aspnetcore-and-hosting-in-asp-net-core</a><br>
-<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_18932003/article/details/139672249">https://blog.csdn.net/qq_18932003/article/details/139672249</a></p>
 
       
     </div>

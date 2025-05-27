@@ -19,41 +19,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="文章原文 一般建議 不要小看運氣(Luck)與收穫(Harvesting) 你越早拿到運氣跟收穫，後面的回報越多 下面是個例子  這並非意味著每次都必須選擇收穫(Harvesting)但越早提升收益越大 運氣(Luck)也是同理，越早提升可以有更好的商店選擇與升級選項 所以如果你在難度 5 下某些角色玩得很吃力，可以嘗試在前期提升收穫(Harvesting)和運氣(Luck) 或許會讓你玩起來較">
+    <meta name="description" content="Rust 中的方法語法讓我們可以將函式綁定到 struct 上，使程式更具結構性與可讀性。 本節將介紹如何使用 impl 區塊定義方法、使用 self 參數、以及什麼是關聯函式。 📦 使用 impl 實作方法 #[derive(Debug)] struct Rectangle &#123;     width: u32,     height: u32, &#125;  impl Rectang">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻)">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/26/brotato/index.html">
+<meta property="og:title" content="🦀 Rust Method Syntax">
+<meta property="og:url" content="https://looperhuang.github.io/2025/05/27/rust-method-syntax/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="文章原文 一般建議 不要小看運氣(Luck)與收穫(Harvesting) 你越早拿到運氣跟收穫，後面的回報越多 下面是個例子  這並非意味著每次都必須選擇收穫(Harvesting)但越早提升收益越大 運氣(Luck)也是同理，越早提升可以有更好的商店選擇與升級選項 所以如果你在難度 5 下某些角色玩得很吃力，可以嘗試在前期提升收穫(Harvesting)和運氣(Luck) 或許會讓你玩起來較">
+<meta property="og:description" content="Rust 中的方法語法讓我們可以將函式綁定到 struct 上，使程式更具結構性與可讀性。 本節將介紹如何使用 impl 區塊定義方法、使用 self 參數、以及什麼是關聯函式。 📦 使用 impl 實作方法 #[derive(Debug)] struct Rectangle &#123;     width: u32,     height: u32, &#125;  impl Rectang">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://looperhuang.github.io/images/bratato.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/harvestExample.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/luck.png">
-<meta property="og:image" content="https://looperhuang.github.io/images/luckShop.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/healPick.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/lootCrate.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/healBuff.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/betterItem.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/SRankItems.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/uglyTooth.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/FTireItems.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/engineering.jpg">
-<meta property="og:image" content="https://looperhuang.github.io/images/sharpBullet.jpg">
-<meta property="article:published_time" content="2024-11-26T00:28:00.000Z">
-<meta property="article:modified_time" content="2024-11-29T01:05:51.675Z">
+<meta property="article:published_time" content="2025-05-27T05:59:36.000Z">
+<meta property="article:modified_time" content="2025-05-27T06:18:44.881Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="遊戲">
+<meta property="article:tag" content="rust">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://looperhuang.github.io/images/bratato.jpg">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/26/brotato/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/05/27/rust-method-syntax/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/26/brotato/","path":"2024/11/26/brotato/","title":"Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻)"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/05/27/rust-method-syntax/","path":"2025/05/27/rust-method-syntax/","title":"🦀 Rust Method Syntax"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻) | Looper's Blog</title>
+<title>🦀 Rust Method Syntax | Looper's Blog</title>
   
 
 
@@ -153,7 +139,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E8%88%AC%E5%BB%BA%E8%AD%B0"><span class="nav-number">1.</span> <span class="nav-text">一般建議</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E8%80%97%E5%93%81%E3%80%81%E6%B2%BB%E7%99%82%E8%88%87%E5%AF%B6%E7%AE%B1-%E9%87%8D%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">消耗品、治療與寶箱(重要!!!)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%A3%E5%BA%A6-5-%E6%8E%A8%E8%96%A6%E7%89%A9%E5%93%81-I-got-you"><span class="nav-number">3.</span> <span class="nav-text">難度 5 推薦物品!!!(I got you)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#S-Tier-Items"><span class="nav-number">4.</span> <span class="nav-text">S-Tier Items</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#F-Tier-Items-%E5%B9%BE%E4%B9%8E%E4%B8%8D%E9%81%B8"><span class="nav-number">5.</span> <span class="nav-text">F-Tier Items(幾乎不選)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B%E5%AD%B8"><span class="nav-number">6.</span> <span class="nav-text">工程學</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%A6-%E4%BD%BF%E7%94%A8-impl-%E5%AF%A6%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">📦 使用 impl 實作方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E8%AA%AA%E6%98%8E"><span class="nav-number">1.1.</span> <span class="nav-text">🧠 說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9C%85-%E6%96%B9%E6%B3%95%E5%91%BC%E5%8F%AB%E7%AF%84%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">✅ 方法呼叫範例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%8D-%E5%A4%9A%E5%80%8B%E6%96%B9%E6%B3%95%E8%88%87%E4%BD%BF%E7%94%A8%E6%A2%9D%E4%BB%B6%E5%88%A4%E6%96%B7"><span class="nav-number">2.</span> <span class="nav-text">🔍 多個方法與使用條件判斷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%93%8C-%E8%AA%AA%E6%98%8E"><span class="nav-number">2.1.</span> <span class="nav-text">📌 說明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%8F%B7%EF%B8%8F-%E9%97%9C%E8%81%AF%E5%87%BD%E5%BC%8F%EF%BC%88Associated-Function%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">🏷️ 關聯函式（Associated Function）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%93%8C-%E8%AA%AA%E6%98%8E-t2"><span class="nav-number">3.1.</span> <span class="nav-text">📌 說明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A4%94-%E6%96%B9%E6%B3%95-vs-%E9%97%9C%E8%81%AF%E5%87%BD%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">🤔 方法 vs 關聯函式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%A0-%E5%B0%8F%E6%8A%80%E5%B7%A7%E8%A3%9C%E5%85%85"><span class="nav-number">5.</span> <span class="nav-text">🧠 小技巧補充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9D-%E5%B0%8F%E7%B5%90"><span class="nav-number">6.</span> <span class="nav-text">📝 小結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E5%8F%83%E8%80%83%E8%88%87%E5%BB%B6%E4%BC%B8"><span class="nav-number">7.</span> <span class="nav-text">📚 參考與延伸</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -214,7 +200,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/26/brotato/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/27/rust-method-syntax/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -227,12 +213,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻) | Looper's Blog">
+      <meta itemprop="name" content="🦀 Rust Method Syntax | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻)
+          🦀 Rust Method Syntax
         </h1>
 
         <div class="post-meta-container">
@@ -242,15 +228,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2024-11-26 08:28:00" itemprop="dateCreated datePublished" datetime="2024-11-26T08:28:00+08:00">2024-11-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2024-11-29 09:05:51" itemprop="dateModified" datetime="2024-11-29T09:05:51+08:00">2024-11-29</time>
+      <time title="創建時間：2025-05-27 13:59:36 / 修改時間：14:18:44" itemprop="dateCreated datePublished" datetime="2025-05-27T13:59:36+08:00">2025-05-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +238,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%81%8A%E6%88%B2/" itemprop="url" rel="index"><span itemprop="name">遊戲</span></a>
+          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
         </span>
     </span>
 
@@ -271,83 +251,136 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><img src="/images/bratato.jpg" alt="brotato.jpg"><br>
-<a target="_blank" rel="noopener" href="https://steamcommunity.com/sharedfiles/filedetails/?id=3018964960">文章原文</a></p>
-<h2 id="一般建議">一般建議</h2>
-<p>不要小看<code>運氣(Luck)</code>與<code>收穫(Harvesting)</code><br>
-你越早拿到運氣跟收穫，後面的回報越多<br>
-下面是個例子<br>
-<img src="/images/harvestExample.jpg" alt="harvestExample.jpg"><br>
-這並非意味著每次都必須選擇<code>收穫(Harvesting)</code>但越早提升收益越大<br>
-<code>運氣(Luck)</code>也是同理，越早提升可以有更好的商店選擇與升級選項<br>
-所以如果你在難度 5 下某些角色玩得很吃力，可以嘗試在前期提升<code>收穫(Harvesting)</code>和<code>運氣(Luck)</code><br>
-或許會讓你玩起來較舒服<br>
-下圖說明<code>運氣(Luck)</code>如何影響遊戲<br>
-<img src="/images/luck.png" alt="lucky.png"><br>
-然後下圖說明<code>運氣(Luck)</code>數值對商店的影響，但不要忘記升級異形素材掉落<br>
-<img src="/images/luckShop.jpg" alt="luckShop.jpg"><br>
-一般而言，你不需要太多就可以完成難度 5，只需要了解角色跟物品的聯動</p>
-<h2 id="消耗品、治療與寶箱-重要">消耗品、治療與寶箱(重要!!!)</h2>
-<p>😱<code>除非需要補血，請不要拾取消耗品跟寶箱</code>😱<br>
-因為如果你滿血拾取，將不會獲得任何效益<br>
-消耗品跟寶箱在波數結束的時候會自動拾取<br>
-<img src="/images/healPick.jpg" alt="healPick.jpg"><br>
-<img src="/images/lootCrate.jpg" alt="lootCrate.jpg"><br>
-這個技巧適合用於你想要秒殺菁英怪，因為他會掉落一個傳奇寶箱可以回復 100HP<br>
-如果你滿血就保留到需要的時候再用<br>
-這是一個很有用的策略，但常常被忽略<br>
-所以滿血的時候，就不要撿消耗品跟寶箱</p>
-<p>除非你的操作很神，要不然你一定會需要補血，他會在關鍵時刻救你一命 🤡<br>
-<img src="/images/healBuff.jpg" alt="healBuff.jpg"></p>
-<h2 id="難度-5-推薦物品-I-got-you">難度 5 推薦物品!!!(I got you)</h2>
-<p>有些物品可以極大的幫助你通過難度 5<br>
-首選是妖精(Fairy)幾乎必選，其餘的可以參考下圖<br>
-建議在較低的難度解鎖這些裝備，這樣你就可以在難度 5 使用它<br>
-<img src="/images/betterItem.jpg" alt="betterItem.jpg"></p>
-<h2 id="S-Tier-Items">S-Tier Items</h2>
-<p>為什麼要盡量取得這些裝備???</p>
+    <div class="post-body" itemprop="articleBody"><p>Rust 中的方法語法讓我們可以將函式綁定到 <code>struct</code> 上，使程式更具結構性與可讀性。<br>
+本節將介紹如何使用 <code>impl</code> 區塊定義方法、使用 <code>self</code> 參數、以及什麼是關聯函式。</p>
+<h2 id="📦-使用-impl-實作方法">📦 使用 <code>impl</code> 實作方法</h2>
+<pre><code class="highlight rust"><span class="meta">#[derive(Debug)]</span>
+<span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;
+    width: <span class="type">u32</span>,
+    height: <span class="type">u32</span>,
+&#125;
+
+<span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;
+    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;
+        <span class="keyword">self</span>.width * <span class="keyword">self</span>.height
+    &#125;
+&#125;</code></pre>
+<h3 id="🧠-說明">🧠 說明</h3>
 <ul>
-<li>讓你遊戲更順利</li>
-<li>巨大價值，且幾乎回本</li>
-<li>傷害越高，你殺敵的速度就越快，殺的敵人越多，你獲得的材料也就越多。</li>
-<li>越早獲得圖片中 S 級裝備裡那些提供收穫（Harvesting）的裝備，它們回本的速度就越快。</li>
+<li><code>impl Rectangle</code> 表示為 <code>Rectangle</code> 實作方法。</li>
+<li><code>&amp;self</code> 相當於 <code>self: &amp;Rectangle</code>，表示借用該實例。</li>
+<li>方法呼叫方式為 <code>rect.area()</code>，而非 <code>area(&amp;rect)</code>。</li>
 </ul>
-<p><strong>注意!!!</strong><br>
-為什麼那些可以<code>增加敵人數量</code>的裝備是好東西??<br>
-因為每回合刷新的敵人越多，整場遊戲中獲得的材料也會越多。因此，記得留意這類裝備。</p>
-<p>但也要留心，有些裝備在第 15 波之後就不太值得拿了，具體取決於你獲得它們的時間。<br>
-以下列出的裝備幾乎適用於遊戲中每個角色，所以它們被歸入了 S 級。<br>
-<img src="/images/SRankItems.jpg" alt="SRankItems.jpg"></p>
-<p><strong>特別</strong><br>
-為什麼選擇 Ugly Tooth??<br>
-如果你覺得你常常被菁英怪或 BOSS 貼著打或是覺得移動速度不夠躲怪那就選它<br>
-它是遊戲中影響力最大的裝備之一，特別是在你的跑圖狀況不穩的時候，能起到很大的作用<br>
-如果你目前可以輕鬆清場，那就不需要它<br>
-<img src="/images/uglyTooth.jpg" alt="uglyTooth.jpg"></p>
-<h2 id="F-Tier-Items-幾乎不選">F-Tier Items(幾乎不選)</h2>
-<p>為什麼要盡量避免選擇這些物品??<br>
-因為這些裝備的副作用會隨著遊戲的進行越來越擴大</p>
-<ol>
-<li>減少敵人數量的裝備，代表經濟收益減少</li>
-<li>希望敵人速度比你慢才不容易貼到你，所以給敵人速度加乘的裝備不建議選擇</li>
-</ol>
-<p><img src="/images/FTireItems.jpg" alt="FTireItems.jpg"></p>
-<h2 id="工程學">工程學</h2>
-<p>可以提升結構物的傷害跟治療量，也會提升板手跟起子的傷害</p>
-<p>工程學會不會太強?<br>
-對於某些角色有負面%傷害加成的角色是蠻強的<br>
-因為<code>工程學</code>是一個獨立的屬性不依賴其他<code>%傷害</code>、<code>範圍傷害</code>或<code>近距離傷害</code><br>
-因此你可以專注於提升你的<code>閃避</code>、<code>生命</code>、<code>生命再生</code>、<code>護甲</code>，不用關心其他傷害只要升<code>工程學</code>就好<br>
-<img src="/images/engineering.jpg" alt="engineering.jpg"></p>
-<p>舉例，假設你的炮台沒有貫穿，然後你選擇下面的道具<br>
-<img src="/images/sharpBullet.jpg" alt="sharpBullet.jpg"><br>
-你的結構物不會被-%傷害影響，因為結構物不受其影響，所以對結構物這個道具是很有用的</p>
-<p>還在施工中…</p>
-<h2 id="參考資料">參考資料</h2>
+<h3 id="✅-方法呼叫範例">✅ 方法呼叫範例</h3>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123;
+        width: <span class="number">30</span>,
+        height: <span class="number">50</span>,
+    &#125;;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;The area of the rectangle is &#123;&#125;.&quot;</span>, rect1.<span class="title function_ invoke__">area</span>());
+&#125;</code></pre>
+<h2 id="🔍-多個方法與使用條件判斷">🔍 多個方法與使用條件判斷</h2>
+<pre><code class="highlight rust"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;
+    <span class="keyword">fn</span> <span class="title function_">width</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;
+        <span class="keyword">self</span>.width
+    &#125;
+
+    <span class="keyword">fn</span> <span class="title function_">can_hold</span>(&amp;<span class="keyword">self</span>, other: &amp;Rectangle) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;
+        <span class="keyword">self</span>.width &gt; other.width &amp;&amp; <span class="keyword">self</span>.height &gt; other.height
+    &#125;
+&#125;</code></pre>
+<h3 id="📌-說明">📌 說明</h3>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://steamcommunity.com/sharedfiles/filedetails/?id=3018964960">https://steamcommunity.com/sharedfiles/filedetails/?id=3018964960</a></li>
-<li><a target="_blank" rel="noopener" href="https://brotato.wiki.spellsandguns.com/Brotato_Wiki">https://brotato.wiki.spellsandguns.com/Brotato_Wiki</a></li>
-<li><a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1-c33h4oZwmWj3ZOz4xp0HN4vIyMXxOwGK8Rm8e4mfKE/edit?tab=t.0#heading=h.dvp9r7tx7asm">https://docs.google.com/document/d/1-c33h4oZwmWj3ZOz4xp0HN4vIyMXxOwGK8Rm8e4mfKE/edit?tab=t.0#heading=h.dvp9r7tx7asm</a></li>
+<li>可以定義多個方法於同一 <code>impl</code> 區塊。</li>
+<li><code>can_hold</code> 比較兩個矩形是否包含對方。</li>
+</ul>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123; width: <span class="number">30</span>, height: <span class="number">50</span> &#125;;
+<span class="keyword">let</span> <span class="variable">rect2</span> = Rectangle &#123; width: <span class="number">10</span>, height: <span class="number">40</span> &#125;;
+<span class="keyword">let</span> <span class="variable">rect3</span> = Rectangle &#123; width: <span class="number">60</span>, height: <span class="number">45</span> &#125;;
+
+<span class="built_in">println!</span>(<span class="string">&quot;rect1 can hold rect2: &#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">can_hold</span>(&amp;rect2));
+<span class="built_in">println!</span>(<span class="string">&quot;rect1 can hold rect3: &#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">can_hold</span>(&amp;rect3));</code></pre>
+<h2 id="🏷️-關聯函式（Associated-Function）">🏷️ 關聯函式（Associated Function）</h2>
+<pre><code class="highlight rust"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;
+    <span class="keyword">fn</span> <span class="title function_">square</span>(size: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> Rectangle &#123;
+        Rectangle &#123;
+            width: size,
+            height: size,
+        &#125;
+    &#125;
+&#125;</code></pre>
+<h3 id="📌-說明-t2">📌 說明</h3>
+<ul>
+<li>沒有 <code>self</code> 的函式稱為 關聯函式。</li>
+<li>類似靜態方法，可透過 <code>Rectangle::square(10)</code> 呼叫。</li>
+</ul>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">square</span> = Rectangle::<span class="title function_ invoke__">square</span>(<span class="number">20</span>);</code></pre>
+<h2 id="🤔-方法-vs-關聯函式">🤔 方法 vs 關聯函式</h2>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>語法</th>
+<th>有無 self</th>
+<th>用途說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方法</td>
+<td><code>fn area(&amp;self)</code></td>
+<td>有</td>
+<td>操作該 struct 實例本身</td>
+</tr>
+<tr>
+<td>關聯函式</td>
+<td><code>fn square(...)</code></td>
+<td>無</td>
+<td>與 struct 相關但不依賴特定實例（如建構器）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="🧠-小技巧補充">🧠 小技巧補充</h2>
+<ul>
+<li>Rust 的方法語法類似 OOP，但實際上只是語法糖，方法仍是透過 <code>&amp;self</code> 傳入 struct。</li>
+<li>一個 struct 可有多個 <code>impl</code> 區塊，不必全部寫在一起。</li>
+</ul>
+<h2 id="📝-小結">📝 小結</h2>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>impl</code></td>
+<td>方法實作區塊</td>
+</tr>
+<tr>
+<td><code>&amp;self</code></td>
+<td>借用當前實例 (<code>self: &amp;Self</code>)</td>
+</tr>
+<tr>
+<td><code>.method()</code></td>
+<td>方法語法糖，實際上等同傳入引用</td>
+</tr>
+<tr>
+<td>關聯函式</td>
+<td>無 <code>self</code>，用於工廠函式或靜態工具</td>
+</tr>
+<tr>
+<td><code>Self</code></td>
+<td>在 <code>impl</code> 中代表當前 struct 類型</td>
+</tr>
+</tbody>
+</table>
+<h2 id="📚-參考與延伸">📚 參考與延伸</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch05-03-method-syntax.html">Rust 官方手冊 - 方法語法</a></li>
+<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
 </ul>
 
     </div>
@@ -358,21 +391,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E9%81%8A%E6%88%B2/" rel="tag"># 遊戲</a>
+              <a href="/tags/rust/" rel="tag"># rust</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/20/imemorycahce/" rel="prev" title="C# 資料快取">
-                  <i class="fa fa-angle-left"></i> C# 資料快取
+                <a href="/2025/05/22/rust-struct-example/" rel="prev" title="🦀 Rust An Example Program Using Structs And Debug">
+                  <i class="fa fa-angle-left"></i> 🦀 Rust An Example Program Using Structs And Debug
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/11/27/iteration-and-recursion/" rel="next" title="迭代與遞迴">
-                  迭代與遞迴 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>

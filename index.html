@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -184,6 +184,215 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/27/rust-method-syntax/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/27/rust-method-syntax/" class="post-title-link" itemprop="url">🦀 Rust Method Syntax</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-05-27 13:59:36 / 修改時間：14:18:44" itemprop="dateCreated datePublished" datetime="2025-05-27T13:59:36+08:00">2025-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Rust 中的方法語法讓我們可以將函式綁定到 <code>struct</code> 上，使程式更具結構性與可讀性。<br>
+本節將介紹如何使用 <code>impl</code> 區塊定義方法、使用 <code>self</code> 參數、以及什麼是關聯函式。</p>
+<h2 id="📦-使用-impl-實作方法">📦 使用 <code>impl</code> 實作方法</h2>
+<pre><code class="highlight rust"><span class="meta">#[derive(Debug)]</span>
+<span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;
+    width: <span class="type">u32</span>,
+    height: <span class="type">u32</span>,
+&#125;
+
+<span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;
+    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;
+        <span class="keyword">self</span>.width * <span class="keyword">self</span>.height
+    &#125;
+&#125;</code></pre>
+<h3 id="🧠-說明">🧠 說明</h3>
+<ul>
+<li><code>impl Rectangle</code> 表示為 <code>Rectangle</code> 實作方法。</li>
+<li><code>&amp;self</code> 相當於 <code>self: &amp;Rectangle</code>，表示借用該實例。</li>
+<li>方法呼叫方式為 <code>rect.area()</code>，而非 <code>area(&amp;rect)</code>。</li>
+</ul>
+<h3 id="✅-方法呼叫範例">✅ 方法呼叫範例</h3>
+<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
+    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123;
+        width: <span class="number">30</span>,
+        height: <span class="number">50</span>,
+    &#125;;
+
+    <span class="built_in">println!</span>(<span class="string">&quot;The area of the rectangle is &#123;&#125;.&quot;</span>, rect1.<span class="title function_ invoke__">area</span>());
+&#125;</code></pre>
+<h2 id="🔍-多個方法與使用條件判斷">🔍 多個方法與使用條件判斷</h2>
+<pre><code class="highlight rust"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;
+    <span class="keyword">fn</span> <span class="title function_">width</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;
+        <span class="keyword">self</span>.width
+    &#125;
+
+    <span class="keyword">fn</span> <span class="title function_">can_hold</span>(&amp;<span class="keyword">self</span>, other: &amp;Rectangle) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;
+        <span class="keyword">self</span>.width &gt; other.width &amp;&amp; <span class="keyword">self</span>.height &gt; other.height
+    &#125;
+&#125;</code></pre>
+<h3 id="📌-說明">📌 說明</h3>
+<ul>
+<li>可以定義多個方法於同一 <code>impl</code> 區塊。</li>
+<li><code>can_hold</code> 比較兩個矩形是否包含對方。</li>
+</ul>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123; width: <span class="number">30</span>, height: <span class="number">50</span> &#125;;
+<span class="keyword">let</span> <span class="variable">rect2</span> = Rectangle &#123; width: <span class="number">10</span>, height: <span class="number">40</span> &#125;;
+<span class="keyword">let</span> <span class="variable">rect3</span> = Rectangle &#123; width: <span class="number">60</span>, height: <span class="number">45</span> &#125;;
+
+<span class="built_in">println!</span>(<span class="string">&quot;rect1 can hold rect2: &#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">can_hold</span>(&amp;rect2));
+<span class="built_in">println!</span>(<span class="string">&quot;rect1 can hold rect3: &#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">can_hold</span>(&amp;rect3));</code></pre>
+<h2 id="🏷️-關聯函式（Associated-Function）">🏷️ 關聯函式（Associated Function）</h2>
+<pre><code class="highlight rust"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;
+    <span class="keyword">fn</span> <span class="title function_">square</span>(size: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> Rectangle &#123;
+        Rectangle &#123;
+            width: size,
+            height: size,
+        &#125;
+    &#125;
+&#125;</code></pre>
+<h3 id="📌-說明-t2">📌 說明</h3>
+<ul>
+<li>沒有 <code>self</code> 的函式稱為 關聯函式。</li>
+<li>類似靜態方法，可透過 <code>Rectangle::square(10)</code> 呼叫。</li>
+</ul>
+<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">square</span> = Rectangle::<span class="title function_ invoke__">square</span>(<span class="number">20</span>);</code></pre>
+<h2 id="🤔-方法-vs-關聯函式">🤔 方法 vs 關聯函式</h2>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>語法</th>
+<th>有無 self</th>
+<th>用途說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方法</td>
+<td><code>fn area(&amp;self)</code></td>
+<td>有</td>
+<td>操作該 struct 實例本身</td>
+</tr>
+<tr>
+<td>關聯函式</td>
+<td><code>fn square(...)</code></td>
+<td>無</td>
+<td>與 struct 相關但不依賴特定實例（如建構器）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="🧠-小技巧補充">🧠 小技巧補充</h2>
+<ul>
+<li>Rust 的方法語法類似 OOP，但實際上只是語法糖，方法仍是透過 <code>&amp;self</code> 傳入 struct。</li>
+<li>一個 struct 可有多個 <code>impl</code> 區塊，不必全部寫在一起。</li>
+</ul>
+<h2 id="📝-小結">📝 小結</h2>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>impl</code></td>
+<td>方法實作區塊</td>
+</tr>
+<tr>
+<td><code>&amp;self</code></td>
+<td>借用當前實例 (<code>self: &amp;Self</code>)</td>
+</tr>
+<tr>
+<td><code>.method()</code></td>
+<td>方法語法糖，實際上等同傳入引用</td>
+</tr>
+<tr>
+<td>關聯函式</td>
+<td>無 <code>self</code>，用於工廠函式或靜態工具</td>
+</tr>
+<tr>
+<td><code>Self</code></td>
+<td>在 <code>impl</code> 中代表當前 struct 類型</td>
+</tr>
+</tbody>
+</table>
+<h2 id="📚-參考與延伸">📚 參考與延伸</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch05-03-method-syntax.html">Rust 官方手冊 - 方法語法</a></li>
+<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1962,200 +2171,6 @@ app.Run();</code></pre>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/?view=aspnetcore-8.0&amp;tabs=windows">.NET Hosting 模型變更</a></li>
 <li><a target="_blank" rel="noopener" href="https://gemini.google.com/app">Gemini</a></li>
 <li><a target="_blank" rel="noopener" href="https://chatgpt.com/?model=auto">ChatGpt</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/07/dijstra/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/07/dijstra/" class="post-title-link" itemprop="url">Dijkstra 演算法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-07 13:53:03 / 修改時間：15:10:16" itemprop="dateCreated datePublished" datetime="2025-05-07T13:53:03+08:00">2025-05-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="🧠-簡述">🧠 簡述</h2>
-<p>由荷蘭計算機科學家 Edsger W. Dijkstra 於 1956 年提出</p>
-<ul>
-<li>用來尋找單一源點到其他節點的最短路徑</li>
-<li>適用於加權圖(所以邊的權重為正)</li>
-<li>常用的資料結構 : 優先佇列(Priority Queue) 或 最小堆(Min-Heap)</li>
-</ul>
-<h2 id="🧭-步驟">🧭 步驟</h2>
-<ol>
-<li>將所有節點分為兩組：已確定最短路徑（S）與未確定（U）</li>
-<li>初始時，起點在 S，其餘在 U，距離設為 ∞，起點設為 0</li>
-<li>從 U 中選擇目前與起點距離最短的節點加入 S</li>
-<li>更新該節點鄰接點的距離（鬆弛）</li>
-<li>重複步驟 3~4，直到所有節點都加入 S 或無法再更新</li>
-</ol>
-<h2 id="🧑‍💻-C-實作（含範例圖）">🧑‍💻 C# 實作（含範例圖）</h2>
-<p><img src="/images/dijkstra/samplegraph.png" alt="sampleGraph.png"></p>
-<p>以下為對應圖形的 C# 程式實作</p>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
-&#123;
-    <span class="built_in">int</span> n = <span class="number">7</span>; <span class="comment">// 節點數</span>
-    List&lt;Edge&gt;[] graph = <span class="keyword">new</span> List&lt;Edge&gt;[n];
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) graph[i] = <span class="keyword">new</span> List&lt;Edge&gt;();
-
-    <span class="comment">// 建立圖的鄰接表（根據圖像）</span>
-    AddEdge(graph, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);
-    AddEdge(graph, <span class="number">0</span>, <span class="number">2</span>, <span class="number">6</span>);
-    AddEdge(graph, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>);
-    AddEdge(graph, <span class="number">2</span>, <span class="number">3</span>, <span class="number">8</span>);
-    AddEdge(graph, <span class="number">3</span>, <span class="number">4</span>, <span class="number">10</span>);
-    AddEdge(graph, <span class="number">3</span>, <span class="number">5</span>, <span class="number">15</span>);
-    AddEdge(graph, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);
-    AddEdge(graph, <span class="number">4</span>, <span class="number">6</span>, <span class="number">2</span>);
-    AddEdge(graph, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>);
-
-    <span class="built_in">int</span> start = <span class="number">0</span>;
-    <span class="built_in">int</span>[] dist = Dijkstra(graph, start);
-
-    Console.WriteLine(<span class="string">&quot;起點到各節點的最短距離&quot;</span>);
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        Console.WriteLine(<span class="string">$&quot;到節點<span class="subst">&#123;i&#125;</span>的最短距離 : <span class="subst">&#123;dist[i]&#125;</span>&quot;</span>);
-    &#125;
-&#125;
-
-<span class="keyword">class</span> <span class="title">Edge</span>
-&#123;
-    <span class="keyword">public</span> <span class="built_in">int</span> To, Weight;
-    <span class="function"><span class="keyword">public</span> <span class="title">Edge</span>(<span class="params"><span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
-    &#123;
-        To = to; Weight = weight;
-    &#125;
-&#125;
-
-<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddEdge</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> <span class="keyword">from</span>, <span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
-&#123;
-    graph[<span class="keyword">from</span>].Add(<span class="keyword">new</span> Edge(to, weight));
-    graph[to].Add(<span class="keyword">new</span> Edge(<span class="keyword">from</span>, weight)); <span class="comment">// 無向圖需要雙向邊</span>
-&#125;
-
-<span class="function"><span class="keyword">static</span> <span class="built_in">int</span>[] <span class="title">Dijkstra</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> start</span>)</span>
-&#123;
-    <span class="built_in">int</span> n = graph.Length;
-    <span class="built_in">int</span>[] dist = <span class="keyword">new</span> <span class="built_in">int</span>[n];
-    <span class="built_in">bool</span>[] visited = <span class="keyword">new</span> <span class="built_in">bool</span>[n];
-
-    <span class="comment">// 初始化距離與訪問狀態</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) dist[i] = <span class="built_in">int</span>.MaxValue;
-    dist[start] = <span class="number">0</span>;
-
-    <span class="comment">// 使用NET6+ 的 PriorityQueue&lt;TElement, TPriority&gt;</span>
-    <span class="comment">// 舊版要自己實作 MinHeap</span>
-    <span class="comment">// 使用優先佇列處理節點，依距離最小優先處理</span>
-    <span class="keyword">var</span> pq = <span class="keyword">new</span> PriorityQueue&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt;();
-    pq.Enqueue(start, <span class="number">0</span>);
-
-    <span class="keyword">while</span> (pq.Count &gt; <span class="number">0</span>)
-    &#123;
-        <span class="built_in">int</span> u = pq.Dequeue();
-
-        <span class="comment">// 確認是否處理過節點，並更新註記</span>
-        <span class="keyword">if</span> (visited[u]) <span class="keyword">continue</span>;
-        visited[u] = <span class="literal">true</span>;
-
-        <span class="comment">// 遍歷所有相鄰邊</span>
-        <span class="keyword">foreach</span> (<span class="keyword">var</span> edge <span class="keyword">in</span> graph[u])
-        &#123;
-            <span class="built_in">int</span> v = edge.To;
-            <span class="built_in">int</span> weight = edge.Weight;
-
-           <span class="comment">// 若從 u 到 v 的新距離更短，則更新 dist 並放入優先佇列</span>
-            <span class="keyword">if</span> (dist[u] + weight &lt; dist[v])
-            &#123;
-                dist[v] = dist[u] + weight;
-                pq.Enqueue(v, dist[v]);
-            &#125;
-        &#125;
-    &#125;
-
-    <span class="keyword">return</span> dist;
-&#125;</code></pre>
-<p>輸出結果</p>
-<pre><code class="highlight ada">起點到各節點的最短距離
-到節點<span class="number">0</span>的最短距離 : 0
-到節點<span class="number">1</span>的最短距離 : 2
-到節點<span class="number">2</span>的最短距離 : 6
-到節點<span class="number">3</span>的最短距離 : 7
-到節點<span class="number">4</span>的最短距離 : 17
-到節點<span class="number">5</span>的最短距離 : 22
-到節點<span class="number">6</span>的最短距離 : 19</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/">https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/@amber.fragments/%E6%BC%94%E7%AE%97%E6%B3%95-%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98-14-dijkstra-algorithm-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%91%E6%BC%94%E7%AE%97%E6%B3%95-745983dd4332">https://medium.com/@amber.fragments/演算法-學習筆記-14-dijkstra-algorithm-最短路徑演算法-745983dd4332</a></li>
-<li>chatgpt</li>
 </ul>
 
       
