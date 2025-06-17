@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -184,1493 +184,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/07/dijstra/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/07/dijstra/" class="post-title-link" itemprop="url">Dijkstra 演算法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-07 13:53:03 / 修改時間：15:10:16" itemprop="dateCreated datePublished" datetime="2025-05-07T13:53:03+08:00">2025-05-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="🧠-簡述">🧠 簡述</h2>
-<p>由荷蘭計算機科學家 Edsger W. Dijkstra 於 1956 年提出</p>
-<ul>
-<li>用來尋找單一源點到其他節點的最短路徑</li>
-<li>適用於加權圖(所以邊的權重為正)</li>
-<li>常用的資料結構 : 優先佇列(Priority Queue) 或 最小堆(Min-Heap)</li>
-</ul>
-<h2 id="🧭-步驟">🧭 步驟</h2>
-<ol>
-<li>將所有節點分為兩組：已確定最短路徑（S）與未確定（U）</li>
-<li>初始時，起點在 S，其餘在 U，距離設為 ∞，起點設為 0</li>
-<li>從 U 中選擇目前與起點距離最短的節點加入 S</li>
-<li>更新該節點鄰接點的距離（鬆弛）</li>
-<li>重複步驟 3~4，直到所有節點都加入 S 或無法再更新</li>
-</ol>
-<h2 id="🧑‍💻-C-實作（含範例圖）">🧑‍💻 C# 實作（含範例圖）</h2>
-<p><img src="/images/dijkstra/samplegraph.png" alt="sampleGraph.png"></p>
-<p>以下為對應圖形的 C# 程式實作</p>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
-&#123;
-    <span class="built_in">int</span> n = <span class="number">7</span>; <span class="comment">// 節點數</span>
-    List&lt;Edge&gt;[] graph = <span class="keyword">new</span> List&lt;Edge&gt;[n];
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) graph[i] = <span class="keyword">new</span> List&lt;Edge&gt;();
-
-    <span class="comment">// 建立圖的鄰接表（根據圖像）</span>
-    AddEdge(graph, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);
-    AddEdge(graph, <span class="number">0</span>, <span class="number">2</span>, <span class="number">6</span>);
-    AddEdge(graph, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>);
-    AddEdge(graph, <span class="number">2</span>, <span class="number">3</span>, <span class="number">8</span>);
-    AddEdge(graph, <span class="number">3</span>, <span class="number">4</span>, <span class="number">10</span>);
-    AddEdge(graph, <span class="number">3</span>, <span class="number">5</span>, <span class="number">15</span>);
-    AddEdge(graph, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);
-    AddEdge(graph, <span class="number">4</span>, <span class="number">6</span>, <span class="number">2</span>);
-    AddEdge(graph, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>);
-
-    <span class="built_in">int</span> start = <span class="number">0</span>;
-    <span class="built_in">int</span>[] dist = Dijkstra(graph, start);
-
-    Console.WriteLine(<span class="string">&quot;起點到各節點的最短距離&quot;</span>);
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        Console.WriteLine(<span class="string">$&quot;到節點<span class="subst">&#123;i&#125;</span>的最短距離 : <span class="subst">&#123;dist[i]&#125;</span>&quot;</span>);
-    &#125;
-&#125;
-
-<span class="keyword">class</span> <span class="title">Edge</span>
-&#123;
-    <span class="keyword">public</span> <span class="built_in">int</span> To, Weight;
-    <span class="function"><span class="keyword">public</span> <span class="title">Edge</span>(<span class="params"><span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
-    &#123;
-        To = to; Weight = weight;
-    &#125;
-&#125;
-
-<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddEdge</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> <span class="keyword">from</span>, <span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
-&#123;
-    graph[<span class="keyword">from</span>].Add(<span class="keyword">new</span> Edge(to, weight));
-    graph[to].Add(<span class="keyword">new</span> Edge(<span class="keyword">from</span>, weight)); <span class="comment">// 無向圖需要雙向邊</span>
-&#125;
-
-<span class="function"><span class="keyword">static</span> <span class="built_in">int</span>[] <span class="title">Dijkstra</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> start</span>)</span>
-&#123;
-    <span class="built_in">int</span> n = graph.Length;
-    <span class="built_in">int</span>[] dist = <span class="keyword">new</span> <span class="built_in">int</span>[n];
-    <span class="built_in">bool</span>[] visited = <span class="keyword">new</span> <span class="built_in">bool</span>[n];
-
-    <span class="comment">// 初始化距離與訪問狀態</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) dist[i] = <span class="built_in">int</span>.MaxValue;
-    dist[start] = <span class="number">0</span>;
-
-    <span class="comment">// 使用NET6+ 的 PriorityQueue&lt;TElement, TPriority&gt;</span>
-    <span class="comment">// 舊版要自己實作 MinHeap</span>
-    <span class="comment">// 使用優先佇列處理節點，依距離最小優先處理</span>
-    <span class="keyword">var</span> pq = <span class="keyword">new</span> PriorityQueue&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt;();
-    pq.Enqueue(start, <span class="number">0</span>);
-
-    <span class="keyword">while</span> (pq.Count &gt; <span class="number">0</span>)
-    &#123;
-        <span class="built_in">int</span> u = pq.Dequeue();
-
-        <span class="comment">// 確認是否處理過節點，並更新註記</span>
-        <span class="keyword">if</span> (visited[u]) <span class="keyword">continue</span>;
-        visited[u] = <span class="literal">true</span>;
-
-        <span class="comment">// 遍歷所有相鄰邊</span>
-        <span class="keyword">foreach</span> (<span class="keyword">var</span> edge <span class="keyword">in</span> graph[u])
-        &#123;
-            <span class="built_in">int</span> v = edge.To;
-            <span class="built_in">int</span> weight = edge.Weight;
-
-           <span class="comment">// 若從 u 到 v 的新距離更短，則更新 dist 並放入優先佇列</span>
-            <span class="keyword">if</span> (dist[u] + weight &lt; dist[v])
-            &#123;
-                dist[v] = dist[u] + weight;
-                pq.Enqueue(v, dist[v]);
-            &#125;
-        &#125;
-    &#125;
-
-    <span class="keyword">return</span> dist;
-&#125;</code></pre>
-<p>輸出結果</p>
-<pre><code class="highlight ada">起點到各節點的最短距離
-到節點<span class="number">0</span>的最短距離 : 0
-到節點<span class="number">1</span>的最短距離 : 2
-到節點<span class="number">2</span>的最短距離 : 6
-到節點<span class="number">3</span>的最短距離 : 7
-到節點<span class="number">4</span>的最短距離 : 17
-到節點<span class="number">5</span>的最短距離 : 22
-到節點<span class="number">6</span>的最短距離 : 19</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/">https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/@amber.fragments/%E6%BC%94%E7%AE%97%E6%B3%95-%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98-14-dijkstra-algorithm-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%91%E6%BC%94%E7%AE%97%E6%B3%95-745983dd4332">https://medium.com/@amber.fragments/演算法-學習筆記-14-dijkstra-algorithm-最短路徑演算法-745983dd4332</a></li>
-<li>chatgpt</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/01/webrtc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/01/webrtc/" class="post-title-link" itemprop="url">WebRTC</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-01 11:32:40 / 修改時間：11:57:50" itemprop="dateCreated datePublished" datetime="2025-05-01T11:32:40+08:00">2025-05-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>簡易記錄一下 WebRTC 的基本概念</p>
-<h2 id="基本建立點對點連線的流程">基本建立點對點連線的流程</h2>
-<p><img src="/images/webrtc/P2PConnFlow.png" alt="p2pConnFlow.png"></p>
-<h3 id="信令-Signaling-：">信令 (Signaling)：</h3>
-<ol>
-<li>兩個 WebRTC 客户端（Peer A 和 Peer B）透過一個<code>信令伺服器</code>進行初始的資訊交換。這個伺服器不參與實際的媒體傳輸。</li>
-<li>Peer A (發起方 - Offerer) 創建一個包含其媒體能力和網路資訊的 SDP Offer。</li>
-<li>Peer A 收集其 ICE Candidates（潛在的網路位址）。</li>
-<li>Peer A 將 SDP Offer 和 ICE Candidates 透過信令伺服器發送給 Peer B。</li>
-<li>Peer B (接收方 - Answerer) 收到 SDP Offer 和 ICE Candidates。</li>
-<li>Peer B 設定遠端的 SDP Offer，並創建包含其自身媒體能力和網路資訊的 SDP Answer。</li>
-<li>Peer B 也收集其 ICE Candidates。</li>
-<li>Peer B 將 SDP Answer 和 ICE Candidates 透過信令伺服器發送回 Peer A。</li>
-<li>Peer A 收到 SDP Answer 和 ICE Candidates，並設定遠端的 SDP Answer。</li>
-<li>雙方持續透過信令伺服器交換 ICE Candidates。</li>
-</ol>
-<h3 id="ICE-連線建立-ICE-Connection-Establishment-：">ICE 連線建立 (ICE Connection Establishment)：</h3>
-<ol>
-<li>每個 Peer 在收到對方的 ICE Candidates 後，會嘗試與這些候選者建立網路連線。</li>
-<li>這個過程會嘗試各種可能的路徑（直接連接、透過 STUN、透過 TURN）。</li>
-<li>當找到一個可用的連線路徑時，ICE 連線建立成功。</li>
-</ol>
-<h3 id="媒體和資料傳輸：">媒體和資料傳輸：</h3>
-<ol>
-<li>一旦 ICE 連線建立，兩個 Peer 就可以直接透過這個點對點連線傳輸音訊、視訊或任意資料（使用 Data Channels）。</li>
-</ol>
-<h2 id="相關名詞簡介：">相關名詞簡介：</h2>
-<h3 id="WebRTC-Web-Real-Time-Communication-：">WebRTC (Web Real-Time Communication)：</h3>
-<p>一個開放原始碼專案，提供瀏覽器和行動應用程式之間即時音訊、視訊和資料交換的能力，無需外掛程式。(目前只有 js)</p>
-<h3 id="Peer-對等方-：">Peer (對等方)：</h3>
-<p>在 WebRTC 通訊中的一個端點，通常是一個瀏覽器或應用程式。</p>
-<h3 id="點對點-Peer-to-Peer-P2P-：">點對點 (Peer-to-Peer, P2P)：</h3>
-<p>一種網路模型，其中兩個或多個參與者可以直接互相通信，而不需要透過中央伺服器（在媒體和資料傳輸階段）。</p>
-<h3 id="信令-Signaling-：-t2">信令 (Signaling)：</h3>
-<p>在 WebRTC 連線建立之前，兩個 Peer 之間交換控制資訊（例如 SDP 和 ICE Candidates）的過程。信令機制不是 WebRTC 本身定義的，需要開發者自行實作。</p>
-<h3 id="信令伺服器-Signaling-Server-：">信令伺服器 (Signaling Server)：</h3>
-<p>一個中介伺服器，用於在 WebRTC 連線建立的初始階段協助 Peer 發現彼此並交換信令訊息。</p>
-<h3 id="SDP-Session-Description-Protocol-：">SDP (Session Description Protocol)：</h3>
-<p>一種標準化的文字格式，用於描述多媒體會話的屬性，例如支援的媒體類型、編解碼器、網路位址等。在 WebRTC 中，SDP 用於在連接建立前協商媒體格式。</p>
-<h3 id="Offer-Answer-模型-Offer-Answer-Model-：">Offer/Answer 模型 (Offer/Answer Model)：</h3>
-<p>WebRTC 使用這個模型來協商會話參數。發起方創建一個 Offer SDP，接收方回應一個 Answer SDP。</p>
-<h3 id="ICE-Interactive-Connectivity-Establishment-：">ICE (Interactive Connectivity Establishment)：</h3>
-<p>一個用於 NAT 穿透的協定。ICE 的目標是找到兩個 Peer 之間最佳的網路路徑來建立直接連線。</p>
-<h3 id="ICE-Candidate-ICE-候選者-：">ICE Candidate (ICE 候選者)：</h3>
-<p>描述一個 Peer 可能的網路位址和連接埠的資訊，用於 ICE 連線建立過程。</p>
-<h3 id="STUN-Session-Traversal-Utilities-for-NAT-伺服器：">STUN (Session Traversal Utilities for NAT) 伺服器：</h3>
-<p>一種協助位於 NAT 後面的 Peer 發現其公有 IP 位址和連接埠的伺服器。</p>
-<h3 id="TURN-Traversal-Using-Relays-around-NAT-伺服器：">TURN (Traversal Using Relays around NAT) 伺服器：</h3>
-<p>一種在直接連線和 STUN 無法工作時，作為中繼伺服器轉發 Peer 之間流量的伺服器。</p>
-<h3 id="NAT-Network-Address-Translator-：">NAT (Network Address Translator)：</h3>
-<p>一種網路設備，用於將私有網路中的多個裝置的 IP 位址轉換為一個或少數幾個公有 IP 位址，以便它們可以存取網際網路。NAT 會導致直接的點對點連線變得困難。</p>
-<h2 id="範例">範例</h2>
-<p>Google 給的範例，可以參考參考對照學習 <a target="_blank" rel="noopener" href="https://github.com/webrtc/samples">Samples</a></p>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/">https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/</a></li>
-<li><a target="_blank" rel="noopener" href="https://webrtc.org/?hl=zh-tw">https://webrtc.org/?hl=zh-tw</a></li>
-<li><a target="_blank" rel="noopener" href="https://webrtcforthecurious.com/zh/">https://webrtcforthecurious.com/zh/</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/25/csharpenv/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/04/25/csharpenv/" class="post-title-link" itemprop="url">Asp.Net Core 讀取環境變數連線字串</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-04-25 16:06:49" itemprop="dateCreated datePublished" datetime="2025-04-25T16:06:49+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-05-01 12:00:19" itemprop="dateModified" datetime="2025-05-01T12:00:19+08:00">2025-05-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Program-cs-設定">Program.cs 設定</h2>
-<pre><code class="highlight C#"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
-
-builder.Configuration
-    .AddUserSecrets&lt;Program&gt;() <span class="comment">// 使用秘密管理員(本地開發用)</span>
-    .AddEnvironmentVariables(); <span class="comment">// 讀取環境變數</span>
-    <span class="comment">// .AddEnvironmentVariables(prefix:&#123;前墜&#125;) 預設ASPNETCORE_或DOTNET_</span></code></pre>
-<h2 id="環境變數設定方式">環境變數設定方式</h2>
-<ol>
-<li>在主機上開啟：</li>
-</ol>
-<ul>
-<li>Win + S 搜尋「環境變數」或</li>
-<li>控制台 → 系統 → 進階系統設定 → 環境變數</li>
-</ul>
-<ol start="2">
-<li>在「系統變數」中新增：</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>名稱</th>
-<th>值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ASPNETCORE_ConnectionStrings__DefaultConnection</td>
-<td>User Id=prod;Password=XXX;Data Source=oraclehost:1521/PRODDB;</td>
-</tr>
-</tbody>
-</table>
-<p>★ 注意前墜預設要為 <code>ASPNETCORE_</code>或 <code>DOTNET_</code><br>
-★ <code>ConnectionStrings__DefaultConnection</code>是雙底線<code>__</code></p>
-<h2 id="預設主機設定來源">預設主機設定來源</h2>
-<p>WebApplicationBuilder(.NET6 後) 優先級別</p>
-<ol>
-<li>使用命令列設定提供者的命令列引數</li>
-<li>使用 DOTNET_且具有 前置詞的環境變數</li>
-<li>使用 ASPNETCORE_且具有 前置詞的環境變數</li>
-</ol>
-<p>IHostedService (.NET5 前) 優先級別</p>
-<ol>
-<li>使用 ASPNETCORE_且具有 前置詞的環境變數。</li>
-<li>使用命令列設定提供者的命令列引數</li>
-<li>使用 DOTNET_且具有 前置詞的環境變數</li>
-</ol>
-<h2 id="測試">測試</h2>
-<p>在 program.cs 添加 debug endpoint</p>
-<pre><code class="highlight C#">app.MapGet(<span class="string">&quot;/env-check&quot;</span>, (IConfiguration config) =&gt;
-&#123;
-    <span class="keyword">return</span> config.GetConnectionString(<span class="string">&quot;DefaultConnection&quot;</span>) ?? <span class="string">&quot;no conn string&quot;</span>;
-&#125;);</code></pre>
-<ol>
-<li>部署後呼叫 /env-check</li>
-<li>檢查回傳的連線字串內容是否正確</li>
-<li>看有沒有缺少冒號、斜線、空格或打錯字</li>
-</ol>
-<h2 id="進階">進階</h2>
-<p>就算設定環境變數來避免將敏感資料寫入程式，比 appsettings.json 安全，但是還是有相關風險<br>
-所以可能會進一步需要<code>機密管理服務（Secrets Management Services）</code>來去管理敏感資訊<br>
-但這邊用不到就大概紀錄一下可能的更優解，因為要 💸</p>
-<h3 id="環境變數的侷限">環境變數的侷限</h3>
-<table>
-<thead>
-<tr>
-<th>問題點</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>被誤讀</td>
-<td>足夠權限的使用者可透過指令查看所有變數</td>
-</tr>
-<tr>
-<td>難管理</td>
-<td>每台機器都要單獨設定，不適合大型或多環境部署</td>
-</tr>
-<tr>
-<td>無審計紀錄</td>
-<td>無法追蹤誰改了哪個變數、何時改的</td>
-</tr>
-<tr>
-<td>版本控管</td>
-<td>無法追蹤歷史紀錄或自動回復舊版本</td>
-</tr>
-<tr>
-<td>變更難通知</td>
-<td>改變值，需要人為通知開發 / 系統人員重啟服務</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Azure-Key-Vault-為例的優勢">Azure Key Vault 為例的優勢</h3>
-<table>
-<thead>
-<tr>
-<th>功能</th>
-<th>好處</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>集中管理</td>
-<td>所有機密集中存於一個 Vault，減少散落風險</td>
-</tr>
-<tr>
-<td>權限控管</td>
-<td>使用 Azure AD、RBAC 控制誰能取用哪些機密</td>
-</tr>
-<tr>
-<td>自動輪換密鑰</td>
-<td>可結合自動化工具定期更新連線密碼、憑證等</td>
-</tr>
-<tr>
-<td>加密儲存</td>
-<td>Vault 本身以高強度加密保存內容</td>
-</tr>
-<tr>
-<td>稽核與日誌</td>
-<td>每次存取都會記錄，便於日後查詢與調查</td>
-</tr>
-<tr>
-<td>不用再碰密碼</td>
-<td>程式碼用 Identity 存取 Vault，不需要明碼存在任何地方</td>
-</tr>
-</tbody>
-</table>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/configuration/?view=aspnetcore-9.0">ASP.NET Core 的設定</a></li>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-9.0">Use multiple environments in ASP.NET Core</a></li>
-<li>ChatGpt</li>
-<li><a target="_blank" rel="noopener" href="https://azure.microsoft.com/en-us/products/key-vault">Azure Key Vault</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/25/htmlpdf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/04/25/htmlpdf/" class="post-title-link" itemprop="url">前端生成PDF</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-04-25 10:07:30 / 修改時間：11:12:56" itemprop="dateCreated datePublished" datetime="2025-04-25T10:07:30+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言">前言</h2>
-<p>因為業務需求的關係，需要將填寫的表單轉換成 PDF，進行資料儲存供後續使用<br>
-最便捷的方法為是使用前端套件<a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a>搭配<a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a><br>
-利用<code>html2canvas</code>進行截圖，然後貼到<code>jspdf</code>產生的 PDF 檔<br>
-但最穩妥的方法建議是使用後端服務器去專門產生 PDF 比較合適(ex. <a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a> 或是 <a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a> )</p>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight cmake">npm <span class="keyword">install</span> html2canvas jspdf</code></pre>
-<h2 id="Usage">Usage</h2>
-<p>pdfHelper.ts</p>
-<pre><code class="highlight ts"><span class="keyword">import</span> jsPDF <span class="keyword">from</span> <span class="string">&quot;jspdf&quot;</span>;
-<span class="keyword">import</span> html2canvas <span class="keyword">from</span> <span class="string">&quot;html2canvas&quot;</span>;
-
-<span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">generatePDF</span> = <span class="keyword">async</span> (<span class="params"><span class="attr">id</span>: <span class="built_in">string</span></span>) =&gt; &#123;
-  <span class="keyword">try</span> &#123;
-    <span class="comment">// 取得要擷取的部分</span>
-    <span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id) <span class="keyword">as</span> <span class="title class_">HTMLElement</span>;
-    <span class="keyword">if</span> (!el) <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;
-
-    <span class="comment">// 截圖</span>
-    <span class="keyword">const</span> canvas = <span class="keyword">await</span> <span class="title function_">html2canvas</span>(el, &#123;
-      <span class="attr">useCORS</span>: <span class="literal">true</span>, <span class="comment">// 允許跨域圖片</span>
-      <span class="attr">scale</span>: <span class="number">2</span>, <span class="comment">// 提高清晰度</span>
-    &#125;);
-
-    <span class="comment">// 轉換圖片</span>
-    <span class="comment">// toDataURL(&#123;轉換格式&#125;, &#123;品質&#125;)</span>
-    <span class="keyword">const</span> imgData = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/jpeg&quot;</span>, <span class="number">0.7</span>);
-
-    <span class="comment">// 創建PDF文檔</span>
-    <span class="keyword">const</span> pdf = <span class="keyword">new</span> <span class="title function_">jsPDF</span>(&#123;
-      <span class="attr">orientation</span>: <span class="string">&quot;portrait&quot;</span>, <span class="comment">// 頁面方向</span>
-      <span class="attr">unit</span>: <span class="string">&quot;pt&quot;</span>, <span class="comment">// 單位</span>
-      <span class="attr">format</span>: <span class="string">&quot;a4&quot;</span>, <span class="comment">// 紙張大小</span>
-    &#125;);
-
-    <span class="comment">// 取得PDF尺寸</span>
-    <span class="keyword">const</span> pageWidth = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getWidth</span>();
-    <span class="keyword">const</span> pageHeight = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getHeight</span>();
-
-    <span class="comment">// 調整為A4寬度且維持原本寬高比</span>
-    <span class="keyword">const</span> imgWidth = pageWidth;
-    <span class="keyword">const</span> imgHeight = (canvas.<span class="property">height</span> * imgWidth) / canvas.<span class="property">width</span>;
-
-    <span class="comment">// 若圖像高度超出頁面高度，則縮小</span>
-    <span class="keyword">const</span> finalHeight = imgHeight &gt; pageHeight ? pageHeight : imgHeight;
-    <span class="keyword">const</span> finalWidth = (canvas.<span class="property">width</span> * finalHeight) / canvas.<span class="property">height</span>;
-
-    <span class="comment">// 可選：讓圖片置中</span>
-    <span class="keyword">const</span> marginX = (pageWidth - finalWidth) / <span class="number">2</span>;
-    <span class="keyword">const</span> marginY = (pageHeight - finalHeight) / <span class="number">2</span>;
-
-    <span class="comment">// 添加圖片到PDF</span>
-    pdf.<span class="title function_">addImage</span>(
-      imgData, <span class="comment">// 圖片資料</span>
-      <span class="string">&quot;JPEG&quot;</span>, <span class="comment">// 圖片格式</span>
-      marginX, <span class="comment">// X座標</span>
-      marginY, <span class="comment">// Y座標</span>
-      finalWidth, <span class="comment">//圖片寬度</span>
-      finalHeight, <span class="comment">//圖片高度</span>
-      <span class="literal">undefined</span>, <span class="comment">// 別名</span>
-      <span class="string">&quot;FAST&quot;</span> <span class="comment">// 壓縮方法</span>
-    );
-
-    <span class="comment">// 取得包含 Base64 的 Data URL</span>
-    <span class="keyword">const</span> pdfDataUrl = pdf.<span class="title function_">output</span>(<span class="string">&quot;datauristring&quot;</span>);
-
-    <span class="comment">// Data URL 的格式通常是 &quot;data:application/pdf;base64,BASE64_STRING&quot;</span>
-    <span class="comment">// 我們需要提取逗號後面的 Base64 部分</span>
-    <span class="keyword">const</span> base64String = pdfDataUrl.<span class="title function_">split</span>(<span class="string">&quot;,&quot;</span>)[<span class="number">1</span>];
-
-    <span class="keyword">return</span> base64String;
-  &#125; <span class="keyword">catch</span> (e) &#123;
-    <span class="variable language_">console</span>.<span class="title function_">log</span>(e);
-    <span class="keyword">throw</span> e;
-  &#125;
-&#125;;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a></li>
-<li><a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a></li>
-<li><a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a></li>
-<li>ChatGpt</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/03/sqlkata/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/04/03/sqlkata/" class="post-title-link" itemprop="url">sqlkata</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-04-03 11:20:10" itemprop="dateCreated datePublished" datetime="2025-04-03T11:20:10+08:00">2025-04-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:51:48" itemprop="dateModified" datetime="2025-04-25T10:51:48+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="簡介">簡介</h2>
-<p>SqlKata 查詢生成器是一個用 C#編寫的功能強大 SQL 生成器，它安全、不受框架影響，靈感來源於 Laravel Query Builder 和 Knex 等頂級查詢建立工具</p>
-<ul>
-<li>乾淨的命名，與 SQL 語法相似</li>
-<li>允許統一 API 處理多個數據庫，且可搭配 Dapper 使用，有效替代數據庫的存儲過程</li>
-<li>支持複雜查詢，如:嵌套條件、子查詢…等</li>
-<li>目前有支援的資料庫 SqlServer、MySql、PostgreSql、Oracle …等</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/fairking/FluentSqlKata">擴充項目</a>，搭配 EntityFramework Core 6 使用</li>
-<li><a target="_blank" rel="noopener" href="https://sqlkata.com/docs">詳細文檔</a></li>
-<li><a target="_blank" rel="noopener" href="https://sqlkata.com/playground">PlayGround</a></li>
-</ul>
-<h2 id="安裝">安裝</h2>
-<pre><code class="highlight ada">$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata</span>
-$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Execution # (選用) 如果您希望執行支援</span></code></pre>
-<h2 id="範例">範例</h2>
-<h3 id="簡易實作-以-Oracle-為例">簡易實作(以 Oracle 為例)</h3>
-<pre><code class="highlight C#"><span class="keyword">var</span> connection = <span class="keyword">new</span> OracleConnection(connectionString);
-<span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
-<span class="keyword">var</span> db = <span class="keyword">new</span> QueryFactory(conn, compiler);
-<span class="comment">// QueryFactory 由 SqlKata.Execution 套件提供</span>
-<span class="keyword">var</span> books = db.Query(<span class="string">&quot;Books&quot;</span>).Get();</code></pre>
-<h3 id="Dependency-injection-注入實作-For-NET-6">Dependency injection 注入實作(For .NET 6)</h3>
-<p>QueryFactoryFactory.cs</p>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">QueryFactoryFactory</span> : <span class="title">IQueryFactoryFactory</span>
-&#123;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IConfiguration _configuration;
-    <span class="function"><span class="keyword">public</span> <span class="title">QueryFactoryFactory</span>(<span class="params">IConfiguration configuration</span>)</span>
-    &#123;
-        _configuration = configuration;
-    &#125;
-    <span class="function"><span class="keyword">public</span> QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>
-    &#123;
-        <span class="keyword">var</span> cs = _configuration.GetConnectionString(dbKey);
-        <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(cs))
-        &#123;
-            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">$&quot;Connection string for <span class="subst">&#123;dbKey&#125;</span> is not found.&quot;</span>);
-        &#125;
-        <span class="keyword">var</span> conn = <span class="keyword">new</span> OracleConnection(cs);
-        <span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
-        <span class="keyword">return</span> <span class="keyword">new</span> QueryFactory(conn, compiler);
-    &#125;
-&#125;
-
-<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IQueryFactoryFactory</span>
-&#123;
-    <span class="function">QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>;
-&#125;
-</code></pre>
-<p>Program.cs</p>
-<pre><code class="highlight C#">builder.Services.AddTransient&lt;IQueryFactoryFactory, QueryFactoryFactory&gt;();</code></pre>
-<p>HomeController.cs</p>
-<pre><code class="highlight C#"><span class="keyword">using</span> SqlKata;
-<span class="keyword">using</span> SqlKata.Execution;
-
-<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> &#123;
-
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IQueryFactoryFactory factory;
-
-    <span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">IQueryFactoryFactory factory</span>)</span>
-    &#123;
-       <span class="keyword">this</span>.factory = factory;
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Get</span>()</span>
-    &#123;
-       <span class="keyword">using</span> <span class="keyword">var</span> db = factory.CreateQueryFactory(dbKey);
-
-       <span class="comment">// 這裡 books 的類型是 `IEnumerable&lt;dynamic&gt;`</span>
-       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
-           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
-           .GetAsync();
-
-       <span class="comment">// or `IEnumerable&lt;Book&gt;` if using the Generic overload</span>
-       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
-           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
-           .GetAsync&lt;Book&gt;();
-
-       <span class="keyword">return</span> Ok(books);
-    &#125;
-&#125;
-</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://sqlkata.com/">https://sqlkata.com/</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/sqlkata/querybuilder">https://github.com/sqlkata/querybuilder</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shanyou/p/16756669.html">https://www.cnblogs.com/shanyou/p/16756669.html</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/14/server-certificate/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/14/server-certificate/" class="post-title-link" itemprop="url">IIS 安裝憑證</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-02-14 08:32:46" itemprop="dateCreated datePublished" datetime="2025-02-14T08:32:46+08:00">2025-02-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:23" itemprop="dateModified" datetime="2025-04-25T10:52:23+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/IIS/" itemprop="url" rel="index"><span itemprop="name">IIS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>簡易紀錄 IIS 站台如何安裝憑證</p>
-<ol>
-<li>取得憑證檔案<br>
-<img src="/images/server-certificate/ssl.png" alt="iis_file.png"></li>
-<li>開啟 IIS 管理員</li>
-<li>選擇伺服器</li>
-<li>進入伺服器憑證</li>
-<li>匯入憑證檔案<br>
-<img src="/images/server-certificate/import_certificate.png" alt="import_certificate.png"></li>
-<li>選擇站台</li>
-<li>新增繫結<br>
-<img src="/images/server-certificate/add_link.png" alt="add_link.png"></li>
-<li>重新啟動並測試</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/13/linuxSysArc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/13/linuxSysArc/" class="post-title-link" itemprop="url">系統架構</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-02-13 09:24:48" itemprop="dateCreated datePublished" datetime="2025-02-13T09:24:48+08:00">2025-02-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:50:14" itemprop="dateModified" datetime="2025-04-25T10:50:14+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="BIOS">BIOS</h2>
-<h3 id="基本輸入輸出系統-Basic-Input-Output-System">基本輸入輸出系統(Basic Input/Output System)</h3>
-<p>主要作用為<code>將系統硬體帶到可以準備交給作業系統的狀態</code>，通常包含下列步驟:</p>
-<ul>
-<li>系統初始化</li>
-<li>測試記憶體與其他周邊</li>
-<li>檢測儲存裝置</li>
-<li>在數個儲存裝置之間找出作業系統的起始點</li>
-</ul>
-<p>且提供操作介面，供使用者設定系統的低階參數、選擇開機裝置、配置系統資源等等。</p>
-<h3 id="日期與時間">日期與時間</h3>
-<p>BIOS 的主要功能之一是<code>管理主機板內建的硬體時鐘</code>。<br>
-<code>作業系統本身也有設定硬體時鐘的能力</code>，可以依靠精準的外部較時參考來源(ex: NTPD 伺服器)來保持硬體時鐘的精準。</p>
-<h3 id="磁碟與開機裝置">磁碟與開機裝置</h3>
-<p>BIOS 設定工具中其中一項重要功能就是<code>開機裝置的選擇</code>。<br>
-大多數 PC 至少支援三種開機媒體</p>
-<ul>
-<li>內接式硬碟(IDE 或 SCSI 或 SATA，或三者皆是)</li>
-<li>光碟機(同上)</li>
-<li>軟碟機</li>
-</ul>
-<h3 id="運用-proc-檔案系統">運用/proc 檔案系統</h3>
-<p>/proc 檔案系統 (核心的運作狀態庫)目錄下的 interrupts、dma、ioports 三個檔案，提供目前系統資源的使用狀況</p>
-<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/interrupts</code></pre>
-<p><img src="/images/linuxSysArc/proc_interrupts.png" alt="interrupts.png"></p>
-<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/dma</code></pre>
-<p><img src="/images/linuxSysArc/proc_dma.png" alt="interrupts.png"></p>
-<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/ioports</code></pre>
-<p><img src="/images/linuxSysArc/proc_ioports.png" alt="interrupts.png"></p>
-<h2 id="USB">USB</h2>
-<h3 id="USB-拓樸邏輯">USB 拓樸邏輯</h3>
-<p>電腦主機與 USB 裝置之間，是透過<code>集線器(HUB)</code>連接一起，構成一個樹狀結構。<br>
-使用<code>lsusb</code>指令可顯示 Linux 系統上所有 USB 裝置的實際連接方式。</p>
-<p><img src="/images/linuxSysArc/lsusb.png" alt="lsusb.png"></p>
-<h3 id="USB-控制器">USB 控制器</h3>
-<p>主要分成 4 種類型</p>
-<ul>
-<li>開放型主控界面 ( Open Host Controller Interface , OHCI )</li>
-<li>通用型主控界面 ( Universal Host Controller Interface , UJCI )</li>
-<li>強化型主控界面 ( Enhanced Host Controller Interface , EHCI )</li>
-<li>擴充型主控界面 ( eXtented Host Controller Interface , xHCI )</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>規格</th>
-<th>控制器</th>
-<th>傳輸速率</th>
-<th>向下相容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>USB1.1</td>
-<td>OHCI、UHCI</td>
-<td>12Mbps</td>
-<td>否</td>
-</tr>
-<tr>
-<td>USB2.0</td>
-<td>EHCI</td>
-<td>480Mbps</td>
-<td>否</td>
-</tr>
-<tr>
-<td>USB3.0</td>
-<td>xHCI</td>
-<td>5Gbps</td>
-<td>是</td>
-</tr>
-</tbody>
-</table>
-<h3 id="USB-裝置">USB 裝置</h3>
-<ul>
-<li>人機界面裝置 ( Human Interface Device , HID)<br>
-輸入裝置 (滑鼠、鍵盤…等等)</li>
-<li>通訊裝置<br>
-數據機</li>
-<li>大量儲存裝置<br>
-磁碟機、讀卡機…等</li>
-<li>音訊<br>
-揚聲器、音效裝置</li>
-<li>IrDA<br>
-紅外線裝置</li>
-<li>印表機<br>
-印表機以及 USB-to-parallel 轉換器</li>
-</ul>
-<h3 id="USB-驅動程式">USB 驅動程式</h3>
-<p><code>Linux 核心 2.0.x 以及更早版本，不支援 USB</code></p>
-<p>主要分成三大類</p>
-<ol>
-<li>主控器驅動程式</li>
-<li>通類驅動程式</li>
-<li>雜項裝置驅動程式</li>
-</ol>
-<h3 id="USB-熱插拔">USB 熱插拔</h3>
-<p>模組化的 USB 驅動程式，是藉由核心對於/sbin/hotplug 的通用支援機制來載入</p>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010517791?srsltid=AfmBOoqFrQZp9GsdBk5fTNGzq01OkJ2O4TBNwF0sK7VWkoij1MlNaG1X">LPI Linux 第一級資格檢定 第三版</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/05/tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/05/tree/" class="post-title-link" itemprop="url">樹狀資料</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-02-05 16:07:19" itemprop="dateCreated datePublished" datetime="2025-02-05T16:07:19+08:00">2025-02-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:14" itemprop="dateModified" datetime="2025-04-25T10:52:14+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><img src="/images/tree_data_structure.jpg" alt="tree_data_structure.jpg"></p>
-<h2 id="樹狀結構介紹">樹狀結構介紹</h2>
-<ul>
-<li>Node : 樹的基本單位，紀錄節點資料與子節點有哪些</li>
-<li>Root Node : 根節點，樹的最高節點</li>
-<li>Leaf Node : 葉節點，沒有子節點的節點</li>
-<li>Edge : 連接兩個節點的線，表示節點之間的關係</li>
-<li>Parent Node : 父節點(上層節點)，一個節點只會有一個父節點</li>
-<li>Child Node : 子節點，一個節點可以連結多個子節點</li>
-<li>Sibling Node : 兄弟節點，有相同父節點的節點</li>
-<li>Depth : 從根節點到該節點的路徑長度</li>
-<li>Height : 該節點到最遠葉節點的路徑長度</li>
-<li>Level : 節點層次</li>
-<li>Subtree : 某節點的所有子節點後代</li>
-</ul>
-<h2 id="樹的種類">樹的種類</h2>
-<ol>
-<li>二元樹 (Binary Tree)
-<ul>
-<li>一個節點最多兩個子節點</li>
-</ul>
-</li>
-<li>二元搜尋樹 (Binary Search Tree, BST)
-<ul>
-<li>左子樹所有節點值小於根節點值</li>
-<li>右子樹所有節點值大於根節點值</li>
-</ul>
-</li>
-<li>平衡樹 (Balanced Tree)</li>
-<li>滿二元樹 (Full Binary Tree)</li>
-<li>完全二元樹 (Complete Binary Tree)</li>
-<li>B 樹 (B-Tree)</li>
-<li>堆積 (Heap)</li>
-<li>字典樹 (Trie)</li>
-</ol>
-<h2 id="樹的遍歷-Traversal">樹的遍歷(Traversal)</h2>
-<ol>
-<li>深度優先遍歷 (Depth-First Search, DFS)
-<ul>
-<li>先訪問子節點，再訪問兄弟節點</li>
-<li>3 種遍歷方法
-<ul>
-<li>前序遍歷 (Pre-order)</li>
-<li>中序遍歷 (In-order)</li>
-<li>後續遍歷 (Post-order)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>廣度優先遍歷 (Breadth-First Search, BFS)
-<ul>
-<li>階層遍歷，一層一層從左到右</li>
-</ul>
-</li>
-</ol>
-<h2 id="相關實作-C">相關實作(C#)</h2>
-<pre><code class="highlight C#"><span class="comment">// 節點</span>
-<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TreeNode</span>
-&#123;
-    <span class="keyword">public</span> <span class="built_in">int</span> val;
-    <span class="keyword">public</span> TreeNode left;
-    <span class="keyword">public</span> TreeNode right;
-    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span>(<span class="params"><span class="built_in">int</span> val = <span class="number">0</span>, TreeNode left = <span class="literal">null</span>, TreeNode right = <span class="literal">null</span></span>)</span>
-    &#123;
-        <span class="keyword">this</span>.val = val;
-        <span class="keyword">this</span>.left = left;
-        <span class="keyword">this</span>.right = right;
-    &#125;
-&#125;
-
-<span class="comment">// 深度優先遍歷 (Depth-First Search, DFS)</span>
-<span class="comment">// 前序遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PreorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-    Console.Write(root.val + <span class="string">&quot; &quot;</span>) <span class="comment">// 訪問節點</span>
-    PreorderTraversal(root.left); <span class="comment">// 遞迴訪問左子樹</span>
-    PreorderTraversal(root.right); <span class="comment">// 遞迴訪問右子樹</span>
-&#125;
-
-<span class="comment">// 中序遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">InorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-    InorderTraversal(root.left);    <span class="comment">// 遞迴遍歷左子樹</span>
-    Console.Write(root.val + <span class="string">&quot; &quot;</span>);  <span class="comment">// 訪問節點</span>
-    InorderTraversal(root.right);   <span class="comment">// 遞迴遍歷右子樹</span>
-&#125;
-
-<span class="comment">// 後序遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PostorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-    PostorderTraversal(root.left);   <span class="comment">// 遞迴遍歷左子樹</span>
-    PostorderTraversal(root.right);  <span class="comment">// 遞迴遍歷右子樹</span>
-    Console.Write(root.val + <span class="string">&quot; &quot;</span>);   <span class="comment">// 訪問節點</span>
-&#125;
-
-<span class="comment">// 廣度優先遍歷 (Breadth-First Search, BFS)</span>
-<span class="comment">// 階層遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LevelOrderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-
-    Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> Queue&lt;TreeNode&gt;();
-    queue.Enqueue(root);
-
-    <span class="keyword">while</span> (queue.Count &gt; <span class="number">0</span>)
-    &#123;
-        TreeNode node = queue.Dequeue();
-        Console.Write(node.val + <span class="string">&quot; &quot;</span>);
-
-        <span class="keyword">if</span> (node.left != <span class="literal">null</span>) queue.Enqueue(node.left);
-        <span class="keyword">if</span> (node.right != <span class="literal">null</span>) queue.Enqueue(node.right);
-    &#125;
-&#125;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E5%9F%BA%E7%A4%8E%E6%BC%94%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-tree-%E6%A8%B9%E7%8B%80%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-d10fe8ac1ce2">基礎演算法系列 — Tree 樹狀資料結構</a></li>
-<li><a target="_blank" rel="noopener" href="https://chat.deepseek.com/">Deepseek</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/data_structures_algorithms/tree_data_structure.htm">Tree Data Structure</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/01/20/sliding-window/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/01/20/sliding-window/" class="post-title-link" itemprop="url">滑動視窗(Sliding Window)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-01-20 10:12:18" itemprop="dateCreated datePublished" datetime="2025-01-20T10:12:18+08:00">2025-01-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:23" itemprop="dateModified" datetime="2025-04-25T10:52:23+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="概述">概述</h3>
-<p>主要就是操作一個視窗的左右邊界，去檢查範圍內的數據，適合用於 Array 或是 String<br>
-可以避免重複已經檢查過的數據，<code>優化時間複雜度</code>，但只適用於<code>連續</code>數據</p>
-<h3 id="簡易範例">簡易範例</h3>
-<p>再給定的數組[2, 5, 8 ,6 ,1]中，找出連續 3 個數字最大總和</p>
-<p><img src="/images/SlidingWindowExample.png" alt="slidingWindow.png"></p>
-<pre><code class="highlight js"><span class="keyword">var</span> arr = [<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">1</span>];
-<span class="keyword">var</span> findThreeLargest = <span class="keyword">function</span> (<span class="params">arr</span>) &#123;
-  <span class="keyword">let</span> curSum = <span class="number">0</span>;
-  <span class="comment">// 初始視窗總和(前3個數總和)</span>
-  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;
-    curSum += arr[i];
-  &#125;
-
-  <span class="keyword">let</span> maxSum = curSum; <span class="comment">// 最大總和</span>
-  <span class="keyword">let</span> maxSumIndex = <span class="number">0</span>; <span class="comment">// 最大總和的起始位置</span>
-  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;
-    curSum = curSum - arr[i - <span class="number">3</span>] + arr[i];
-    <span class="comment">// 更新最大總和的起始位置</span>
-    <span class="keyword">if</span> (curSum &gt; maxSum) &#123;
-      maxSum = curSum;
-      maxSumIndex = i - <span class="number">3</span>;
-    &#125;
-  &#125;
-  <span class="keyword">return</span> &#123; maxSum, maxSumIndex &#125;;
-&#125;;</code></pre>
-<h3 id="參考資料">參考資料</h3>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10364268">https://ithelp.ithome.com.tw/articles/10364268</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E6%BC%94%E7%AE%97%E6%B3%95%E7%AD%86%E8%A8%98%E7%B3%BB%E5%88%97-two-pointer-%E8%88%87sliding-window-8742f45f3f55">https://medium.com/技術筆記/演算法筆記系列-two-pointer-與sliding-window-8742f45f3f55</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1822,8 +335,1641 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 
 
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/13/text-fragments/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/12/13/text-fragments/" class="post-title-link" itemprop="url">文字片段</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-12-13 09:31:52" itemprop="dateCreated datePublished" datetime="2024-12-13T09:31:52+08:00">2024-12-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:02" itemprop="dateModified" datetime="2025-04-25T10:52:02+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="什麼是文字片段-Text-Fragments">什麼是文字片段(Text Fragments)</h3>
+<p>Text Fragments 是一種新的網頁功能<br>
+不需使用錨點標記（anchor tags）就可以讓使用者連結至特定文字<br>
+且會自動高亮顯示並滾動至該文本位置<br>
+<a target="_blank" rel="noopener" href="https://caniuse.com/mdn-html_elements_a_text_fragments">目前支援的版本與瀏覽器</a></p>
+<h3 id="使用方法">使用方法</h3>
+<p>基本結構 :</p>
+<pre><code class="highlight asciidoc"><span class="link">https://example.com/page.html#:~:text=</span>[<span class="string">前綴文字-,</span>]開始文字[,結束文字][,-後綴文字]</code></pre>
+<p>主要組成 :</p>
+<ul>
+<li>:~: 指令代表這是文字片段</li>
+<li>text= 要搜尋的文字</li>
+<li>[] 選用組件</li>
+</ul>
+<p>組件說明 :</p>
+<ul>
+<li>前綴文字 : 應出現在開始文字前面的文字</li>
+<li>開始文字 : 目標片段開頭文字</li>
+<li>結束文字 : 目標片段結尾文字</li>
+<li>後綴文字 : 應出現在結尾文字後面的文字</li>
+</ul>
+<p>樣式調整可透過<code>::target-text</code>進行調整</p>
+<pre><code class="highlight css">::target-text &#123;
+  <span class="attribute">background-color</span>: yellow;
+&#125;</code></pre>
+<h3 id="使用範例">使用範例</h3>
+<pre><code class="highlight dts"><span class="symbol">http:</span><span class="comment">//127.0.0.1:5500/index.html</span></code></pre>
+<p><img src="/images/txtfrag1.png" alt="txtfrag1.png"></p>
+<pre><code class="highlight avrasm"><span class="symbol">http:</span>//<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">5500</span>/index.html<span class="meta">#:~:text=心放地,學的有</span></code></pre>
+<p><img src="/images/txtfrag2.png" alt="txtfrag2.png"></p>
+<pre><code class="highlight pgsql">http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">5500</span>/<span class="keyword">index</span>.html#:~:<span class="type">text</span>=如及間沒人說利驗於民物時人&amp;<span class="type">text</span>=沒才雨叫訴</code></pre>
+<p><img src="/images/txtfrag3.png" alt="txtfrag3.png"></p>
+<h3 id="參考資料">參考資料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html">https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://claude.ai/new">https://claude.ai/new</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/11/signalr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/12/11/signalr/" class="post-title-link" itemprop="url">SignalR</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-12-11 10:26:22" itemprop="dateCreated datePublished" datetime="2024-12-11T10:26:22+08:00">2024-12-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:50:57" itemprop="dateModified" datetime="2025-04-25T10:50:57+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="概述">概述</h3>
+<p>簡單利用 SignalR 去時做一個簡易的 Webhook Api</p>
+<h3 id="Installed">Installed</h3>
+<pre><code class="highlight ada">dotnet add <span class="keyword">package</span> <span class="title">Microsoft.AspNet.SignalR.Core</span></code></pre>
+<h3 id="Program-cs">Program.cs</h3>
+<p>註冊 SignalR 服務，且設定路由</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span>
+&#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span>
+    &#123;
+        <span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
+        <span class="comment">// Add services to the container.</span>
+        builder.Services.AddSignalR();   <span class="comment">// 註冊 SignalR 服務</span>
+        <span class="comment">//....</span>
+        <span class="keyword">var</span> app = builder.Build();
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
+        app.MapControllers();
+        app.MapHub&lt;MessageHub&gt;(<span class="string">&quot;/hub&quot;</span>); <span class="comment">//SignalR路由</span>
+        app.Run();
+    &#125;
+&#125;</code></pre>
+<h3 id="MessageHub-cs">MessageHub.cs</h3>
+<p>實作 Hub 類別<br>
+這邊使用單一使用者群組做簡單的連線管理<br>
+因為是暫存在記憶體，關閉後資料就消失ㄌ<br>
+如果需要持久化，要再配合 DB 去進行持久化</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MessageHub</span> : <span class="title">Hub</span>
+&#123;
+    <span class="comment">// 紀錄用戶的連線(單一使用者群組)</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">readonly</span> Dictionary&lt;<span class="built_in">string</span>, List&lt;<span class="built_in">string</span>&gt;&gt; _userConnections = <span class="keyword">new</span>();
+
+    <span class="comment">// 連線時要做的事</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">async</span> Task <span class="title">OnConnectedAsync</span>()</span>
+    &#123;
+        <span class="keyword">var</span> userName = Context.GetHttpContext()?.Request.Query[<span class="string">&quot;user&quot;</span>]
+          ?? <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="string">&quot;未知使用者&quot;</span>);
+
+        <span class="keyword">if</span> (_userConnections.TryGetValue(userName,<span class="keyword">out</span> <span class="keyword">var</span> connectionIds))
+        &#123;
+            <span class="keyword">if</span> (!connectionIds.Contains(Context.ConnectionId))
+            &#123;
+                connectionIds.Add(Context.ConnectionId);
+            &#125;
+        &#125;
+        <span class="keyword">else</span>
+        &#123;
+            _userConnections.Add(userName, <span class="keyword">new</span> List&lt;<span class="built_in">string</span>&gt; &#123; Context.ConnectionId &#125;);
+        &#125;
+
+        <span class="keyword">await</span> Groups.AddToGroupAsync(Context.ConnectionId, userName);
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnConnectedAsync();
+    &#125;
+
+    <span class="comment">// 斷線時要做的事</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">async</span> Task <span class="title">OnDisconnectedAsync</span>(<span class="params">Exception? exception</span>)</span>
+    &#123;
+
+        <span class="keyword">var</span> user = _userConnections.FirstOrDefault(x =&gt; x.Value.Contains(Context.ConnectionId)).Key;
+
+        <span class="keyword">if</span> (user <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">null</span>)
+        &#123;
+            <span class="comment">// 移除該用戶的連線</span>
+            _userConnections[user].Remove(Context.ConnectionId);
+
+            <span class="comment">// 如果該用戶已經沒有任何連線</span>
+            <span class="keyword">if</span> (!_userConnections[user].Any())
+            &#123;
+                <span class="comment">// 移除用戶</span>
+                _userConnections.Remove(user);
+            &#125;
+
+            <span class="keyword">await</span> Groups.RemoveFromGroupAsync(Context.ConnectionId, user);
+        &#125;
+
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnDisconnectedAsync(exception);
+    &#125;
+&#125;</code></pre>
+<h3 id="WebhookController-cs">WebhookController.cs</h3>
+<p>簡易提供全域、使用者群組、現有連線 api 端點</p>
+<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
+[<span class="meta">ApiController</span>]
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebhookController</span> : <span class="title">ControllerBase</span>
+&#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IHubContext&lt;MessageHub&gt; hub;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">WebhookController</span>(<span class="params">IHubContext&lt;MessageHub&gt; hub</span>)</span>
+    &#123;
+        <span class="keyword">this</span>.hub = hub;
+    &#125;
+
+    <span class="comment">//全域推播</span>
+    [<span class="meta">HttpPost(<span class="string">&quot;all&quot;</span>)</span>]
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">SendAll</span>(<span class="params">[FromBody]MessageDto message</span>)</span>
+    &#123;
+        <span class="keyword">await</span> hub.Clients.All.SendAsync(<span class="string">&quot;ReceiveMessage&quot;</span>, message);
+        <span class="keyword">return</span> Ok();
+    &#125;
+
+    <span class="comment">//群組推播(使用者群組)</span>
+    [<span class="meta">HttpPost(<span class="string">&quot;group&quot;</span>)</span>]
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">SendGroup</span>(<span class="params">[FromBody] WebhookPayload payload</span>)</span>
+    &#123;
+        <span class="keyword">var</span> message = <span class="keyword">new</span> MessageDto
+        &#123;
+            Sender = payload.Sender,
+            Content = payload.Message,
+            TimeSpan = DateTime.Now
+        &#125;;
+        <span class="keyword">await</span> hub.Clients.Groups(payload.Receiver).SendAsync(<span class="string">&quot;ReceiveGroupMessage&quot;</span>, message);
+        <span class="keyword">return</span> Ok();
+    &#125;
+
+    <span class="comment">// 現有連線清單</span>
+    [<span class="meta">HttpGet</span>]
+    <span class="function"><span class="keyword">public</span> IActionResult <span class="title">GetUsers</span>()</span>
+    &#123;
+        <span class="keyword">var</span> users = MessageHub._userConnections;
+        <span class="keyword">return</span> Ok(users);
+    &#125;
+
+    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebhookPayload</span>
+    &#123;
+        <span class="keyword">public</span> <span class="built_in">string</span> Message &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
+        <span class="keyword">public</span> <span class="built_in">string</span> Sender &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
+        <span class="keyword">public</span> <span class="built_in">string</span> Receiver &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
+    &#125;
+&#125;</code></pre>
+<h3 id="webhook-api-curl">webhook api curl</h3>
+<pre><code class="highlight ada">curl -X <span class="symbol">&#x27;POST</span>&#x27; \
+  <span class="symbol">&#x27;https</span>://localhost:<span class="number">7244</span>/api/Webhook/<span class="keyword">all</span>&#x27; \
+  -H <span class="symbol">&#x27;accept</span>: */*&#x27; \
+  -H <span class="symbol">&#x27;Content</span>-<span class="keyword">Type</span>: application/json&#x27; \
+  -d &#x27;&#123;
+  <span class="string">&quot;sender&quot;</span>: <span class="string">&quot;user&quot;</span>,
+  <span class="string">&quot;content&quot;</span>: <span class="string">&quot;test&quot;</span>
+&#125;&#x27;</code></pre>
+<h3 id="前端接收-webhook">前端接收 webhook</h3>
+<p>前端使用 quasar vue typescript</p>
+<pre><code class="highlight ts">&lt;script setup lang=<span class="string">&quot;ts&quot;</span>&gt;
+<span class="keyword">import</span> * <span class="keyword">as</span> signalR <span class="keyword">from</span> <span class="string">&#x27;@microsoft/signalr&#x27;</span>;
+<span class="keyword">import</span> &#123; ref, onMounted &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;
+
+<span class="keyword">type</span> <span class="title class_">MessageDto</span> = &#123;
+  <span class="attr">sender</span>: <span class="built_in">string</span>;
+  <span class="attr">content</span>: <span class="built_in">string</span>;
+  <span class="attr">timeSpan</span>: <span class="title class_">Date</span>;
+&#125;;
+<span class="keyword">const</span> user = <span class="string">&#x27;admin&#x27;</span>;
+<span class="keyword">const</span> receiveMsgs = ref&lt;<span class="title class_">MessageDto</span>[]&gt;([]);
+
+<span class="keyword">const</span> connection = <span class="keyword">new</span> signalR.<span class="title class_">HubConnectionBuilder</span>()
+  .<span class="title function_">withUrl</span>(<span class="string">`https://localhost:7244/hub?user=<span class="subst">$&#123;user&#125;</span>`</span>)
+  .<span class="title function_">withAutomaticReconnect</span>()
+  .<span class="title function_">build</span>();
+
+<span class="comment">//監聽全頻推播</span>
+connection.<span class="title function_">on</span>(<span class="string">&#x27;ReceiveMessage&#x27;</span>, <span class="function">(<span class="params"><span class="attr">res</span>: <span class="title class_">MessageDto</span></span>) =&gt;</span> &#123;
+  receiveMsgs.<span class="property">value</span>.<span class="title function_">push</span>(res);
+&#125;);
+
+<span class="comment">//監聽群組推播</span>
+connection.<span class="title function_">on</span>(<span class="string">&#x27;ReceiveGroupMessage&#x27;</span>, <span class="function">(<span class="params"><span class="attr">res</span>: <span class="title class_">MessageDto</span></span>) =&gt;</span> &#123;
+  receiveMsgs.<span class="property">value</span>.<span class="title function_">push</span>(res);
+&#125;);
+
+<span class="comment">//重新連線</span>
+connection.<span class="title function_">onreconnected</span>(<span class="function">() =&gt;</span> &#123;
+  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Reconnected successfully.&#x27;</span>);
+&#125;);
+
+connection.<span class="title function_">onclose</span>(<span class="title function_">async</span> () =&gt; &#123;
+  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Disconnected. Retrying connection...&#x27;</span>);
+  <span class="keyword">await</span> <span class="title function_">reconnect</span>();
+&#125;);
+
+<span class="keyword">const</span> <span class="title function_">reconnect</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;
+  <span class="keyword">let</span> attempts = <span class="number">0</span>;
+  <span class="keyword">const</span> maxAttempts = <span class="number">100</span>; <span class="comment">// 最大嘗試次數</span>
+  <span class="keyword">const</span> retryDelay = <span class="number">30000</span>; <span class="comment">// 嘗試間隔(ms)</span>
+
+  <span class="keyword">while</span> (attempts &lt; maxAttempts) &#123;
+    <span class="keyword">try</span> &#123;
+      <span class="keyword">await</span> connection.<span class="title function_">start</span>();
+      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Reconnected successfully.&#x27;</span>);
+      <span class="keyword">return</span>; <span class="comment">// 連線成功,退出循環</span>
+    &#125; <span class="keyword">catch</span> (err) &#123;
+      attempts++;
+      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Reconnection attempt <span class="subst">$&#123;attempts&#125;</span> failed.`</span>, err);
+      <span class="keyword">if</span> (attempts &lt; maxAttempts) &#123;
+        <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> <span class="built_in">setTimeout</span>(resolve, retryDelay)); <span class="comment">// 等待后重试</span>
+      &#125; <span class="keyword">else</span> &#123;
+        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Failed to reconnect after several attempts.&#x27;</span>)
+      &#125;
+    &#125;
+  &#125;
+&#125;;
+
+<span class="title function_">onMounted</span>(<span class="title function_">async</span> () =&gt; &#123;
+  <span class="keyword">try</span> &#123;
+    <span class="keyword">await</span> connection.<span class="title function_">start</span>();
+    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;user&#125;</span> has connected`</span>)
+  &#125; <span class="keyword">catch</span> (err) &#123;
+    <span class="variable language_">console</span>.<span class="title function_">log</span>(err);
+  &#125;
+&#125;);
+&lt;/script&gt;</code></pre>
+<h3 id="參考資料">參考資料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/tutorials/signalr?view=aspnetcore-9.0&amp;WT.mc_id=dotnet-35129-website&amp;tabs=visual-studio">https://learn.microsoft.com/zh-tw/aspnet/core/tutorials/signalr?view=aspnetcore-9.0&amp;WT.mc_id=dotnet-35129-website&amp;tabs=visual-studio</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.perplexity.ai/">https://www.perplexity.ai/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/@microsoft/signalr">https://www.npmjs.com/package/@microsoft/signalr</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/11/linq-search/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/12/11/linq-search/" class="post-title-link" itemprop="url">LINQ</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-12-11 08:57:01" itemprop="dateCreated datePublished" datetime="2024-12-11T08:57:01+08:00">2024-12-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:50:07" itemprop="dateModified" datetime="2025-04-25T10:50:07+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="LINQ-Language-Integrated-Query">LINQ ( Language Integrated Query)</h3>
+<p>微軟開發的技術<code>具有查詢資料的程式語言</code><br>
+讓工程師能夠使用原生 C#對資料進行處理<br>
+且相同語法可以查詢不同類型的資料，降低學習成本<br>
+擴充類型 :</p>
+<ul>
+<li>LINQ to Objects</li>
+<li>LINQ to SQL</li>
+<li>LINQ to XML</li>
+<li>…etc</li>
+</ul>
+<h2 id="LINQ-查詢的兩種語法">LINQ 查詢的兩種語法</h2>
+<ol>
+<li>查詢表達式 ( Query Expression Syntax )</li>
+</ol>
+<ul>
+<li>類似 SQL 的語法 : 使用 select 、 from 、where 等關鍵字</li>
+<li>較容易理解</li>
+<li>結構固定 : 必須 from 起始，select 或 group by 結尾</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
+&#123;
+    <span class="comment">// Data source.</span>
+    <span class="built_in">int</span>[] scores = <span class="keyword">new</span> <span class="built_in">int</span>[] &#123; <span class="number">90</span>, <span class="number">71</span>, <span class="number">82</span>, <span class="number">93</span>, <span class="number">75</span>, <span class="number">82</span> &#125;;
+
+    <span class="comment">// Query Expression.</span>
+    IEnumerable&lt;<span class="built_in">int</span>&gt; scoreQuery = <span class="comment">//query variable</span>
+        <span class="keyword">from</span> score <span class="keyword">in</span> scores <span class="comment">//required</span>
+        <span class="keyword">where</span> score &gt; <span class="number">80</span> <span class="comment">// optional</span>
+        <span class="keyword">orderby</span> score <span class="keyword">descending</span> <span class="comment">// optional</span>
+        <span class="keyword">select</span> score; <span class="comment">//must end with select or group</span>
+
+    <span class="comment">// Execute the query to produce the results</span>
+    <span class="keyword">foreach</span> (<span class="keyword">var</span> testScore <span class="keyword">in</span> scoreQuery)
+    &#123;
+        Console.WriteLine(testScore);
+    &#125;
+
+    <span class="comment">// Output: 93 90 82 82</span>
+&#125;</code></pre>
+<ol start="2">
+<li>流利語法（Fluent Syntax）</li>
+</ol>
+<ul>
+<li>靈活性高 : 可以方便地鏈結調用多個方法</li>
+<li>Lambda 表達式 : 代碼簡潔</li>
+<li>沒有固定結構 : 沒有特定的開始或結束語句</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
+&#123;
+    <span class="comment">// Data source.</span>
+    <span class="built_in">int</span>[] scores = <span class="keyword">new</span> <span class="built_in">int</span>[] &#123; <span class="number">90</span>, <span class="number">71</span>, <span class="number">82</span>, <span class="number">93</span>, <span class="number">75</span>, <span class="number">82</span> &#125;;
+
+    <span class="comment">// Query Expression.</span>
+    <span class="keyword">var</span> scoreQuery = scores
+        .Where(score =&gt; score &gt; <span class="number">80</span>)
+        .OrderByDescending(score =&gt; score);
+
+    <span class="comment">// Execute the query to produce the results</span>
+    <span class="keyword">foreach</span> (<span class="keyword">var</span> testScore <span class="keyword">in</span> scoreQuery)
+    &#123;
+        Console.WriteLine(testScore);
+    &#125;
+
+    <span class="comment">// Output: 93 90 82 82</span>
+&#125;</code></pre>
+<table>
+<thead>
+<tr>
+<th>特徵</th>
+<th>查詢表達式</th>
+<th>流利語法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>風格</td>
+<td>類似 sql</td>
+<td>方法鏈結</td>
+</tr>
+<tr>
+<td>可讀性</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>結構要求</td>
+<td>from 開頭、select 或 group by 結尾</td>
+<td>無特定要求</td>
+</tr>
+<tr>
+<td>靈活性</td>
+<td>某些情況下較低</td>
+<td>更高的靈活性，尤其是動態</td>
+</tr>
+</tbody>
+</table>
+<h3 id="參考資料">參考資料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-tw/%E8%AF%AD%E8%A8%80%E9%9B%86%E6%88%90%E6%9F%A5%E8%AF%A2">https://zh.wikipedia.org/zh-tw/语言集成查询</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.perplexity.ai/">https://www.perplexity.ai/</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10194251">https://ithelp.ithome.com.tw/articles/10194251</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/27/time-complexity/" class="post-title-link" itemprop="url">時間複雜度</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-27 13:47:35" itemprop="dateCreated datePublished" datetime="2024-11-27T13:47:35+08:00">2024-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:09" itemprop="dateModified" datetime="2025-04-25T10:52:09+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="概述">概述</h2>
+<p>時間複雜度代表的是演算法隨著資料量變大時的增長趨勢<br>
+數學符號<code>大O記號(big-O notation)</code></p>
+<h2 id="常見型別">常見型別</h2>
+<ul>
+<li>常數階 O(1)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Constant</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="comment">// 迴圈次數與 n 無關</span>
+    <span class="built_in">int</span> size = <span class="number">10000</span>;
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; size; i++)
+    &#123;
+        count++;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>線性階 O(n)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Linear</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="comment">// 迴圈次數 n 次</span>
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        count++;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>平方階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Quadratic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="comment">// 迴圈次數 n*n 次</span>
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; n; j++)
+        &#123;
+            count++;
+        &#125;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>指數階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Exponential</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="built_in">int</span> bas = <span class="number">1</span>;
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        <span class="comment">//迴圈次數為2^n次</span>
+        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; bas; j++)
+        &#123;
+            count++;
+        &#125;
+        bas *= <span class="number">2</span>;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>對數階 O(logn)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Logarithmic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="keyword">while</span> (n &gt; <span class="number">1</span>) &#123;
+        n /= <span class="number">2</span>;
+        count++;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>線性對數階 O(nlogn)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">LinearLogRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="built_in">int</span> count = LinearLogRecur(n / <span class="number">2</span>);
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        count++;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>階乘階 O(n!)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">FactorialRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="comment">// n * (n - 1) * (n - 2) * ... * 2 * 1</span>
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        count += FactorialRecur(n - <span class="number">1</span>);
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/iteration-and-recursion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/27/iteration-and-recursion/" class="post-title-link" itemprop="url">迭代與遞迴</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-27 08:52:39" itemprop="dateCreated datePublished" datetime="2024-11-27T08:52:39+08:00">2024-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-29 16:13:14" itemprop="dateModified" datetime="2025-04-29T16:13:14+08:00">2025-04-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><code>迭代(iteration)</code>是一種重複執行任務的控制結構<br>
+在一定的<code>條件</code>下重複執行，直到<code>條件</code>不再滿足</p>
+<ul>
+<li>for<br>
+最常見的迭代形式</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">ForLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> result = <span class="number">0</span>;
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= n; i--)
+    &#123;
+        result += i;
+    &#125;
+    <span class="keyword">return</span> result;
+&#125;</code></pre>
+<ul>
+<li>while<br>
+while 跟 for 類似，但是 while 會比較好控制條件的設定與變化<br>
+for 的程式碼較簡潔、while 的迴圈控制較靈活</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">WhileLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> result = <span class="number">0</span>;
+    <span class="built_in">int</span> i = <span class="number">1</span>; <span class="comment">//初始條件</span>
+    <span class="keyword">while</span> (i &lt;= n)
+    &#123;
+        result += i;
+        <span class="comment">//更新條件</span>
+        i +=<span class="number">1</span>;
+        i *=<span class="number">2</span>;
+    &#125;
+    <span class="keyword">return</span> result;
+&#125;</code></pre>
+<ul>
+<li>巢狀<br>
+迴圈包迴圈</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">string</span> <span class="title">NestForLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="keyword">var</span> result = <span class="keyword">new</span> StringBuilder();
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= n; i++)
+    &#123;
+        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">1</span>; j &lt;= n; j++)
+        &#123;
+            result.Append(<span class="string">$&quot;(<span class="subst">&#123;i&#125;</span>,<span class="subst">&#123;j&#125;</span>)&quot;</span>);
+        &#125;
+    &#125;
+    <span class="keyword">return</span> result.ToString();
+&#125;</code></pre>
+<h2 id="遞迴">遞迴</h2>
+<p><code>遞迴(recursion)</code>函式呼叫自己本身<br>
+<strong>主要三要素</strong></p>
+<ol>
+<li>終止條件 : 什麼時候結束往下層傳遞</li>
+<li>遞迴呼叫 : 將參數往下層傳遞給自己</li>
+<li>結果返回 : 回傳結果給上層</li>
+</ol>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Recur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="comment">// 終止條件</span>
+    <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="comment">// 遞迴呼叫</span>
+    <span class="built_in">int</span> res = Recur(n - <span class="number">1</span>);
+    <span class="comment">// 返回結果</span>
+    <span class="keyword">return</span> n + res;
+&#125;</code></pre>
+<p><img src="/images/recursion_sum_depth.png" alt="recursion_sum_depth.png"></p>
+<p>由於遞迴每次都要呼叫重新產生本身函式，會有額外的資源開銷<br>
+所以遞迴的次數是有限的，太多記憶體會爆炸，效率也會比迭代來的低</p>
+<h2 id="比較">比較</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>迭代</th>
+<th>遞迴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>效率</td>
+<td>較高，沒有函式產生開銷</td>
+<td>每次遞迴呼叫都有產生開銷</td>
+</tr>
+<tr>
+<td>記憶體</td>
+<td>通常固定大小</td>
+<td>根據遞迴函式產生占用大量記憶體</td>
+</tr>
+<tr>
+<td>適用</td>
+<td>簡單任務、直觀、可讀佳</td>
+<td>複雜任務分解(樹、圖、分治、回溯等)、結構明確</td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/iteration_and_recursion/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/iteration_and_recursion/</a></li>
+<li><a target="_blank" rel="noopener" href="https://hackmd.io/@PythonTutor/By9P6avKd#%E9%81%9E%E8%BF%B4VS%E8%BF%AD%E4%BB%A3-%E5%8F%AF%E8%AE%80%E6%80%A7%E8%88%87%E5%8F%AF%E6%94%B9%E6%80%A7">https://hackmd.io/@PythonTutor/By9P6avKd#遞迴VS迭代-可讀性與可改性</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/26/brotato/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/26/brotato/" class="post-title-link" itemprop="url">Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-26 08:28:00" itemprop="dateCreated datePublished" datetime="2024-11-26T08:28:00+08:00">2024-11-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-11-29 09:05:51" itemprop="dateModified" datetime="2024-11-29T09:05:51+08:00">2024-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%81%8A%E6%88%B2/" itemprop="url" rel="index"><span itemprop="name">遊戲</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/bratato.jpg" alt="brotato.jpg"><br>
+<a target="_blank" rel="noopener" href="https://steamcommunity.com/sharedfiles/filedetails/?id=3018964960">文章原文</a></p>
+<h2 id="一般建議">一般建議</h2>
+<p>不要小看<code>運氣(Luck)</code>與<code>收穫(Harvesting)</code><br>
+你越早拿到運氣跟收穫，後面的回報越多<br>
+下面是個例子<br>
+<img src="/images/harvestExample.jpg" alt="harvestExample.jpg"><br>
+這並非意味著每次都必須選擇<code>收穫(Harvesting)</code>但越早提升收益越大<br>
+<code>運氣(Luck)</code>也是同理，越早提升可以有更好的商店選擇與升級選項<br>
+所以如果你在難度 5 下某些角色玩得很吃力，可以嘗試在前期提升<code>收穫(Harvesting)</code>和<code>運氣(Luck)</code><br>
+或許會讓你玩起來較舒服<br>
+下圖說明<code>運氣(Luck)</code>如何影響遊戲<br>
+<img src="/images/luck.png" alt="lucky.png"><br>
+然後下圖說明<code>運氣(Luck)</code>數值對商店的影響，但不要忘記升級異形素材掉落<br>
+<img src="/images/luckShop.jpg" alt="luckShop.jpg"><br>
+一般而言，你不需要太多就可以完成難度 5，只需要了解角色跟物品的聯動</p>
+<h2 id="消耗品、治療與寶箱-重要">消耗品、治療與寶箱(重要!!!)</h2>
+<p>😱<code>除非需要補血，請不要拾取消耗品跟寶箱</code>😱<br>
+因為如果你滿血拾取，將不會獲得任何效益<br>
+消耗品跟寶箱在波數結束的時候會自動拾取<br>
+<img src="/images/healPick.jpg" alt="healPick.jpg"><br>
+<img src="/images/lootCrate.jpg" alt="lootCrate.jpg"><br>
+這個技巧適合用於你想要秒殺菁英怪，因為他會掉落一個傳奇寶箱可以回復 100HP<br>
+如果你滿血就保留到需要的時候再用<br>
+這是一個很有用的策略，但常常被忽略<br>
+所以滿血的時候，就不要撿消耗品跟寶箱</p>
+<p>除非你的操作很神，要不然你一定會需要補血，他會在關鍵時刻救你一命 🤡<br>
+<img src="/images/healBuff.jpg" alt="healBuff.jpg"></p>
+<h2 id="難度-5-推薦物品-I-got-you">難度 5 推薦物品!!!(I got you)</h2>
+<p>有些物品可以極大的幫助你通過難度 5<br>
+首選是妖精(Fairy)幾乎必選，其餘的可以參考下圖<br>
+建議在較低的難度解鎖這些裝備，這樣你就可以在難度 5 使用它<br>
+<img src="/images/betterItem.jpg" alt="betterItem.jpg"></p>
+<h2 id="S-Tier-Items">S-Tier Items</h2>
+<p>為什麼要盡量取得這些裝備???</p>
+<ul>
+<li>讓你遊戲更順利</li>
+<li>巨大價值，且幾乎回本</li>
+<li>傷害越高，你殺敵的速度就越快，殺的敵人越多，你獲得的材料也就越多。</li>
+<li>越早獲得圖片中 S 級裝備裡那些提供收穫（Harvesting）的裝備，它們回本的速度就越快。</li>
+</ul>
+<p><strong>注意!!!</strong><br>
+為什麼那些可以<code>增加敵人數量</code>的裝備是好東西??<br>
+因為每回合刷新的敵人越多，整場遊戲中獲得的材料也會越多。因此，記得留意這類裝備。</p>
+<p>但也要留心，有些裝備在第 15 波之後就不太值得拿了，具體取決於你獲得它們的時間。<br>
+以下列出的裝備幾乎適用於遊戲中每個角色，所以它們被歸入了 S 級。<br>
+<img src="/images/SRankItems.jpg" alt="SRankItems.jpg"></p>
+<p><strong>特別</strong><br>
+為什麼選擇 Ugly Tooth??<br>
+如果你覺得你常常被菁英怪或 BOSS 貼著打或是覺得移動速度不夠躲怪那就選它<br>
+它是遊戲中影響力最大的裝備之一，特別是在你的跑圖狀況不穩的時候，能起到很大的作用<br>
+如果你目前可以輕鬆清場，那就不需要它<br>
+<img src="/images/uglyTooth.jpg" alt="uglyTooth.jpg"></p>
+<h2 id="F-Tier-Items-幾乎不選">F-Tier Items(幾乎不選)</h2>
+<p>為什麼要盡量避免選擇這些物品??<br>
+因為這些裝備的副作用會隨著遊戲的進行越來越擴大</p>
+<ol>
+<li>減少敵人數量的裝備，代表經濟收益減少</li>
+<li>希望敵人速度比你慢才不容易貼到你，所以給敵人速度加乘的裝備不建議選擇</li>
+</ol>
+<p><img src="/images/FTireItems.jpg" alt="FTireItems.jpg"></p>
+<h2 id="工程學">工程學</h2>
+<p>可以提升結構物的傷害跟治療量，也會提升板手跟起子的傷害</p>
+<p>工程學會不會太強?<br>
+對於某些角色有負面%傷害加成的角色是蠻強的<br>
+因為<code>工程學</code>是一個獨立的屬性不依賴其他<code>%傷害</code>、<code>範圍傷害</code>或<code>近距離傷害</code><br>
+因此你可以專注於提升你的<code>閃避</code>、<code>生命</code>、<code>生命再生</code>、<code>護甲</code>，不用關心其他傷害只要升<code>工程學</code>就好<br>
+<img src="/images/engineering.jpg" alt="engineering.jpg"></p>
+<p>舉例，假設你的炮台沒有貫穿，然後你選擇下面的道具<br>
+<img src="/images/sharpBullet.jpg" alt="sharpBullet.jpg"><br>
+你的結構物不會被-%傷害影響，因為結構物不受其影響，所以對結構物這個道具是很有用的</p>
+<p>還在施工中…</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://steamcommunity.com/sharedfiles/filedetails/?id=3018964960">https://steamcommunity.com/sharedfiles/filedetails/?id=3018964960</a></li>
+<li><a target="_blank" rel="noopener" href="https://brotato.wiki.spellsandguns.com/Brotato_Wiki">https://brotato.wiki.spellsandguns.com/Brotato_Wiki</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1-c33h4oZwmWj3ZOz4xp0HN4vIyMXxOwGK8Rm8e4mfKE/edit?tab=t.0#heading=h.dvp9r7tx7asm">https://docs.google.com/document/d/1-c33h4oZwmWj3ZOz4xp0HN4vIyMXxOwGK8Rm8e4mfKE/edit?tab=t.0#heading=h.dvp9r7tx7asm</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/20/imemorycahce/" class="post-title-link" itemprop="url">C# 資料快取</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-20 15:07:58" itemprop="dateCreated datePublished" datetime="2024-11-20T15:07:58+08:00">2024-11-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:49:34" itemprop="dateModified" datetime="2025-04-25T10:49:34+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="概述">概述</h2>
+<p>有時候一些大型資料且異動少的資料<br>
+每次使用就要從資料重新撈取就很浪費效能資源<br>
+這個時候就是快取出場的時候</p>
+<h2 id="Install">Install</h2>
+<pre><code class="highlight powershell">dotnet add package Microsoft.Extensions.Caching.Memory</code></pre>
+<h2 id="Extensions-cs">Extensions.cs</h2>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddExtension</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services</span>)</span>
+&#123;
+    services.AddMemoryCache();
+    <span class="comment">// services.AddScoped&lt;CacheHelper&gt;(); //如果有使用整合工具類</span>
+&#125;</code></pre>
+<h2 id="Usage">Usage</h2>
+<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
+ [<span class="meta">ApiController</span>]
+ <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DataController</span> : <span class="title">ControllerBase</span>
+ &#123;
+     <span class="keyword">private</span> <span class="keyword">readonly</span> DataBaseService dataBaseService;
+     <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache memoryCache;
+
+     <span class="function"><span class="keyword">public</span> <span class="title">DataController</span>(<span class="params">DataBaseService dataBaseService, IMemoryCache memoryCache</span>)</span>
+     &#123;
+         <span class="keyword">this</span>.memoryCache = memoryCache;
+         <span class="keyword">this</span>.dataBaseService = dataBaseService;
+     &#125;
+
+     [<span class="meta">HttpGet(<span class="string">&quot;/search&quot;</span>)</span>]
+     <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Search</span>(<span class="params"><span class="built_in">string</span> keyword</span>)</span>
+     &#123;
+        <span class="comment">// 從記憶體快取查看是否存在，沒再去資料庫撈資料並儲存快取</span>
+         <span class="keyword">if</span> (memoryCache.TryGetValue(<span class="string">&quot;MainDataCache&quot;</span>, <span class="keyword">out</span> List&lt;Prs006&gt; dataList))
+         &#123;
+             <span class="keyword">var</span> result = dataList?
+                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
+                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
+
+             <span class="keyword">return</span> Ok(result);
+         &#125;
+         <span class="keyword">else</span>
+         &#123;
+             <span class="keyword">var</span> dbData = <span class="keyword">await</span> dataBaseService.GetDatas();
+             <span class="comment">//寫入記憶體儲存，一天後自動過期</span>
+             memoryCache.Set(<span class="string">&quot;MainDataCache&quot;</span>, dbData, TimeSpan.FromDays(<span class="number">1</span>));
+
+             <span class="keyword">var</span> result = dbData?
+                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
+                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
+                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
+
+             <span class="keyword">return</span> Ok(result);
+         &#125;
+     &#125;</code></pre>
+<h2 id="CacheHelper-cs-Optional">CacheHelper.cs(Optional)</h2>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CacheHelper</span>
+&#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">CacheHelper</span>(<span class="params">IMemoryCache cache</span>)</span>
+    &#123;
+        <span class="keyword">this</span>.cache = cache;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Set</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire = <span class="number">300</span></span>)</span>
+    &#123;
+        <span class="keyword">var</span> options = <span class="keyword">new</span> MemoryCacheEntryOptions
+        &#123;
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expire),
+        &#125;;
+        cache.Set(key, <span class="keyword">value</span>, options);
+    &#125;
+
+    <span class="keyword">public</span> T? Get&lt;T&gt;(<span class="built_in">string</span> key)
+    &#123;
+        cache.TryGetValue&lt;T&gt;(key, <span class="keyword">out</span> <span class="keyword">var</span> <span class="keyword">value</span>);
+        <span class="keyword">return</span> <span class="keyword">value</span>;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Remove</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
+    &#123;
+        cache.Remove(key);
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Update</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire</span>)</span>
+    &#123;
+        cache.Remove(key);
+        Set&lt;T&gt;(key, <span class="keyword">value</span>, expire);
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">Contains</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
+    &#123;
+        <span class="keyword">return</span> cache.TryGetValue(key, <span class="keyword">out</span> _);
+    &#125;
+&#125;</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/winscp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/19/winscp/" class="post-title-link" itemprop="url">C# 使用Winscp上傳檔案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-19 15:55:53" itemprop="dateCreated datePublished" datetime="2024-11-19T15:55:53+08:00">2024-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:22" itemprop="dateModified" datetime="2025-04-25T10:52:22+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="概述">概述</h2>
+<p>接手了前輩的專案，以前都要自己手動上傳檔案，好麻煩<br>
+因此來看看怎麼用 Winscp 套件來串接，配合後續製作成排程程式，自動上傳</p>
+<h2 id="Install">Install</h2>
+<pre><code class="highlight powershell">dotnet add package WinSCP</code></pre>
+<h2 id="Example">Example</h2>
+<pre><code class="highlight C#"><span class="comment">// 連線設定</span>
+SessionOptions sessionOptions = <span class="keyword">new</span> SessionOptions
+&#123;
+    Protocol = Protocol.Sftp,
+    HostName = <span class="string">&quot;hostname&quot;</span>,
+    PortNumber = port,
+    UserName = <span class="string">&quot;xxxx&quot;</span>,
+    SshHostKeyFingerprint = <span class="string">&quot;ssh-rsa 2048 xxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>,
+    SshPrivateKeyPath = <span class="string">&quot;....&quot;</span> <span class="comment">// 私鑰路徑自行調整(選用)</span>
+&#125;;
+
+<span class="comment">// 開啟會話</span>
+<span class="keyword">using</span> <span class="keyword">var</span> session = <span class="keyword">new</span> Session();
+session.Open(sessionOptions);
+
+<span class="comment">// 定義上傳的文件路徑和遠端目錄</span>
+<span class="built_in">string</span> localFilePath = <span class="string">&quot;文件路徑&quot;</span>;
+<span class="built_in">string</span> remoteDirectory = <span class="string">&quot;伺服器目錄&quot;</span>; <span class="comment">// 遠端伺服器的目錄</span>
+
+<span class="comment">// 上傳文件</span>
+TransferOperationResult transferResult;
+transferResult = <span class="keyword">this</span>.session.PutFiles(localFilePath, remoteDirectory);
+
+<span class="comment">// 檢查上傳是否成功</span>
+transferResult.Check();</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<p><a target="_blank" rel="noopener" href="https://winscp.net/eng/docs/library#csharp">https://winscp.net/eng/docs/library#csharp</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/curl/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/19/curl/" class="post-title-link" itemprop="url">C# 使用 curl.exe 呼叫api</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-19 15:53:41" itemprop="dateCreated datePublished" datetime="2024-11-19T15:53:41+08:00">2024-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:49:14" itemprop="dateModified" datetime="2025-04-25T10:49:14+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="概述">概述</h2>
+<p>有時候開發軟體的版本過舊，導致介接 API 會異常困難<br>
+學長說可以用 curl 來呼叫 api，所以就來看看怎麼用</p>
+<h2 id="DownLoad-curl-exe">DownLoad curl.exe</h2>
+<p><a target="_blank" rel="noopener" href="https://curl.se/download.html#Win64">https://curl.se/download.html#Win64</a></p>
+<h2 id="CurlHelper-cs">CurlHelper.cs</h2>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CurlHelper</span>
+    &#123;
+        <span class="comment">// curl.exe 路徑</span>
+        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="built_in">string</span> CurlPath = <span class="string">$&quot;C:\\CURLDEMO\\EXE\\CURL.EXE&quot;</span>;
+
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> Get 請求</span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;url&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;headers&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">GetRequest</span>(<span class="params"><span class="built_in">string</span> url, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; headers = <span class="literal">null</span></span>)</span>
+        &#123;
+            <span class="built_in">string</span> arugments = <span class="string">$&quot;-X GET \&quot;<span class="subst">&#123;url&#125;</span>\&quot;&quot;</span>;
+            <span class="keyword">if</span> (headers != <span class="literal">null</span>)
+            &#123;
+                <span class="keyword">foreach</span> (<span class="keyword">var</span> header <span class="keyword">in</span> headers)
+                &#123;
+                    arugments += <span class="string">$&quot; -H \&quot;<span class="subst">&#123;header.Key&#125;</span>: <span class="subst">&#123;header.Value&#125;</span>\&quot;&quot;</span>;
+                &#125;
+            &#125;
+            <span class="keyword">return</span> ExecuteCurlCommand(arugments);
+        &#125;
+
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> POST 請求(JSON資料)</span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;url&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;jsonData&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;headers&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">PostRequest</span>(<span class="params"><span class="built_in">string</span> url, <span class="built_in">string</span> jsonData, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; headers = <span class="literal">null</span></span>)</span>
+        &#123;
+            <span class="built_in">string</span> arguments = <span class="string">$&quot;-X POST -H \&quot;Content-Type: application/json\&quot; -d \&quot;<span class="subst">&#123;jsonData&#125;</span>\&quot; \&quot;<span class="subst">&#123;url&#125;</span>\&quot;&quot;</span>;
+            <span class="keyword">if</span> (headers != <span class="literal">null</span>)
+            &#123;
+                <span class="keyword">foreach</span> (<span class="keyword">var</span> header <span class="keyword">in</span> headers)
+                &#123;
+                    arguments += <span class="string">$&quot; -H \&quot;<span class="subst">&#123;header.Key&#125;</span>: <span class="subst">&#123;header.Value&#125;</span>\&quot;&quot;</span>;
+                &#125;
+            &#125;
+            <span class="keyword">return</span> ExecuteCurlCommand(arguments);
+        &#125;
+
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> POST 請求(表單資料)</span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;url&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;formData&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;headers&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">PostFormRequest</span>(<span class="params"><span class="built_in">string</span> url, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; formData, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; headers = <span class="literal">null</span></span>)</span>
+        &#123;
+            <span class="built_in">string</span> arguments = <span class="string">&quot;-X POST&quot;</span>;
+            <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> formData)
+            &#123;
+                arguments += <span class="string">$&quot; -F \&quot;<span class="subst">&#123;item.Key&#125;</span>=<span class="subst">&#123;item.Value&#125;</span>\&quot;&quot;</span>;
+            &#125;
+            arguments += <span class="string">$&quot; \&quot;<span class="subst">&#123;url&#125;</span>\&quot;&quot;</span>;
+            <span class="keyword">if</span> (headers != <span class="literal">null</span>)
+            &#123;
+                <span class="keyword">foreach</span> (<span class="keyword">var</span> header <span class="keyword">in</span> headers)
+                &#123;
+                    arguments += <span class="string">$&quot; -H \&quot;<span class="subst">&#123;header.Key&#125;</span>: <span class="subst">&#123;header.Value&#125;</span>\&quot;&quot;</span>;
+                &#125;
+            &#125;
+            <span class="keyword">return</span> ExecuteCurlCommand(arguments);
+        &#125;
+
+
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> 執行curl命令返回輸出</span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;arguments&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span>
+        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span>
+        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">ExecuteCurlCommand</span>(<span class="params"><span class="built_in">string</span> arguments</span>)</span>
+        &#123;
+            <span class="keyword">var</span> startInfo = <span class="keyword">new</span> ProcessStartInfo
+            &#123;
+                FileName = CurlPath,
+                Arguments = arguments,
+                RedirectStandardOutput = <span class="literal">true</span>,
+                UseShellExecute = <span class="literal">false</span>,
+                CreateNoWindow = <span class="literal">true</span>,
+            &#125;;
+            <span class="keyword">using</span> (<span class="keyword">var</span> p = Process.Start(startInfo))
+            &#123;
+                <span class="keyword">using</span> (<span class="keyword">var</span> reader = p.StandardOutput)
+                &#123;
+                    <span class="keyword">return</span> reader.ReadToEnd();
+                &#125;
+            &#125;
+        &#125;
+    &#125;</code></pre>
+<h2 id="Usage">Usage</h2>
+<pre><code class="highlight C#"><span class="built_in">string</span> url = <span class="string">&quot;apiurl...&quot;</span>;
+<span class="keyword">var</span> headers = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;
+&#123;
+      &#123;<span class="string">&quot;Authorization&quot;</span>, <span class="string">&quot;Bearer your_api_key&quot;</span>&#125;
+&#125;;
+<span class="built_in">string</span> response = CurlHelper.GetRequest(url, headers);
+Console.WriteLine(<span class="string">&quot;Get Response: &quot;</span> + response);</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

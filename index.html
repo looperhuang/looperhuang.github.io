@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -184,1799 +184,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/27/rust-method-syntax/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/27/rust-method-syntax/" class="post-title-link" itemprop="url">🦀 Rust Method Syntax</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-27 13:59:36 / 修改時間：14:18:44" itemprop="dateCreated datePublished" datetime="2025-05-27T13:59:36+08:00">2025-05-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Rust 中的方法語法讓我們可以將函式綁定到 <code>struct</code> 上，使程式更具結構性與可讀性。<br>
-本節將介紹如何使用 <code>impl</code> 區塊定義方法、使用 <code>self</code> 參數、以及什麼是關聯函式。</p>
-<h2 id="📦-使用-impl-實作方法">📦 使用 <code>impl</code> 實作方法</h2>
-<pre><code class="highlight rust"><span class="meta">#[derive(Debug)]</span>
-<span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;
-    width: <span class="type">u32</span>,
-    height: <span class="type">u32</span>,
-&#125;
-
-<span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;
-    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;
-        <span class="keyword">self</span>.width * <span class="keyword">self</span>.height
-    &#125;
-&#125;</code></pre>
-<h3 id="🧠-說明">🧠 說明</h3>
-<ul>
-<li><code>impl Rectangle</code> 表示為 <code>Rectangle</code> 實作方法。</li>
-<li><code>&amp;self</code> 相當於 <code>self: &amp;Rectangle</code>，表示借用該實例。</li>
-<li>方法呼叫方式為 <code>rect.area()</code>，而非 <code>area(&amp;rect)</code>。</li>
-</ul>
-<h3 id="✅-方法呼叫範例">✅ 方法呼叫範例</h3>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123;
-        width: <span class="number">30</span>,
-        height: <span class="number">50</span>,
-    &#125;;
-
-    <span class="built_in">println!</span>(<span class="string">&quot;The area of the rectangle is &#123;&#125;.&quot;</span>, rect1.<span class="title function_ invoke__">area</span>());
-&#125;</code></pre>
-<h2 id="🔍-多個方法與使用條件判斷">🔍 多個方法與使用條件判斷</h2>
-<pre><code class="highlight rust"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;
-    <span class="keyword">fn</span> <span class="title function_">width</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;
-        <span class="keyword">self</span>.width
-    &#125;
-
-    <span class="keyword">fn</span> <span class="title function_">can_hold</span>(&amp;<span class="keyword">self</span>, other: &amp;Rectangle) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;
-        <span class="keyword">self</span>.width &gt; other.width &amp;&amp; <span class="keyword">self</span>.height &gt; other.height
-    &#125;
-&#125;</code></pre>
-<h3 id="📌-說明">📌 說明</h3>
-<ul>
-<li>可以定義多個方法於同一 <code>impl</code> 區塊。</li>
-<li><code>can_hold</code> 比較兩個矩形是否包含對方。</li>
-</ul>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123; width: <span class="number">30</span>, height: <span class="number">50</span> &#125;;
-<span class="keyword">let</span> <span class="variable">rect2</span> = Rectangle &#123; width: <span class="number">10</span>, height: <span class="number">40</span> &#125;;
-<span class="keyword">let</span> <span class="variable">rect3</span> = Rectangle &#123; width: <span class="number">60</span>, height: <span class="number">45</span> &#125;;
-
-<span class="built_in">println!</span>(<span class="string">&quot;rect1 can hold rect2: &#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">can_hold</span>(&amp;rect2));
-<span class="built_in">println!</span>(<span class="string">&quot;rect1 can hold rect3: &#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">can_hold</span>(&amp;rect3));</code></pre>
-<h2 id="🏷️-關聯函式（Associated-Function）">🏷️ 關聯函式（Associated Function）</h2>
-<pre><code class="highlight rust"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;
-    <span class="keyword">fn</span> <span class="title function_">square</span>(size: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> Rectangle &#123;
-        Rectangle &#123;
-            width: size,
-            height: size,
-        &#125;
-    &#125;
-&#125;</code></pre>
-<h3 id="📌-說明-t2">📌 說明</h3>
-<ul>
-<li>沒有 <code>self</code> 的函式稱為 關聯函式。</li>
-<li>類似靜態方法，可透過 <code>Rectangle::square(10)</code> 呼叫。</li>
-</ul>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">square</span> = Rectangle::<span class="title function_ invoke__">square</span>(<span class="number">20</span>);</code></pre>
-<h2 id="🤔-方法-vs-關聯函式">🤔 方法 vs 關聯函式</h2>
-<table>
-<thead>
-<tr>
-<th>類型</th>
-<th>語法</th>
-<th>有無 self</th>
-<th>用途說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>方法</td>
-<td><code>fn area(&amp;self)</code></td>
-<td>有</td>
-<td>操作該 struct 實例本身</td>
-</tr>
-<tr>
-<td>關聯函式</td>
-<td><code>fn square(...)</code></td>
-<td>無</td>
-<td>與 struct 相關但不依賴特定實例（如建構器）</td>
-</tr>
-</tbody>
-</table>
-<h2 id="🧠-小技巧補充">🧠 小技巧補充</h2>
-<ul>
-<li>Rust 的方法語法類似 OOP，但實際上只是語法糖，方法仍是透過 <code>&amp;self</code> 傳入 struct。</li>
-<li>一個 struct 可有多個 <code>impl</code> 區塊，不必全部寫在一起。</li>
-</ul>
-<h2 id="📝-小結">📝 小結</h2>
-<table>
-<thead>
-<tr>
-<th>概念</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>impl</code></td>
-<td>方法實作區塊</td>
-</tr>
-<tr>
-<td><code>&amp;self</code></td>
-<td>借用當前實例 (<code>self: &amp;Self</code>)</td>
-</tr>
-<tr>
-<td><code>.method()</code></td>
-<td>方法語法糖，實際上等同傳入引用</td>
-</tr>
-<tr>
-<td>關聯函式</td>
-<td>無 <code>self</code>，用於工廠函式或靜態工具</td>
-</tr>
-<tr>
-<td><code>Self</code></td>
-<td>在 <code>impl</code> 中代表當前 struct 類型</td>
-</tr>
-</tbody>
-</table>
-<h2 id="📚-參考與延伸">📚 參考與延伸</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch05-03-method-syntax.html">Rust 官方手冊 - 方法語法</a></li>
-<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/22/rust-struct-example/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/22/rust-struct-example/" class="post-title-link" itemprop="url">🦀 Rust An Example Program Using Structs And Debug</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-22 13:59:56 / 修改時間：14:11:38" itemprop="dateCreated datePublished" datetime="2025-05-22T13:59:56+08:00">2025-05-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>使用 <code>struct</code> 來整理資料，並搭配 <code>#[derive(Debug)]</code> 及 <code>dbg!</code> 巨集來除錯。<br>
-透過實作 <code>Rectangle</code> 結構體的例子，學會更清晰地管理與觀察資料。</p>
-<h2 id="❌-原始寫法：未使用-struct">❌ 原始寫法：未使用 struct</h2>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">area</span>(width: <span class="type">u32</span>, height: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;
-    width * height
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">width1</span> = <span class="number">30</span>;
-    <span class="keyword">let</span> <span class="variable">height1</span> = <span class="number">50</span>;
-
-    <span class="built_in">println!</span>(
-        <span class="string">&quot;The area of the rectangle is &#123;&#125; square pixels.&quot;</span>,
-        <span class="title function_ invoke__">area</span>(width1, height1)
-    );
-&#125;</code></pre>
-<p>問題</p>
-<ul>
-<li><code>width</code> 和 <code>height</code> 是獨立變數，容易搞混。</li>
-<li>缺乏資料語意。</li>
-</ul>
-<h2 id="✅-改寫一：使用-Tuple">✅ 改寫一：使用 Tuple</h2>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">area</span>(dimensions: (<span class="type">u32</span>, <span class="type">u32</span>)) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;
-    dimensions.<span class="number">0</span> * dimensions.<span class="number">1</span>
-&#125;</code></pre>
-<p>優點</p>
-<ul>
-<li>將資料包在一起。</li>
-</ul>
-<p>缺點</p>
-<ul>
-<li><code>.0</code> 、 <code>.1</code> 不具可讀性。</li>
-</ul>
-<h2 id="✅-改寫二：使用-Struct">✅ 改寫二：使用 Struct</h2>
-<pre><code class="highlight rust"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;
-    width: <span class="type">u32</span>,
-    height: <span class="type">u32</span>,
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">area</span>(rect: &amp;Rectangle) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;
-    rect.width * rect.height
-&#125;</code></pre>
-<p>優點</p>
-<ul>
-<li>明確欄位語意，提升可維護性。</li>
-<li>使用引用 <code>&amp;Rectangle</code> 避免所有權轉移。</li>
-</ul>
-<h2 id="🐞-除錯技巧：-derive-Debug">🐞 除錯技巧：#[derive(Debug)]</h2>
-<p>問題：預設 <code>struct</code> 無法直接使用 <code>&#123;:?&#125;</code> 或 <code>dbg!</code> 輸出</p>
-<pre><code class="highlight rust"><span class="comment">// 錯誤：Rectangle 沒有實作 Debug trait</span>
-<span class="built_in">println!</span>(<span class="string">&quot;rect1 is &#123;:?&#125;&quot;</span>, rect1);</code></pre>
-<p>解法：自動推導 Debug trait</p>
-<pre><code class="highlight rust"><span class="meta">#[derive(Debug)]</span>
-<span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;
-    width: <span class="type">u32</span>,
-    height: <span class="type">u32</span>,
-&#125;</code></pre>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123;
-        width: <span class="number">30</span>,
-        height: <span class="number">50</span>,
-    &#125;;
-
-    <span class="built_in">println!</span>(<span class="string">&quot;rect1 is &#123;:?&#125;&quot;</span>, rect1);        <span class="comment">// 單行輸出</span>
-    <span class="built_in">println!</span>(<span class="string">&quot;rect1 is &#123;:#?&#125;&quot;</span>, rect1);       <span class="comment">// 多行格式化輸出</span>
-&#125;</code></pre>
-<h2 id="🔍-dbg-巨集除錯">🔍 dbg! 巨集除錯</h2>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">scale</span> = <span class="number">2</span>;
-
-    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123;
-        width: dbg!(<span class="number">30</span> * scale),
-        height: <span class="number">50</span>,
-    &#125;;
-
-    dbg!(&amp;rect1);
-&#125;</code></pre>
-<p>輸出結果（stderr）：</p>
-<pre><code class="highlight bash">[src/main.rs:8] 30 * scale = 60
-[src/main.rs:12] &amp;rect1 = Rectangle &#123;
-    width: 60,
-    height: 50,
-&#125;</code></pre>
-<p>特點</p>
-<ul>
-<li><code>dbg!</code> 輸出變數名稱、值與所在程式碼位置。</li>
-<li>回傳值仍可繼續用於表達式中。</li>
-</ul>
-<h2 id="📚-小結">📚 小結</h2>
-<table>
-<thead>
-<tr>
-<th>技術/概念</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>struct</code></td>
-<td>自定義型別，可封裝多個欄位資料</td>
-</tr>
-<tr>
-<td><code>&amp;Rectangle</code></td>
-<td>傳遞結構體的參考，避免所有權轉移</td>
-</tr>
-<tr>
-<td><code>#[derive(Debug)]</code></td>
-<td>自動實作 Debug trait，讓 <code>&#123;:?&#125;</code> 和 <code>dbg!</code> 可輸出 struct</td>
-</tr>
-<tr>
-<td><code>dbg!</code> 巨集</td>
-<td>除錯用宏，顯示變數與來源位置，開發階段非常實用，請勿於生產環境中使用</td>
-</tr>
-<tr>
-<td><code>&#123;:#?&#125;</code> 格式</td>
-<td>美化輸出（pretty print），適合複雜結構體</td>
-</tr>
-</tbody>
-</table>
-<h2 id="📚-參考與延伸">📚 參考與延伸</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch05-02-example-structs.html">An Example Program Using Structs</a></li>
-<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/22/rust-structs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/22/rust-structs/" class="post-title-link" itemprop="url">🦀 Rust Structs</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-22 11:25:47 / 修改時間：14:11:19" itemprop="dateCreated datePublished" datetime="2025-05-22T11:25:47+08:00">2025-05-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="🧱-什麼是-Struct？">🧱 什麼是 Struct？</h2>
-<ul>
-<li><code>struct</code> 是 Rust 中用來創建<strong>自定義資料型別</strong>的方式。</li>
-<li>可以將多個相關的變數封裝成一個整體。</li>
-</ul>
-<h2 id="✅-Struct-定義語法">✅ Struct 定義語法</h2>
-<pre><code class="highlight rust"><span class="keyword">struct</span> <span class="title class_">User</span> &#123;
-    username: <span class="type">String</span>,
-    email: <span class="type">String</span>,
-    sign_in_count: <span class="type">u64</span>,
-    active: <span class="type">bool</span>,
-&#125;</code></pre>
-<h2 id="🧪-建立-Struct-實例">🧪 建立 Struct 實例</h2>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">user1</span> = User &#123;
-    email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),
-    username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),
-    active: <span class="literal">true</span>,
-    sign_in_count: <span class="number">1</span>,
-&#125;;</code></pre>
-<ul>
-<li>使用 <code>&#123;&#125;</code> 初始化</li>
-<li>欄位順序可以不同，但必須全部指定（除非使用 …）。</li>
-</ul>
-<h2 id="📝-可變-Struct">📝 可變 Struct</h2>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">user1</span> = User &#123;
-    email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),
-    username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),
-    active: <span class="literal">true</span>,
-    sign_in_count: <span class="number">1</span>,
-&#125;;
-
-user1.email = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;another@example.com&quot;</span>);</code></pre>
-<ul>
-<li>Struct 本身要用 <code>mut</code> 宣告，欄位才可被修改。</li>
-</ul>
-<h2 id="🔁-Struct-更新語法">🔁 Struct 更新語法</h2>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">user2</span> = User &#123;
-    email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;another@example.com&quot;</span>),
-    username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;anotherusername&quot;</span>),
-    ..user1
-&#125;;</code></pre>
-<ul>
-<li>除了明確指定的欄位，其他欄位沿用 <code>user1</code>。</li>
-<li>注意： 所有權會被移動（如果欄位不是 <code>Copy</code> ）。</li>
-</ul>
-<h2 id="📦-用函式建立-Struct">📦 用函式建立 Struct</h2>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">build_user</span>(email: <span class="type">String</span>, username: <span class="type">String</span>) <span class="punctuation">-&gt;</span> User &#123;
-    User &#123;
-        email,
-        username,
-        active: <span class="literal">true</span>,
-        sign_in_count: <span class="number">1</span>,
-    &#125;
-&#125;</code></pre>
-<ul>
-<li>若欄位名與變數名相同，可使用簡化語法（field init shorthand）。</li>
-</ul>
-<h2 id="🧪-Tuple-Struct（元組結構體）">🧪 Tuple Struct（元組結構體）</h2>
-<pre><code class="highlight rust"><span class="keyword">struct</span> <span class="title class_">Color</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);
-<span class="keyword">struct</span> <span class="title class_">Point</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);
-
-<span class="keyword">let</span> <span class="variable">black</span> = <span class="title function_ invoke__">Color</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
-<span class="keyword">let</span> <span class="variable">origin</span> = <span class="title function_ invoke__">Point</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</code></pre>
-<ul>
-<li>沒有欄位名稱，使用位置。</li>
-<li>即使內部型別相同，不同的 struct 是不同型別。</li>
-</ul>
-<h2 id="🧱-Unit-like-Struct（單元結構體）">🧱 Unit-like Struct（單元結構體）</h2>
-<pre><code class="highlight rust"><span class="keyword">struct</span> <span class="title class_">AlwaysEqual</span>;
-
-<span class="keyword">let</span> <span class="variable">subject</span> = AlwaysEqual;</code></pre>
-<ul>
-<li>沒有欄位，類似 ()。</li>
-<li>常用於實作 trait，但不需要儲存資料。</li>
-</ul>
-<h2 id="📚-小結">📚 小結</h2>
-<table>
-<thead>
-<tr>
-<th>概念</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>struct</code></td>
-<td>自定義型別，封裝多個欄位</td>
-</tr>
-<tr>
-<td>可變性</td>
-<td>需將整個實例標記為 <code>mut</code>，才能修改其中欄位</td>
-</tr>
-<tr>
-<td>更新語法</td>
-<td>使用 <code>..</code> 語法可複製其他欄位資料，簡化初始化</td>
-</tr>
-<tr>
-<td>Tuple Struct</td>
-<td>像元組但是獨立型別，無欄位名稱</td>
-</tr>
-<tr>
-<td>Unit-like Struct</td>
-<td>沒有欄位，類似空的型別，常用於實作 trait</td>
-</tr>
-</tbody>
-</table>
-<h2 id="📚-參考與延伸">📚 參考與延伸</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch05-01-defining-structs.html">Defining and Instantiating Structs</a></li>
-<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/21/rust-slice/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/21/rust-slice/" class="post-title-link" itemprop="url">🦀 Rust The Slice Type</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-21 08:09:03 / 修改時間：09:05:11" itemprop="dateCreated datePublished" datetime="2025-05-21T08:09:03+08:00">2025-05-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="📌-什麼是-Slice？">📌 什麼是 Slice？</h2>
-<p>在 Rust 中，<code>Slice</code> 是一種 <strong>不具所有權的資料引用</strong>。<br>
-它允許你<strong>引用一段連續的元素</strong>（如字串或陣列）而非整個集合，實現更靈活與安全的資料處理。</p>
-<h2 id="📚-基本語法">📚 基本語法</h2>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world&quot;</span>);
-<span class="keyword">let</span> <span class="variable">hello</span> = &amp;s[<span class="number">0</span>..<span class="number">5</span>];  <span class="comment">// &quot;hello&quot;（索引 0 到 4）</span>
-<span class="keyword">let</span> <span class="variable">world</span> = &amp;s[<span class="number">6</span>..<span class="number">11</span>]; <span class="comment">// &quot;world&quot;（索引 6 到 10）</span></code></pre>
-<img src="/images/rust_slice/trpl04-07.svg" alt="Rust Slice" width="500" height="300">
-<h2 id="📏-簡化語法">📏 簡化語法</h2>
-<p>Rust 提供更簡潔的切片語法：</p>
-<ul>
-<li><code>&amp;s[..5]</code> 等同於 <code>&amp;s[0..5]</code></li>
-<li><code>&amp;s[6..]</code> 等同於 <code>&amp;s[6..s.len()]</code></li>
-<li><code>&amp;s[..]</code> 代表整個字串的切片</li>
-</ul>
-<h2 id="🔐-Slice-的安全性">🔐 Slice 的安全性</h2>
-<p>Rust 會在執行時檢查索引是否越界，避免非法記憶體存取。</p>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-<span class="keyword">let</span> <span class="variable">slice</span> = &amp;s[<span class="number">0</span>..<span class="number">6</span>]; <span class="comment">// ⚠️ 錯誤！超出索引範圍</span></code></pre>
-<h2 id="🧠-使用範例：尋找第一個單字的結尾">🧠 使用範例：尋找第一個單字的結尾</h2>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;
-    <span class="keyword">let</span> <span class="variable">bytes</span> = s.<span class="title function_ invoke__">as_bytes</span>();
-    <span class="keyword">for</span> (i, &amp;item) <span class="keyword">in</span> bytes.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">enumerate</span>() &#123;
-        <span class="keyword">if</span> item == <span class="string">b&#x27; &#x27;</span> &#123;
-            <span class="keyword">return</span> &amp;s[<span class="number">0</span>..i];
-        &#125;
-    &#125;
-    &amp;s[..]
-&#125;</code></pre>
-<p>此函式尋找第一個空格前的字串切片。</p>
-<h2 id="❗-為何使用-Slice？">❗ 為何使用 Slice？</h2>
-<p>可以避免資料與索引失效之間的錯誤關聯：</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world&quot;</span>);
-    <span class="keyword">let</span> <span class="variable">word</span> = <span class="title function_ invoke__">first_word</span>(&amp;s);
-    s.<span class="title function_ invoke__">clear</span>(); <span class="comment">// 清空整個字串</span>
-    <span class="built_in">println!</span>(<span class="string">&quot;the first word is: &#123;word&#125;&quot;</span>); <span class="comment">// ❌ 錯誤！使用了已失效的 slice</span>
-&#125;</code></pre>
-<p>Rust 的 借用檢查器（borrow checker） 將禁止這種情況，強化記憶體安全。</p>
-<h2 id="🧩-使用-str-取代-String（參數泛化）">🧩 使用 <code>&amp;str</code> 取代 <code>&amp;String</code>（參數泛化）</h2>
-<h3 id="❌-原本版本：只接受-String">❌ 原本版本：只接受 <code>&amp;String</code></h3>
-<pre><code class="highlight rust">
-<span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;
-    <span class="comment">// ...略</span>
-&#125;</code></pre>
-<p>限制只能傳入 <code>&amp;String</code>，無法處理字串字面值（例如 <code>&quot;hello world&quot;</code>）。</p>
-<h3 id="✅-改寫版本：接受更通用的-str">✅ 改寫版本：接受更通用的 <code>&amp;str</code></h3>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;
-    <span class="comment">// ...略</span>
-&#125;</code></pre>
-<p>這樣的版本更通用，支援所有字串切片，包括：</p>
-<ul>
-<li>字串字面值：<code>&quot;hello world&quot;</code></li>
-<li>String 型別：<code>String::from(&quot;...&quot;)</code> 可自動轉為 <code>&amp;str</code></li>
-</ul>
-<h3 id="🧪-使用範例">🧪 使用範例</h3>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world&quot;</span>);
-    <span class="keyword">let</span> <span class="variable">s2</span> = <span class="string">&quot;hello world&quot;</span>; <span class="comment">// 字串字面值（&amp;&#x27;static str）</span>
-
-    <span class="comment">// 都可以傳入 &amp;str 函式</span>
-    <span class="keyword">let</span> <span class="variable">word1</span> = <span class="title function_ invoke__">first_word</span>(&amp;s1); <span class="comment">// OK，自動轉型為 &amp;str</span>
-    <span class="keyword">let</span> <span class="variable">word2</span> = <span class="title function_ invoke__">first_word</span>(s2);  <span class="comment">// OK，已是 &amp;str</span>
-
-    <span class="built_in">println!</span>(<span class="string">&quot;word1: &#123;&#125;&quot;</span>, word1);
-    <span class="built_in">println!</span>(<span class="string">&quot;word2: &#123;&#125;&quot;</span>, word2);
-&#125;
-</code></pre>
-<h2 id="📌-其他類型的切片">📌 其他類型的切片</h2>
-<ul>
-<li>陣列</li>
-</ul>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
-<span class="keyword">let</span> <span class="variable">slice</span> = &amp;a[<span class="number">1</span>..<span class="number">3</span>]; <span class="comment">// [2, 3]</span></code></pre>
-<h2 id="✅-小結">✅ 小結</h2>
-<table>
-<thead>
-<tr>
-<th>概念</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Slice</td>
-<td>不擁有資料的部分引用</td>
-</tr>
-<tr>
-<td>語法</td>
-<td><code>&amp;s[start..end]</code></td>
-</tr>
-<tr>
-<td>用途</td>
-<td>引用部分資料，如字串的一部分</td>
-</tr>
-<tr>
-<td>安全性</td>
-<td>編譯器與執行時會檢查索引範圍</td>
-</tr>
-<tr>
-<td>借用規則整合</td>
-<td>與所有權和借用機制緊密整合，防止錯誤</td>
-</tr>
-</tbody>
-</table>
-<h2 id="📚-參考與延伸">📚 參考與延伸</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch04-03-slices.html">The Rust Programming Language - 4.3. The Slice Type</a></li>
-<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/16/rust-refer-borrow/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/16/rust-refer-borrow/" class="post-title-link" itemprop="url">🦀 Rust References and Borrowing</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-16 11:24:31 / 修改時間：14:15:48" itemprop="dateCreated datePublished" datetime="2025-05-16T11:24:31+08:00">2025-05-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="🧠-References-and-Borrowing">🧠 References and Borrowing</h2>
-<p>在 Rust 中，<strong>ownership（所有權）</strong> 是記憶體安全的基石，而「reference（引用）」與「borrowing（借用）」則允許我們不轉移所有權的情況下存取資料。</p>
-<h2 id="📌-為什麼要使用-References">📌 為什麼要使用 References?</h2>
-<p>Rust 不允許在沒有 ownership 的情況下自由存取資料。<br>
-但有時我們只需要<strong>讀取</strong>資料而不需要修改，這時可以使用 <strong>reference（&amp;）</strong> 來借用資料：</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-    <span class="keyword">let</span> <span class="variable">len</span> = <span class="title function_ invoke__">calculate_length</span>(&amp;s1);
-    <span class="built_in">println!</span>(<span class="string">&quot;The length of &#x27;&#123;&#125;&#x27; is &#123;&#125;.&quot;</span>, s1, len);
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">calculate_length</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123;
-    s.<span class="title function_ invoke__">len</span>()
-&#125;</code></pre>
-<ul>
-<li><code>&amp;s1</code>：建立對 <code>s1</code> 的參考（reference）</li>
-<li><code>s</code> 是 <code>&amp;String</code> 類型，代表它是引用</li>
-<li><code>s1</code> 的 ownership 沒有被移走，可以在之後繼續使用</li>
-</ul>
-<h3 id="⚠️-借用（Borrowing）規則">⚠️ 借用（Borrowing）規則</h3>
-<p>Rust 有嚴格的借用規則，確保不會發生資料競爭（data race）：</p>
-<ol>
-<li>同一時間只能有一個可變參考 <code>&amp;mut T</code>，或</li>
-<li>任意數量的不可變參考 <code>&amp;T</code></li>
-<li>引用在使用前必須有效（valid）</li>
-</ol>
-<h3 id="❌-錯誤範例：同時存在可變與不可變參考">❌ 錯誤範例：同時存在可變與不可變參考</h3>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-
-<span class="keyword">let</span> <span class="variable">r1</span> = &amp;s;
-<span class="keyword">let</span> <span class="variable">r2</span> = &amp;s;
-<span class="keyword">let</span> <span class="variable">r3</span> = &amp;<span class="keyword">mut</span> s; <span class="comment">// ❌ 錯誤：不可在不可變引用存在時建立可變引用</span>
-
-<span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;, and &#123;&#125;&quot;</span>, r1, r2, r3);
-</code></pre>
-<h3 id="✅-正確範例：分開生命週期">✅ 正確範例：分開生命週期</h3>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-
-<span class="keyword">let</span> <span class="variable">r1</span> = &amp;s;
-<span class="keyword">let</span> <span class="variable">r2</span> = &amp;s;
-<span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;&quot;</span>, r1, r2); <span class="comment">// 先使用不可變參考</span>
-
-<span class="keyword">let</span> <span class="variable">r3</span> = &amp;<span class="keyword">mut</span> s; <span class="comment">// ✅ 合法：因為 r1, r2 已經使用完（生命週期已結束）</span>
-<span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, r3);</code></pre>
-<h2 id="✍️-Mutable-References（可變引用）">✍️ Mutable References（可變引用）</h2>
-<p>當我們需要修改變數的值，但又不想移轉 ownership 時，可以使用 可變引用（<code>&amp;mut</code>）。</p>
-<h3 id="✅-可變引用範例：">✅ 可變引用範例：</h3>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-
-    <span class="title function_ invoke__">change</span>(&amp;<span class="keyword">mut</span> s); <span class="comment">// 傳入可變引用，函式內可修改 s 的值</span>
-
-    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s); <span class="comment">// output: hello, world!</span>
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">change</span>(some_string: &amp;<span class="keyword">mut</span> <span class="type">String</span>) &#123;
-    some_string.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot;, world!&quot;</span>);
-&#125;</code></pre>
-<ul>
-<li><code>&amp;mut s</code> 表示建立一個指向 <code>s</code> 的可變引用。</li>
-<li><code>change</code> 函數內可以修改傳入的 String。</li>
-<li>必須先宣告變數為 <code>mut</code>，才能建立可變借用。</li>
-</ul>
-<h3 id="⚠️-可變借用的限制">⚠️ 可變借用的限制</h3>
-<ol>
-<li>不可同時有多個可變借用</li>
-<li>不可同時存在可變與不可變借用</li>
-</ol>
-<h3 id="✅-技巧：可變引用的「作用域結束」讓你重新借用">✅ 技巧：可變引用的「作用域結束」讓你重新借用</h3>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-
-&#123;
-    <span class="keyword">let</span> <span class="variable">r1</span> = &amp;<span class="keyword">mut</span> s;
-&#125; <span class="comment">// r1 在這裡離開作用域</span>
-
-<span class="keyword">let</span> <span class="variable">r2</span> = &amp;<span class="keyword">mut</span> s; <span class="comment">// ✅ 合法，因為 r1 已結束作用域</span>
-r2.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot; world&quot;</span>);</code></pre>
-<h2 id="🧹-懸空引用（Dangling-Reference）">🧹 懸空引用（Dangling Reference）</h2>
-<p>在有指針的語言，很容易因為釋放記憶體，但指針還保留，導致指針指向一個沒有值的記憶體位置，我們稱之為<strong>懸空指針(dangling pointer)</strong>。<br>
-在 Rust 會避免「懸空引用（dangling reference）」的產生：</p>
-<h3 id="❌-錯誤範例">❌ 錯誤範例</h3>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">dangle</span>() <span class="punctuation">-&gt;</span> &amp;<span class="type">String</span> &#123;
-    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-    &amp;s <span class="comment">// ❌ 錯誤：s 在此離開作用域，會釋放記憶體</span>
-&#125;</code></pre>
-<h3 id="✅-正確範例">✅ 正確範例</h3>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">no_dangle</span>() <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;
-    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-    s
-&#125;</code></pre>
-<h2 id="📝-小結">📝 小結</h2>
-<table>
-<thead>
-<tr>
-<th>概念</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>不可變借用 <code>&amp;T</code></strong></td>
-<td>- 可建立多個同時存在的不可變引用<br>- 無法修改所參考的值</td>
-</tr>
-<tr>
-<td><strong>可變借用 <code>&amp;mut T</code></strong></td>
-<td>- 一次只能存在一個可變引用<br>- 可以修改所參考的值</td>
-</tr>
-<tr>
-<td><strong>混合借用禁止</strong></td>
-<td>- 在可變借用存在時，<strong>不可</strong>同時存在任何不可變借用（反之亦然）</td>
-</tr>
-<tr>
-<td><strong>借用作用域</strong></td>
-<td>- 借用的作用域由變數使用範圍決定<br>- 借用結束後才能建立新的借用</td>
-</tr>
-<tr>
-<td><strong>懸空引用禁止</strong></td>
-<td>- Rust 編譯器會防止返回指向已釋放變數的引用（避免懸空指標 / dangling reference）</td>
-</tr>
-<tr>
-<td><strong>目的與優點</strong></td>
-<td>- 保證程式<strong>安全</strong>、<strong>無資料競爭（data race）</strong><br>- 在<strong>編譯期間</strong>就避免常見錯誤</td>
-</tr>
-</tbody>
-</table>
-<h2 id="📚-參考與延伸">📚 參考與延伸</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html">The Rust Programming Language - 4.2 References and Borrowing</a></li>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch04-03-slices.html">The Rust Programming Language - 4.3. The Slice Type</a></li>
-<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/15/rust-ownership/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/15/rust-ownership/" class="post-title-link" itemprop="url">🦀 Rust 所有權 Ownership 基礎概念</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-15 14:04:28 / 修改時間：14:37:20" itemprop="dateCreated datePublished" datetime="2025-05-15T14:04:28+08:00">2025-05-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Rust 不像 C# 使用垃圾回收器（GC）來自動管理記憶體，也不像 C/C++ 那樣需要手動釋放記憶體（如 free()）。<br>
-Rust 採用的是一套獨特的所有權（Ownership）系統，在編譯階段就保證記憶體安全與釋放。</p>
-<blockquote>
-<p>📖 本筆記整理自 Rust 官方書籍：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html">Rust Book §4.1 - What is Ownership?</a></p>
-</blockquote>
-<h2 id="🧠-所有權-Ownership-是什麼？">🧠 所有權 Ownership 是什麼？</h2>
-<p>Rust 使用 <strong>所有權（Ownership）</strong> 來管理記憶體的分配與釋放，這是語言的核心機制之一。</p>
-<p>三大原則：</p>
-<ol>
-<li><strong>每個值都有一個所有者（Owner）</strong></li>
-<li><strong>同一時間只能有一個所有者</strong></li>
-<li><strong>當所有者離開作用域，值就會被釋放（Drop）</strong></li>
-</ol>
-<h2 id="✏️-所有權示範">✏️ 所有權示範</h2>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>); <span class="comment">// s 擁有這個字串</span>
-    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s);
-&#125; <span class="comment">// 這裡 s 離開作用域，自動呼叫 drop，記憶體被釋放</span></code></pre>
-<h2 id="♻️-所有權轉移（Move）">♻️ 所有權轉移（Move）</h2>
-<p>當你把變數賦值給另一個變數時，如果它是 heap 分配的資料（像 <code>String</code>），Rust 會直接移轉所有權。</p>
-<p>這樣做是為了避免雙重釋放（double free）的錯誤。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-    <span class="keyword">let</span> <span class="variable">s2</span> = s1;
-
-    <span class="comment">// println!(&quot;&#123;&#125;&quot;, s1); // ❌ 編譯錯誤：s1 不再有效</span>
-    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s2); <span class="comment">// ✅</span>
-&#125;</code></pre>
-<h2 id="🧬-深層複製：Clone">🧬 深層複製：Clone</h2>
-<p>如果你真的需要「複製一份資料」而不是移轉所有權，可以使用 <code>.clone()</code> 方法。</p>
-<p>這會產生資料的 <strong>深層複製（deep copy）</strong>，適用於像 <code>String</code>, <code>Vec</code> 等 heap 型別。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-    <span class="keyword">let</span> <span class="variable">s2</span> = s1.<span class="title function_ invoke__">clone</span>(); <span class="comment">// 複製出一份新的 String</span>
-
-    <span class="built_in">println!</span>(<span class="string">&quot;s1 = &#123;&#125;, s2 = &#123;&#125;&quot;</span>, s1, s2); <span class="comment">// ✅ 兩個都可以使用</span>
-&#125;</code></pre>
-<h2 id="🆚-Move-vs-Clone-的差別">🆚 Move vs Clone 的差別</h2>
-<table>
-<thead>
-<tr>
-<th>操作</th>
-<th>行為</th>
-<th>所有權變化</th>
-<th>效能成本</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>let b = a;</code></td>
-<td>預設會 Move</td>
-<td>a 無效</td>
-<td>快（無複製）</td>
-</tr>
-<tr>
-<td><code>let b = a.clone();</code></td>
-<td>深層複製</td>
-<td>a 保持有效</td>
-<td>需要額外成本（複製記憶體）</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>📝 建議只有在真的需要保留原資料時才使用 <code>.clone()</code>，否則會帶來效能上的開銷。</p>
-</blockquote>
-<h2 id="📋-複製-Copy">📋 複製 Copy</h2>
-<p>某些型別（如整數、布林值、浮點數、字元、tuple（包含 primitive））支援 Copy trait，不會移動所有權。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;
-    <span class="keyword">let</span> <span class="variable">y</span> = x;
-
-    <span class="built_in">println!</span>(<span class="string">&quot;x = &#123;&#125;, y = &#123;&#125;&quot;</span>, x, y); <span class="comment">// ✅ OK，因為 i32 是 Copy</span>
-&#125;</code></pre>
-<h3 id="哪些型別是-Copy？">哪些型別是 Copy？</h3>
-<ul>
-<li>所有 primitive 型別（如 i32, f64, bool, char）</li>
-<li>不包含 heap 分配的 tuple，例如 <code>(i32, bool)</code> 是 Copy，但 <code>(String, i32)</code> 不是。</li>
-</ul>
-<h2 id="🧾-函式參數與所有權">🧾 函式參數與所有權</h2>
-<p>呼叫函式也會將值「移動」或「複製」進去參數：</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);
-    <span class="title function_ invoke__">takes_ownership</span>(s); <span class="comment">// s 被移走</span>
-    <span class="comment">// println!(&quot;&#123;&#125;&quot;, s); // ❌ 錯誤</span>
-
-    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;
-    <span class="title function_ invoke__">makes_copy</span>(x); <span class="comment">// x 被複製，仍可用</span>
-    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, x);
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">takes_ownership</span>(some_string: <span class="type">String</span>) &#123;
-    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, some_string);
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">makes_copy</span>(some_int: <span class="type">i32</span>) &#123;
-    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, some_int);
-&#125;</code></pre>
-<h2 id="🔁-返回所有權">🔁 返回所有權</h2>
-<p>函式可以回傳值，將所有權還回來：</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="title function_ invoke__">gives_ownership</span>(); <span class="comment">// 所有權轉給 s1</span>
-    <span class="keyword">let</span> <span class="variable">s2</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;world&quot;</span>);
-    <span class="keyword">let</span> <span class="variable">s3</span> = <span class="title function_ invoke__">takes_and_gives_back</span>(s2); <span class="comment">// s2 被移走後傳回給 s3</span>
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">gives_ownership</span>() <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;
-    <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>)
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">takes_and_gives_back</span>(s: <span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;
-    s
-&#125;</code></pre>
-<h2 id="📝-小結">📝 小結</h2>
-<table>
-<thead>
-<tr>
-<th>操作</th>
-<th>是否移動所有權</th>
-<th>範例</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>賦值給其他變數</td>
-<td>✅（非 Copy）</td>
-<td><code>let s2 = s1;</code></td>
-</tr>
-<tr>
-<td>傳入函式參數</td>
-<td>✅（非 Copy）</td>
-<td><code>takes_ownership(s)</code></td>
-</tr>
-<tr>
-<td>回傳值</td>
-<td>✅</td>
-<td><code>let s = func();</code></td>
-</tr>
-<tr>
-<td>Copy 類型</td>
-<td>❌</td>
-<td>i32, bool, char, tuple</td>
-</tr>
-<tr>
-<td>Heap 型別</td>
-<td>✅</td>
-<td>String, Vec</td>
-</tr>
-</tbody>
-</table>
-<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html">Rust Book §4.2 References and Borrowing</a></li>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html">Rust 所有權官方說明</a></li>
-<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/15/rust-control-flow/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/15/rust-control-flow/" class="post-title-link" itemprop="url">🦀 Rust 基礎教學：流程控制（Control Flow）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-15 10:33:25 / 修改時間：10:52:50" itemprop="dateCreated datePublished" datetime="2025-05-15T10:33:25+08:00">2025-05-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在這篇學習筆記中，我們會介紹 Rust 中常見的流程控制方式，包括：</p>
-<ul>
-<li>條件判斷：<code>if</code></li>
-<li>無限迴圈：<code>loop</code></li>
-<li>條件迴圈：<code>while</code></li>
-<li>集合迴圈：<code>for</code></li>
-</ul>
-<p>這些控制結構與其他語言類似，但也有一些語法特色和安全性設計值得注意。</p>
-<blockquote>
-<p>📖 本筆記整理自 Rust 官方書籍：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-05-control-flow.html">Control Flow</a></p>
-</blockquote>
-<h2 id="✅-if-條件判斷">✅ if 條件判斷</h2>
-<p>Rust 的 <code>if</code> 表達式 <strong>不需要括號</strong> 包住條件，但<strong>主體需用大括號 <code>&#123;&#125;</code> 包起來</strong>。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">number</span> = <span class="number">7</span>;
-
-    <span class="keyword">if</span> number &lt; <span class="number">5</span> &#123;
-        <span class="built_in">println!</span>(<span class="string">&quot;小於 5&quot;</span>);
-    &#125; <span class="keyword">else</span> <span class="keyword">if</span> number == <span class="number">7</span> &#123;
-        <span class="built_in">println!</span>(<span class="string">&quot;是 7&quot;</span>);
-    &#125; <span class="keyword">else</span> &#123;
-        <span class="built_in">println!</span>(<span class="string">&quot;大於等於 5 且不等於 7&quot;</span>);
-    &#125;
-&#125;</code></pre>
-<ul>
-<li>條件必須是布林值（不能像 C 語言、js 那樣用整數當作條件）。</li>
-<li>每個區塊需用<code>&#123;&#125;</code>包起來。</li>
-</ul>
-<h2 id="💡-if-是一個「表達式」">💡 if 是一個「表達式」</h2>
-<p>你可以將 if 當作一個值來賦值給變數。前提是兩個分支的型別必須一致：</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">condition</span> = <span class="literal">true</span>;
-
-    <span class="keyword">let</span> <span class="variable">number</span> = <span class="keyword">if</span> condition &#123;
-        <span class="number">5</span>
-    &#125; <span class="keyword">else</span> &#123;
-        <span class="number">6</span>
-    &#125;;
-
-    <span class="built_in">println!</span>(<span class="string">&quot;The number is: &#123;&#125;&quot;</span>, number); <span class="comment">// 印出 5</span>
-&#125;</code></pre>
-<blockquote>
-<p>❗ 如果 if 和 else 的區塊回傳型別不同，會產生編譯錯誤。</p>
-</blockquote>
-<h2 id="🔁-loop：無限迴圈">🔁 loop：無限迴圈</h2>
-<p>loop 是 Rust 中最基本的迴圈，會永遠執行直到被手動跳出（通常搭配 break 使用）。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">loop</span> &#123;
-        <span class="built_in">println!</span>(<span class="string">&quot;再來一次！&quot;</span>);
-        <span class="keyword">break</span>;
-    &#125;
-&#125;</code></pre>
-<h3 id="loop-可以回傳值！">loop 可以回傳值！</h3>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">result</span> = <span class="keyword">loop</span> &#123;
-        <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">2</span> + <span class="number">2</span>;
-        <span class="keyword">if</span> x == <span class="number">4</span> &#123;
-            <span class="keyword">break</span> x * <span class="number">10</span>; <span class="comment">// 回傳值</span>
-        &#125;
-    &#125;;
-
-    <span class="built_in">println!</span>(<span class="string">&quot;結果是: &#123;&#125;&quot;</span>, result); <span class="comment">// 40</span>
-&#125;</code></pre>
-<blockquote>
-<p>💡 使用 break &lt;值&gt; 可以讓 loop 的值被賦給變數。</p>
-</blockquote>
-<h2 id="🌀-while：條件迴圈">🌀 while：條件迴圈</h2>
-<p><code>while</code> 會根據條件判斷是否繼續執行。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">number</span> = <span class="number">3</span>;
-
-    <span class="keyword">while</span> number != <span class="number">0</span> &#123;
-        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;!&quot;</span>, number);
-        number -= <span class="number">1</span>;
-    &#125;
-
-    <span class="built_in">println!</span>(<span class="string">&quot;發射！&quot;</span>);
-&#125;</code></pre>
-<blockquote>
-<p>⚠️ 不建議用 <code>while</code> 走訪集合（因為容易出錯），建議使用 <code>for</code>。</p>
-</blockquote>
-<h2 id="🔁-for：集合迴圈（推薦使用）">🔁 for：集合迴圈（推薦使用）</h2>
-<p><code>for</code> 是走訪集合最安全、最簡潔的方法，避免了索引溢位等問題。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>];
-
-    <span class="keyword">for</span> <span class="variable">element</span> <span class="keyword">in</span> a.<span class="title function_ invoke__">iter</span>() &#123;
-        <span class="built_in">println!</span>(<span class="string">&quot;元素是: &#123;&#125;&quot;</span>, element);
-    &#125;
-&#125;</code></pre>
-<h3 id="搭配範圍語法">搭配範圍語法</h3>
-<p>你也可以用 <code>for</code> 搭配範圍（range）語法進行倒數：</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">for</span> <span class="variable">number</span> <span class="keyword">in</span> (<span class="number">1</span>..=<span class="number">3</span>).<span class="title function_ invoke__">rev</span>() &#123;
-        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;!&quot;</span>, number);
-    &#125;
-    <span class="built_in">println!</span>(<span class="string">&quot;發射！&quot;</span>);
-&#125;
-
-<span class="comment">// (1..=3) 表示包含 1 到 3，.rev() 反轉順序。</span></code></pre>
-<h2 id="📝-小結">📝 小結</h2>
-<table>
-<thead>
-<tr>
-<th>語法</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>if</code></td>
-<td>條件判斷，不能省略布林值，表達式</td>
-</tr>
-<tr>
-<td><code>loop</code></td>
-<td>永遠執行，直到 <code>break</code> 結束</td>
-</tr>
-<tr>
-<td><code>while</code></td>
-<td>根據條件執行，類似其他語言</td>
-</tr>
-<tr>
-<td><code>for</code></td>
-<td>走訪集合或範圍，<strong>最推薦的迴圈寫法</strong></td>
-</tr>
-</tbody>
-</table>
-<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-05-control-flow.html">Rust Book §3.5 Control Flow</a></li>
-<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/">Rust Playground 練習</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/14/rust-fuction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/14/rust-fuction/" class="post-title-link" itemprop="url">🦀 Rust 基礎教學：函式的使用與運作方式</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-05-14 10:51:22" itemprop="dateCreated datePublished" datetime="2025-05-14T10:51:22+08:00">2025-05-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-05-15 14:25:20" itemprop="dateModified" datetime="2025-05-15T14:25:20+08:00">2025-05-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在 Rust 中，函式（Function）是一等公民。<br>
-這篇筆記會介紹函式的定義、參數、回傳值，以及函式表達式與語句的差別。</p>
-<blockquote>
-<p>📖 參考自 Rust 官方書籍：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-03-how-functions-work.html">How Functions Work</a></p>
-</blockquote>
-<h2 id="✅-函式基本結構">✅ 函式基本結構</h2>
-<p>Rust 中的函式使用 <code>fn</code> 關鍵字定義，函式名稱慣例使用 <strong>snake_case</strong> 命名。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="built_in">println!</span>(<span class="string">&quot;Hello from the main function!&quot;</span>);
-    <span class="title function_ invoke__">another_function</span>();
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">another_function</span>() &#123;
-    <span class="built_in">println!</span>(<span class="string">&quot;Hello from another function!&quot;</span>);
-&#125;</code></pre>
-<p>執行結果：</p>
-<pre><code class="highlight bash">Hello from the main <span class="keyword">function</span>!
-Hello from another <span class="keyword">function</span>!</code></pre>
-<h2 id="📥-函式參數（Parameters）">📥 函式參數（Parameters）</h2>
-<p>函式可以接受參數，並透過型別註記指定參數型別。<br>
-Rust 是靜態型別語言，必須為每個參數指定型別。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="title function_ invoke__">print_number</span>(<span class="number">42</span>);
-    <span class="title function_ invoke__">print_two_numbers</span>(<span class="number">10</span>, <span class="number">20</span>);
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">print_number</span>(x: <span class="type">i32</span>) &#123;
-    <span class="built_in">println!</span>(<span class="string">&quot;The number is: &#123;&#125;&quot;</span>, x);
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">print_two_numbers</span>(a: <span class="type">i32</span>, b: <span class="type">i32</span>) &#123;
-    <span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b);
-&#125;</code></pre>
-<blockquote>
-<p>💡 多個參數間用逗號分隔，型別註記不能省略。</p>
-</blockquote>
-<h2 id="🔁-表達式與語句的差異">🔁 表達式與語句的差異</h2>
-<p>Rust 的函式主體由「語句（statements）」和「表達式（expressions）」組成。<br>
-理解這兩者的差別對寫出正確的函式非常重要。</p>
-<ul>
-<li>語句：執行動作，但不回傳值。例如 let x = 5; 是語句。</li>
-<li>表達式：會產生值，可以用在變數賦值或函式回傳中。例如 5 + 1 是表達式。</li>
-</ul>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">y</span> = &#123;
-        <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">3</span>;
-        x + <span class="number">1</span> <span class="comment">// 注意：這裡沒有分號，這是表達式</span>
-    &#125;;
-
-    <span class="built_in">println!</span>(<span class="string">&quot;The value of y is: &#123;&#125;&quot;</span>, y); <span class="comment">// y = 4</span>
-&#125;</code></pre>
-<blockquote>
-<p>⚠️ 如果在 x + 1; 加了分號，它就變成語句，y 將不會得到任何值，會導致錯誤。</p>
-</blockquote>
-<h2 id="🔚-回傳值（Return-Values）">🔚 回傳值（Return Values）</h2>
-<p>Rust 的函式可以回傳值，透過函式主體中最後一行的表達式實現。<br>
-不需要使用 return 關鍵字（雖然也可以使用）。</p>
-<pre><code class="highlight rust"><span class="keyword">fn</span> <span class="title function_">five</span>() <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;
-    <span class="number">5</span> <span class="comment">// 回傳值是這個表達式</span>
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">plus_one</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;
-    x + <span class="number">1</span>
-&#125;
-
-<span class="keyword">fn</span> <span class="title function_">main</span>() &#123;
-    <span class="keyword">let</span> <span class="variable">x</span> = <span class="title function_ invoke__">five</span>();
-    <span class="keyword">let</span> <span class="variable">y</span> = <span class="title function_ invoke__">plus_one</span>(x);
-    <span class="built_in">println!</span>(<span class="string">&quot;x = &#123;&#125;, y = &#123;&#125;&quot;</span>, x, y); <span class="comment">// x = 5, y = 6</span>
-&#125;</code></pre>
-<ul>
-<li><code>-&gt; i32</code> 表示回傳一個整數型別。</li>
-<li>最後一行不能有分號，否則會變成語句而非回傳值。</li>
-</ul>
-<blockquote>
-<p>✨ 可以使用 return 提早結束函式並指定回傳值，例如 : <code>return x + 1;</code></p>
-</blockquote>
-<h2 id="📌-小結">📌 小結</h2>
-<table>
-<thead>
-<tr>
-<th>概念</th>
-<th>重點說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>函式定義</td>
-<td>使用 <code>fn</code> 關鍵字，名稱使用 <code>snake_case</code> 命名</td>
-</tr>
-<tr>
-<td>函式參數</td>
-<td>必須指定型別，格式為 <code>name: type</code></td>
-</tr>
-<tr>
-<td>語句</td>
-<td>執行某些動作，<strong>不回傳值</strong></td>
-</tr>
-<tr>
-<td>表達式</td>
-<td>產生值，<strong>可以回傳</strong> 或用於賦值</td>
-</tr>
-<tr>
-<td>回傳值</td>
-<td>最後一行為表達式，或使用 <code>return</code> 明確回傳</td>
-</tr>
-</tbody>
-</table>
-<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.runoob.com/rust/rust-basic-syntax.html">菜鳥教程</a></li>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-03-how-functions-work.html">Rust 官方文件：函式與控制流程</a></li>
-<li><a target="_blank" rel="noopener" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024">Rust playground 練習</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/13/rust-basic/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/13/rust-basic/" class="post-title-link" itemprop="url">🦀 Rust 基礎教學：變數、常數與遮蔽（Shadowing）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-05-13 15:04:36" itemprop="dateCreated datePublished" datetime="2025-05-13T15:04:36+08:00">2025-05-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-05-15 14:25:18" itemprop="dateModified" datetime="2025-05-15T14:25:18+08:00">2025-05-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="📌-變數的宣告">📌 變數的宣告</h2>
-<p>Rust 使用 <code>let</code> 來宣告變數，預設為<strong>不可變</strong>（immutable）。如果想讓變數的值可以改變，需要加上 <code>mut</code>。</p>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">456</span>;       <span class="comment">// 不可變變數</span>
-<span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">b</span> = <span class="number">789</span>;   <span class="comment">// 可變變數</span>
-<span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b);
-
-<span class="comment">// a = 999; // ❌ 錯誤：a 是不可變的</span>
-b = <span class="number">111</span>;   <span class="comment">// ✅ 合法：b 是可變的</span>
-<span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;, b = &#123;&#125;&quot;</span>, a, b);</code></pre>
-<h2 id="🔒-常數（const）">🔒 常數（const）</h2>
-<p>常數使用 <code>const</code> 宣告，與 <code>let</code> 不同的是：</p>
-<ul>
-<li>必須加上資料別</li>
-<li>永遠不可變(不能加 mut)</li>
-<li>通常用於全域設定或固定值</li>
-<li>命名習慣 SCREAMING_SNAKE_CASE</li>
-</ul>
-<pre><code class="highlight rust"><span class="keyword">const</span> MAX_POINTS: <span class="type">u32</span> = <span class="number">100_000</span>;
-<span class="built_in">println!</span>(<span class="string">&quot;The maximum points are: &#123;&#125;&quot;</span>, MAX_POINTS);</code></pre>
-<blockquote>
-<p>⚠️ 常數不能遮蔽（shadow），也不能重新指定</p>
-</blockquote>
-<h2 id="🎭-變數遮蔽（Shadowing）">🎭 變數遮蔽（Shadowing）</h2>
-<p>Rust 允許重新宣告相同名稱的變數，這稱為<strong>遮蔽（shadowing）</strong>。<br>
-遮蔽可以讓你重新指定值甚至改變變數型別，而不用使用 <code>mut</code>。</p>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="variable">c</span> = <span class="number">10</span>;
-<span class="keyword">let</span> <span class="variable">c</span> = <span class="string">&quot;abc&quot;</span>; <span class="comment">// 遮蔽了上一個 c，型別從 i32 → &amp;str</span>
-<span class="built_in">println!</span>(<span class="string">&quot;The value of c is: &#123;&#125;&quot;</span>, c);</code></pre>
-<p>與<code>mut</code>有何不同?</p>
-<pre><code class="highlight rust"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">x</span> = <span class="number">5</span>;
-x = <span class="string">&quot;hello&quot;</span>; <span class="comment">// ❌ 錯誤：型別不能變</span>
-
-<span class="keyword">let</span> <span class="variable">y</span> = <span class="number">5</span>;
-<span class="keyword">let</span> <span class="variable">y</span> = <span class="string">&quot;hello&quot;</span>; <span class="comment">// ✅ 合法：因為是新的變數，遮蔽前一個</span></code></pre>
-<blockquote>
-<p>✅ 使用遮蔽能讓變數在不改變可變性的情況下重新定義或轉換型別。</p>
-</blockquote>
-<h2 id="📝-小結">📝 小結</h2>
-<table>
-<thead>
-<tr>
-<th>宣告方式</th>
-<th>是否可變</th>
-<th>是否可遮蔽</th>
-<th>是否需要型別註記</th>
-<th>命名風格</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>let</td>
-<td>❌ 預設不可變（可加 mut）</td>
-<td>✅ 可以遮蔽</td>
-<td>❌ 可省略</td>
-<td>snake_case</td>
-</tr>
-<tr>
-<td>const</td>
-<td>❌ 永遠不可變</td>
-<td>❌ 不可遮蔽</td>
-<td>✅ 必須註明型別</td>
-<td>SCREAMING_SNAKE_CASE</td>
-</tr>
-</tbody>
-</table>
-<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.runoob.com/rust/rust-basic-syntax.html">菜鳥教程</a></li>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html">Rust 官方變數文件</a></li>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/reference/items/constant-items.html">Rust 常數與靜態變數</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -2190,8 +397,1495 @@ app.Run();</code></pre>
 
 
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/07/dijstra/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/07/dijstra/" class="post-title-link" itemprop="url">Dijkstra 演算法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-05-07 13:53:03 / 修改時間：15:10:16" itemprop="dateCreated datePublished" datetime="2025-05-07T13:53:03+08:00">2025-05-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="🧠-簡述">🧠 簡述</h2>
+<p>由荷蘭計算機科學家 Edsger W. Dijkstra 於 1956 年提出</p>
+<ul>
+<li>用來尋找單一源點到其他節點的最短路徑</li>
+<li>適用於加權圖(所以邊的權重為正)</li>
+<li>常用的資料結構 : 優先佇列(Priority Queue) 或 最小堆(Min-Heap)</li>
+</ul>
+<h2 id="🧭-步驟">🧭 步驟</h2>
+<ol>
+<li>將所有節點分為兩組：已確定最短路徑（S）與未確定（U）</li>
+<li>初始時，起點在 S，其餘在 U，距離設為 ∞，起點設為 0</li>
+<li>從 U 中選擇目前與起點距離最短的節點加入 S</li>
+<li>更新該節點鄰接點的距離（鬆弛）</li>
+<li>重複步驟 3~4，直到所有節點都加入 S 或無法再更新</li>
+</ol>
+<h2 id="🧑‍💻-C-實作（含範例圖）">🧑‍💻 C# 實作（含範例圖）</h2>
+<p><img src="/images/dijkstra/samplegraph.png" alt="sampleGraph.png"></p>
+<p>以下為對應圖形的 C# 程式實作</p>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
+&#123;
+    <span class="built_in">int</span> n = <span class="number">7</span>; <span class="comment">// 節點數</span>
+    List&lt;Edge&gt;[] graph = <span class="keyword">new</span> List&lt;Edge&gt;[n];
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) graph[i] = <span class="keyword">new</span> List&lt;Edge&gt;();
+
+    <span class="comment">// 建立圖的鄰接表（根據圖像）</span>
+    AddEdge(graph, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);
+    AddEdge(graph, <span class="number">0</span>, <span class="number">2</span>, <span class="number">6</span>);
+    AddEdge(graph, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>);
+    AddEdge(graph, <span class="number">2</span>, <span class="number">3</span>, <span class="number">8</span>);
+    AddEdge(graph, <span class="number">3</span>, <span class="number">4</span>, <span class="number">10</span>);
+    AddEdge(graph, <span class="number">3</span>, <span class="number">5</span>, <span class="number">15</span>);
+    AddEdge(graph, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);
+    AddEdge(graph, <span class="number">4</span>, <span class="number">6</span>, <span class="number">2</span>);
+    AddEdge(graph, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>);
+
+    <span class="built_in">int</span> start = <span class="number">0</span>;
+    <span class="built_in">int</span>[] dist = Dijkstra(graph, start);
+
+    Console.WriteLine(<span class="string">&quot;起點到各節點的最短距離&quot;</span>);
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        Console.WriteLine(<span class="string">$&quot;到節點<span class="subst">&#123;i&#125;</span>的最短距離 : <span class="subst">&#123;dist[i]&#125;</span>&quot;</span>);
+    &#125;
+&#125;
+
+<span class="keyword">class</span> <span class="title">Edge</span>
+&#123;
+    <span class="keyword">public</span> <span class="built_in">int</span> To, Weight;
+    <span class="function"><span class="keyword">public</span> <span class="title">Edge</span>(<span class="params"><span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
+    &#123;
+        To = to; Weight = weight;
+    &#125;
+&#125;
+
+<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddEdge</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> <span class="keyword">from</span>, <span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
+&#123;
+    graph[<span class="keyword">from</span>].Add(<span class="keyword">new</span> Edge(to, weight));
+    graph[to].Add(<span class="keyword">new</span> Edge(<span class="keyword">from</span>, weight)); <span class="comment">// 無向圖需要雙向邊</span>
+&#125;
+
+<span class="function"><span class="keyword">static</span> <span class="built_in">int</span>[] <span class="title">Dijkstra</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> start</span>)</span>
+&#123;
+    <span class="built_in">int</span> n = graph.Length;
+    <span class="built_in">int</span>[] dist = <span class="keyword">new</span> <span class="built_in">int</span>[n];
+    <span class="built_in">bool</span>[] visited = <span class="keyword">new</span> <span class="built_in">bool</span>[n];
+
+    <span class="comment">// 初始化距離與訪問狀態</span>
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) dist[i] = <span class="built_in">int</span>.MaxValue;
+    dist[start] = <span class="number">0</span>;
+
+    <span class="comment">// 使用NET6+ 的 PriorityQueue&lt;TElement, TPriority&gt;</span>
+    <span class="comment">// 舊版要自己實作 MinHeap</span>
+    <span class="comment">// 使用優先佇列處理節點，依距離最小優先處理</span>
+    <span class="keyword">var</span> pq = <span class="keyword">new</span> PriorityQueue&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt;();
+    pq.Enqueue(start, <span class="number">0</span>);
+
+    <span class="keyword">while</span> (pq.Count &gt; <span class="number">0</span>)
+    &#123;
+        <span class="built_in">int</span> u = pq.Dequeue();
+
+        <span class="comment">// 確認是否處理過節點，並更新註記</span>
+        <span class="keyword">if</span> (visited[u]) <span class="keyword">continue</span>;
+        visited[u] = <span class="literal">true</span>;
+
+        <span class="comment">// 遍歷所有相鄰邊</span>
+        <span class="keyword">foreach</span> (<span class="keyword">var</span> edge <span class="keyword">in</span> graph[u])
+        &#123;
+            <span class="built_in">int</span> v = edge.To;
+            <span class="built_in">int</span> weight = edge.Weight;
+
+           <span class="comment">// 若從 u 到 v 的新距離更短，則更新 dist 並放入優先佇列</span>
+            <span class="keyword">if</span> (dist[u] + weight &lt; dist[v])
+            &#123;
+                dist[v] = dist[u] + weight;
+                pq.Enqueue(v, dist[v]);
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="keyword">return</span> dist;
+&#125;</code></pre>
+<p>輸出結果</p>
+<pre><code class="highlight ada">起點到各節點的最短距離
+到節點<span class="number">0</span>的最短距離 : 0
+到節點<span class="number">1</span>的最短距離 : 2
+到節點<span class="number">2</span>的最短距離 : 6
+到節點<span class="number">3</span>的最短距離 : 7
+到節點<span class="number">4</span>的最短距離 : 17
+到節點<span class="number">5</span>的最短距離 : 22
+到節點<span class="number">6</span>的最短距離 : 19</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/">https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@amber.fragments/%E6%BC%94%E7%AE%97%E6%B3%95-%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98-14-dijkstra-algorithm-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%91%E6%BC%94%E7%AE%97%E6%B3%95-745983dd4332">https://medium.com/@amber.fragments/演算法-學習筆記-14-dijkstra-algorithm-最短路徑演算法-745983dd4332</a></li>
+<li>chatgpt</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/01/webrtc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/01/webrtc/" class="post-title-link" itemprop="url">WebRTC</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-05-01 11:32:40 / 修改時間：11:57:50" itemprop="dateCreated datePublished" datetime="2025-05-01T11:32:40+08:00">2025-05-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>簡易記錄一下 WebRTC 的基本概念</p>
+<h2 id="基本建立點對點連線的流程">基本建立點對點連線的流程</h2>
+<p><img src="/images/webrtc/P2PConnFlow.png" alt="p2pConnFlow.png"></p>
+<h3 id="信令-Signaling-：">信令 (Signaling)：</h3>
+<ol>
+<li>兩個 WebRTC 客户端（Peer A 和 Peer B）透過一個<code>信令伺服器</code>進行初始的資訊交換。這個伺服器不參與實際的媒體傳輸。</li>
+<li>Peer A (發起方 - Offerer) 創建一個包含其媒體能力和網路資訊的 SDP Offer。</li>
+<li>Peer A 收集其 ICE Candidates（潛在的網路位址）。</li>
+<li>Peer A 將 SDP Offer 和 ICE Candidates 透過信令伺服器發送給 Peer B。</li>
+<li>Peer B (接收方 - Answerer) 收到 SDP Offer 和 ICE Candidates。</li>
+<li>Peer B 設定遠端的 SDP Offer，並創建包含其自身媒體能力和網路資訊的 SDP Answer。</li>
+<li>Peer B 也收集其 ICE Candidates。</li>
+<li>Peer B 將 SDP Answer 和 ICE Candidates 透過信令伺服器發送回 Peer A。</li>
+<li>Peer A 收到 SDP Answer 和 ICE Candidates，並設定遠端的 SDP Answer。</li>
+<li>雙方持續透過信令伺服器交換 ICE Candidates。</li>
+</ol>
+<h3 id="ICE-連線建立-ICE-Connection-Establishment-：">ICE 連線建立 (ICE Connection Establishment)：</h3>
+<ol>
+<li>每個 Peer 在收到對方的 ICE Candidates 後，會嘗試與這些候選者建立網路連線。</li>
+<li>這個過程會嘗試各種可能的路徑（直接連接、透過 STUN、透過 TURN）。</li>
+<li>當找到一個可用的連線路徑時，ICE 連線建立成功。</li>
+</ol>
+<h3 id="媒體和資料傳輸：">媒體和資料傳輸：</h3>
+<ol>
+<li>一旦 ICE 連線建立，兩個 Peer 就可以直接透過這個點對點連線傳輸音訊、視訊或任意資料（使用 Data Channels）。</li>
+</ol>
+<h2 id="相關名詞簡介：">相關名詞簡介：</h2>
+<h3 id="WebRTC-Web-Real-Time-Communication-：">WebRTC (Web Real-Time Communication)：</h3>
+<p>一個開放原始碼專案，提供瀏覽器和行動應用程式之間即時音訊、視訊和資料交換的能力，無需外掛程式。(目前只有 js)</p>
+<h3 id="Peer-對等方-：">Peer (對等方)：</h3>
+<p>在 WebRTC 通訊中的一個端點，通常是一個瀏覽器或應用程式。</p>
+<h3 id="點對點-Peer-to-Peer-P2P-：">點對點 (Peer-to-Peer, P2P)：</h3>
+<p>一種網路模型，其中兩個或多個參與者可以直接互相通信，而不需要透過中央伺服器（在媒體和資料傳輸階段）。</p>
+<h3 id="信令-Signaling-：-t2">信令 (Signaling)：</h3>
+<p>在 WebRTC 連線建立之前，兩個 Peer 之間交換控制資訊（例如 SDP 和 ICE Candidates）的過程。信令機制不是 WebRTC 本身定義的，需要開發者自行實作。</p>
+<h3 id="信令伺服器-Signaling-Server-：">信令伺服器 (Signaling Server)：</h3>
+<p>一個中介伺服器，用於在 WebRTC 連線建立的初始階段協助 Peer 發現彼此並交換信令訊息。</p>
+<h3 id="SDP-Session-Description-Protocol-：">SDP (Session Description Protocol)：</h3>
+<p>一種標準化的文字格式，用於描述多媒體會話的屬性，例如支援的媒體類型、編解碼器、網路位址等。在 WebRTC 中，SDP 用於在連接建立前協商媒體格式。</p>
+<h3 id="Offer-Answer-模型-Offer-Answer-Model-：">Offer/Answer 模型 (Offer/Answer Model)：</h3>
+<p>WebRTC 使用這個模型來協商會話參數。發起方創建一個 Offer SDP，接收方回應一個 Answer SDP。</p>
+<h3 id="ICE-Interactive-Connectivity-Establishment-：">ICE (Interactive Connectivity Establishment)：</h3>
+<p>一個用於 NAT 穿透的協定。ICE 的目標是找到兩個 Peer 之間最佳的網路路徑來建立直接連線。</p>
+<h3 id="ICE-Candidate-ICE-候選者-：">ICE Candidate (ICE 候選者)：</h3>
+<p>描述一個 Peer 可能的網路位址和連接埠的資訊，用於 ICE 連線建立過程。</p>
+<h3 id="STUN-Session-Traversal-Utilities-for-NAT-伺服器：">STUN (Session Traversal Utilities for NAT) 伺服器：</h3>
+<p>一種協助位於 NAT 後面的 Peer 發現其公有 IP 位址和連接埠的伺服器。</p>
+<h3 id="TURN-Traversal-Using-Relays-around-NAT-伺服器：">TURN (Traversal Using Relays around NAT) 伺服器：</h3>
+<p>一種在直接連線和 STUN 無法工作時，作為中繼伺服器轉發 Peer 之間流量的伺服器。</p>
+<h3 id="NAT-Network-Address-Translator-：">NAT (Network Address Translator)：</h3>
+<p>一種網路設備，用於將私有網路中的多個裝置的 IP 位址轉換為一個或少數幾個公有 IP 位址，以便它們可以存取網際網路。NAT 會導致直接的點對點連線變得困難。</p>
+<h2 id="範例">範例</h2>
+<p>Google 給的範例，可以參考參考對照學習 <a target="_blank" rel="noopener" href="https://github.com/webrtc/samples">Samples</a></p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/">https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/</a></li>
+<li><a target="_blank" rel="noopener" href="https://webrtc.org/?hl=zh-tw">https://webrtc.org/?hl=zh-tw</a></li>
+<li><a target="_blank" rel="noopener" href="https://webrtcforthecurious.com/zh/">https://webrtcforthecurious.com/zh/</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/25/csharpenv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/04/25/csharpenv/" class="post-title-link" itemprop="url">Asp.Net Core 讀取環境變數連線字串</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-04-25 16:06:49" itemprop="dateCreated datePublished" datetime="2025-04-25T16:06:49+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-05-01 12:00:19" itemprop="dateModified" datetime="2025-05-01T12:00:19+08:00">2025-05-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Program-cs-設定">Program.cs 設定</h2>
+<pre><code class="highlight C#"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddUserSecrets&lt;Program&gt;() <span class="comment">// 使用秘密管理員(本地開發用)</span>
+    .AddEnvironmentVariables(); <span class="comment">// 讀取環境變數</span>
+    <span class="comment">// .AddEnvironmentVariables(prefix:&#123;前墜&#125;) 預設ASPNETCORE_或DOTNET_</span></code></pre>
+<h2 id="環境變數設定方式">環境變數設定方式</h2>
+<ol>
+<li>在主機上開啟：</li>
+</ol>
+<ul>
+<li>Win + S 搜尋「環境變數」或</li>
+<li>控制台 → 系統 → 進階系統設定 → 環境變數</li>
+</ul>
+<ol start="2">
+<li>在「系統變數」中新增：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASPNETCORE_ConnectionStrings__DefaultConnection</td>
+<td>User Id=prod;Password=XXX;Data Source=oraclehost:1521/PRODDB;</td>
+</tr>
+</tbody>
+</table>
+<p>★ 注意前墜預設要為 <code>ASPNETCORE_</code>或 <code>DOTNET_</code><br>
+★ <code>ConnectionStrings__DefaultConnection</code>是雙底線<code>__</code></p>
+<h2 id="預設主機設定來源">預設主機設定來源</h2>
+<p>WebApplicationBuilder(.NET6 後) 優先級別</p>
+<ol>
+<li>使用命令列設定提供者的命令列引數</li>
+<li>使用 DOTNET_且具有 前置詞的環境變數</li>
+<li>使用 ASPNETCORE_且具有 前置詞的環境變數</li>
+</ol>
+<p>IHostedService (.NET5 前) 優先級別</p>
+<ol>
+<li>使用 ASPNETCORE_且具有 前置詞的環境變數。</li>
+<li>使用命令列設定提供者的命令列引數</li>
+<li>使用 DOTNET_且具有 前置詞的環境變數</li>
+</ol>
+<h2 id="測試">測試</h2>
+<p>在 program.cs 添加 debug endpoint</p>
+<pre><code class="highlight C#">app.MapGet(<span class="string">&quot;/env-check&quot;</span>, (IConfiguration config) =&gt;
+&#123;
+    <span class="keyword">return</span> config.GetConnectionString(<span class="string">&quot;DefaultConnection&quot;</span>) ?? <span class="string">&quot;no conn string&quot;</span>;
+&#125;);</code></pre>
+<ol>
+<li>部署後呼叫 /env-check</li>
+<li>檢查回傳的連線字串內容是否正確</li>
+<li>看有沒有缺少冒號、斜線、空格或打錯字</li>
+</ol>
+<h2 id="進階">進階</h2>
+<p>就算設定環境變數來避免將敏感資料寫入程式，比 appsettings.json 安全，但是還是有相關風險<br>
+所以可能會進一步需要<code>機密管理服務（Secrets Management Services）</code>來去管理敏感資訊<br>
+但這邊用不到就大概紀錄一下可能的更優解，因為要 💸</p>
+<h3 id="環境變數的侷限">環境變數的侷限</h3>
+<table>
+<thead>
+<tr>
+<th>問題點</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>被誤讀</td>
+<td>足夠權限的使用者可透過指令查看所有變數</td>
+</tr>
+<tr>
+<td>難管理</td>
+<td>每台機器都要單獨設定，不適合大型或多環境部署</td>
+</tr>
+<tr>
+<td>無審計紀錄</td>
+<td>無法追蹤誰改了哪個變數、何時改的</td>
+</tr>
+<tr>
+<td>版本控管</td>
+<td>無法追蹤歷史紀錄或自動回復舊版本</td>
+</tr>
+<tr>
+<td>變更難通知</td>
+<td>改變值，需要人為通知開發 / 系統人員重啟服務</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Azure-Key-Vault-為例的優勢">Azure Key Vault 為例的優勢</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>好處</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>集中管理</td>
+<td>所有機密集中存於一個 Vault，減少散落風險</td>
+</tr>
+<tr>
+<td>權限控管</td>
+<td>使用 Azure AD、RBAC 控制誰能取用哪些機密</td>
+</tr>
+<tr>
+<td>自動輪換密鑰</td>
+<td>可結合自動化工具定期更新連線密碼、憑證等</td>
+</tr>
+<tr>
+<td>加密儲存</td>
+<td>Vault 本身以高強度加密保存內容</td>
+</tr>
+<tr>
+<td>稽核與日誌</td>
+<td>每次存取都會記錄，便於日後查詢與調查</td>
+</tr>
+<tr>
+<td>不用再碰密碼</td>
+<td>程式碼用 Identity 存取 Vault，不需要明碼存在任何地方</td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/configuration/?view=aspnetcore-9.0">ASP.NET Core 的設定</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-9.0">Use multiple environments in ASP.NET Core</a></li>
+<li>ChatGpt</li>
+<li><a target="_blank" rel="noopener" href="https://azure.microsoft.com/en-us/products/key-vault">Azure Key Vault</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/25/htmlpdf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/04/25/htmlpdf/" class="post-title-link" itemprop="url">前端生成PDF</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-04-25 10:07:30 / 修改時間：11:12:56" itemprop="dateCreated datePublished" datetime="2025-04-25T10:07:30+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言">前言</h2>
+<p>因為業務需求的關係，需要將填寫的表單轉換成 PDF，進行資料儲存供後續使用<br>
+最便捷的方法為是使用前端套件<a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a>搭配<a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a><br>
+利用<code>html2canvas</code>進行截圖，然後貼到<code>jspdf</code>產生的 PDF 檔<br>
+但最穩妥的方法建議是使用後端服務器去專門產生 PDF 比較合適(ex. <a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a> 或是 <a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a> )</p>
+<h2 id="Install">Install</h2>
+<pre><code class="highlight cmake">npm <span class="keyword">install</span> html2canvas jspdf</code></pre>
+<h2 id="Usage">Usage</h2>
+<p>pdfHelper.ts</p>
+<pre><code class="highlight ts"><span class="keyword">import</span> jsPDF <span class="keyword">from</span> <span class="string">&quot;jspdf&quot;</span>;
+<span class="keyword">import</span> html2canvas <span class="keyword">from</span> <span class="string">&quot;html2canvas&quot;</span>;
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">generatePDF</span> = <span class="keyword">async</span> (<span class="params"><span class="attr">id</span>: <span class="built_in">string</span></span>) =&gt; &#123;
+  <span class="keyword">try</span> &#123;
+    <span class="comment">// 取得要擷取的部分</span>
+    <span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id) <span class="keyword">as</span> <span class="title class_">HTMLElement</span>;
+    <span class="keyword">if</span> (!el) <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;
+
+    <span class="comment">// 截圖</span>
+    <span class="keyword">const</span> canvas = <span class="keyword">await</span> <span class="title function_">html2canvas</span>(el, &#123;
+      <span class="attr">useCORS</span>: <span class="literal">true</span>, <span class="comment">// 允許跨域圖片</span>
+      <span class="attr">scale</span>: <span class="number">2</span>, <span class="comment">// 提高清晰度</span>
+    &#125;);
+
+    <span class="comment">// 轉換圖片</span>
+    <span class="comment">// toDataURL(&#123;轉換格式&#125;, &#123;品質&#125;)</span>
+    <span class="keyword">const</span> imgData = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/jpeg&quot;</span>, <span class="number">0.7</span>);
+
+    <span class="comment">// 創建PDF文檔</span>
+    <span class="keyword">const</span> pdf = <span class="keyword">new</span> <span class="title function_">jsPDF</span>(&#123;
+      <span class="attr">orientation</span>: <span class="string">&quot;portrait&quot;</span>, <span class="comment">// 頁面方向</span>
+      <span class="attr">unit</span>: <span class="string">&quot;pt&quot;</span>, <span class="comment">// 單位</span>
+      <span class="attr">format</span>: <span class="string">&quot;a4&quot;</span>, <span class="comment">// 紙張大小</span>
+    &#125;);
+
+    <span class="comment">// 取得PDF尺寸</span>
+    <span class="keyword">const</span> pageWidth = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getWidth</span>();
+    <span class="keyword">const</span> pageHeight = pdf.<span class="property">internal</span>.<span class="property">pageSize</span>.<span class="title function_">getHeight</span>();
+
+    <span class="comment">// 調整為A4寬度且維持原本寬高比</span>
+    <span class="keyword">const</span> imgWidth = pageWidth;
+    <span class="keyword">const</span> imgHeight = (canvas.<span class="property">height</span> * imgWidth) / canvas.<span class="property">width</span>;
+
+    <span class="comment">// 若圖像高度超出頁面高度，則縮小</span>
+    <span class="keyword">const</span> finalHeight = imgHeight &gt; pageHeight ? pageHeight : imgHeight;
+    <span class="keyword">const</span> finalWidth = (canvas.<span class="property">width</span> * finalHeight) / canvas.<span class="property">height</span>;
+
+    <span class="comment">// 可選：讓圖片置中</span>
+    <span class="keyword">const</span> marginX = (pageWidth - finalWidth) / <span class="number">2</span>;
+    <span class="keyword">const</span> marginY = (pageHeight - finalHeight) / <span class="number">2</span>;
+
+    <span class="comment">// 添加圖片到PDF</span>
+    pdf.<span class="title function_">addImage</span>(
+      imgData, <span class="comment">// 圖片資料</span>
+      <span class="string">&quot;JPEG&quot;</span>, <span class="comment">// 圖片格式</span>
+      marginX, <span class="comment">// X座標</span>
+      marginY, <span class="comment">// Y座標</span>
+      finalWidth, <span class="comment">//圖片寬度</span>
+      finalHeight, <span class="comment">//圖片高度</span>
+      <span class="literal">undefined</span>, <span class="comment">// 別名</span>
+      <span class="string">&quot;FAST&quot;</span> <span class="comment">// 壓縮方法</span>
+    );
+
+    <span class="comment">// 取得包含 Base64 的 Data URL</span>
+    <span class="keyword">const</span> pdfDataUrl = pdf.<span class="title function_">output</span>(<span class="string">&quot;datauristring&quot;</span>);
+
+    <span class="comment">// Data URL 的格式通常是 &quot;data:application/pdf;base64,BASE64_STRING&quot;</span>
+    <span class="comment">// 我們需要提取逗號後面的 Base64 部分</span>
+    <span class="keyword">const</span> base64String = pdfDataUrl.<span class="title function_">split</span>(<span class="string">&quot;,&quot;</span>)[<span class="number">1</span>];
+
+    <span class="keyword">return</span> base64String;
+  &#125; <span class="keyword">catch</span> (e) &#123;
+    <span class="variable language_">console</span>.<span class="title function_">log</span>(e);
+    <span class="keyword">throw</span> e;
+  &#125;
+&#125;;</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://html2canvas.hertzen.com/">html2canvas</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/parallax/jsPDF">jspdf</a></li>
+<li><a target="_blank" rel="noopener" href="https://wkhtmltopdf.org/">wkhtmltopdf</a></li>
+<li><a target="_blank" rel="noopener" href="https://pptr.dev/">Puppeteer</a></li>
+<li>ChatGpt</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/03/sqlkata/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/04/03/sqlkata/" class="post-title-link" itemprop="url">sqlkata</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-04-03 11:20:10" itemprop="dateCreated datePublished" datetime="2025-04-03T11:20:10+08:00">2025-04-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:51:48" itemprop="dateModified" datetime="2025-04-25T10:51:48+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="簡介">簡介</h2>
+<p>SqlKata 查詢生成器是一個用 C#編寫的功能強大 SQL 生成器，它安全、不受框架影響，靈感來源於 Laravel Query Builder 和 Knex 等頂級查詢建立工具</p>
+<ul>
+<li>乾淨的命名，與 SQL 語法相似</li>
+<li>允許統一 API 處理多個數據庫，且可搭配 Dapper 使用，有效替代數據庫的存儲過程</li>
+<li>支持複雜查詢，如:嵌套條件、子查詢…等</li>
+<li>目前有支援的資料庫 SqlServer、MySql、PostgreSql、Oracle …等</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/fairking/FluentSqlKata">擴充項目</a>，搭配 EntityFramework Core 6 使用</li>
+<li><a target="_blank" rel="noopener" href="https://sqlkata.com/docs">詳細文檔</a></li>
+<li><a target="_blank" rel="noopener" href="https://sqlkata.com/playground">PlayGround</a></li>
+</ul>
+<h2 id="安裝">安裝</h2>
+<pre><code class="highlight ada">$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata</span>
+$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Execution # (選用) 如果您希望執行支援</span></code></pre>
+<h2 id="範例">範例</h2>
+<h3 id="簡易實作-以-Oracle-為例">簡易實作(以 Oracle 為例)</h3>
+<pre><code class="highlight C#"><span class="keyword">var</span> connection = <span class="keyword">new</span> OracleConnection(connectionString);
+<span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
+<span class="keyword">var</span> db = <span class="keyword">new</span> QueryFactory(conn, compiler);
+<span class="comment">// QueryFactory 由 SqlKata.Execution 套件提供</span>
+<span class="keyword">var</span> books = db.Query(<span class="string">&quot;Books&quot;</span>).Get();</code></pre>
+<h3 id="Dependency-injection-注入實作-For-NET-6">Dependency injection 注入實作(For .NET 6)</h3>
+<p>QueryFactoryFactory.cs</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">QueryFactoryFactory</span> : <span class="title">IQueryFactoryFactory</span>
+&#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IConfiguration _configuration;
+    <span class="function"><span class="keyword">public</span> <span class="title">QueryFactoryFactory</span>(<span class="params">IConfiguration configuration</span>)</span>
+    &#123;
+        _configuration = configuration;
+    &#125;
+    <span class="function"><span class="keyword">public</span> QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>
+    &#123;
+        <span class="keyword">var</span> cs = _configuration.GetConnectionString(dbKey);
+        <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(cs))
+        &#123;
+            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">$&quot;Connection string for <span class="subst">&#123;dbKey&#125;</span> is not found.&quot;</span>);
+        &#125;
+        <span class="keyword">var</span> conn = <span class="keyword">new</span> OracleConnection(cs);
+        <span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
+        <span class="keyword">return</span> <span class="keyword">new</span> QueryFactory(conn, compiler);
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IQueryFactoryFactory</span>
+&#123;
+    <span class="function">QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>;
+&#125;
+</code></pre>
+<p>Program.cs</p>
+<pre><code class="highlight C#">builder.Services.AddTransient&lt;IQueryFactoryFactory, QueryFactoryFactory&gt;();</code></pre>
+<p>HomeController.cs</p>
+<pre><code class="highlight C#"><span class="keyword">using</span> SqlKata;
+<span class="keyword">using</span> SqlKata.Execution;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> &#123;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IQueryFactoryFactory factory;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">IQueryFactoryFactory factory</span>)</span>
+    &#123;
+       <span class="keyword">this</span>.factory = factory;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Get</span>()</span>
+    &#123;
+       <span class="keyword">using</span> <span class="keyword">var</span> db = factory.CreateQueryFactory(dbKey);
+
+       <span class="comment">// 這裡 books 的類型是 `IEnumerable&lt;dynamic&gt;`</span>
+       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
+           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
+           .GetAsync();
+
+       <span class="comment">// or `IEnumerable&lt;Book&gt;` if using the Generic overload</span>
+       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
+           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
+           .GetAsync&lt;Book&gt;();
+
+       <span class="keyword">return</span> Ok(books);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://sqlkata.com/">https://sqlkata.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sqlkata/querybuilder">https://github.com/sqlkata/querybuilder</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shanyou/p/16756669.html">https://www.cnblogs.com/shanyou/p/16756669.html</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/14/server-certificate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/02/14/server-certificate/" class="post-title-link" itemprop="url">IIS 安裝憑證</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-02-14 08:32:46" itemprop="dateCreated datePublished" datetime="2025-02-14T08:32:46+08:00">2025-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:23" itemprop="dateModified" datetime="2025-04-25T10:52:23+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/IIS/" itemprop="url" rel="index"><span itemprop="name">IIS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>簡易紀錄 IIS 站台如何安裝憑證</p>
+<ol>
+<li>取得憑證檔案<br>
+<img src="/images/server-certificate/ssl.png" alt="iis_file.png"></li>
+<li>開啟 IIS 管理員</li>
+<li>選擇伺服器</li>
+<li>進入伺服器憑證</li>
+<li>匯入憑證檔案<br>
+<img src="/images/server-certificate/import_certificate.png" alt="import_certificate.png"></li>
+<li>選擇站台</li>
+<li>新增繫結<br>
+<img src="/images/server-certificate/add_link.png" alt="add_link.png"></li>
+<li>重新啟動並測試</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/13/linuxSysArc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/02/13/linuxSysArc/" class="post-title-link" itemprop="url">系統架構</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-02-13 09:24:48" itemprop="dateCreated datePublished" datetime="2025-02-13T09:24:48+08:00">2025-02-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:50:14" itemprop="dateModified" datetime="2025-04-25T10:50:14+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="BIOS">BIOS</h2>
+<h3 id="基本輸入輸出系統-Basic-Input-Output-System">基本輸入輸出系統(Basic Input/Output System)</h3>
+<p>主要作用為<code>將系統硬體帶到可以準備交給作業系統的狀態</code>，通常包含下列步驟:</p>
+<ul>
+<li>系統初始化</li>
+<li>測試記憶體與其他周邊</li>
+<li>檢測儲存裝置</li>
+<li>在數個儲存裝置之間找出作業系統的起始點</li>
+</ul>
+<p>且提供操作介面，供使用者設定系統的低階參數、選擇開機裝置、配置系統資源等等。</p>
+<h3 id="日期與時間">日期與時間</h3>
+<p>BIOS 的主要功能之一是<code>管理主機板內建的硬體時鐘</code>。<br>
+<code>作業系統本身也有設定硬體時鐘的能力</code>，可以依靠精準的外部較時參考來源(ex: NTPD 伺服器)來保持硬體時鐘的精準。</p>
+<h3 id="磁碟與開機裝置">磁碟與開機裝置</h3>
+<p>BIOS 設定工具中其中一項重要功能就是<code>開機裝置的選擇</code>。<br>
+大多數 PC 至少支援三種開機媒體</p>
+<ul>
+<li>內接式硬碟(IDE 或 SCSI 或 SATA，或三者皆是)</li>
+<li>光碟機(同上)</li>
+<li>軟碟機</li>
+</ul>
+<h3 id="運用-proc-檔案系統">運用/proc 檔案系統</h3>
+<p>/proc 檔案系統 (核心的運作狀態庫)目錄下的 interrupts、dma、ioports 三個檔案，提供目前系統資源的使用狀況</p>
+<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/interrupts</code></pre>
+<p><img src="/images/linuxSysArc/proc_interrupts.png" alt="interrupts.png"></p>
+<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/dma</code></pre>
+<p><img src="/images/linuxSysArc/proc_dma.png" alt="interrupts.png"></p>
+<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/ioports</code></pre>
+<p><img src="/images/linuxSysArc/proc_ioports.png" alt="interrupts.png"></p>
+<h2 id="USB">USB</h2>
+<h3 id="USB-拓樸邏輯">USB 拓樸邏輯</h3>
+<p>電腦主機與 USB 裝置之間，是透過<code>集線器(HUB)</code>連接一起，構成一個樹狀結構。<br>
+使用<code>lsusb</code>指令可顯示 Linux 系統上所有 USB 裝置的實際連接方式。</p>
+<p><img src="/images/linuxSysArc/lsusb.png" alt="lsusb.png"></p>
+<h3 id="USB-控制器">USB 控制器</h3>
+<p>主要分成 4 種類型</p>
+<ul>
+<li>開放型主控界面 ( Open Host Controller Interface , OHCI )</li>
+<li>通用型主控界面 ( Universal Host Controller Interface , UJCI )</li>
+<li>強化型主控界面 ( Enhanced Host Controller Interface , EHCI )</li>
+<li>擴充型主控界面 ( eXtented Host Controller Interface , xHCI )</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>規格</th>
+<th>控制器</th>
+<th>傳輸速率</th>
+<th>向下相容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB1.1</td>
+<td>OHCI、UHCI</td>
+<td>12Mbps</td>
+<td>否</td>
+</tr>
+<tr>
+<td>USB2.0</td>
+<td>EHCI</td>
+<td>480Mbps</td>
+<td>否</td>
+</tr>
+<tr>
+<td>USB3.0</td>
+<td>xHCI</td>
+<td>5Gbps</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<h3 id="USB-裝置">USB 裝置</h3>
+<ul>
+<li>人機界面裝置 ( Human Interface Device , HID)<br>
+輸入裝置 (滑鼠、鍵盤…等等)</li>
+<li>通訊裝置<br>
+數據機</li>
+<li>大量儲存裝置<br>
+磁碟機、讀卡機…等</li>
+<li>音訊<br>
+揚聲器、音效裝置</li>
+<li>IrDA<br>
+紅外線裝置</li>
+<li>印表機<br>
+印表機以及 USB-to-parallel 轉換器</li>
+</ul>
+<h3 id="USB-驅動程式">USB 驅動程式</h3>
+<p><code>Linux 核心 2.0.x 以及更早版本，不支援 USB</code></p>
+<p>主要分成三大類</p>
+<ol>
+<li>主控器驅動程式</li>
+<li>通類驅動程式</li>
+<li>雜項裝置驅動程式</li>
+</ol>
+<h3 id="USB-熱插拔">USB 熱插拔</h3>
+<p>模組化的 USB 驅動程式，是藉由核心對於/sbin/hotplug 的通用支援機制來載入</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010517791?srsltid=AfmBOoqFrQZp9GsdBk5fTNGzq01OkJ2O4TBNwF0sK7VWkoij1MlNaG1X">LPI Linux 第一級資格檢定 第三版</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/05/tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/02/05/tree/" class="post-title-link" itemprop="url">樹狀資料</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-02-05 16:07:19" itemprop="dateCreated datePublished" datetime="2025-02-05T16:07:19+08:00">2025-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:14" itemprop="dateModified" datetime="2025-04-25T10:52:14+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/tree_data_structure.jpg" alt="tree_data_structure.jpg"></p>
+<h2 id="樹狀結構介紹">樹狀結構介紹</h2>
+<ul>
+<li>Node : 樹的基本單位，紀錄節點資料與子節點有哪些</li>
+<li>Root Node : 根節點，樹的最高節點</li>
+<li>Leaf Node : 葉節點，沒有子節點的節點</li>
+<li>Edge : 連接兩個節點的線，表示節點之間的關係</li>
+<li>Parent Node : 父節點(上層節點)，一個節點只會有一個父節點</li>
+<li>Child Node : 子節點，一個節點可以連結多個子節點</li>
+<li>Sibling Node : 兄弟節點，有相同父節點的節點</li>
+<li>Depth : 從根節點到該節點的路徑長度</li>
+<li>Height : 該節點到最遠葉節點的路徑長度</li>
+<li>Level : 節點層次</li>
+<li>Subtree : 某節點的所有子節點後代</li>
+</ul>
+<h2 id="樹的種類">樹的種類</h2>
+<ol>
+<li>二元樹 (Binary Tree)
+<ul>
+<li>一個節點最多兩個子節點</li>
+</ul>
+</li>
+<li>二元搜尋樹 (Binary Search Tree, BST)
+<ul>
+<li>左子樹所有節點值小於根節點值</li>
+<li>右子樹所有節點值大於根節點值</li>
+</ul>
+</li>
+<li>平衡樹 (Balanced Tree)</li>
+<li>滿二元樹 (Full Binary Tree)</li>
+<li>完全二元樹 (Complete Binary Tree)</li>
+<li>B 樹 (B-Tree)</li>
+<li>堆積 (Heap)</li>
+<li>字典樹 (Trie)</li>
+</ol>
+<h2 id="樹的遍歷-Traversal">樹的遍歷(Traversal)</h2>
+<ol>
+<li>深度優先遍歷 (Depth-First Search, DFS)
+<ul>
+<li>先訪問子節點，再訪問兄弟節點</li>
+<li>3 種遍歷方法
+<ul>
+<li>前序遍歷 (Pre-order)</li>
+<li>中序遍歷 (In-order)</li>
+<li>後續遍歷 (Post-order)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>廣度優先遍歷 (Breadth-First Search, BFS)
+<ul>
+<li>階層遍歷，一層一層從左到右</li>
+</ul>
+</li>
+</ol>
+<h2 id="相關實作-C">相關實作(C#)</h2>
+<pre><code class="highlight C#"><span class="comment">// 節點</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TreeNode</span>
+&#123;
+    <span class="keyword">public</span> <span class="built_in">int</span> val;
+    <span class="keyword">public</span> TreeNode left;
+    <span class="keyword">public</span> TreeNode right;
+    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span>(<span class="params"><span class="built_in">int</span> val = <span class="number">0</span>, TreeNode left = <span class="literal">null</span>, TreeNode right = <span class="literal">null</span></span>)</span>
+    &#123;
+        <span class="keyword">this</span>.val = val;
+        <span class="keyword">this</span>.left = left;
+        <span class="keyword">this</span>.right = right;
+    &#125;
+&#125;
+
+<span class="comment">// 深度優先遍歷 (Depth-First Search, DFS)</span>
+<span class="comment">// 前序遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PreorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+    Console.Write(root.val + <span class="string">&quot; &quot;</span>) <span class="comment">// 訪問節點</span>
+    PreorderTraversal(root.left); <span class="comment">// 遞迴訪問左子樹</span>
+    PreorderTraversal(root.right); <span class="comment">// 遞迴訪問右子樹</span>
+&#125;
+
+<span class="comment">// 中序遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">InorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+    InorderTraversal(root.left);    <span class="comment">// 遞迴遍歷左子樹</span>
+    Console.Write(root.val + <span class="string">&quot; &quot;</span>);  <span class="comment">// 訪問節點</span>
+    InorderTraversal(root.right);   <span class="comment">// 遞迴遍歷右子樹</span>
+&#125;
+
+<span class="comment">// 後序遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PostorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+    PostorderTraversal(root.left);   <span class="comment">// 遞迴遍歷左子樹</span>
+    PostorderTraversal(root.right);  <span class="comment">// 遞迴遍歷右子樹</span>
+    Console.Write(root.val + <span class="string">&quot; &quot;</span>);   <span class="comment">// 訪問節點</span>
+&#125;
+
+<span class="comment">// 廣度優先遍歷 (Breadth-First Search, BFS)</span>
+<span class="comment">// 階層遍歷</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LevelOrderTraversal</span>(<span class="params">TreeNode root</span>)</span>
+&#123;
+    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
+
+    Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> Queue&lt;TreeNode&gt;();
+    queue.Enqueue(root);
+
+    <span class="keyword">while</span> (queue.Count &gt; <span class="number">0</span>)
+    &#123;
+        TreeNode node = queue.Dequeue();
+        Console.Write(node.val + <span class="string">&quot; &quot;</span>);
+
+        <span class="keyword">if</span> (node.left != <span class="literal">null</span>) queue.Enqueue(node.left);
+        <span class="keyword">if</span> (node.right != <span class="literal">null</span>) queue.Enqueue(node.right);
+    &#125;
+&#125;</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E5%9F%BA%E7%A4%8E%E6%BC%94%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-tree-%E6%A8%B9%E7%8B%80%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-d10fe8ac1ce2">基礎演算法系列 — Tree 樹狀資料結構</a></li>
+<li><a target="_blank" rel="noopener" href="https://chat.deepseek.com/">Deepseek</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/data_structures_algorithms/tree_data_structure.htm">Tree Data Structure</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/01/20/sliding-window/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/01/20/sliding-window/" class="post-title-link" itemprop="url">滑動視窗(Sliding Window)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-01-20 10:12:18" itemprop="dateCreated datePublished" datetime="2025-01-20T10:12:18+08:00">2025-01-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:23" itemprop="dateModified" datetime="2025-04-25T10:52:23+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="概述">概述</h3>
+<p>主要就是操作一個視窗的左右邊界，去檢查範圍內的數據，適合用於 Array 或是 String<br>
+可以避免重複已經檢查過的數據，<code>優化時間複雜度</code>，但只適用於<code>連續</code>數據</p>
+<h3 id="簡易範例">簡易範例</h3>
+<p>再給定的數組[2, 5, 8 ,6 ,1]中，找出連續 3 個數字最大總和</p>
+<p><img src="/images/SlidingWindowExample.png" alt="slidingWindow.png"></p>
+<pre><code class="highlight js"><span class="keyword">var</span> arr = [<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">1</span>];
+<span class="keyword">var</span> findThreeLargest = <span class="keyword">function</span> (<span class="params">arr</span>) &#123;
+  <span class="keyword">let</span> curSum = <span class="number">0</span>;
+  <span class="comment">// 初始視窗總和(前3個數總和)</span>
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;
+    curSum += arr[i];
+  &#125;
+
+  <span class="keyword">let</span> maxSum = curSum; <span class="comment">// 最大總和</span>
+  <span class="keyword">let</span> maxSumIndex = <span class="number">0</span>; <span class="comment">// 最大總和的起始位置</span>
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;
+    curSum = curSum - arr[i - <span class="number">3</span>] + arr[i];
+    <span class="comment">// 更新最大總和的起始位置</span>
+    <span class="keyword">if</span> (curSum &gt; maxSum) &#123;
+      maxSum = curSum;
+      maxSumIndex = i - <span class="number">3</span>;
+    &#125;
+  &#125;
+  <span class="keyword">return</span> &#123; maxSum, maxSumIndex &#125;;
+&#125;;</code></pre>
+<h3 id="參考資料">參考資料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10364268">https://ithelp.ithome.com.tw/articles/10364268</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E6%BC%94%E7%AE%97%E6%B3%95%E7%AD%86%E8%A8%98%E7%B3%BB%E5%88%97-two-pointer-%E8%88%87sliding-window-8742f45f3f55">https://medium.com/技術筆記/演算法筆記系列-two-pointer-與sliding-window-8742f45f3f55</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
