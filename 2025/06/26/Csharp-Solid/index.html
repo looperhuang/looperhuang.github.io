@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LHBlog.svg">
+  <link rel="mask-icon" href="/images/LHBlog.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="回顧整理複習一下基本觀念 🌟 SOLID 是什麼？ SOLID 是物件導向設計的五大原則，有助於提高系統的可讀性、可維護性與擴充性。 S – Single Responsibility Principle O – Open&#x2F;Closed Principle L – Liskov Substitution Principle I – Interface Segregation Principle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SOLID">
+<meta property="og:url" content="https://looperhuang.github.io/2025/06/26/Csharp-Solid/index.html">
+<meta property="og:site_name" content="Looper&#39;s Blog">
+<meta property="og:description" content="回顧整理複習一下基本觀念 🌟 SOLID 是什麼？ SOLID 是物件導向設計的五大原則，有助於提高系統的可讀性、可維護性與擴充性。 S – Single Responsibility Principle O – Open&#x2F;Closed Principle L – Liskov Substitution Principle I – Interface Segregation Principle">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-06-26T02:28:38.000Z">
+<meta property="article:modified_time" content="2025-06-26T03:11:43.138Z">
+<meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://looperhuang.github.io/2025/06/26/Csharp-Solid/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/06/26/Csharp-Solid/","path":"2025/06/26/Csharp-Solid/","title":"SOLID"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SOLID | Looper's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Looper's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一個菜鳥工程師</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%8C%9F-SOLID-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">🌟 SOLID 是什麼？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%B1-%E5%96%AE%E4%B8%80%E8%81%B7%E8%B2%AC%E5%8E%9F%E5%89%87%EF%BC%88SRP%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">🧱 單一職責原則（SRP）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%93-%E9%96%8B%E6%94%BE%E5%B0%81%E9%96%89%E5%8E%9F%E5%89%87%EF%BC%88OCP%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">🔓 開放封閉原則（OCP）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%AC-%E9%87%8C%E6%B0%8F%E6%9B%BF%E6%8F%9B%E5%8E%9F%E5%89%87%EF%BC%88LSP%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">🧬 里氏替換原則（LSP）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%A9-%E4%BB%8B%E9%9D%A2%E5%88%86%E9%9B%A2%E5%8E%9F%E5%89%87%EF%BC%88ISP%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">🧩 介面分離原則（ISP）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%B2-%E4%BE%9D%E8%B3%B4%E5%8F%8D%E8%BD%89%E5%8E%9F%E5%89%87%EF%BC%88DIP%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">🧲 依賴反轉原則（DIP）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E5%8F%83%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">📚 參考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="looperhuang"
+      src="/images/LHBlog.svg">
+  <p class="site-author-name" itemprop="name">looperhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/looperhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;looperhuang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:looper841213@gmail.com" title="Gmail → mailto:looper841213@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Gmail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/06/26/Csharp-Solid/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SOLID | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SOLID
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-06-26 10:28:38 / 修改時間：11:11:43" itemprop="dateCreated datePublished" datetime="2025-06-26T10:28:38+08:00">2025-06-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>回顧整理複習一下基本觀念</p>
+<h2 id="🌟-SOLID-是什麼？">🌟 SOLID 是什麼？</h2>
+<p>SOLID 是物件導向設計的五大原則，有助於提高系統的可讀性、可維護性與擴充性。</p>
+<p>S – Single Responsibility Principle<br>
+O – Open/Closed Principle<br>
+L – Liskov Substitution Principle<br>
+I – Interface Segregation Principle<br>
+D – Dependency Inversion Principle</p>
+<h2 id="🧱-單一職責原則（SRP）">🧱 單一職責原則（SRP）</h2>
+<p>定義 : 一個模組應有且只有一個理由會使其改變。一個類別只負責一個職責(功能)。<br>
+目的 : 讓類別更專注化、模組化，便於維護與測試<br>
+範例 :</p>
+<pre><code class="highlight C#"><span class="comment">// ❌ 錯誤示範：Report 同時負責產生報告與儲存報告</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Report</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Generate</span>()</span> &#123;
+        <span class="comment">// 產生報告邏輯</span>
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SaveToFile</span>()</span> &#123;
+        <span class="comment">// 儲存報告到檔案的邏輯</span>
+    &#125;
+&#125;
+
+<span class="comment">// ✅ 正確示範：拆分責任，讓每個類別只處理一件事</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ReportGenerator</span> &#123;
+    <span class="function"><span class="keyword">public</span> Report <span class="title">Generate</span>()</span> &#123;
+        <span class="comment">// 只負責產生報告</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> Report();
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ReportSaver</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SaveToFile</span>(<span class="params">Report report</span>)</span> &#123;
+        <span class="comment">// 只負責儲存報告</span>
+    &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>注意不要為了拆分而拆分 =&gt; 過度拆分反而造成維護困難、結構過碎、增加開發負擔。</p>
+</blockquote>
+<h2 id="🔓-開放封閉原則（OCP）">🔓 開放封閉原則（OCP）</h2>
+<p>定義 : 一個軟體製品應該對於擴展是開放的，但對於修改是封閉的<br>
+目的 : 當需求變更時，不用修改原有的代碼，只需擴展即可<br>
+範例 : 策略模式</p>
+<pre><code class="highlight C#"><span class="comment">// 定義一個抽象的折扣策略介面</span>
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IDiscountStrategy</span> &#123;
+    <span class="function"><span class="built_in">decimal</span> <span class="title">GetDiscount</span>(<span class="params"><span class="built_in">decimal</span> price</span>)</span>;
+&#125;
+
+<span class="comment">// 沒有折扣的策略</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">NoDiscount</span> : <span class="title">IDiscountStrategy</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="built_in">decimal</span> <span class="title">GetDiscount</span>(<span class="params"><span class="built_in">decimal</span> price</span>)</span> =&gt; price;
+&#125;
+
+<span class="comment">// 季節性折扣策略</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SeasonalDiscount</span> : <span class="title">IDiscountStrategy</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="built_in">decimal</span> <span class="title">GetDiscount</span>(<span class="params"><span class="built_in">decimal</span> price</span>)</span> =&gt; price * <span class="number">0.9</span>m;
+&#125;
+
+<span class="comment">// 結帳類別依賴抽象折扣策略</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Checkout</span> &#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IDiscountStrategy _discountStrategy;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">Checkout</span>(<span class="params">IDiscountStrategy discountStrategy</span>)</span> &#123;
+        _discountStrategy = discountStrategy;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="built_in">decimal</span> <span class="title">GetFinalPrice</span>(<span class="params"><span class="built_in">decimal</span> price</span>)</span> &#123;
+        <span class="keyword">return</span> _discountStrategy.GetDiscount(price);
+    &#125;
+&#125;</code></pre>
+<p>若需新增其他折扣邏輯，如會員折扣，只需新增一個新類別實作 <code>IDiscountStrategy</code>，無須修改 <code>Checkout</code> 類別，符合 OCP。</p>
+<h2 id="🧬-里氏替換原則（LSP）">🧬 里氏替換原則（LSP）</h2>
+<p>定義 : 子類別應該能替換其父類別，且不影響原有程式的正確性<br>
+目的 : 確保繼承的合理性，避免違反多型原則<br>
+範例 :</p>
+<pre><code class="highlight C#"><span class="comment">// 基礎類別</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Bird</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Fly</span>()</span> &#123; &#125;
+&#125;
+
+<span class="comment">// 老鷹可以飛</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Eagle</span> : <span class="title">Bird</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Fly</span>()</span> &#123; <span class="comment">/* 飛行邏輯 */</span> &#125;
+&#125;
+
+<span class="comment">// ❌ 鴕鳥不能飛，卻繼承 Bird，違反 LSP</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Ostrich</span> : <span class="title">Bird</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Fly</span>()</span> &#123;
+        <span class="keyword">throw</span> <span class="keyword">new</span> NotSupportedException();
+    &#125;
+&#125;</code></pre>
+<p>🔧 解法：可改為將「可飛的鳥」與「不可飛的鳥」抽象分開。</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">Bird</span> &#123; &#125;
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IFlyable</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Fly</span>()</span>;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Eagle</span> : <span class="title">Bird</span>, <span class="title">IFlyable</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Fly</span>()</span> &#123;
+        Console.WriteLine(<span class="string">&quot;Eagle flies.&quot;</span>);
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Ostrich</span> : <span class="title">Bird</span> &#123;
+    <span class="comment">// 沒有 Fly 方法，符合實際行為</span>
+&#125;
+</code></pre>
+<h2 id="🧩-介面分離原則（ISP）">🧩 介面分離原則（ISP）</h2>
+<p>定義 : 不要強迫客戶端依賴他們不使用的介面。應將大介面拆分成多個小而專一的介面。<br>
+目的 : 提高系統彈性，避免臃腫的介面影響使用。<br>
+範例 :</p>
+<pre><code class="highlight C#"><span class="comment">// ❌ 不好的設計：介面太大</span>
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IMachine</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Print</span>()</span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">Scan</span>()</span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">Fax</span>()</span>;
+&#125;
+
+<span class="comment">// 有些類別只需要部分功能</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SimplePrinter</span> : <span class="title">IMachine</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>()</span> &#123; <span class="comment">/* 實作 */</span> &#125;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Scan</span>()</span> &#123; <span class="keyword">throw</span> <span class="keyword">new</span> NotImplementedException(); &#125; <span class="comment">// 不需要</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Fax</span>()</span> &#123; <span class="keyword">throw</span> <span class="keyword">new</span> NotImplementedException(); &#125;  <span class="comment">// 不需要</span>
+&#125;</code></pre>
+<p>✅ 改善方式：拆分為小型介面</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IPrinter</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Print</span>()</span>;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IScanner</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Scan</span>()</span>;
+&#125;
+
+<span class="comment">// 簡單印表機只實作印表功能</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SimplePrinter</span> : <span class="title">IPrinter</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>()</span> &#123;
+        Console.WriteLine(<span class="string">&quot;Printing...&quot;</span>);
+    &#125;
+&#125;
+
+<span class="comment">// 多功能印表機可以實作多個介面</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MultiFunctionMachine</span> : <span class="title">IPrinter</span>, <span class="title">IScanner</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>()</span> &#123; <span class="comment">/*...*/</span> &#125;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Scan</span>()</span> &#123; <span class="comment">/*...*/</span> &#125;
+&#125;
+</code></pre>
+<h2 id="🧲-依賴反轉原則（DIP）">🧲 依賴反轉原則（DIP）</h2>
+<p>定義 : 1. 高層模組不應該依賴低層模組，兩者都應該依賴抽象 2. 抽象不應依賴細節，細節應依賴抽象。<br>
+目的 : 減少模組之間的耦合，提高可重用性與可測試性。<br>
+範例 : DI</p>
+<pre><code class="highlight C#">
+<span class="comment">// 定義一個訊息傳送的抽象</span>
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IMessageSender</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Send</span>(<span class="params"><span class="built_in">string</span> message</span>)</span>;
+&#125;
+
+<span class="comment">// 實作細節：Email 發送</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EmailSender</span> : <span class="title">IMessageSender</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Send</span>(<span class="params"><span class="built_in">string</span> message</span>)</span> &#123;
+        Console.WriteLine(<span class="string">&quot;Email sent: &quot;</span> + message);
+    &#125;
+&#125;
+
+<span class="comment">// 高層模組依賴抽象，而非 EmailSender</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Notification</span> &#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IMessageSender _messageSender;
+
+    <span class="comment">// 傳入抽象介面，實現注入（依賴反轉）</span>
+    <span class="function"><span class="keyword">public</span> <span class="title">Notification</span>(<span class="params">IMessageSender messageSender</span>)</span> &#123;
+        _messageSender = messageSender;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Notify</span>(<span class="params"><span class="built_in">string</span> message</span>)</span> &#123;
+        _messageSender.Send(message);
+    &#125;
+&#125;
+</code></pre>
+<p>使用如 IoC Container (例如 <code>Microsoft.Extensions.DependencyInjection</code>) 可以自動注入 IMessageSender 的實作。</p>
+<h2 id="📚-參考">📚 參考</h2>
+<p><a target="_blank" rel="noopener" href="https://medium.com/%E7%A8%8B%E5%BC%8F%E6%84%9B%E5%A5%BD%E8%80%85/%E4%BD%BF%E4%BA%BA%E7%98%8B%E7%8B%82%E7%9A%84-solid-%E5%8E%9F%E5%89%87-%E7%9B%AE%E9%8C%84-b33fdfc983ca">使人瘋狂的 SOLID 原則</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/05/13/IServiceCollection/" rel="prev" title="讓ASP.NET Core服務註冊更優雅">
+                  <i class="fa fa-angle-left"></i> 讓ASP.NET Core服務註冊更優雅
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">looperhuang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: '32px',
+  left: 'unset',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

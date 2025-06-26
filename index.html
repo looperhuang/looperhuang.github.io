@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -184,6 +184,266 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/06/26/Csharp-Solid/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/06/26/Csharp-Solid/" class="post-title-link" itemprop="url">SOLID</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-06-26 10:28:38 / 修改時間：11:11:43" itemprop="dateCreated datePublished" datetime="2025-06-26T10:28:38+08:00">2025-06-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>回顧整理複習一下基本觀念</p>
+<h2 id="🌟-SOLID-是什麼？">🌟 SOLID 是什麼？</h2>
+<p>SOLID 是物件導向設計的五大原則，有助於提高系統的可讀性、可維護性與擴充性。</p>
+<p>S – Single Responsibility Principle<br>
+O – Open/Closed Principle<br>
+L – Liskov Substitution Principle<br>
+I – Interface Segregation Principle<br>
+D – Dependency Inversion Principle</p>
+<h2 id="🧱-單一職責原則（SRP）">🧱 單一職責原則（SRP）</h2>
+<p>定義 : 一個模組應有且只有一個理由會使其改變。一個類別只負責一個職責(功能)。<br>
+目的 : 讓類別更專注化、模組化，便於維護與測試<br>
+範例 :</p>
+<pre><code class="highlight C#"><span class="comment">// ❌ 錯誤示範：Report 同時負責產生報告與儲存報告</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Report</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Generate</span>()</span> &#123;
+        <span class="comment">// 產生報告邏輯</span>
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SaveToFile</span>()</span> &#123;
+        <span class="comment">// 儲存報告到檔案的邏輯</span>
+    &#125;
+&#125;
+
+<span class="comment">// ✅ 正確示範：拆分責任，讓每個類別只處理一件事</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ReportGenerator</span> &#123;
+    <span class="function"><span class="keyword">public</span> Report <span class="title">Generate</span>()</span> &#123;
+        <span class="comment">// 只負責產生報告</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> Report();
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ReportSaver</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SaveToFile</span>(<span class="params">Report report</span>)</span> &#123;
+        <span class="comment">// 只負責儲存報告</span>
+    &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>注意不要為了拆分而拆分 =&gt; 過度拆分反而造成維護困難、結構過碎、增加開發負擔。</p>
+</blockquote>
+<h2 id="🔓-開放封閉原則（OCP）">🔓 開放封閉原則（OCP）</h2>
+<p>定義 : 一個軟體製品應該對於擴展是開放的，但對於修改是封閉的<br>
+目的 : 當需求變更時，不用修改原有的代碼，只需擴展即可<br>
+範例 : 策略模式</p>
+<pre><code class="highlight C#"><span class="comment">// 定義一個抽象的折扣策略介面</span>
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IDiscountStrategy</span> &#123;
+    <span class="function"><span class="built_in">decimal</span> <span class="title">GetDiscount</span>(<span class="params"><span class="built_in">decimal</span> price</span>)</span>;
+&#125;
+
+<span class="comment">// 沒有折扣的策略</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">NoDiscount</span> : <span class="title">IDiscountStrategy</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="built_in">decimal</span> <span class="title">GetDiscount</span>(<span class="params"><span class="built_in">decimal</span> price</span>)</span> =&gt; price;
+&#125;
+
+<span class="comment">// 季節性折扣策略</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SeasonalDiscount</span> : <span class="title">IDiscountStrategy</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="built_in">decimal</span> <span class="title">GetDiscount</span>(<span class="params"><span class="built_in">decimal</span> price</span>)</span> =&gt; price * <span class="number">0.9</span>m;
+&#125;
+
+<span class="comment">// 結帳類別依賴抽象折扣策略</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Checkout</span> &#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IDiscountStrategy _discountStrategy;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">Checkout</span>(<span class="params">IDiscountStrategy discountStrategy</span>)</span> &#123;
+        _discountStrategy = discountStrategy;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="built_in">decimal</span> <span class="title">GetFinalPrice</span>(<span class="params"><span class="built_in">decimal</span> price</span>)</span> &#123;
+        <span class="keyword">return</span> _discountStrategy.GetDiscount(price);
+    &#125;
+&#125;</code></pre>
+<p>若需新增其他折扣邏輯，如會員折扣，只需新增一個新類別實作 <code>IDiscountStrategy</code>，無須修改 <code>Checkout</code> 類別，符合 OCP。</p>
+<h2 id="🧬-里氏替換原則（LSP）">🧬 里氏替換原則（LSP）</h2>
+<p>定義 : 子類別應該能替換其父類別，且不影響原有程式的正確性<br>
+目的 : 確保繼承的合理性，避免違反多型原則<br>
+範例 :</p>
+<pre><code class="highlight C#"><span class="comment">// 基礎類別</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Bird</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Fly</span>()</span> &#123; &#125;
+&#125;
+
+<span class="comment">// 老鷹可以飛</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Eagle</span> : <span class="title">Bird</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Fly</span>()</span> &#123; <span class="comment">/* 飛行邏輯 */</span> &#125;
+&#125;
+
+<span class="comment">// ❌ 鴕鳥不能飛，卻繼承 Bird，違反 LSP</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Ostrich</span> : <span class="title">Bird</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Fly</span>()</span> &#123;
+        <span class="keyword">throw</span> <span class="keyword">new</span> NotSupportedException();
+    &#125;
+&#125;</code></pre>
+<p>🔧 解法：可改為將「可飛的鳥」與「不可飛的鳥」抽象分開。</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">Bird</span> &#123; &#125;
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IFlyable</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Fly</span>()</span>;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Eagle</span> : <span class="title">Bird</span>, <span class="title">IFlyable</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Fly</span>()</span> &#123;
+        Console.WriteLine(<span class="string">&quot;Eagle flies.&quot;</span>);
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Ostrich</span> : <span class="title">Bird</span> &#123;
+    <span class="comment">// 沒有 Fly 方法，符合實際行為</span>
+&#125;
+</code></pre>
+<h2 id="🧩-介面分離原則（ISP）">🧩 介面分離原則（ISP）</h2>
+<p>定義 : 不要強迫客戶端依賴他們不使用的介面。應將大介面拆分成多個小而專一的介面。<br>
+目的 : 提高系統彈性，避免臃腫的介面影響使用。<br>
+範例 :</p>
+<pre><code class="highlight C#"><span class="comment">// ❌ 不好的設計：介面太大</span>
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IMachine</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Print</span>()</span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">Scan</span>()</span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">Fax</span>()</span>;
+&#125;
+
+<span class="comment">// 有些類別只需要部分功能</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SimplePrinter</span> : <span class="title">IMachine</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>()</span> &#123; <span class="comment">/* 實作 */</span> &#125;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Scan</span>()</span> &#123; <span class="keyword">throw</span> <span class="keyword">new</span> NotImplementedException(); &#125; <span class="comment">// 不需要</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Fax</span>()</span> &#123; <span class="keyword">throw</span> <span class="keyword">new</span> NotImplementedException(); &#125;  <span class="comment">// 不需要</span>
+&#125;</code></pre>
+<p>✅ 改善方式：拆分為小型介面</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IPrinter</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Print</span>()</span>;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IScanner</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Scan</span>()</span>;
+&#125;
+
+<span class="comment">// 簡單印表機只實作印表功能</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SimplePrinter</span> : <span class="title">IPrinter</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>()</span> &#123;
+        Console.WriteLine(<span class="string">&quot;Printing...&quot;</span>);
+    &#125;
+&#125;
+
+<span class="comment">// 多功能印表機可以實作多個介面</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MultiFunctionMachine</span> : <span class="title">IPrinter</span>, <span class="title">IScanner</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>()</span> &#123; <span class="comment">/*...*/</span> &#125;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Scan</span>()</span> &#123; <span class="comment">/*...*/</span> &#125;
+&#125;
+</code></pre>
+<h2 id="🧲-依賴反轉原則（DIP）">🧲 依賴反轉原則（DIP）</h2>
+<p>定義 : 1. 高層模組不應該依賴低層模組，兩者都應該依賴抽象 2. 抽象不應依賴細節，細節應依賴抽象。<br>
+目的 : 減少模組之間的耦合，提高可重用性與可測試性。<br>
+範例 : DI</p>
+<pre><code class="highlight C#">
+<span class="comment">// 定義一個訊息傳送的抽象</span>
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IMessageSender</span> &#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Send</span>(<span class="params"><span class="built_in">string</span> message</span>)</span>;
+&#125;
+
+<span class="comment">// 實作細節：Email 發送</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EmailSender</span> : <span class="title">IMessageSender</span> &#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Send</span>(<span class="params"><span class="built_in">string</span> message</span>)</span> &#123;
+        Console.WriteLine(<span class="string">&quot;Email sent: &quot;</span> + message);
+    &#125;
+&#125;
+
+<span class="comment">// 高層模組依賴抽象，而非 EmailSender</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Notification</span> &#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IMessageSender _messageSender;
+
+    <span class="comment">// 傳入抽象介面，實現注入（依賴反轉）</span>
+    <span class="function"><span class="keyword">public</span> <span class="title">Notification</span>(<span class="params">IMessageSender messageSender</span>)</span> &#123;
+        _messageSender = messageSender;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Notify</span>(<span class="params"><span class="built_in">string</span> message</span>)</span> &#123;
+        _messageSender.Send(message);
+    &#125;
+&#125;
+</code></pre>
+<p>使用如 IoC Container (例如 <code>Microsoft.Extensions.DependencyInjection</code>) 可以自動注入 IMessageSender 的實作。</p>
+<h2 id="📚-參考">📚 參考</h2>
+<p><a target="_blank" rel="noopener" href="https://medium.com/%E7%A8%8B%E5%BC%8F%E6%84%9B%E5%A5%BD%E8%80%85/%E4%BD%BF%E4%BA%BA%E7%98%8B%E7%8B%82%E7%9A%84-solid-%E5%8E%9F%E5%89%87-%E7%9B%AE%E9%8C%84-b33fdfc983ca">使人瘋狂的 SOLID 原則</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1750,121 +2010,6 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 <li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E5%9F%BA%E7%A4%8E%E6%BC%94%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-tree-%E6%A8%B9%E7%8B%80%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-d10fe8ac1ce2">基礎演算法系列 — Tree 樹狀資料結構</a></li>
 <li><a target="_blank" rel="noopener" href="https://chat.deepseek.com/">Deepseek</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/data_structures_algorithms/tree_data_structure.htm">Tree Data Structure</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/01/20/sliding-window/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/01/20/sliding-window/" class="post-title-link" itemprop="url">滑動視窗(Sliding Window)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-01-20 10:12:18" itemprop="dateCreated datePublished" datetime="2025-01-20T10:12:18+08:00">2025-01-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:23" itemprop="dateModified" datetime="2025-04-25T10:52:23+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="概述">概述</h3>
-<p>主要就是操作一個視窗的左右邊界，去檢查範圍內的數據，適合用於 Array 或是 String<br>
-可以避免重複已經檢查過的數據，<code>優化時間複雜度</code>，但只適用於<code>連續</code>數據</p>
-<h3 id="簡易範例">簡易範例</h3>
-<p>再給定的數組[2, 5, 8 ,6 ,1]中，找出連續 3 個數字最大總和</p>
-<p><img src="/images/SlidingWindowExample.png" alt="slidingWindow.png"></p>
-<pre><code class="highlight js"><span class="keyword">var</span> arr = [<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">1</span>];
-<span class="keyword">var</span> findThreeLargest = <span class="keyword">function</span> (<span class="params">arr</span>) &#123;
-  <span class="keyword">let</span> curSum = <span class="number">0</span>;
-  <span class="comment">// 初始視窗總和(前3個數總和)</span>
-  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;
-    curSum += arr[i];
-  &#125;
-
-  <span class="keyword">let</span> maxSum = curSum; <span class="comment">// 最大總和</span>
-  <span class="keyword">let</span> maxSumIndex = <span class="number">0</span>; <span class="comment">// 最大總和的起始位置</span>
-  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;
-    curSum = curSum - arr[i - <span class="number">3</span>] + arr[i];
-    <span class="comment">// 更新最大總和的起始位置</span>
-    <span class="keyword">if</span> (curSum &gt; maxSum) &#123;
-      maxSum = curSum;
-      maxSumIndex = i - <span class="number">3</span>;
-    &#125;
-  &#125;
-  <span class="keyword">return</span> &#123; maxSum, maxSumIndex &#125;;
-&#125;;</code></pre>
-<h3 id="參考資料">參考資料</h3>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10364268">https://ithelp.ithome.com.tw/articles/10364268</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E6%BC%94%E7%AE%97%E6%B3%95%E7%AD%86%E8%A8%98%E7%B3%BB%E5%88%97-two-pointer-%E8%88%87sliding-window-8742f45f3f55">https://medium.com/技術筆記/演算法筆記系列-two-pointer-與sliding-window-8742f45f3f55</a></li>
 </ul>
 
       
