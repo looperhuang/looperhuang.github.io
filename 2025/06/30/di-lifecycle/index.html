@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LHBlog.svg">
+  <link rel="mask-icon" href="/images/LHBlog.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在進入 LifeTime 前，我們先簡單介紹什麼是 IoC（控制反轉） 和 DI（依賴注入） 🔄 IoC（Inversion of Control）  把「誰來決定建立物件」這件事，從自己手上交給別人（框架）處理。  以前我們常會自己用 new 去建立物件： var service &#x3D; new MyService();  這種做法會導致高耦合，測試與擴充都不易。 透過 IoC，可以把物件的控制權">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DI 生命週期（LifeTime）筆記">
+<meta property="og:url" content="https://looperhuang.github.io/2025/06/30/di-lifecycle/index.html">
+<meta property="og:site_name" content="Looper&#39;s Blog">
+<meta property="og:description" content="在進入 LifeTime 前，我們先簡單介紹什麼是 IoC（控制反轉） 和 DI（依賴注入） 🔄 IoC（Inversion of Control）  把「誰來決定建立物件」這件事，從自己手上交給別人（框架）處理。  以前我們常會自己用 new 去建立物件： var service &#x3D; new MyService();  這種做法會導致高耦合，測試與擴充都不易。 透過 IoC，可以把物件的控制權">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://looperhuang.github.io/images/di-lifecycle/0_3DIWQ4HsdSzFlYe9.webp">
+<meta property="og:image" content="https://looperhuang.github.io/images/di-lifecycle/0_TaUixB5JQ0uP10O8.webp">
+<meta property="article:published_time" content="2025-06-30T00:40:53.000Z">
+<meta property="article:modified_time" content="2025-06-30T02:10:29.556Z">
+<meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://looperhuang.github.io/images/di-lifecycle/0_3DIWQ4HsdSzFlYe9.webp">
+
+
+<link rel="canonical" href="https://looperhuang.github.io/2025/06/30/di-lifecycle/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/06/30/di-lifecycle/","path":"2025/06/30/di-lifecycle/","title":"DI 生命週期（LifeTime）筆記"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DI 生命週期（LifeTime）筆記 | Looper's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Looper's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一個菜鳥工程師</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%84-IoC%EF%BC%88Inversion-of-Control%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">🔄 IoC（Inversion of Control）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NET-Core-%E4%B8%AD%E7%9A%84-DI-%E6%A9%9F%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">.NET Core 中的 DI 機制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%AC-Singleton%EF%BC%9A%E5%96%AE%E4%BE%8B%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F"><span class="nav-number">3.</span> <span class="nav-text">🧬 Singleton：單例生命週期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9C%85-%E9%81%A9%E7%94%A8%E6%83%85%E5%A2%83%EF%BC%9A"><span class="nav-number">3.1.</span> <span class="nav-text">✅ 適用情境：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="nav-number">3.2.</span> <span class="nav-text">🧠 使用方式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%91%8D-%E5%84%AA%E9%BB%9E%EF%BC%9A"><span class="nav-number">3.3.</span> <span class="nav-text">👍 優點：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9A%A0%EF%B8%8F-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-number">3.4.</span> <span class="nav-text">⚠️ 注意事項 :</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%A6-Scoped%EF%BC%9A%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F"><span class="nav-number">4.</span> <span class="nav-text">📦 Scoped：作用域生命週期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9C%85-%E9%81%A9%E7%94%A8%E6%83%85%E5%A2%83%EF%BC%9A-t2"><span class="nav-number">4.1.</span> <span class="nav-text">✅ 適用情境：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%EF%BC%9A-t2"><span class="nav-number">4.2.</span> <span class="nav-text">🧠 使用方式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%91%8D-%E5%84%AA%E9%BB%9E%EF%BC%9A-t2"><span class="nav-number">4.3.</span> <span class="nav-text">👍 優點：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9A%A0%EF%B8%8F-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85-t2"><span class="nav-number">4.4.</span> <span class="nav-text">⚠️ 注意事項 :</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%A8-Transient%EF%BC%9A%E7%9E%AC%E6%99%82%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F"><span class="nav-number">5.</span> <span class="nav-text">✨ Transient：瞬時生命週期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9C%85-%E9%81%A9%E7%94%A8%E6%83%85%E5%A2%83%EF%BC%9A-t3"><span class="nav-number">5.1.</span> <span class="nav-text">✅ 適用情境：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%EF%BC%9A-t3"><span class="nav-number">5.2.</span> <span class="nav-text">🧠 使用方式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%91%8D-%E5%84%AA%E9%BB%9E%EF%BC%9A-t3"><span class="nav-number">5.3.</span> <span class="nav-text">👍 優點：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9A%A0%EF%B8%8F-%E4%B8%8D%E5%BB%BA%E8%AD%B0%E7%94%A8%E6%96%BC"><span class="nav-number">5.4.</span> <span class="nav-text">⚠️ 不建議用於 :</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%92%A1-%E5%AF%A6%E4%BE%8B%E7%AF%84%E4%BE%8B%EF%BC%9A%E6%AF%94%E8%BC%83%E4%B8%89%E7%A8%AE%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F"><span class="nav-number">6.</span> <span class="nav-text">💡 實例範例：比較三種生命週期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E5%8F%83%E8%80%83%E5%8F%8A%E5%BB%B6%E4%BC%B8"><span class="nav-number">7.</span> <span class="nav-text">📚 參考及延伸</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="looperhuang"
+      src="/images/LHBlog.svg">
+  <p class="site-author-name" itemprop="name">looperhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/looperhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;looperhuang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:looper841213@gmail.com" title="Gmail → mailto:looper841213@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Gmail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/06/30/di-lifecycle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DI 生命週期（LifeTime）筆記 | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DI 生命週期（LifeTime）筆記
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-06-30 08:40:53 / 修改時間：10:10:29" itemprop="dateCreated datePublished" datetime="2025-06-30T08:40:53+08:00">2025-06-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在進入 LifeTime 前，我們先簡單介紹什麼是 <strong>IoC（控制反轉）</strong> 和 <strong>DI（依賴注入）</strong></p>
+<h2 id="🔄-IoC（Inversion-of-Control）">🔄 IoC（Inversion of Control）</h2>
+<blockquote>
+<p>把「誰來決定建立物件」這件事，<strong>從自己手上交給別人（框架）處理</strong>。</p>
+</blockquote>
+<p>以前我們常會自己用 <code>new</code> 去建立物件：</p>
+<pre><code class="highlight C#"><span class="keyword">var</span> service = <span class="keyword">new</span> MyService();</code></pre>
+<p><img src="/images/di-lifecycle/0_3DIWQ4HsdSzFlYe9.webp" alt="selfnew.webp"></p>
+<p>這種做法會導致高耦合，測試與擴充都不易。<br>
+透過 <strong>IoC</strong>，可以把物件的控制權交給「容器」處理，達到解耦與彈性注入的目的。</p>
+<p><img src="/images/di-lifecycle/0_TaUixB5JQ0uP10O8.webp" alt="ioc_container.webp"></p>
+<p>🎯 實際比喻</p>
+<ul>
+<li>傳統方式：店家收到訂單後，自行找外送員送餐</li>
+<li>IoC 容器：店家透過 外送平台（IoC 容器） 處理訂單與安排外送</li>
+</ul>
+<h2 id="NET-Core-中的-DI-機制">.NET Core 中的 DI 機制</h2>
+<p>.NET Core 內建支援 DI，使用<code>Microsoft.Extensions.DependencyInjection</code> 命名空間。<br>
+註冊服務時，會指定服務的生命週期（LifeTime），常見的有以下三種：</p>
+<table>
+<thead>
+<tr>
+<th>LifeTime 類型</th>
+<th>說明</th>
+<th>建立時機</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Transient</strong></td>
+<td>每次請求都產生新實例</td>
+<td>每次呼叫時</td>
+</tr>
+<tr>
+<td><strong>Scoped</strong></td>
+<td>每個 HTTP Request 共享實例</td>
+<td>每個請求</td>
+</tr>
+<tr>
+<td><strong>Singleton</strong></td>
+<td>應用程式全域唯一實例</td>
+<td>應用啟動時</td>
+</tr>
+</tbody>
+</table>
+<h2 id="🧬-Singleton：單例生命週期">🧬 Singleton：單例生命週期</h2>
+<h3 id="✅-適用情境：">✅ 適用情境：</h3>
+<ul>
+<li>全域設定</li>
+<li>資料庫連線</li>
+<li>快取服務</li>
+<li>隨機數生成器、雜湊函式</li>
+</ul>
+<h3 id="🧠-使用方式：">🧠 使用方式：</h3>
+<pre><code class="highlight C#">services.AddSingleton&lt;IMyService, MyService&gt;();</code></pre>
+<h3 id="👍-優點：">👍 優點：</h3>
+<ul>
+<li>只建立一次，效能佳、記憶體使用少</li>
+<li>適用於無狀態或全域狀態一致的服務</li>
+</ul>
+<h3 id="⚠️-注意事項">⚠️ 注意事項 :</h3>
+<ul>
+<li>實例不能被替換</li>
+<li>不適用於每次請求需不同狀態的服務</li>
+</ul>
+<h2 id="📦-Scoped：作用域生命週期">📦 Scoped：作用域生命週期</h2>
+<h3 id="✅-適用情境：-t2">✅ 適用情境：</h3>
+<ul>
+<li>驗證與授權服務</li>
+<li>與 HTTP Request 綁定的服務（如使用者上下文）</li>
+</ul>
+<h3 id="🧠-使用方式：-t2">🧠 使用方式：</h3>
+<pre><code class="highlight C#">services.AddScoped&lt;IMyService, MyService&gt;();</code></pre>
+<h3 id="👍-優點：-t2">👍 優點：</h3>
+<ul>
+<li>每個 HTTP Request 都會使用同一實例</li>
+<li>可安全操作與 Request 綁定的狀態</li>
+</ul>
+<h3 id="⚠️-注意事項-t2">⚠️ 注意事項 :</h3>
+<ul>
+<li>效能可能略低於 Singleton</li>
+<li>避免跨作用域存取（例如注入到 Singleton 裡）</li>
+</ul>
+<h2 id="✨-Transient：瞬時生命週期">✨ Transient：瞬時生命週期</h2>
+<h3 id="✅-適用情境：-t3">✅ 適用情境：</h3>
+<ul>
+<li>每次都要獲得新資料的服務</li>
+<li>無需維持狀態的元件</li>
+</ul>
+<h3 id="🧠-使用方式：-t3">🧠 使用方式：</h3>
+<pre><code class="highlight C#">services.AddTransient&lt;IMyService, MyService&gt;();</code></pre>
+<h3 id="👍-優點：-t3">👍 優點：</h3>
+<ul>
+<li>每次使用都會建立新實例，資料最新</li>
+<li>不會產生跨請求污染問題</li>
+</ul>
+<h3 id="⚠️-不建議用於">⚠️ 不建議用於 :</h3>
+<ul>
+<li>資料庫連線、設定、快取等需要長時間共用資源的服務</li>
+</ul>
+<h2 id="💡-實例範例：比較三種生命週期">💡 實例範例：比較三種生命週期</h2>
+<p><code>ISampleService.cs</code></p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ISampleService</span>
+&#123;
+    <span class="function"><span class="built_in">string</span> <span class="title">GetId</span>()</span>;
+&#125;</code></pre>
+<p><code>SampleService</code></p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SampleService</span> : <span class="title">ISampleService</span>
+&#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="built_in">string</span> _Id;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">SampleService</span>()</span>
+    &#123;
+       _Id = Guid.NewGuid().ToString();
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">GetId</span>()</span>
+    &#123;
+        <span class="keyword">return</span> _Id;
+    &#125;
+&#125;</code></pre>
+<p><code>SampleController.cs</code></p>
+<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
+[<span class="meta">ApiController</span>]
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SampleController</span> : <span class="title">ControllerBase</span>
+&#123;
+    <span class="comment">// 注入三種不同生命週期的服務</span>
+    <span class="keyword">private</span> <span class="keyword">readonly</span> ISampleService _singletonService;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> ISampleService _scopedService;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> ISampleService _transientService;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">SampleController</span>(<span class="params">[FromServices] ISampleService singletonService,</span></span>
+<span class="params"><span class="function">                            [FromServices] ISampleService scopedService,</span></span>
+<span class="params"><span class="function">                            [FromServices] ISampleService transientService</span>)</span>
+    &#123;
+        <span class="comment">// 賦值給私有字段</span>
+        _singletonService = singletonService;
+        _scopedService = scopedService;
+        _transientService = transientService;
+    &#125;
+
+    [<span class="meta">HttpGet</span>]
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Get</span>()</span>
+    &#123;
+        <span class="comment">// 獲取服務的標識符</span>
+        <span class="keyword">var</span> singletonId = _singletonService.GetId();
+        <span class="keyword">var</span> scopedId = _scopedService.GetId();
+        <span class="keyword">var</span> transientId = _transientService.GetId();
+
+        <span class="comment">// 返回結果</span>
+        <span class="keyword">return</span> Ok(<span class="keyword">new</span>
+        &#123;
+            Singleton = singletonId,
+            Scoped = scopedId,
+            Transient = transientId
+        &#125;);
+    &#125;
+&#125;</code></pre>
+<p><code>回傳範例</code></p>
+<pre><code class="highlight json"><span class="punctuation">&#123;</span>
+  <span class="attr">&quot;singleton&quot;</span><span class="punctuation">:</span> <span class="string">&quot;c17f2227-53b6-4689-8c4a-79b7955a6ff9&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;scoped&quot;</span><span class="punctuation">:</span> <span class="string">&quot;e95824da-a8f1-4bdf-9d73-d1036290cc44&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;transient&quot;</span><span class="punctuation">:</span> <span class="string">&quot;98e79f60-a51c-4142-906e-756200e3f6fe&quot;</span>
+<span class="punctuation">&#125;</span></code></pre>
+<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
+<p><a target="_blank" rel="noopener" href="https://medium.com/@atailin.work/%E9%90%B5%E4%BA%BA%E8%B3%BD-asp-net-core-3-day04-%E4%BE%9D%E8%B3%B4%E6%B3%A8%E5%85%A5-dependency-injection-10cf9651b544">鐵人賽 ASP.NET Core 3 Day04 依賴注入 (Dependency Injection)</a><br>
+<a target="_blank" rel="noopener" href="https://marcus116.blogspot.com/2019/04/netcore-aspnet-core-di-lifetime.html">ASP.NET Core DI 生命週期 LifeTime</a><br>
+<a target="_blank" rel="noopener" href="https://hackmd.io/@rgnkud/ByL9DP5op">依賴注入(DI)在容器中服務的生命週期</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/06/26/Csharp-Solid/" rel="prev" title="SOLID">
+                  <i class="fa fa-angle-left"></i> SOLID
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">looperhuang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: '32px',
+  left: 'unset',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

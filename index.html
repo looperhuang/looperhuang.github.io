@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -184,6 +184,252 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/06/30/di-lifecycle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/06/30/di-lifecycle/" class="post-title-link" itemprop="url">DI 生命週期（LifeTime）筆記</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-06-30 08:40:53 / 修改時間：10:10:29" itemprop="dateCreated datePublished" datetime="2025-06-30T08:40:53+08:00">2025-06-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在進入 LifeTime 前，我們先簡單介紹什麼是 <strong>IoC（控制反轉）</strong> 和 <strong>DI（依賴注入）</strong></p>
+<h2 id="🔄-IoC（Inversion-of-Control）">🔄 IoC（Inversion of Control）</h2>
+<blockquote>
+<p>把「誰來決定建立物件」這件事，<strong>從自己手上交給別人（框架）處理</strong>。</p>
+</blockquote>
+<p>以前我們常會自己用 <code>new</code> 去建立物件：</p>
+<pre><code class="highlight C#"><span class="keyword">var</span> service = <span class="keyword">new</span> MyService();</code></pre>
+<p><img src="/images/di-lifecycle/0_3DIWQ4HsdSzFlYe9.webp" alt="selfnew.webp"></p>
+<p>這種做法會導致高耦合，測試與擴充都不易。<br>
+透過 <strong>IoC</strong>，可以把物件的控制權交給「容器」處理，達到解耦與彈性注入的目的。</p>
+<p><img src="/images/di-lifecycle/0_TaUixB5JQ0uP10O8.webp" alt="ioc_container.webp"></p>
+<p>🎯 實際比喻</p>
+<ul>
+<li>傳統方式：店家收到訂單後，自行找外送員送餐</li>
+<li>IoC 容器：店家透過 外送平台（IoC 容器） 處理訂單與安排外送</li>
+</ul>
+<h2 id="NET-Core-中的-DI-機制">.NET Core 中的 DI 機制</h2>
+<p>.NET Core 內建支援 DI，使用<code>Microsoft.Extensions.DependencyInjection</code> 命名空間。<br>
+註冊服務時，會指定服務的生命週期（LifeTime），常見的有以下三種：</p>
+<table>
+<thead>
+<tr>
+<th>LifeTime 類型</th>
+<th>說明</th>
+<th>建立時機</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Transient</strong></td>
+<td>每次請求都產生新實例</td>
+<td>每次呼叫時</td>
+</tr>
+<tr>
+<td><strong>Scoped</strong></td>
+<td>每個 HTTP Request 共享實例</td>
+<td>每個請求</td>
+</tr>
+<tr>
+<td><strong>Singleton</strong></td>
+<td>應用程式全域唯一實例</td>
+<td>應用啟動時</td>
+</tr>
+</tbody>
+</table>
+<h2 id="🧬-Singleton：單例生命週期">🧬 Singleton：單例生命週期</h2>
+<h3 id="✅-適用情境：">✅ 適用情境：</h3>
+<ul>
+<li>全域設定</li>
+<li>資料庫連線</li>
+<li>快取服務</li>
+<li>隨機數生成器、雜湊函式</li>
+</ul>
+<h3 id="🧠-使用方式：">🧠 使用方式：</h3>
+<pre><code class="highlight C#">services.AddSingleton&lt;IMyService, MyService&gt;();</code></pre>
+<h3 id="👍-優點：">👍 優點：</h3>
+<ul>
+<li>只建立一次，效能佳、記憶體使用少</li>
+<li>適用於無狀態或全域狀態一致的服務</li>
+</ul>
+<h3 id="⚠️-注意事項">⚠️ 注意事項 :</h3>
+<ul>
+<li>實例不能被替換</li>
+<li>不適用於每次請求需不同狀態的服務</li>
+</ul>
+<h2 id="📦-Scoped：作用域生命週期">📦 Scoped：作用域生命週期</h2>
+<h3 id="✅-適用情境：-t2">✅ 適用情境：</h3>
+<ul>
+<li>驗證與授權服務</li>
+<li>與 HTTP Request 綁定的服務（如使用者上下文）</li>
+</ul>
+<h3 id="🧠-使用方式：-t2">🧠 使用方式：</h3>
+<pre><code class="highlight C#">services.AddScoped&lt;IMyService, MyService&gt;();</code></pre>
+<h3 id="👍-優點：-t2">👍 優點：</h3>
+<ul>
+<li>每個 HTTP Request 都會使用同一實例</li>
+<li>可安全操作與 Request 綁定的狀態</li>
+</ul>
+<h3 id="⚠️-注意事項-t2">⚠️ 注意事項 :</h3>
+<ul>
+<li>效能可能略低於 Singleton</li>
+<li>避免跨作用域存取（例如注入到 Singleton 裡）</li>
+</ul>
+<h2 id="✨-Transient：瞬時生命週期">✨ Transient：瞬時生命週期</h2>
+<h3 id="✅-適用情境：-t3">✅ 適用情境：</h3>
+<ul>
+<li>每次都要獲得新資料的服務</li>
+<li>無需維持狀態的元件</li>
+</ul>
+<h3 id="🧠-使用方式：-t3">🧠 使用方式：</h3>
+<pre><code class="highlight C#">services.AddTransient&lt;IMyService, MyService&gt;();</code></pre>
+<h3 id="👍-優點：-t3">👍 優點：</h3>
+<ul>
+<li>每次使用都會建立新實例，資料最新</li>
+<li>不會產生跨請求污染問題</li>
+</ul>
+<h3 id="⚠️-不建議用於">⚠️ 不建議用於 :</h3>
+<ul>
+<li>資料庫連線、設定、快取等需要長時間共用資源的服務</li>
+</ul>
+<h2 id="💡-實例範例：比較三種生命週期">💡 實例範例：比較三種生命週期</h2>
+<p><code>ISampleService.cs</code></p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ISampleService</span>
+&#123;
+    <span class="function"><span class="built_in">string</span> <span class="title">GetId</span>()</span>;
+&#125;</code></pre>
+<p><code>SampleService</code></p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SampleService</span> : <span class="title">ISampleService</span>
+&#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="built_in">string</span> _Id;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">SampleService</span>()</span>
+    &#123;
+       _Id = Guid.NewGuid().ToString();
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">GetId</span>()</span>
+    &#123;
+        <span class="keyword">return</span> _Id;
+    &#125;
+&#125;</code></pre>
+<p><code>SampleController.cs</code></p>
+<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
+[<span class="meta">ApiController</span>]
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SampleController</span> : <span class="title">ControllerBase</span>
+&#123;
+    <span class="comment">// 注入三種不同生命週期的服務</span>
+    <span class="keyword">private</span> <span class="keyword">readonly</span> ISampleService _singletonService;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> ISampleService _scopedService;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> ISampleService _transientService;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">SampleController</span>(<span class="params">[FromServices] ISampleService singletonService,</span></span>
+<span class="params"><span class="function">                            [FromServices] ISampleService scopedService,</span></span>
+<span class="params"><span class="function">                            [FromServices] ISampleService transientService</span>)</span>
+    &#123;
+        <span class="comment">// 賦值給私有字段</span>
+        _singletonService = singletonService;
+        _scopedService = scopedService;
+        _transientService = transientService;
+    &#125;
+
+    [<span class="meta">HttpGet</span>]
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Get</span>()</span>
+    &#123;
+        <span class="comment">// 獲取服務的標識符</span>
+        <span class="keyword">var</span> singletonId = _singletonService.GetId();
+        <span class="keyword">var</span> scopedId = _scopedService.GetId();
+        <span class="keyword">var</span> transientId = _transientService.GetId();
+
+        <span class="comment">// 返回結果</span>
+        <span class="keyword">return</span> Ok(<span class="keyword">new</span>
+        &#123;
+            Singleton = singletonId,
+            Scoped = scopedId,
+            Transient = transientId
+        &#125;);
+    &#125;
+&#125;</code></pre>
+<p><code>回傳範例</code></p>
+<pre><code class="highlight json"><span class="punctuation">&#123;</span>
+  <span class="attr">&quot;singleton&quot;</span><span class="punctuation">:</span> <span class="string">&quot;c17f2227-53b6-4689-8c4a-79b7955a6ff9&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;scoped&quot;</span><span class="punctuation">:</span> <span class="string">&quot;e95824da-a8f1-4bdf-9d73-d1036290cc44&quot;</span><span class="punctuation">,</span>
+  <span class="attr">&quot;transient&quot;</span><span class="punctuation">:</span> <span class="string">&quot;98e79f60-a51c-4142-906e-756200e3f6fe&quot;</span>
+<span class="punctuation">&#125;</span></code></pre>
+<h2 id="📚-參考及延伸">📚 參考及延伸</h2>
+<p><a target="_blank" rel="noopener" href="https://medium.com/@atailin.work/%E9%90%B5%E4%BA%BA%E8%B3%BD-asp-net-core-3-day04-%E4%BE%9D%E8%B3%B4%E6%B3%A8%E5%85%A5-dependency-injection-10cf9651b544">鐵人賽 ASP.NET Core 3 Day04 依賴注入 (Dependency Injection)</a><br>
+<a target="_blank" rel="noopener" href="https://marcus116.blogspot.com/2019/04/netcore-aspnet-core-di-lifetime.html">ASP.NET Core DI 生命週期 LifeTime</a><br>
+<a target="_blank" rel="noopener" href="https://hackmd.io/@rgnkud/ByL9DP5op">依賴注入(DI)在容器中服務的生命週期</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1804,212 +2050,6 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 <h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010517791?srsltid=AfmBOoqFrQZp9GsdBk5fTNGzq01OkJ2O4TBNwF0sK7VWkoij1MlNaG1X">LPI Linux 第一級資格檢定 第三版</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/05/tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/05/tree/" class="post-title-link" itemprop="url">樹狀資料</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-02-05 16:07:19" itemprop="dateCreated datePublished" datetime="2025-02-05T16:07:19+08:00">2025-02-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:14" itemprop="dateModified" datetime="2025-04-25T10:52:14+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><img src="/images/tree_data_structure.jpg" alt="tree_data_structure.jpg"></p>
-<h2 id="樹狀結構介紹">樹狀結構介紹</h2>
-<ul>
-<li>Node : 樹的基本單位，紀錄節點資料與子節點有哪些</li>
-<li>Root Node : 根節點，樹的最高節點</li>
-<li>Leaf Node : 葉節點，沒有子節點的節點</li>
-<li>Edge : 連接兩個節點的線，表示節點之間的關係</li>
-<li>Parent Node : 父節點(上層節點)，一個節點只會有一個父節點</li>
-<li>Child Node : 子節點，一個節點可以連結多個子節點</li>
-<li>Sibling Node : 兄弟節點，有相同父節點的節點</li>
-<li>Depth : 從根節點到該節點的路徑長度</li>
-<li>Height : 該節點到最遠葉節點的路徑長度</li>
-<li>Level : 節點層次</li>
-<li>Subtree : 某節點的所有子節點後代</li>
-</ul>
-<h2 id="樹的種類">樹的種類</h2>
-<ol>
-<li>二元樹 (Binary Tree)
-<ul>
-<li>一個節點最多兩個子節點</li>
-</ul>
-</li>
-<li>二元搜尋樹 (Binary Search Tree, BST)
-<ul>
-<li>左子樹所有節點值小於根節點值</li>
-<li>右子樹所有節點值大於根節點值</li>
-</ul>
-</li>
-<li>平衡樹 (Balanced Tree)</li>
-<li>滿二元樹 (Full Binary Tree)</li>
-<li>完全二元樹 (Complete Binary Tree)</li>
-<li>B 樹 (B-Tree)</li>
-<li>堆積 (Heap)</li>
-<li>字典樹 (Trie)</li>
-</ol>
-<h2 id="樹的遍歷-Traversal">樹的遍歷(Traversal)</h2>
-<ol>
-<li>深度優先遍歷 (Depth-First Search, DFS)
-<ul>
-<li>先訪問子節點，再訪問兄弟節點</li>
-<li>3 種遍歷方法
-<ul>
-<li>前序遍歷 (Pre-order)</li>
-<li>中序遍歷 (In-order)</li>
-<li>後續遍歷 (Post-order)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>廣度優先遍歷 (Breadth-First Search, BFS)
-<ul>
-<li>階層遍歷，一層一層從左到右</li>
-</ul>
-</li>
-</ol>
-<h2 id="相關實作-C">相關實作(C#)</h2>
-<pre><code class="highlight C#"><span class="comment">// 節點</span>
-<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TreeNode</span>
-&#123;
-    <span class="keyword">public</span> <span class="built_in">int</span> val;
-    <span class="keyword">public</span> TreeNode left;
-    <span class="keyword">public</span> TreeNode right;
-    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span>(<span class="params"><span class="built_in">int</span> val = <span class="number">0</span>, TreeNode left = <span class="literal">null</span>, TreeNode right = <span class="literal">null</span></span>)</span>
-    &#123;
-        <span class="keyword">this</span>.val = val;
-        <span class="keyword">this</span>.left = left;
-        <span class="keyword">this</span>.right = right;
-    &#125;
-&#125;
-
-<span class="comment">// 深度優先遍歷 (Depth-First Search, DFS)</span>
-<span class="comment">// 前序遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PreorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-    Console.Write(root.val + <span class="string">&quot; &quot;</span>) <span class="comment">// 訪問節點</span>
-    PreorderTraversal(root.left); <span class="comment">// 遞迴訪問左子樹</span>
-    PreorderTraversal(root.right); <span class="comment">// 遞迴訪問右子樹</span>
-&#125;
-
-<span class="comment">// 中序遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">InorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-    InorderTraversal(root.left);    <span class="comment">// 遞迴遍歷左子樹</span>
-    Console.Write(root.val + <span class="string">&quot; &quot;</span>);  <span class="comment">// 訪問節點</span>
-    InorderTraversal(root.right);   <span class="comment">// 遞迴遍歷右子樹</span>
-&#125;
-
-<span class="comment">// 後序遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PostorderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-    PostorderTraversal(root.left);   <span class="comment">// 遞迴遍歷左子樹</span>
-    PostorderTraversal(root.right);  <span class="comment">// 遞迴遍歷右子樹</span>
-    Console.Write(root.val + <span class="string">&quot; &quot;</span>);   <span class="comment">// 訪問節點</span>
-&#125;
-
-<span class="comment">// 廣度優先遍歷 (Breadth-First Search, BFS)</span>
-<span class="comment">// 階層遍歷</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LevelOrderTraversal</span>(<span class="params">TreeNode root</span>)</span>
-&#123;
-    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;
-
-    Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> Queue&lt;TreeNode&gt;();
-    queue.Enqueue(root);
-
-    <span class="keyword">while</span> (queue.Count &gt; <span class="number">0</span>)
-    &#123;
-        TreeNode node = queue.Dequeue();
-        Console.Write(node.val + <span class="string">&quot; &quot;</span>);
-
-        <span class="keyword">if</span> (node.left != <span class="literal">null</span>) queue.Enqueue(node.left);
-        <span class="keyword">if</span> (node.right != <span class="literal">null</span>) queue.Enqueue(node.right);
-    &#125;
-&#125;</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://medium.com/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/%E5%9F%BA%E7%A4%8E%E6%BC%94%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-tree-%E6%A8%B9%E7%8B%80%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-d10fe8ac1ce2">基礎演算法系列 — Tree 樹狀資料結構</a></li>
-<li><a target="_blank" rel="noopener" href="https://chat.deepseek.com/">Deepseek</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/data_structures_algorithms/tree_data_structure.htm">Tree Data Structure</a></li>
 </ul>
 
       
