@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -184,6 +184,191 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/02/13/linuxSysArc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/02/13/linuxSysArc/" class="post-title-link" itemprop="url">系統架構</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-02-13 09:24:48" itemprop="dateCreated datePublished" datetime="2025-02-13T09:24:48+08:00">2025-02-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:50:14" itemprop="dateModified" datetime="2025-04-25T10:50:14+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="BIOS">BIOS</h2>
+<h3 id="基本輸入輸出系統-Basic-Input-Output-System">基本輸入輸出系統(Basic Input/Output System)</h3>
+<p>主要作用為<code>將系統硬體帶到可以準備交給作業系統的狀態</code>，通常包含下列步驟:</p>
+<ul>
+<li>系統初始化</li>
+<li>測試記憶體與其他周邊</li>
+<li>檢測儲存裝置</li>
+<li>在數個儲存裝置之間找出作業系統的起始點</li>
+</ul>
+<p>且提供操作介面，供使用者設定系統的低階參數、選擇開機裝置、配置系統資源等等。</p>
+<h3 id="日期與時間">日期與時間</h3>
+<p>BIOS 的主要功能之一是<code>管理主機板內建的硬體時鐘</code>。<br>
+<code>作業系統本身也有設定硬體時鐘的能力</code>，可以依靠精準的外部較時參考來源(ex: NTPD 伺服器)來保持硬體時鐘的精準。</p>
+<h3 id="磁碟與開機裝置">磁碟與開機裝置</h3>
+<p>BIOS 設定工具中其中一項重要功能就是<code>開機裝置的選擇</code>。<br>
+大多數 PC 至少支援三種開機媒體</p>
+<ul>
+<li>內接式硬碟(IDE 或 SCSI 或 SATA，或三者皆是)</li>
+<li>光碟機(同上)</li>
+<li>軟碟機</li>
+</ul>
+<h3 id="運用-proc-檔案系統">運用/proc 檔案系統</h3>
+<p>/proc 檔案系統 (核心的運作狀態庫)目錄下的 interrupts、dma、ioports 三個檔案，提供目前系統資源的使用狀況</p>
+<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/interrupts</code></pre>
+<p><img src="/images/linuxSysArc/proc_interrupts.png" alt="interrupts.png"></p>
+<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/dma</code></pre>
+<p><img src="/images/linuxSysArc/proc_dma.png" alt="interrupts.png"></p>
+<pre><code class="highlight bash"><span class="built_in">cat</span> /proc/ioports</code></pre>
+<p><img src="/images/linuxSysArc/proc_ioports.png" alt="interrupts.png"></p>
+<h2 id="USB">USB</h2>
+<h3 id="USB-拓樸邏輯">USB 拓樸邏輯</h3>
+<p>電腦主機與 USB 裝置之間，是透過<code>集線器(HUB)</code>連接一起，構成一個樹狀結構。<br>
+使用<code>lsusb</code>指令可顯示 Linux 系統上所有 USB 裝置的實際連接方式。</p>
+<p><img src="/images/linuxSysArc/lsusb.png" alt="lsusb.png"></p>
+<h3 id="USB-控制器">USB 控制器</h3>
+<p>主要分成 4 種類型</p>
+<ul>
+<li>開放型主控界面 ( Open Host Controller Interface , OHCI )</li>
+<li>通用型主控界面 ( Universal Host Controller Interface , UJCI )</li>
+<li>強化型主控界面 ( Enhanced Host Controller Interface , EHCI )</li>
+<li>擴充型主控界面 ( eXtented Host Controller Interface , xHCI )</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>規格</th>
+<th>控制器</th>
+<th>傳輸速率</th>
+<th>向下相容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB1.1</td>
+<td>OHCI、UHCI</td>
+<td>12Mbps</td>
+<td>否</td>
+</tr>
+<tr>
+<td>USB2.0</td>
+<td>EHCI</td>
+<td>480Mbps</td>
+<td>否</td>
+</tr>
+<tr>
+<td>USB3.0</td>
+<td>xHCI</td>
+<td>5Gbps</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<h3 id="USB-裝置">USB 裝置</h3>
+<ul>
+<li>人機界面裝置 ( Human Interface Device , HID)<br>
+輸入裝置 (滑鼠、鍵盤…等等)</li>
+<li>通訊裝置<br>
+數據機</li>
+<li>大量儲存裝置<br>
+磁碟機、讀卡機…等</li>
+<li>音訊<br>
+揚聲器、音效裝置</li>
+<li>IrDA<br>
+紅外線裝置</li>
+<li>印表機<br>
+印表機以及 USB-to-parallel 轉換器</li>
+</ul>
+<h3 id="USB-驅動程式">USB 驅動程式</h3>
+<p><code>Linux 核心 2.0.x 以及更早版本，不支援 USB</code></p>
+<p>主要分成三大類</p>
+<ol>
+<li>主控器驅動程式</li>
+<li>通類驅動程式</li>
+<li>雜項裝置驅動程式</li>
+</ol>
+<h3 id="USB-熱插拔">USB 熱插拔</h3>
+<p>模組化的 USB 驅動程式，是藉由核心對於/sbin/hotplug 的通用支援機制來載入</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010517791?srsltid=AfmBOoqFrQZp9GsdBk5fTNGzq01OkJ2O4TBNwF0sK7VWkoij1MlNaG1X">LPI Linux 第一級資格檢定 第三版</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1782,186 +1967,6 @@ for 的程式碼較簡潔、while 的迴圈控制較靈活</li>
 <li><a target="_blank" rel="noopener" href="https://brotato.wiki.spellsandguns.com/Brotato_Wiki">https://brotato.wiki.spellsandguns.com/Brotato_Wiki</a></li>
 <li><a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1-c33h4oZwmWj3ZOz4xp0HN4vIyMXxOwGK8Rm8e4mfKE/edit?tab=t.0#heading=h.dvp9r7tx7asm">https://docs.google.com/document/d/1-c33h4oZwmWj3ZOz4xp0HN4vIyMXxOwGK8Rm8e4mfKE/edit?tab=t.0#heading=h.dvp9r7tx7asm</a></li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/11/20/imemorycahce/" class="post-title-link" itemprop="url">C# 資料快取</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-11-20 15:07:58" itemprop="dateCreated datePublished" datetime="2024-11-20T15:07:58+08:00">2024-11-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:49:34" itemprop="dateModified" datetime="2025-04-25T10:49:34+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="概述">概述</h2>
-<p>有時候一些大型資料且異動少的資料<br>
-每次使用就要從資料重新撈取就很浪費效能資源<br>
-這個時候就是快取出場的時候</p>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight powershell">dotnet add package Microsoft.Extensions.Caching.Memory</code></pre>
-<h2 id="Extensions-cs">Extensions.cs</h2>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddExtension</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services</span>)</span>
-&#123;
-    services.AddMemoryCache();
-    <span class="comment">// services.AddScoped&lt;CacheHelper&gt;(); //如果有使用整合工具類</span>
-&#125;</code></pre>
-<h2 id="Usage">Usage</h2>
-<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
- [<span class="meta">ApiController</span>]
- <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DataController</span> : <span class="title">ControllerBase</span>
- &#123;
-     <span class="keyword">private</span> <span class="keyword">readonly</span> DataBaseService dataBaseService;
-     <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache memoryCache;
-
-     <span class="function"><span class="keyword">public</span> <span class="title">DataController</span>(<span class="params">DataBaseService dataBaseService, IMemoryCache memoryCache</span>)</span>
-     &#123;
-         <span class="keyword">this</span>.memoryCache = memoryCache;
-         <span class="keyword">this</span>.dataBaseService = dataBaseService;
-     &#125;
-
-     [<span class="meta">HttpGet(<span class="string">&quot;/search&quot;</span>)</span>]
-     <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Search</span>(<span class="params"><span class="built_in">string</span> keyword</span>)</span>
-     &#123;
-        <span class="comment">// 從記憶體快取查看是否存在，沒再去資料庫撈資料並儲存快取</span>
-         <span class="keyword">if</span> (memoryCache.TryGetValue(<span class="string">&quot;MainDataCache&quot;</span>, <span class="keyword">out</span> List&lt;Prs006&gt; dataList))
-         &#123;
-             <span class="keyword">var</span> result = dataList?
-                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
-                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
-
-             <span class="keyword">return</span> Ok(result);
-         &#125;
-         <span class="keyword">else</span>
-         &#123;
-             <span class="keyword">var</span> dbData = <span class="keyword">await</span> dataBaseService.GetDatas();
-             <span class="comment">//寫入記憶體儲存，一天後自動過期</span>
-             memoryCache.Set(<span class="string">&quot;MainDataCache&quot;</span>, dbData, TimeSpan.FromDays(<span class="number">1</span>));
-
-             <span class="keyword">var</span> result = dbData?
-                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
-                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
-
-             <span class="keyword">return</span> Ok(result);
-         &#125;
-     &#125;</code></pre>
-<h2 id="CacheHelper-cs-Optional">CacheHelper.cs(Optional)</h2>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CacheHelper</span>
-&#123;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
-
-    <span class="function"><span class="keyword">public</span> <span class="title">CacheHelper</span>(<span class="params">IMemoryCache cache</span>)</span>
-    &#123;
-        <span class="keyword">this</span>.cache = cache;
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Set</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire = <span class="number">300</span></span>)</span>
-    &#123;
-        <span class="keyword">var</span> options = <span class="keyword">new</span> MemoryCacheEntryOptions
-        &#123;
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expire),
-        &#125;;
-        cache.Set(key, <span class="keyword">value</span>, options);
-    &#125;
-
-    <span class="keyword">public</span> T? Get&lt;T&gt;(<span class="built_in">string</span> key)
-    &#123;
-        cache.TryGetValue&lt;T&gt;(key, <span class="keyword">out</span> <span class="keyword">var</span> <span class="keyword">value</span>);
-        <span class="keyword">return</span> <span class="keyword">value</span>;
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Remove</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
-    &#123;
-        cache.Remove(key);
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Update</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire</span>)</span>
-    &#123;
-        cache.Remove(key);
-        Set&lt;T&gt;(key, <span class="keyword">value</span>, expire);
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">Contains</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
-    &#123;
-        <span class="keyword">return</span> cache.TryGetValue(key, <span class="keyword">out</span> _);
-    &#125;
-&#125;</code></pre>
 
       
     </div>

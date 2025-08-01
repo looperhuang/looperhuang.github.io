@@ -19,28 +19,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="概述 有時候一些大型資料且異動少的資料 每次使用就要從資料重新撈取就很浪費效能資源 這個時候就是快取出場的時候 Install dotnet add package Microsoft.Extensions.Caching.Memory Extensions.cs public static void AddExtension(this IServiceCollection services) &amp;">
+    <meta name="description" content="簡單記錄一下前端加密實用的工具 CryptoJS。 這是一個功能齊全的 JavaScript 加密套件，支援多種加密與雜湊演算法，使用上也非常直覺。 🔧 安裝 npm i crypto-js 若使用 TypeScript，建議額外安裝型別定義 npm i @types&#x2F;crypto-js 📦 引用方式 你可以選擇引入整個套件，或是只引入你需要的模組： &#x2F;&#x2F; 引入整包 import Crypto">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C# 資料快取">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/20/imemorycahce/index.html">
+<meta property="og:title" content="CryptoJS 前端加密工具筆記">
+<meta property="og:url" content="https://looperhuang.github.io/2025/08/01/cryptojs/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="概述 有時候一些大型資料且異動少的資料 每次使用就要從資料重新撈取就很浪費效能資源 這個時候就是快取出場的時候 Install dotnet add package Microsoft.Extensions.Caching.Memory Extensions.cs public static void AddExtension(this IServiceCollection services) &amp;">
+<meta property="og:description" content="簡單記錄一下前端加密實用的工具 CryptoJS。 這是一個功能齊全的 JavaScript 加密套件，支援多種加密與雜湊演算法，使用上也非常直覺。 🔧 安裝 npm i crypto-js 若使用 TypeScript，建議額外安裝型別定義 npm i @types&#x2F;crypto-js 📦 引用方式 你可以選擇引入整個套件，或是只引入你需要的模組： &#x2F;&#x2F; 引入整包 import Crypto">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-11-20T07:07:58.000Z">
-<meta property="article:modified_time" content="2025-04-25T02:49:34.215Z">
+<meta property="article:published_time" content="2025-08-01T01:47:19.000Z">
+<meta property="article:modified_time" content="2025-08-01T02:14:14.710Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="C#">
-<meta property="article:tag" content="Cache">
+<meta property="article:tag" content="加密">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/08/01/cryptojs/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/20/imemorycahce/","path":"2024/11/20/imemorycahce/","title":"C# 資料快取"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/08/01/cryptojs/","path":"2025/08/01/cryptojs/","title":"CryptoJS 前端加密工具筆記"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>C# 資料快取 | Looper's Blog</title>
+<title>CryptoJS 前端加密工具筆記 | Looper's Blog</title>
   
 
 
@@ -140,7 +139,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install"><span class="nav-number">2.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Extensions-cs"><span class="nav-number">3.</span> <span class="nav-text">Extensions.cs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage"><span class="nav-number">4.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CacheHelper-cs-Optional"><span class="nav-number">5.</span> <span class="nav-text">CacheHelper.cs(Optional)</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%A7-%E5%AE%89%E8%A3%9D"><span class="nav-number">1.</span> <span class="nav-text">🔧 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%A6-%E5%BC%95%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">📦 引用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%90-%E5%B8%B8%E7%94%A8%E5%8A%9F%E8%83%BD%E8%88%87%E7%AF%84%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">🔐 常用功能與範例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AES-%E5%8A%A0%E5%AF%86-%E8%A7%A3%E5%AF%86"><span class="nav-number">3.1.</span> <span class="nav-text">AES 加密 &#x2F; 解密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Base64-%E7%B7%A8%E7%A2%BC-%E8%A7%A3%E7%A2%BC"><span class="nav-number">3.2.</span> <span class="nav-text">Base64 編碼 &#x2F; 解碼</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E6%94%AF%E6%8F%B4%E7%9A%84%E5%8A%A0%E5%AF%86%E8%88%87%E9%9B%9C%E6%B9%8A%E6%BC%94%E7%AE%97%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">📚 支援的加密與雜湊演算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%BE-%E5%82%99%E8%A8%BB"><span class="nav-number">5.</span> <span class="nav-text">🧾 備註</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%94%8D-%E9%81%A9%E7%94%A8%E6%83%85%E5%A2%83"><span class="nav-number">5.1.</span> <span class="nav-text">🔍 適用情境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9D%8C-%E4%B8%8D%E5%BB%BA%E8%AD%B0%E4%BD%BF%E7%94%A8%E6%83%85%E5%A2%83"><span class="nav-number">5.2.</span> <span class="nav-text">❌ 不建議使用情境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%8C-%E5%8F%83%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">📌 參考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,7 +200,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/08/01/cryptojs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -214,12 +213,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="C# 資料快取 | Looper's Blog">
+      <meta itemprop="name" content="CryptoJS 前端加密工具筆記 | Looper's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C# 資料快取
+          CryptoJS 前端加密工具筆記
         </h1>
 
         <div class="post-meta-container">
@@ -229,15 +228,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2024-11-20 15:07:58" itemprop="dateCreated datePublished" datetime="2024-11-20T15:07:58+08:00">2024-11-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:49:34" itemprop="dateModified" datetime="2025-04-25T10:49:34+08:00">2025-04-25</time>
+      <time title="創建時間：2025-08-01 09:47:19 / 修改時間：10:14:14" itemprop="dateCreated datePublished" datetime="2025-08-01T09:47:19+08:00">2025-08-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -245,7 +238,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
         </span>
     </span>
 
@@ -258,102 +251,77 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="概述">概述</h2>
-<p>有時候一些大型資料且異動少的資料<br>
-每次使用就要從資料重新撈取就很浪費效能資源<br>
-這個時候就是快取出場的時候</p>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight powershell">dotnet add package Microsoft.Extensions.Caching.Memory</code></pre>
-<h2 id="Extensions-cs">Extensions.cs</h2>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddExtension</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services</span>)</span>
-&#123;
-    services.AddMemoryCache();
-    <span class="comment">// services.AddScoped&lt;CacheHelper&gt;(); //如果有使用整合工具類</span>
-&#125;</code></pre>
-<h2 id="Usage">Usage</h2>
-<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
- [<span class="meta">ApiController</span>]
- <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DataController</span> : <span class="title">ControllerBase</span>
- &#123;
-     <span class="keyword">private</span> <span class="keyword">readonly</span> DataBaseService dataBaseService;
-     <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache memoryCache;
+    <div class="post-body" itemprop="articleBody"><p>簡單記錄一下前端加密實用的工具 <strong>CryptoJS</strong>。<br>
+這是一個功能齊全的 JavaScript 加密套件，支援多種加密與雜湊演算法，使用上也非常直覺。</p>
+<h2 id="🔧-安裝">🔧 安裝</h2>
+<pre><code class="highlight bash">npm i crypto-js</code></pre>
+<p>若使用 TypeScript，建議額外安裝型別定義</p>
+<pre><code class="highlight bash">npm i @types/crypto-js</code></pre>
+<h2 id="📦-引用方式">📦 引用方式</h2>
+<p>你可以選擇引入整個套件，或是只引入你需要的模組：</p>
+<pre><code class="highlight ts"><span class="comment">// 引入整包</span>
+<span class="keyword">import</span> <span class="title class_">CryptoJS</span> <span class="keyword">from</span> <span class="string">&quot;crypto-js&quot;</span>;
 
-     <span class="function"><span class="keyword">public</span> <span class="title">DataController</span>(<span class="params">DataBaseService dataBaseService, IMemoryCache memoryCache</span>)</span>
-     &#123;
-         <span class="keyword">this</span>.memoryCache = memoryCache;
-         <span class="keyword">this</span>.dataBaseService = dataBaseService;
-     &#125;
+<span class="comment">// 只引入 AES 模組</span>
+<span class="keyword">import</span> <span class="variable constant_">AES</span> <span class="keyword">from</span> <span class="string">&quot;crypto-js/aes&quot;</span>;
+<span class="comment">// 只引入 SHA256 模組</span>
+<span class="keyword">import</span> <span class="title class_">SHA256</span> <span class="keyword">from</span> <span class="string">&quot;crypto-js/sha256&quot;</span>;</code></pre>
+<p>建議只引入需要的模組以減少打包大小。</p>
+<h2 id="🔐-常用功能與範例">🔐 常用功能與範例</h2>
+<h3 id="AES-加密-解密">AES 加密 / 解密</h3>
+<pre><code class="highlight ts"><span class="keyword">import</span> <span class="variable constant_">AES</span> <span class="keyword">from</span> <span class="string">&quot;crypto-js/aes&quot;</span>;
+<span class="keyword">import</span> <span class="title class_">Utf8</span> <span class="keyword">from</span> <span class="string">&quot;crypto-js/enc-utf8&quot;</span>;
 
-     [<span class="meta">HttpGet(<span class="string">&quot;/search&quot;</span>)</span>]
-     <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Search</span>(<span class="params"><span class="built_in">string</span> keyword</span>)</span>
-     &#123;
-        <span class="comment">// 從記憶體快取查看是否存在，沒再去資料庫撈資料並儲存快取</span>
-         <span class="keyword">if</span> (memoryCache.TryGetValue(<span class="string">&quot;MainDataCache&quot;</span>, <span class="keyword">out</span> List&lt;Prs006&gt; dataList))
-         &#123;
-             <span class="keyword">var</span> result = dataList?
-                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
-                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
+<span class="comment">// 使用密鑰</span>
+<span class="keyword">const</span> secret = <span class="string">&quot;my-secret-key&quot;</span>; <span class="comment">// 密鑰建議使用 .env 檔案保存</span>
+<span class="comment">// const secret = import.meta.env.VITE_CRYPTO_SECRET;</span>
+<span class="keyword">const</span> data = <span class="string">&quot;Hello, CryptoJS!&quot;</span>;
 
-             <span class="keyword">return</span> Ok(result);
-         &#125;
-         <span class="keyword">else</span>
-         &#123;
-             <span class="keyword">var</span> dbData = <span class="keyword">await</span> dataBaseService.GetDatas();
-             <span class="comment">//寫入記憶體儲存，一天後自動過期</span>
-             memoryCache.Set(<span class="string">&quot;MainDataCache&quot;</span>, dbData, TimeSpan.FromDays(<span class="number">1</span>));
+<span class="comment">// 加密</span>
+<span class="keyword">const</span> encrypted = <span class="variable constant_">AES</span>.<span class="title function_">encrypt</span>(data, secret).<span class="title function_">toString</span>();
+<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Encrypted:&quot;</span>, encrypted);
 
-             <span class="keyword">var</span> result = dbData?
-                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
-                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
+<span class="comment">// 解密</span>
+<span class="keyword">const</span> bytes = <span class="variable constant_">AES</span>.<span class="title function_">decrypt</span>(encrypted, secret);
+<span class="keyword">const</span> decrypted = bytes.<span class="title function_">toString</span>(<span class="title class_">Utf8</span>);
+<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Decrypted:&quot;</span>, decrypted);</code></pre>
+<h3 id="Base64-編碼-解碼">Base64 編碼 / 解碼</h3>
+<pre><code class="highlight ts"><span class="keyword">import</span> <span class="title class_">Base64</span> <span class="keyword">from</span> <span class="string">&quot;crypto-js/enc-base64&quot;</span>;
+<span class="keyword">import</span> <span class="title class_">Utf8</span> <span class="keyword">from</span> <span class="string">&quot;crypto-js/enc-utf8&quot;</span>;
 
-             <span class="keyword">return</span> Ok(result);
-         &#125;
-     &#125;</code></pre>
-<h2 id="CacheHelper-cs-Optional">CacheHelper.cs(Optional)</h2>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CacheHelper</span>
-&#123;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
+<span class="keyword">const</span> text = <span class="string">&quot;Hello, world!&quot;</span>;
+<span class="keyword">const</span> wordArray = <span class="title class_">Utf8</span>.<span class="title function_">parse</span>(text);
+<span class="keyword">const</span> encoded = <span class="title class_">Base64</span>.<span class="title function_">stringify</span>(wordArray);
+<span class="keyword">const</span> decoded = <span class="title class_">Base64</span>.<span class="title function_">parse</span>(encoded).<span class="title function_">toString</span>(<span class="title class_">Utf8</span>);
 
-    <span class="function"><span class="keyword">public</span> <span class="title">CacheHelper</span>(<span class="params">IMemoryCache cache</span>)</span>
-    &#123;
-        <span class="keyword">this</span>.cache = cache;
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Set</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire = <span class="number">300</span></span>)</span>
-    &#123;
-        <span class="keyword">var</span> options = <span class="keyword">new</span> MemoryCacheEntryOptions
-        &#123;
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expire),
-        &#125;;
-        cache.Set(key, <span class="keyword">value</span>, options);
-    &#125;
-
-    <span class="keyword">public</span> T? Get&lt;T&gt;(<span class="built_in">string</span> key)
-    &#123;
-        cache.TryGetValue&lt;T&gt;(key, <span class="keyword">out</span> <span class="keyword">var</span> <span class="keyword">value</span>);
-        <span class="keyword">return</span> <span class="keyword">value</span>;
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Remove</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
-    &#123;
-        cache.Remove(key);
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Update</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire</span>)</span>
-    &#123;
-        cache.Remove(key);
-        Set&lt;T&gt;(key, <span class="keyword">value</span>, expire);
-    &#125;
-
-    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">Contains</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
-    &#123;
-        <span class="keyword">return</span> cache.TryGetValue(key, <span class="keyword">out</span> _);
-    &#125;
-&#125;</code></pre>
+<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Encoded:&quot;</span>, encoded);
+<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Decoded:&quot;</span>, decoded);</code></pre>
+<h2 id="📚-支援的加密與雜湊演算法">📚 支援的加密與雜湊演算法</h2>
+<p>詳情可查看<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/crypto-js#list-of-modules">List of modules</a></p>
+<ul>
+<li>雜湊：MD5、SHA1、SHA256、SHA512、RIPEMD160 等</li>
+<li>加密：AES、DES、TripleDES、Rabbit、RC4</li>
+<li>編碼：Base64、Hex、Utf8、Latin1 等</li>
+</ul>
+<h2 id="🧾-備註">🧾 備註</h2>
+<h3 id="🔍-適用情境">🔍 適用情境</h3>
+<ul>
+<li>加密 localStorage、cookie、URL 參數等</li>
+<li>使用 SHA256 等雜湊演算法前處理資料</li>
+<li>前端傳送加密資訊給後端（再由後端解密驗證）</li>
+</ul>
+<h3 id="❌-不建議使用情境">❌ 不建議使用情境</h3>
+<ul>
+<li>金鑰管理（前端無法保密金鑰）</li>
+<li>加密極機密資料（應交由後端）</li>
+<li>敏感身份驗證與權限控管</li>
+</ul>
+<h2 id="📌-參考">📌 參考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/brix/crypto-js">CryptoJS GitHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://cryptojs.gitbook.io/docs">CryptoJS 官方文件</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.letswrite.tw/crypto-js/">CryptoJS 用前端加密、解密</a></li>
+</ul>
 
     </div>
 
@@ -363,22 +331,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/C/" rel="tag"># C#</a>
-              <a href="/tags/Cache/" rel="tag"># Cache</a>
+              <a href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag"># 加密</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/19/winscp/" rel="prev" title="C# 使用Winscp上傳檔案">
-                  <i class="fa fa-angle-left"></i> C# 使用Winscp上傳檔案
+                <a href="/2025/06/30/di-lifecycle/" rel="prev" title="DI 生命週期（LifeTime）筆記">
+                  <i class="fa fa-angle-left"></i> DI 生命週期（LifeTime）筆記
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/11/26/brotato/" rel="next" title="Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻)">
-                  Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻) <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
