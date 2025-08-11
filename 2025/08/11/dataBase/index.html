@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LHBlog.svg">
+  <link rel="mask-icon" href="/images/LHBlog.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="1. 關聯式資料庫基本元素  表格 (Relation &#x2F; Table)：由列與欄組成。 列 (Tuple &#x2F; Row)：一筆資料。 欄 (Attribute &#x2F; Column)：資料屬性。 主鍵 (Primary Key)：唯一識別一筆資料的欄位（或欄位組合）。 外鍵 (Foreign Key)：參考另一張表主鍵的欄位，用來建立關聯。  2. 關係類型  一對一 (1:1) 例：人 ↔ 身份證">
+<meta property="og:type" content="article">
+<meta property="og:title" content="資料庫理論筆記">
+<meta property="og:url" content="https://looperhuang.github.io/2025/08/11/dataBase/index.html">
+<meta property="og:site_name" content="Looper&#39;s Blog">
+<meta property="og:description" content="1. 關聯式資料庫基本元素  表格 (Relation &#x2F; Table)：由列與欄組成。 列 (Tuple &#x2F; Row)：一筆資料。 欄 (Attribute &#x2F; Column)：資料屬性。 主鍵 (Primary Key)：唯一識別一筆資料的欄位（或欄位組合）。 外鍵 (Foreign Key)：參考另一張表主鍵的欄位，用來建立關聯。  2. 關係類型  一對一 (1:1) 例：人 ↔ 身份證">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-08-11T00:07:50.000Z">
+<meta property="article:modified_time" content="2025-08-11T00:11:43.292Z">
+<meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="基礎">
+<meta property="article:tag" content="資料庫">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://looperhuang.github.io/2025/08/11/dataBase/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/08/11/dataBase/","path":"2025/08/11/dataBase/","title":"資料庫理論筆記"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>資料庫理論筆記 | Looper's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Looper's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一個菜鳥工程師</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%97%9C%E8%81%AF%E5%BC%8F%E8%B3%87%E6%96%99%E5%BA%AB%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0"><span class="nav-number">1.</span> <span class="nav-text">1. 關聯式資料庫基本元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%97%9C%E4%BF%82%E9%A1%9E%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">2. 關係類型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E6%AD%A3%E8%A6%8F%E5%8C%96%EF%BC%88Normalization%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">3. 為什麼要正規化（Normalization）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%AD%A3%E8%A6%8F%E5%8C%96%E6%AD%A5%E9%A9%9F"><span class="nav-number">4.</span> <span class="nav-text">4. 正規化步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1NF%EF%BC%88%E7%AC%AC%E4%B8%80%E6%AD%A3%E8%A6%8F%E5%8C%96%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">1NF（第一正規化）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2NF%EF%BC%88%E7%AC%AC%E4%BA%8C%E6%AD%A3%E8%A6%8F%E5%8C%96%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">2NF（第二正規化）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3NF%EF%BC%88%E7%AC%AC%E4%B8%89%E6%AD%A3%E8%A6%8F%E5%8C%96%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">3NF（第三正規化）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%BA%A4%E6%98%93%EF%BC%88Transaction%EF%BC%89%E8%88%87-ACID-%E7%89%B9%E6%80%A7"><span class="nav-number">5.</span> <span class="nav-text">5. 交易（Transaction）與 ACID 特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%BA%A4%E6%98%93%E9%9A%94%E9%9B%A2%E7%B4%9A%E5%88%A5%EF%BC%88Isolation-Levels%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">6. 交易隔離級別（Isolation Levels）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E7%B4%A2%E5%BC%95%EF%BC%88Index%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">7. 索引（Index）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E7%B4%A2%E5%BC%95%E9%A1%9E%E5%9E%8B"><span class="nav-number">7.1.</span> <span class="nav-text">常見索引類型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%84%AA%E7%BC%BA%E9%BB%9E"><span class="nav-number">7.2.</span> <span class="nav-text">索引優缺點</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%95%E6%99%82%E9%81%A9%E5%90%88%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95"><span class="nav-number">7.3.</span> <span class="nav-text">何時適合建立索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-ER-%E6%A8%A1%E5%9E%8B%EF%BC%88Entity-Relationship-Model%EF%BC%89"><span class="nav-number">8.</span> <span class="nav-text">8. ER 模型（Entity-Relationship Model）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%85%83%E7%B4%A0"><span class="nav-number">8.1.</span> <span class="nav-text">核心元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ER-%E5%9C%96%E7%AC%A6%E8%99%9F%E7%B0%A1%E8%A8%98"><span class="nav-number">8.2.</span> <span class="nav-text">ER 圖符號簡記</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ER-%E6%A8%A1%E5%9E%8B-%E2%86%92-%E9%97%9C%E8%81%AF%E6%A8%A1%E5%9E%8B%E8%BD%89%E6%8F%9B%E5%8E%9F%E5%89%87"><span class="nav-number">8.3.</span> <span class="nav-text">ER 模型 → 關聯模型轉換原則</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E7%B8%BD%E8%A4%87%E7%BF%92%E5%B0%8F%E6%B8%AC%E9%A9%97"><span class="nav-number">9.</span> <span class="nav-text">9. 總複習小測驗</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1%EF%BC%88%E9%97%9C%E8%81%AF%E5%BC%8F%E8%B3%87%E6%96%99%E5%BA%AB%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0%EF%BC%89"><span class="nav-number">9.1.</span> <span class="nav-text">Q1（關聯式資料庫基本元素）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2%EF%BC%88%E9%97%9C%E4%BF%82%E9%A1%9E%E5%9E%8B%EF%BC%89"><span class="nav-number">9.2.</span> <span class="nav-text">Q2（關係類型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3%EF%BC%88%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E6%AD%A3%E8%A6%8F%E5%8C%96%EF%BC%89"><span class="nav-number">9.3.</span> <span class="nav-text">Q3（為什麼要正規化）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q4%EF%BC%881NF-3NF%EF%BC%89"><span class="nav-number">9.4.</span> <span class="nav-text">Q4（1NF~3NF）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q5%EF%BC%88ACID-%E7%89%B9%E6%80%A7%EF%BC%89"><span class="nav-number">9.5.</span> <span class="nav-text">Q5（ACID 特性）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q6%EF%BC%88%E4%BA%A4%E6%98%93%E9%9A%94%E9%9B%A2%E7%B4%9A%E5%88%A5%EF%BC%89"><span class="nav-number">9.6.</span> <span class="nav-text">Q6（交易隔離級別）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q7%EF%BC%88%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="nav-number">9.7.</span> <span class="nav-text">Q7（索引）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q8%EF%BC%88ER-%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="nav-number">9.8.</span> <span class="nav-text">Q8（ER 模型）</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="looperhuang"
+      src="/images/LHBlog.svg">
+  <p class="site-author-name" itemprop="name">looperhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/looperhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;looperhuang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:looper841213@gmail.com" title="Gmail → mailto:looper841213@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Gmail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/08/11/dataBase/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="資料庫理論筆記 | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          資料庫理論筆記
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-08-11 08:07:50 / 修改時間：08:11:43" itemprop="dateCreated datePublished" datetime="2025-08-11T08:07:50+08:00">2025-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%B3%87%E6%96%99%E5%BA%AB/" itemprop="url" rel="index"><span itemprop="name">資料庫</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="1-關聯式資料庫基本元素">1. 關聯式資料庫基本元素</h2>
+<ul>
+<li><strong>表格 (Relation / Table)</strong>：由列與欄組成。</li>
+<li><strong>列 (Tuple / Row)</strong>：一筆資料。</li>
+<li><strong>欄 (Attribute / Column)</strong>：資料屬性。</li>
+<li><strong>主鍵 (Primary Key)</strong>：唯一識別一筆資料的欄位（或欄位組合）。</li>
+<li><strong>外鍵 (Foreign Key)</strong>：參考另一張表主鍵的欄位，用來建立關聯。</li>
+</ul>
+<h2 id="2-關係類型">2. 關係類型</h2>
+<ul>
+<li><strong>一對一 (1:1)</strong><br>
+例：人 ↔ 身份證</li>
+<li><strong>一對多 (1:N)</strong><br>
+例：老師 ↔ 課程</li>
+<li><strong>多對多 (M:N)</strong><br>
+例：學生 ↔ 課程（需用中介表實作）</li>
+</ul>
+<h2 id="3-為什麼要正規化（Normalization）">3. 為什麼要正規化（Normalization）</h2>
+<p><strong>目的</strong>：減少資料重複、避免資料異常、維持一致性。<br>
+<strong>常見異常：</strong></p>
+<ol>
+<li><strong>重複資料（Redundancy）</strong>：同樣資訊出現多次。</li>
+<li><strong>更新異常（Update Anomaly）</strong>：修改時需更新多筆資料，容易漏改。</li>
+<li><strong>刪除異常（Deletion Anomaly）</strong>：刪除資料時，意外刪掉重要資訊。</li>
+</ol>
+<p><strong>做法</strong>：將資料拆成多張表，讓每張表專注在一種實體或關係。</p>
+<h2 id="4-正規化步驟">4. 正規化步驟</h2>
+<h3 id="1NF（第一正規化）">1NF（第一正規化）</h3>
+<ul>
+<li><strong>定義</strong>：欄位必須是不可再分的原子值，不能有多值欄位。</li>
+<li><strong>例子（未正規化）</strong>：
+<table>
+<thead>
+<tr>
+<th>訂單編號</th>
+<th>客戶姓名</th>
+<th>商品名稱</th>
+<th>價格</th>
+<th>數量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>小明</td>
+<td>筆電, 滑鼠</td>
+<td>35000,500</td>
+<td>1,1</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><strong>轉換後（1NF）</strong>：
+<table>
+<thead>
+<tr>
+<th>訂單編號</th>
+<th>客戶姓名</th>
+<th>商品名稱</th>
+<th>價格</th>
+<th>數量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>小明</td>
+<td>筆電</td>
+<td>35000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>001</td>
+<td>小明</td>
+<td>滑鼠</td>
+<td>500</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h3 id="2NF（第二正規化）">2NF（第二正規化）</h3>
+<ul>
+<li><strong>定義</strong>：已符合 1NF，並且消除部分相依（非主鍵欄位必須完全依賴整個主鍵）。</li>
+<li><strong>例子（未正規化）</strong>：
+<table>
+<thead>
+<tr>
+<th>訂單編號</th>
+<th>商品名稱</th>
+<th>客戶姓名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>筆電</td>
+<td>小明</td>
+</tr>
+<tr>
+<td>001</td>
+<td>滑鼠</td>
+<td>小明</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>主鍵 = (訂單編號, 商品名稱)，但「客戶姓名」只依賴「訂單編號」。</p>
+</blockquote>
+</li>
+<li><strong>轉換後（2NF）</strong>：
+<ul>
+<li><code>訂單表</code>：訂單編號、客戶姓名</li>
+<li><code>訂單明細表</code>：訂單編號、商品名稱</li>
+</ul>
+</li>
+</ul>
+<h3 id="3NF（第三正規化）">3NF（第三正規化）</h3>
+<ul>
+<li><strong>定義</strong>：已符合 2NF，並且消除傳遞相依（非主鍵欄位不能依賴於其他非主鍵欄位）。</li>
+<li><strong>例子（未正規化）</strong>：
+<table>
+<thead>
+<tr>
+<th>客戶編號</th>
+<th>客戶姓名</th>
+<th>客戶地址</th>
+<th>郵遞區號</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C001</td>
+<td>小明</td>
+<td>台北市</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>郵遞區號依賴地址，而地址依賴主鍵 → 間接依賴主鍵。</p>
+</blockquote>
+</li>
+<li><strong>轉換後（3NF）</strong>：
+<ul>
+<li><code>客戶表</code>：客戶編號、客戶姓名、地址</li>
+<li><code>郵遞區號表</code>：地址、郵遞區號</li>
+</ul>
+</li>
+</ul>
+<p><strong>記憶小技巧</strong>：</p>
+<ul>
+<li>1NF → 原子值（No 多值欄位）</li>
+<li>2NF → 消除部分依賴</li>
+<li>3NF → 消除傳遞依賴</li>
+</ul>
+<h2 id="5-交易（Transaction）與-ACID-特性">5. 交易（Transaction）與 ACID 特性</h2>
+<p><strong>交易（Transaction）</strong>：一組資料庫操作，要嘛全部成功，要嘛全部失敗。</p>
+<p><strong>ACID 特性</strong>：</p>
+<ol>
+<li><strong>A - Atomicity（原子性）</strong>
+<ul>
+<li>交易中所有操作不可分割，要嘛全部執行，要嘛全部不執行。</li>
+</ul>
+</li>
+<li><strong>C - Consistency（一致性）</strong>
+<ul>
+<li>交易完成後，資料必須保持一致的狀態，符合所有規則與約束。</li>
+</ul>
+</li>
+<li><strong>I - Isolation（隔離性）</strong>
+<ul>
+<li>多個交易同時進行時，彼此不應互相干擾。</li>
+</ul>
+</li>
+<li><strong>D - Durability（持久性）</strong>
+<ul>
+<li>交易一旦提交，結果必須永久保留，即使系統崩潰也不能遺失。</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-交易隔離級別（Isolation-Levels）">6. 交易隔離級別（Isolation Levels）</h2>
+<ol>
+<li><strong>Read Uncommitted</strong>（讀未提交）
+<ul>
+<li>可能發生：Dirty Read（髒讀）。</li>
+</ul>
+</li>
+<li><strong>Read Committed</strong>（讀已提交）
+<ul>
+<li>避免髒讀，但可能有 Non-repeatable Read（不可重複讀）。</li>
+</ul>
+</li>
+<li><strong>Repeatable Read</strong>（可重複讀）
+<ul>
+<li>避免不可重複讀，但可能有 Phantom Read（幻讀）。</li>
+</ul>
+</li>
+<li><strong>Serializable</strong>（可序列化）
+<ul>
+<li>最高隔離，避免所有問題，但效能最低。</li>
+</ul>
+</li>
+</ol>
+<p><strong>並行問題對照表：</strong></p>
+<table>
+<thead>
+<tr>
+<th>隔離級別</th>
+<th>髒讀</th>
+<th>不可重複讀</th>
+<th>幻讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read Uncommitted</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>Read Committed</td>
+<td>✘</td>
+<td>✔</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>Repeatable Read</td>
+<td>✘</td>
+<td>✘</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>Serializable</td>
+<td>✘</td>
+<td>✘</td>
+<td>✘</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-索引（Index）">7. 索引（Index）</h2>
+<p><strong>目的</strong>：加快資料檢索速度，類似書本的目錄。<br>
+<strong>原理</strong>：建立額外的資料結構（常見為 B+ Tree 或 Hash）來快速定位資料位置。</p>
+<h3 id="常見索引類型">常見索引類型</h3>
+<ol>
+<li><strong>B+ Tree 索引</strong>
+<ul>
+<li>適用：範圍查詢、排序查詢。</li>
+<li>優點：支援有序存取。</li>
+</ul>
+</li>
+<li><strong>Hash 索引</strong>
+<ul>
+<li>適用：精確匹配查詢（=）。</li>
+<li>優點：查詢速度快。</li>
+<li>缺點：不支援範圍查詢。</li>
+</ul>
+</li>
+</ol>
+<h3 id="索引優缺點">索引優缺點</h3>
+<ul>
+<li><strong>優點</strong>：提升查詢速度、減少資料庫掃描量。</li>
+<li><strong>缺點</strong>：
+<ul>
+<li>占用額外儲存空間。</li>
+<li>插入、刪除、更新需要額外維護索引。</li>
+</ul>
+</li>
+</ul>
+<h3 id="何時適合建立索引">何時適合建立索引</h3>
+<ul>
+<li>欄位經常被用於 <code>WHERE</code> 條件、<code>JOIN</code> 條件或排序（<code>ORDER BY</code>）。</li>
+<li>欄位值的重複度低（高選擇性）。</li>
+</ul>
+<h2 id="8-ER-模型（Entity-Relationship-Model）">8. ER 模型（Entity-Relationship Model）</h2>
+<p><strong>目的</strong>：用圖形化的方式描述資料庫中實體、屬性與關係，作為資料庫設計的第一步。</p>
+<h3 id="核心元素">核心元素</h3>
+<ol>
+<li>
+<p><strong>實體（Entity）</strong></p>
+<ul>
+<li>真實世界中可被識別的事物（如：學生、課程、訂單）。</li>
+<li>用<strong>長方形</strong>表示。</li>
+<li>分為：
+<ul>
+<li>強實體（Strong Entity）：有自己的主鍵。</li>
+<li>弱實體（Weak Entity）：主鍵需依賴其他實體。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>屬性（Attribute）</strong></p>
+<ul>
+<li>實體的特徵（如：姓名、學號、價格）。</li>
+<li>用<strong>橢圓形</strong>表示。</li>
+<li>特殊屬性類型：
+<ul>
+<li>複合屬性（可再拆分，如：地址 → 城市 + 郵遞區號）。</li>
+<li>多值屬性（可有多個值，如：電話號碼）。</li>
+<li>衍生屬性（可由其他屬性計算，如：年齡由生日推算）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>關係（Relationship）</strong></p>
+<ul>
+<li>實體之間的聯繫（如：學生「選修」課程）。</li>
+<li>用<strong>菱形</strong>表示。</li>
+<li>分類：
+<ul>
+<li>一對一 (1:1)</li>
+<li>一對多 (1:N)</li>
+<li>多對多 (M:N)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="ER-圖符號簡記">ER 圖符號簡記</h3>
+<ul>
+<li><strong>長方形</strong>：實體</li>
+<li><strong>橢圓形</strong>：屬性</li>
+<li><strong>菱形</strong>：關係</li>
+<li>線條：連接實體與關係，並標註基數（1、N）</li>
+</ul>
+<h3 id="ER-模型-→-關聯模型轉換原則">ER 模型 → 關聯模型轉換原則</h3>
+<ol>
+<li><strong>強實體</strong> → 轉成一張表，屬性成為欄位，主鍵保留。</li>
+<li><strong>弱實體</strong> → 轉成一張表，主鍵包含外鍵。</li>
+<li><strong>1:1 關係</strong> → 可合併成一張表，或分成兩表互設外鍵。</li>
+<li><strong>1:N 關係</strong> → 在 N 端加入外鍵。</li>
+<li><strong>M:N 關係</strong> → 建立中介表（包含兩邊的主鍵作為外鍵）。</li>
+</ol>
+<h2 id="9-總複習小測驗">9. 總複習小測驗</h2>
+<blockquote>
+<p>每題都對應前面的一個章節，考前自測用。</p>
+</blockquote>
+<h3 id="Q1（關聯式資料庫基本元素）">Q1（關聯式資料庫基本元素）</h3>
+<pre><code class="highlight sas">主鍵與外鍵的差別是什麼？請各舉一個例子。
+
+主鍵 (<span class="keyword">Primary</span> <span class="keyword">Key</span>)：唯一識別一筆資料，不能重複、不能為 <span class="keyword">NULL</span>。
+
+例：學生表的 學號。
+
+外鍵 (<span class="keyword">Foreign</span> <span class="keyword">Key</span>)：用來參考另一張表的主鍵，用於建立表之間的關聯，可以重複，可以為 <span class="keyword">NULL</span>（視設計而定）。
+
+例：選課表的 學號 參考學生表的 學號。</code></pre>
+<h3 id="Q2（關係類型）">Q2（關係類型）</h3>
+<p>圖書館的「書籍」與「借閱紀錄」屬於哪種關係類型？為什麼？</p>
+<pre><code class="highlight elixir">「書籍」對「借閱紀錄」是 <span class="number">1</span><span class="symbol">:N</span>，因為一本書可以對應多筆借閱紀錄，而一筆借閱紀錄只對應一本書。</code></pre>
+<h3 id="Q3（為什麼要正規化）">Q3（為什麼要正規化）</h3>
+<p>說出至少兩個資料異常（Anomaly）的類型與例子。</p>
+<pre><code class="highlight markdown"><span class="bullet">1.</span> 重複資料（Redundancy）
+例：同一客戶資料在多筆訂單中重複出現。
+
+<span class="bullet">2.</span> 更新異常（Update Anomaly）
+例：客戶搬家，要改多筆資料，漏改會導致不一致。
+
+<span class="bullet">3.</span> 刪除異常（Deletion Anomaly）
+例：刪掉唯一一筆訂單的同時，也刪掉了該客戶的資料。</code></pre>
+<h3 id="Q4（1NF-3NF）">Q4（1NF~3NF）</h3>
+<p>什麼是「部分相依」？會在哪一種正規化步驟被消除？</p>
+<pre><code class="highlight oxygene">部分相依（<span class="keyword">Partial</span> Dependency）：
+在複合主鍵的情況下，某個非主鍵欄位只依賴主鍵的一部分，而不是整個主鍵。
+
+消除步驟：第二正規化（<span class="number">2</span>NF）會移除這種依賴，確保非主鍵欄位完全依賴整個主鍵。</code></pre>
+<h3 id="Q5（ACID-特性）">Q5（ACID 特性）</h3>
+<p>ACID 中的「Isolation」主要是為了解決什麼問題？</p>
+<pre><code class="highlight pgsql"><span class="keyword">Isolation</span>（隔離性） 的目的是：
+
+在多個交易同時執行時，確保它們互不干擾，就好像是逐一執行一樣。
+
+它主要是為了避免並行交易造成的問題，例如：
+
+髒讀（Dirty <span class="keyword">Read</span>）
+
+不可重複讀（Non-<span class="keyword">repeatable</span> <span class="keyword">Read</span>）
+
+幻讀（Phantom <span class="keyword">Read</span>）</code></pre>
+<h3 id="Q6（交易隔離級別）">Q6（交易隔離級別）</h3>
+<p>哪個隔離級別可以完全避免幻讀（Phantom Read）？</p>
+<pre><code class="highlight pgsql"><span class="keyword">Serializable</span>（可序列化）
+
+這是最高的隔離級別，可以完全避免髒讀、不可重複讀、幻讀。
+
+代價是效能最低，因為它幾乎會讓交易像「排隊」一樣執行。</code></pre>
+<h3 id="Q7（索引）">Q7（索引）</h3>
+<p>B+ Tree 索引和 Hash 索引各適合用在哪種查詢情境？</p>
+<pre><code class="highlight mipsasm"><span class="keyword">B+ </span>Tree 索引 → 適合範圍查詢與排序查詢（<span class="keyword">BETWEEN、&gt;、&lt;、ORDER </span><span class="keyword">BY）</span>
+<span class="keyword"></span>
+Hash 索引 → 適合精確匹配查詢（=），但不適合範圍查詢</code></pre>
+<h3 id="Q8（ER-模型）">Q8（ER 模型）</h3>
+<p>「學生」和「課程」是多對多關係，轉成關聯模型時該怎麼做？</p>
+<pre><code class="highlight">學生表：儲存學生資訊，主鍵 學生ID
+
+課程表：儲存課程資訊，主鍵 課程ID
+
+中介表（選課表）：包含 學生ID 與 課程ID 作為外鍵，同時組成複合主鍵</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%BA%E7%A4%8E/" rel="tag"># 基礎</a>
+              <a href="/tags/%E8%B3%87%E6%96%99%E5%BA%AB/" rel="tag"># 資料庫</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/08/01/cryptojs/" rel="prev" title="CryptoJS 前端加密工具筆記">
+                  <i class="fa fa-angle-left"></i> CryptoJS 前端加密工具筆記
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">looperhuang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: '32px',
+  left: 'unset',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>
