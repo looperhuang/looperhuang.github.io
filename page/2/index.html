@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -184,6 +184,177 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/04/03/sqlkata/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/04/03/sqlkata/" class="post-title-link" itemprop="url">sqlkata</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-04-03 11:20:10" itemprop="dateCreated datePublished" datetime="2025-04-03T11:20:10+08:00">2025-04-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:51:48" itemprop="dateModified" datetime="2025-04-25T10:51:48+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="簡介">簡介</h2>
+<p>SqlKata 查詢生成器是一個用 C#編寫的功能強大 SQL 生成器，它安全、不受框架影響，靈感來源於 Laravel Query Builder 和 Knex 等頂級查詢建立工具</p>
+<ul>
+<li>乾淨的命名，與 SQL 語法相似</li>
+<li>允許統一 API 處理多個數據庫，且可搭配 Dapper 使用，有效替代數據庫的存儲過程</li>
+<li>支持複雜查詢，如:嵌套條件、子查詢…等</li>
+<li>目前有支援的資料庫 SqlServer、MySql、PostgreSql、Oracle …等</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/fairking/FluentSqlKata">擴充項目</a>，搭配 EntityFramework Core 6 使用</li>
+<li><a target="_blank" rel="noopener" href="https://sqlkata.com/docs">詳細文檔</a></li>
+<li><a target="_blank" rel="noopener" href="https://sqlkata.com/playground">PlayGround</a></li>
+</ul>
+<h2 id="安裝">安裝</h2>
+<pre><code class="highlight ada">$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata</span>
+$ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Execution # (選用) 如果您希望執行支援</span></code></pre>
+<h2 id="範例">範例</h2>
+<h3 id="簡易實作-以-Oracle-為例">簡易實作(以 Oracle 為例)</h3>
+<pre><code class="highlight C#"><span class="keyword">var</span> connection = <span class="keyword">new</span> OracleConnection(connectionString);
+<span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
+<span class="keyword">var</span> db = <span class="keyword">new</span> QueryFactory(conn, compiler);
+<span class="comment">// QueryFactory 由 SqlKata.Execution 套件提供</span>
+<span class="keyword">var</span> books = db.Query(<span class="string">&quot;Books&quot;</span>).Get();</code></pre>
+<h3 id="Dependency-injection-注入實作-For-NET-6">Dependency injection 注入實作(For .NET 6)</h3>
+<p>QueryFactoryFactory.cs</p>
+<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">QueryFactoryFactory</span> : <span class="title">IQueryFactoryFactory</span>
+&#123;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IConfiguration _configuration;
+    <span class="function"><span class="keyword">public</span> <span class="title">QueryFactoryFactory</span>(<span class="params">IConfiguration configuration</span>)</span>
+    &#123;
+        _configuration = configuration;
+    &#125;
+    <span class="function"><span class="keyword">public</span> QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>
+    &#123;
+        <span class="keyword">var</span> cs = _configuration.GetConnectionString(dbKey);
+        <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(cs))
+        &#123;
+            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">$&quot;Connection string for <span class="subst">&#123;dbKey&#125;</span> is not found.&quot;</span>);
+        &#125;
+        <span class="keyword">var</span> conn = <span class="keyword">new</span> OracleConnection(cs);
+        <span class="keyword">var</span> compiler = <span class="keyword">new</span> OracleCompiler();
+        <span class="keyword">return</span> <span class="keyword">new</span> QueryFactory(conn, compiler);
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IQueryFactoryFactory</span>
+&#123;
+    <span class="function">QueryFactory <span class="title">CreateQueryFactory</span>(<span class="params"><span class="built_in">string</span> dbKey</span>)</span>;
+&#125;
+</code></pre>
+<p>Program.cs</p>
+<pre><code class="highlight C#">builder.Services.AddTransient&lt;IQueryFactoryFactory, QueryFactoryFactory&gt;();</code></pre>
+<p>HomeController.cs</p>
+<pre><code class="highlight C#"><span class="keyword">using</span> SqlKata;
+<span class="keyword">using</span> SqlKata.Execution;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> &#123;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IQueryFactoryFactory factory;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">IQueryFactoryFactory factory</span>)</span>
+    &#123;
+       <span class="keyword">this</span>.factory = factory;
+    &#125;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Get</span>()</span>
+    &#123;
+       <span class="keyword">using</span> <span class="keyword">var</span> db = factory.CreateQueryFactory(dbKey);
+
+       <span class="comment">// 這裡 books 的類型是 `IEnumerable&lt;dynamic&gt;`</span>
+       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
+           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
+           .GetAsync();
+
+       <span class="comment">// or `IEnumerable&lt;Book&gt;` if using the Generic overload</span>
+       <span class="keyword">var</span> books = <span class="keyword">await</span> db.Query(<span class="string">&quot;Books&quot;</span>)
+           .Where(<span class="string">&quot;IsPublished&quot;</span>, <span class="literal">true</span>)
+           .GetAsync&lt;Book&gt;();
+
+       <span class="keyword">return</span> Ok(books);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://sqlkata.com/">https://sqlkata.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sqlkata/querybuilder">https://github.com/sqlkata/querybuilder</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shanyou/p/16756669.html">https://www.cnblogs.com/shanyou/p/16756669.html</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1717,191 +1888,6 @@ connection.<span class="title function_">onclose</span>(<span class="title funct
 <h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/iteration-and-recursion/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/11/27/iteration-and-recursion/" class="post-title-link" itemprop="url">迭代與遞迴</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-11-27 08:52:39" itemprop="dateCreated datePublished" datetime="2024-11-27T08:52:39+08:00">2024-11-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-29 16:13:14" itemprop="dateModified" datetime="2025-04-29T16:13:14+08:00">2025-04-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><code>迭代(iteration)</code>是一種重複執行任務的控制結構<br>
-在一定的<code>條件</code>下重複執行，直到<code>條件</code>不再滿足</p>
-<ul>
-<li>for<br>
-最常見的迭代形式</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">ForLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> result = <span class="number">0</span>;
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= n; i--)
-    &#123;
-        result += i;
-    &#125;
-    <span class="keyword">return</span> result;
-&#125;</code></pre>
-<ul>
-<li>while<br>
-while 跟 for 類似，但是 while 會比較好控制條件的設定與變化<br>
-for 的程式碼較簡潔、while 的迴圈控制較靈活</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">WhileLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="built_in">int</span> result = <span class="number">0</span>;
-    <span class="built_in">int</span> i = <span class="number">1</span>; <span class="comment">//初始條件</span>
-    <span class="keyword">while</span> (i &lt;= n)
-    &#123;
-        result += i;
-        <span class="comment">//更新條件</span>
-        i +=<span class="number">1</span>;
-        i *=<span class="number">2</span>;
-    &#125;
-    <span class="keyword">return</span> result;
-&#125;</code></pre>
-<ul>
-<li>巢狀<br>
-迴圈包迴圈</li>
-</ul>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">string</span> <span class="title">NestForLoop</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="keyword">var</span> result = <span class="keyword">new</span> StringBuilder();
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= n; i++)
-    &#123;
-        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">1</span>; j &lt;= n; j++)
-        &#123;
-            result.Append(<span class="string">$&quot;(<span class="subst">&#123;i&#125;</span>,<span class="subst">&#123;j&#125;</span>)&quot;</span>);
-        &#125;
-    &#125;
-    <span class="keyword">return</span> result.ToString();
-&#125;</code></pre>
-<h2 id="遞迴">遞迴</h2>
-<p><code>遞迴(recursion)</code>函式呼叫自己本身<br>
-<strong>主要三要素</strong></p>
-<ol>
-<li>終止條件 : 什麼時候結束往下層傳遞</li>
-<li>遞迴呼叫 : 將參數往下層傳遞給自己</li>
-<li>結果返回 : 回傳結果給上層</li>
-</ol>
-<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Recur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
-&#123;
-    <span class="comment">// 終止條件</span>
-    <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="comment">// 遞迴呼叫</span>
-    <span class="built_in">int</span> res = Recur(n - <span class="number">1</span>);
-    <span class="comment">// 返回結果</span>
-    <span class="keyword">return</span> n + res;
-&#125;</code></pre>
-<p><img src="/images/recursion_sum_depth.png" alt="recursion_sum_depth.png"></p>
-<p>由於遞迴每次都要呼叫重新產生本身函式，會有額外的資源開銷<br>
-所以遞迴的次數是有限的，太多記憶體會爆炸，效率也會比迭代來的低</p>
-<h2 id="比較">比較</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>迭代</th>
-<th>遞迴</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>效率</td>
-<td>較高，沒有函式產生開銷</td>
-<td>每次遞迴呼叫都有產生開銷</td>
-</tr>
-<tr>
-<td>記憶體</td>
-<td>通常固定大小</td>
-<td>根據遞迴函式產生占用大量記憶體</td>
-</tr>
-<tr>
-<td>適用</td>
-<td>簡單任務、直觀、可讀佳</td>
-<td>複雜任務分解(樹、圖、分治、回溯等)、結構明確</td>
-</tr>
-</tbody>
-</table>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/iteration_and_recursion/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/iteration_and_recursion/</a></li>
-<li><a target="_blank" rel="noopener" href="https://hackmd.io/@PythonTutor/By9P6avKd#%E9%81%9E%E8%BF%B4VS%E8%BF%AD%E4%BB%A3-%E5%8F%AF%E8%AE%80%E6%80%A7%E8%88%87%E5%8F%AF%E6%94%B9%E6%80%A7">https://hackmd.io/@PythonTutor/By9P6avKd#遞迴VS迭代-可讀性與可改性</a></li>
 </ul>
 
       
