@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -184,6 +184,205 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/11/19/threadVsTask/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/11/19/threadVsTask/" class="post-title-link" itemprop="url">🚀 Thread、ThreadPool、Task 介紹</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-11-19 13:58:01 / 修改時間：14:13:30" itemprop="dateCreated datePublished" datetime="2025-11-19T13:58:01+08:00">2025-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C#</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/%E9%80%B2%E9%9A%8E%E4%B8%BB%E9%A1%8C/" itemprop="url" rel="index"><span itemprop="name">進階主題</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1>Thread、ThreadPool、Task 之介紹</h1>
+<p>在 C# 中，只要提到「一次做很多事」（多工），一定會遇到 <code>Thread</code>、<code>ThreadPool</code>、<code>Task</code> 這三兄弟。</p>
+<p>它們是什麼？又該怎麼選？</p>
+<p>先講結論，用最生活化的一句話：</p>
+<blockquote>
+<p><strong>Thread 是工人，ThreadPool 是經理，Task 是任務單。</strong></p>
+</blockquote>
+<p>三個雖然都跟「執行工作」有關，但層級和設計目的完全不同。搞懂它們，你就能理解為什麼現代 C# 開發一律推薦用 <code>Task</code> 搭配 <code>async/await</code>。</p>
+<h2 id="1-🧵-Thread：自己請工人的傳統作法（高成本）">1. 🧵 Thread：自己請工人的傳統作法（高成本）</h2>
+<p><code>Thread</code> 是最底層的執行機制，它就是 <strong>作業系統級的工人</strong>。每次你叫他來做事，流程會是：</p>
+<ol>
+<li>從外面請一個<strong>新工人</strong>（建立新的 OS 執行緒）。</li>
+<li>讓他執行你的工作。</li>
+<li>工人做完後，你必須自己負責管理和解僱他。</li>
+</ol>
+<h3 id="🚨-Thread-的高成本特徵">🚨 Thread 的高成本特徵</h3>
+<ul>
+<li><strong>🧱 建立成本高：</strong> 每個 <code>Thread</code> 都有自己的記憶體堆疊，系統需要分配大量的核心資源。</li>
+<li><strong>🧨 系統負擔大：</strong> 執行緒切換（上下文轉換）頻繁，會消耗 CPU 時間。</li>
+<li><strong>🧹 管理複雜：</strong> 生命週期、異常處理、結果回傳都要你自己手動處理。</li>
+</ul>
+<blockquote>
+<p><strong>現代 C# 中，很少直接 <code>new Thread()</code>，因為資源消耗太重且不必要。</strong></p>
+</blockquote>
+<h2 id="2-🏭-ThreadPool：聰明的經理管理工人（重複利用）">2. 🏭 ThreadPool：聰明的經理管理工人（重複利用）</h2>
+<p><code>ThreadPool</code> 是為了解決上述 <code>Thread</code> <strong>「建立太昂貴」</strong> 的問題而誕生的。</p>
+<blockquote>
+<p><code>ThreadPool</code> 就像公司裡的「<strong>資源管理部經理</strong>」。他底下養著一群工人（Threads），平常待命休息，等你有工作時才派出去。</p>
+</blockquote>
+<h3 id="ThreadPool-的高效流程">ThreadPool 的高效流程</h3>
+<ol>
+<li>你向經理說：「我要做一件事情。」</li>
+<li>經理查看「<strong>待命池</strong>」，找到一個<strong>閒置的工人</strong>。</li>
+<li>工人執行工作，做完後<strong>立刻回池子休息</strong>，不會被解僱。</li>
+</ol>
+<h3 id="優勢">優勢</h3>
+<ul>
+<li><strong>🚀 快速啟動：</strong> 不需要重複聘僱工人（重複利用 <code>Thread</code>）。</li>
+<li><strong>⚡ 高效能：</strong> 降低系統資源的損耗。</li>
+<li><strong>💪 自動管理：</strong> 經理會動態調整池子裡工人的數量。</li>
+</ul>
+<h2 id="3-🚀-Task：你日常會使用的「任務單」抽象">3. 🚀 Task：你日常會使用的「任務單」抽象</h2>
+<p><code>Task</code> 本質不是工人，而是 <strong>一張任務單</strong> 或 <strong>工作承諾</strong>。它是現代 C# 推薦的非同步處理方式。</p>
+<blockquote>
+<p><code>Task</code> 是你送給經理（ThreadPool）的一張「<strong>工作需求</strong>」。至於派哪個工人（Thread）做，那是經理的事，不是你的事。</p>
+</blockquote>
+<h3 id="Task-的運作流程（與-ThreadPool-協作）">Task 的運作流程（與 ThreadPool 協作）</h3>
+<ol>
+<li>你建立一個 <code>Task</code>（工作內容）。</li>
+<li><code>Task</code> 排隊進入 <code>ThreadPool</code>。</li>
+<li><code>ThreadPool</code> 找到一位工人去執行。</li>
+<li>做完後工人回池子休息。</li>
+<li><code>Task</code> 回報結果（成功 / 例外 / 取消）。</li>
+</ol>
+<h3 id="Task-的優勢">Task 的優勢</h3>
+<ul>
+<li><strong>1. 🧾 易於回傳：</strong> 可以有回傳值 (<code>Task&lt;T&gt;</code>)。</li>
+<li><strong>2. ❌ 易於取消：</strong> 搭配 <code>CancellationToken</code> 實現優雅取消。</li>
+<li><strong>3. 🪝 易於組合：</strong> 可使用 <code>Task.WhenAll</code>、<code>Task.WhenAny</code> 進行協作。</li>
+<li><strong>4. 🛡️ 異常集中：</strong> 例外會被封裝，不會直接把整個程式搞崩。</li>
+<li><strong>5. 🔥 語法支援：</strong> 能搭配 <code>async/await</code>，讓非同步程式碼像同步一樣好寫。</li>
+</ul>
+<h1>🤖 Task 不一定會開 Thread！</h1>
+<p>這是很多人會誤會的關鍵點：<strong><code>Task</code> 只是描述一個工作，不代表一定會佔用一個執行緒（工人）。</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">情境</th>
+<th style="text-align:left">動作</th>
+<th style="text-align:left">是否會佔用 Thread？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>CPU 密集</strong></td>
+<td style="text-align:left">使用 <code>Task.Run(...)</code></td>
+<td style="text-align:left"><strong>會</strong>佔用 ThreadPool 的工人</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>I/O 密集</strong></td>
+<td style="text-align:left">使用 <code>await httpClient.GetAsync()</code></td>
+<td style="text-align:left"><strong>不會</strong>佔用工人</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>解釋：</strong> 執行 I/O（網路、磁碟存取）時，程式在等待資料返回，<code>Task</code> 會暫停執行緒，讓工人去處理其他任務，等到 OS 通知資料回來才繼續。這就是高效的<strong>非同步 I/O</strong>。</p>
+</blockquote>
+<h1>🏆 三者總結圖（最重要）</h1>
+<ul>
+<li>❌ <strong>不要</strong>再大量使用 <code>new Thread()</code>（成本超高，不必要）</li>
+<li>✔️ 一律使用 <strong>Task + async/await</strong></li>
+<li>✔️ 讓 ThreadPool 自己去調度執行緒</li>
+<li>✔️ CPU 密集 → 可用 <code>Task.Run</code></li>
+<li>✔️ I/O 密集 → 使用非同步 API，例如 <code>.ReadAsync()</code>、<code>.GetAsync()</code></li>
+</ul>
+<p>這樣你的程式碼：</p>
+<ul>
+<li>更效能高</li>
+<li>更省資源</li>
+<li>更好維護</li>
+<li>更不會踩 Thread 雷</li>
+</ul>
+<h1>🎯 最後總結（一句話）</h1>
+<blockquote>
+<p><strong>Thread 是工人、ThreadPool 是工頭、Task 是任務單 ──<br>
+而你只需要填任務單，不需要自己管工人。</strong></p>
+</blockquote>
+<p>這就是為什麼現代 C# 幾乎全部都用 Task 來做非同步與多工。</p>
+<h2 id="📚-參考資料">📚 參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://kenny88881234.gitlab.io/2020/12/05/Csharp-thread-and-Async/#%E7%AD%86%E8%A8%98-C-%E5%A4%9A%E5%9F%B7%E8%A1%8C%E7%B7%92%E8%88%87%E9%9D%9E%E5%90%8C%E6%AD%A5">C# 多執行緒與非同步</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/questions/10196377">請問 多工 和 非同步 是一樣的嬤?</a></li>
+<li><a target="_blank" rel="noopener" href="https://exceptionnotfound.net/async-await-in-asp-net-csharp-ultimate-guide/">The Ultimate Guide to Async and Await in C# and ASP.NET</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42504097/article/details/132026576">Thread 与 Task 的差异比较及使用环境</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.darkthread.net/blog/tpl-threadpool-usage/">新時代 .NET ThreadPool 程式寫法以及為什麼你該用力 async/await</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2064,202 +2263,8 @@ app.Run();</code></pre>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/07/dijstra/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/07/dijstra/" class="post-title-link" itemprop="url">Dijkstra 演算法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-05-07 13:53:03 / 修改時間：15:10:16" itemprop="dateCreated datePublished" datetime="2025-05-07T13:53:03+08:00">2025-05-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="🧠-簡述">🧠 簡述</h2>
-<p>由荷蘭計算機科學家 Edsger W. Dijkstra 於 1956 年提出</p>
-<ul>
-<li>用來尋找單一源點到其他節點的最短路徑</li>
-<li>適用於加權圖(所以邊的權重為正)</li>
-<li>常用的資料結構 : 優先佇列(Priority Queue) 或 最小堆(Min-Heap)</li>
-</ul>
-<h2 id="🧭-步驟">🧭 步驟</h2>
-<ol>
-<li>將所有節點分為兩組：已確定最短路徑（S）與未確定（U）</li>
-<li>初始時，起點在 S，其餘在 U，距離設為 ∞，起點設為 0</li>
-<li>從 U 中選擇目前與起點距離最短的節點加入 S</li>
-<li>更新該節點鄰接點的距離（鬆弛）</li>
-<li>重複步驟 3~4，直到所有節點都加入 S 或無法再更新</li>
-</ol>
-<h2 id="🧑‍💻-C-實作（含範例圖）">🧑‍💻 C# 實作（含範例圖）</h2>
-<p><img src="/images/dijkstra/samplegraph.png" alt="sampleGraph.png"></p>
-<p>以下為對應圖形的 C# 程式實作</p>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
-&#123;
-    <span class="built_in">int</span> n = <span class="number">7</span>; <span class="comment">// 節點數</span>
-    List&lt;Edge&gt;[] graph = <span class="keyword">new</span> List&lt;Edge&gt;[n];
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) graph[i] = <span class="keyword">new</span> List&lt;Edge&gt;();
-
-    <span class="comment">// 建立圖的鄰接表（根據圖像）</span>
-    AddEdge(graph, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);
-    AddEdge(graph, <span class="number">0</span>, <span class="number">2</span>, <span class="number">6</span>);
-    AddEdge(graph, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>);
-    AddEdge(graph, <span class="number">2</span>, <span class="number">3</span>, <span class="number">8</span>);
-    AddEdge(graph, <span class="number">3</span>, <span class="number">4</span>, <span class="number">10</span>);
-    AddEdge(graph, <span class="number">3</span>, <span class="number">5</span>, <span class="number">15</span>);
-    AddEdge(graph, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);
-    AddEdge(graph, <span class="number">4</span>, <span class="number">6</span>, <span class="number">2</span>);
-    AddEdge(graph, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>);
-
-    <span class="built_in">int</span> start = <span class="number">0</span>;
-    <span class="built_in">int</span>[] dist = Dijkstra(graph, start);
-
-    Console.WriteLine(<span class="string">&quot;起點到各節點的最短距離&quot;</span>);
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
-    &#123;
-        Console.WriteLine(<span class="string">$&quot;到節點<span class="subst">&#123;i&#125;</span>的最短距離 : <span class="subst">&#123;dist[i]&#125;</span>&quot;</span>);
-    &#125;
-&#125;
-
-<span class="keyword">class</span> <span class="title">Edge</span>
-&#123;
-    <span class="keyword">public</span> <span class="built_in">int</span> To, Weight;
-    <span class="function"><span class="keyword">public</span> <span class="title">Edge</span>(<span class="params"><span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
-    &#123;
-        To = to; Weight = weight;
-    &#125;
-&#125;
-
-<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddEdge</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> <span class="keyword">from</span>, <span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
-&#123;
-    graph[<span class="keyword">from</span>].Add(<span class="keyword">new</span> Edge(to, weight));
-    graph[to].Add(<span class="keyword">new</span> Edge(<span class="keyword">from</span>, weight)); <span class="comment">// 無向圖需要雙向邊</span>
-&#125;
-
-<span class="function"><span class="keyword">static</span> <span class="built_in">int</span>[] <span class="title">Dijkstra</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> start</span>)</span>
-&#123;
-    <span class="built_in">int</span> n = graph.Length;
-    <span class="built_in">int</span>[] dist = <span class="keyword">new</span> <span class="built_in">int</span>[n];
-    <span class="built_in">bool</span>[] visited = <span class="keyword">new</span> <span class="built_in">bool</span>[n];
-
-    <span class="comment">// 初始化距離與訪問狀態</span>
-    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) dist[i] = <span class="built_in">int</span>.MaxValue;
-    dist[start] = <span class="number">0</span>;
-
-    <span class="comment">// 使用NET6+ 的 PriorityQueue&lt;TElement, TPriority&gt;</span>
-    <span class="comment">// 舊版要自己實作 MinHeap</span>
-    <span class="comment">// 使用優先佇列處理節點，依距離最小優先處理</span>
-    <span class="keyword">var</span> pq = <span class="keyword">new</span> PriorityQueue&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt;();
-    pq.Enqueue(start, <span class="number">0</span>);
-
-    <span class="keyword">while</span> (pq.Count &gt; <span class="number">0</span>)
-    &#123;
-        <span class="built_in">int</span> u = pq.Dequeue();
-
-        <span class="comment">// 確認是否處理過節點，並更新註記</span>
-        <span class="keyword">if</span> (visited[u]) <span class="keyword">continue</span>;
-        visited[u] = <span class="literal">true</span>;
-
-        <span class="comment">// 遍歷所有相鄰邊</span>
-        <span class="keyword">foreach</span> (<span class="keyword">var</span> edge <span class="keyword">in</span> graph[u])
-        &#123;
-            <span class="built_in">int</span> v = edge.To;
-            <span class="built_in">int</span> weight = edge.Weight;
-
-           <span class="comment">// 若從 u 到 v 的新距離更短，則更新 dist 並放入優先佇列</span>
-            <span class="keyword">if</span> (dist[u] + weight &lt; dist[v])
-            &#123;
-                dist[v] = dist[u] + weight;
-                pq.Enqueue(v, dist[v]);
-            &#125;
-        &#125;
-    &#125;
-
-    <span class="keyword">return</span> dist;
-&#125;</code></pre>
-<p>輸出結果</p>
-<pre><code class="highlight ada">起點到各節點的最短距離
-到節點<span class="number">0</span>的最短距離 : 0
-到節點<span class="number">1</span>的最短距離 : 2
-到節點<span class="number">2</span>的最短距離 : 6
-到節點<span class="number">3</span>的最短距離 : 7
-到節點<span class="number">4</span>的最短距離 : 17
-到節點<span class="number">5</span>的最短距離 : 22
-到節點<span class="number">6</span>的最短距離 : 19</code></pre>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/">https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/@amber.fragments/%E6%BC%94%E7%AE%97%E6%B3%95-%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98-14-dijkstra-algorithm-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%91%E6%BC%94%E7%AE%97%E6%B3%95-745983dd4332">https://medium.com/@amber.fragments/演算法-學習筆記-14-dijkstra-algorithm-最短路徑演算法-745983dd4332</a></li>
-<li>chatgpt</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

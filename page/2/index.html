@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -184,6 +184,200 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/07/dijstra/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/07/dijstra/" class="post-title-link" itemprop="url">Dijkstra 演算法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-05-07 13:53:03 / 修改時間：15:10:16" itemprop="dateCreated datePublished" datetime="2025-05-07T13:53:03+08:00">2025-05-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="🧠-簡述">🧠 簡述</h2>
+<p>由荷蘭計算機科學家 Edsger W. Dijkstra 於 1956 年提出</p>
+<ul>
+<li>用來尋找單一源點到其他節點的最短路徑</li>
+<li>適用於加權圖(所以邊的權重為正)</li>
+<li>常用的資料結構 : 優先佇列(Priority Queue) 或 最小堆(Min-Heap)</li>
+</ul>
+<h2 id="🧭-步驟">🧭 步驟</h2>
+<ol>
+<li>將所有節點分為兩組：已確定最短路徑（S）與未確定（U）</li>
+<li>初始時，起點在 S，其餘在 U，距離設為 ∞，起點設為 0</li>
+<li>從 U 中選擇目前與起點距離最短的節點加入 S</li>
+<li>更新該節點鄰接點的距離（鬆弛）</li>
+<li>重複步驟 3~4，直到所有節點都加入 S 或無法再更新</li>
+</ol>
+<h2 id="🧑‍💻-C-實作（含範例圖）">🧑‍💻 C# 實作（含範例圖）</h2>
+<p><img src="/images/dijkstra/samplegraph.png" alt="sampleGraph.png"></p>
+<p>以下為對應圖形的 C# 程式實作</p>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
+&#123;
+    <span class="built_in">int</span> n = <span class="number">7</span>; <span class="comment">// 節點數</span>
+    List&lt;Edge&gt;[] graph = <span class="keyword">new</span> List&lt;Edge&gt;[n];
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) graph[i] = <span class="keyword">new</span> List&lt;Edge&gt;();
+
+    <span class="comment">// 建立圖的鄰接表（根據圖像）</span>
+    AddEdge(graph, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);
+    AddEdge(graph, <span class="number">0</span>, <span class="number">2</span>, <span class="number">6</span>);
+    AddEdge(graph, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>);
+    AddEdge(graph, <span class="number">2</span>, <span class="number">3</span>, <span class="number">8</span>);
+    AddEdge(graph, <span class="number">3</span>, <span class="number">4</span>, <span class="number">10</span>);
+    AddEdge(graph, <span class="number">3</span>, <span class="number">5</span>, <span class="number">15</span>);
+    AddEdge(graph, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);
+    AddEdge(graph, <span class="number">4</span>, <span class="number">6</span>, <span class="number">2</span>);
+    AddEdge(graph, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>);
+
+    <span class="built_in">int</span> start = <span class="number">0</span>;
+    <span class="built_in">int</span>[] dist = Dijkstra(graph, start);
+
+    Console.WriteLine(<span class="string">&quot;起點到各節點的最短距離&quot;</span>);
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        Console.WriteLine(<span class="string">$&quot;到節點<span class="subst">&#123;i&#125;</span>的最短距離 : <span class="subst">&#123;dist[i]&#125;</span>&quot;</span>);
+    &#125;
+&#125;
+
+<span class="keyword">class</span> <span class="title">Edge</span>
+&#123;
+    <span class="keyword">public</span> <span class="built_in">int</span> To, Weight;
+    <span class="function"><span class="keyword">public</span> <span class="title">Edge</span>(<span class="params"><span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
+    &#123;
+        To = to; Weight = weight;
+    &#125;
+&#125;
+
+<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddEdge</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> <span class="keyword">from</span>, <span class="built_in">int</span> to, <span class="built_in">int</span> weight</span>)</span>
+&#123;
+    graph[<span class="keyword">from</span>].Add(<span class="keyword">new</span> Edge(to, weight));
+    graph[to].Add(<span class="keyword">new</span> Edge(<span class="keyword">from</span>, weight)); <span class="comment">// 無向圖需要雙向邊</span>
+&#125;
+
+<span class="function"><span class="keyword">static</span> <span class="built_in">int</span>[] <span class="title">Dijkstra</span>(<span class="params">List&lt;Edge&gt;[] graph, <span class="built_in">int</span> start</span>)</span>
+&#123;
+    <span class="built_in">int</span> n = graph.Length;
+    <span class="built_in">int</span>[] dist = <span class="keyword">new</span> <span class="built_in">int</span>[n];
+    <span class="built_in">bool</span>[] visited = <span class="keyword">new</span> <span class="built_in">bool</span>[n];
+
+    <span class="comment">// 初始化距離與訪問狀態</span>
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++) dist[i] = <span class="built_in">int</span>.MaxValue;
+    dist[start] = <span class="number">0</span>;
+
+    <span class="comment">// 使用NET6+ 的 PriorityQueue&lt;TElement, TPriority&gt;</span>
+    <span class="comment">// 舊版要自己實作 MinHeap</span>
+    <span class="comment">// 使用優先佇列處理節點，依距離最小優先處理</span>
+    <span class="keyword">var</span> pq = <span class="keyword">new</span> PriorityQueue&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt;();
+    pq.Enqueue(start, <span class="number">0</span>);
+
+    <span class="keyword">while</span> (pq.Count &gt; <span class="number">0</span>)
+    &#123;
+        <span class="built_in">int</span> u = pq.Dequeue();
+
+        <span class="comment">// 確認是否處理過節點，並更新註記</span>
+        <span class="keyword">if</span> (visited[u]) <span class="keyword">continue</span>;
+        visited[u] = <span class="literal">true</span>;
+
+        <span class="comment">// 遍歷所有相鄰邊</span>
+        <span class="keyword">foreach</span> (<span class="keyword">var</span> edge <span class="keyword">in</span> graph[u])
+        &#123;
+            <span class="built_in">int</span> v = edge.To;
+            <span class="built_in">int</span> weight = edge.Weight;
+
+           <span class="comment">// 若從 u 到 v 的新距離更短，則更新 dist 並放入優先佇列</span>
+            <span class="keyword">if</span> (dist[u] + weight &lt; dist[v])
+            &#123;
+                dist[v] = dist[u] + weight;
+                pq.Enqueue(v, dist[v]);
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="keyword">return</span> dist;
+&#125;</code></pre>
+<p>輸出結果</p>
+<pre><code class="highlight ada">起點到各節點的最短距離
+到節點<span class="number">0</span>的最短距離 : 0
+到節點<span class="number">1</span>的最短距離 : 2
+到節點<span class="number">2</span>的最短距離 : 6
+到節點<span class="number">3</span>的最短距離 : 7
+到節點<span class="number">4</span>的最短距離 : 17
+到節點<span class="number">5</span>的最短距離 : 22
+到節點<span class="number">6</span>的最短距離 : 19</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/">https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@amber.fragments/%E6%BC%94%E7%AE%97%E6%B3%95-%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98-14-dijkstra-algorithm-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%91%E6%BC%94%E7%AE%97%E6%B3%95-745983dd4332">https://medium.com/@amber.fragments/演算法-學習筆記-14-dijkstra-algorithm-最短路徑演算法-745983dd4332</a></li>
+<li>chatgpt</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1634,129 +1828,8 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/13/text-fragments/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/12/13/text-fragments/" class="post-title-link" itemprop="url">文字片段</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-12-13 09:31:52" itemprop="dateCreated datePublished" datetime="2024-12-13T09:31:52+08:00">2024-12-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:02" itemprop="dateModified" datetime="2025-04-25T10:52:02+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="什麼是文字片段-Text-Fragments">什麼是文字片段(Text Fragments)</h3>
-<p>Text Fragments 是一種新的網頁功能<br>
-不需使用錨點標記（anchor tags）就可以讓使用者連結至特定文字<br>
-且會自動高亮顯示並滾動至該文本位置<br>
-<a target="_blank" rel="noopener" href="https://caniuse.com/mdn-html_elements_a_text_fragments">目前支援的版本與瀏覽器</a></p>
-<h3 id="使用方法">使用方法</h3>
-<p>基本結構 :</p>
-<pre><code class="highlight asciidoc"><span class="link">https://example.com/page.html#:~:text=</span>[<span class="string">前綴文字-,</span>]開始文字[,結束文字][,-後綴文字]</code></pre>
-<p>主要組成 :</p>
-<ul>
-<li>:~: 指令代表這是文字片段</li>
-<li>text= 要搜尋的文字</li>
-<li>[] 選用組件</li>
-</ul>
-<p>組件說明 :</p>
-<ul>
-<li>前綴文字 : 應出現在開始文字前面的文字</li>
-<li>開始文字 : 目標片段開頭文字</li>
-<li>結束文字 : 目標片段結尾文字</li>
-<li>後綴文字 : 應出現在結尾文字後面的文字</li>
-</ul>
-<p>樣式調整可透過<code>::target-text</code>進行調整</p>
-<pre><code class="highlight css">::target-text &#123;
-  <span class="attribute">background-color</span>: yellow;
-&#125;</code></pre>
-<h3 id="使用範例">使用範例</h3>
-<pre><code class="highlight dts"><span class="symbol">http:</span><span class="comment">//127.0.0.1:5500/index.html</span></code></pre>
-<p><img src="/images/txtfrag1.png" alt="txtfrag1.png"></p>
-<pre><code class="highlight avrasm"><span class="symbol">http:</span>//<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">5500</span>/index.html<span class="meta">#:~:text=心放地,學的有</span></code></pre>
-<p><img src="/images/txtfrag2.png" alt="txtfrag2.png"></p>
-<pre><code class="highlight pgsql">http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">5500</span>/<span class="keyword">index</span>.html#:~:<span class="type">text</span>=如及間沒人說利驗於民物時人&amp;<span class="type">text</span>=沒才雨叫訴</code></pre>
-<p><img src="/images/txtfrag3.png" alt="txtfrag3.png"></p>
-<h3 id="參考資料">參考資料</h3>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html">https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://claude.ai/new">https://claude.ai/new</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

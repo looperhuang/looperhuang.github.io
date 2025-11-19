@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LHBlog.svg">
+  <link rel="mask-icon" href="/images/LHBlog.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Thread、ThreadPool、Task 之介紹 在 C# 中，只要提到「一次做很多事」（多工），一定會遇到 Thread、ThreadPool、Task 這三兄弟。 它們是什麼？又該怎麼選？ 先講結論，用最生活化的一句話：  Thread 是工人，ThreadPool 是經理，Task 是任務單。  三個雖然都跟「執行工作」有關，但層級和設計目的完全不同。搞懂它們，你就能理解為什麼現代 C#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🚀 Thread、ThreadPool、Task 介紹">
+<meta property="og:url" content="https://looperhuang.github.io/2025/11/19/threadVsTask/index.html">
+<meta property="og:site_name" content="Looper&#39;s Blog">
+<meta property="og:description" content="Thread、ThreadPool、Task 之介紹 在 C# 中，只要提到「一次做很多事」（多工），一定會遇到 Thread、ThreadPool、Task 這三兄弟。 它們是什麼？又該怎麼選？ 先講結論，用最生活化的一句話：  Thread 是工人，ThreadPool 是經理，Task 是任務單。  三個雖然都跟「執行工作」有關，但層級和設計目的完全不同。搞懂它們，你就能理解為什麼現代 C#">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-11-19T05:58:01.000Z">
+<meta property="article:modified_time" content="2025-11-19T06:13:30.029Z">
+<meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="Thread">
+<meta property="article:tag" content="ThreadPool">
+<meta property="article:tag" content="Task">
+<meta property="article:tag" content="async-await">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://looperhuang.github.io/2025/11/19/threadVsTask/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/11/19/threadVsTask/","path":"2025/11/19/threadVsTask/","title":"🚀 Thread、ThreadPool、Task 介紹"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>🚀 Thread、ThreadPool、Task 介紹 | Looper's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Looper's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一個菜鳥工程師</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Thread、ThreadPool、Task 之介紹</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%F0%9F%A7%B5-Thread%EF%BC%9A%E8%87%AA%E5%B7%B1%E8%AB%8B%E5%B7%A5%E4%BA%BA%E7%9A%84%E5%82%B3%E7%B5%B1%E4%BD%9C%E6%B3%95%EF%BC%88%E9%AB%98%E6%88%90%E6%9C%AC%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1. 🧵 Thread：自己請工人的傳統作法（高成本）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%9A%A8-Thread-%E7%9A%84%E9%AB%98%E6%88%90%E6%9C%AC%E7%89%B9%E5%BE%B5"><span class="nav-number">1.1.1.</span> <span class="nav-text">🚨 Thread 的高成本特徵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%F0%9F%8F%AD-ThreadPool%EF%BC%9A%E8%81%B0%E6%98%8E%E7%9A%84%E7%B6%93%E7%90%86%E7%AE%A1%E7%90%86%E5%B7%A5%E4%BA%BA%EF%BC%88%E9%87%8D%E8%A4%87%E5%88%A9%E7%94%A8%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">2. 🏭 ThreadPool：聰明的經理管理工人（重複利用）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadPool-%E7%9A%84%E9%AB%98%E6%95%88%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">ThreadPool 的高效流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%84%AA%E5%8B%A2"><span class="nav-number">1.2.2.</span> <span class="nav-text">優勢</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%F0%9F%9A%80-Task%EF%BC%9A%E4%BD%A0%E6%97%A5%E5%B8%B8%E6%9C%83%E4%BD%BF%E7%94%A8%E7%9A%84%E3%80%8C%E4%BB%BB%E5%8B%99%E5%96%AE%E3%80%8D%E6%8A%BD%E8%B1%A1"><span class="nav-number">1.3.</span> <span class="nav-text">3. 🚀 Task：你日常會使用的「任務單」抽象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-%E7%9A%84%E9%81%8B%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%88%E8%88%87-ThreadPool-%E5%8D%94%E4%BD%9C%EF%BC%89"><span class="nav-number">1.3.1.</span> <span class="nav-text">Task 的運作流程（與 ThreadPool 協作）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-%E7%9A%84%E5%84%AA%E5%8B%A2"><span class="nav-number">1.3.2.</span> <span class="nav-text">Task 的優勢</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">🤖 Task 不一定會開 Thread！</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">🏆 三者總結圖（最重要）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">🎯 最後總結（一句話）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.1.</span> <span class="nav-text">📚 參考資料</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="looperhuang"
+      src="/images/LHBlog.svg">
+  <p class="site-author-name" itemprop="name">looperhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/looperhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;looperhuang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:looper841213@gmail.com" title="Gmail → mailto:looper841213@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Gmail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/11/19/threadVsTask/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="🚀 Thread、ThreadPool、Task 介紹 | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          🚀 Thread、ThreadPool、Task 介紹
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-11-19 13:58:01 / 修改時間：14:13:30" itemprop="dateCreated datePublished" datetime="2025-11-19T13:58:01+08:00">2025-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C#</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/%E9%80%B2%E9%9A%8E%E4%B8%BB%E9%A1%8C/" itemprop="url" rel="index"><span itemprop="name">進階主題</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>Thread、ThreadPool、Task 之介紹</h1>
+<p>在 C# 中，只要提到「一次做很多事」（多工），一定會遇到 <code>Thread</code>、<code>ThreadPool</code>、<code>Task</code> 這三兄弟。</p>
+<p>它們是什麼？又該怎麼選？</p>
+<p>先講結論，用最生活化的一句話：</p>
+<blockquote>
+<p><strong>Thread 是工人，ThreadPool 是經理，Task 是任務單。</strong></p>
+</blockquote>
+<p>三個雖然都跟「執行工作」有關，但層級和設計目的完全不同。搞懂它們，你就能理解為什麼現代 C# 開發一律推薦用 <code>Task</code> 搭配 <code>async/await</code>。</p>
+<h2 id="1-🧵-Thread：自己請工人的傳統作法（高成本）">1. 🧵 Thread：自己請工人的傳統作法（高成本）</h2>
+<p><code>Thread</code> 是最底層的執行機制，它就是 <strong>作業系統級的工人</strong>。每次你叫他來做事，流程會是：</p>
+<ol>
+<li>從外面請一個<strong>新工人</strong>（建立新的 OS 執行緒）。</li>
+<li>讓他執行你的工作。</li>
+<li>工人做完後，你必須自己負責管理和解僱他。</li>
+</ol>
+<h3 id="🚨-Thread-的高成本特徵">🚨 Thread 的高成本特徵</h3>
+<ul>
+<li><strong>🧱 建立成本高：</strong> 每個 <code>Thread</code> 都有自己的記憶體堆疊，系統需要分配大量的核心資源。</li>
+<li><strong>🧨 系統負擔大：</strong> 執行緒切換（上下文轉換）頻繁，會消耗 CPU 時間。</li>
+<li><strong>🧹 管理複雜：</strong> 生命週期、異常處理、結果回傳都要你自己手動處理。</li>
+</ul>
+<blockquote>
+<p><strong>現代 C# 中，很少直接 <code>new Thread()</code>，因為資源消耗太重且不必要。</strong></p>
+</blockquote>
+<h2 id="2-🏭-ThreadPool：聰明的經理管理工人（重複利用）">2. 🏭 ThreadPool：聰明的經理管理工人（重複利用）</h2>
+<p><code>ThreadPool</code> 是為了解決上述 <code>Thread</code> <strong>「建立太昂貴」</strong> 的問題而誕生的。</p>
+<blockquote>
+<p><code>ThreadPool</code> 就像公司裡的「<strong>資源管理部經理</strong>」。他底下養著一群工人（Threads），平常待命休息，等你有工作時才派出去。</p>
+</blockquote>
+<h3 id="ThreadPool-的高效流程">ThreadPool 的高效流程</h3>
+<ol>
+<li>你向經理說：「我要做一件事情。」</li>
+<li>經理查看「<strong>待命池</strong>」，找到一個<strong>閒置的工人</strong>。</li>
+<li>工人執行工作，做完後<strong>立刻回池子休息</strong>，不會被解僱。</li>
+</ol>
+<h3 id="優勢">優勢</h3>
+<ul>
+<li><strong>🚀 快速啟動：</strong> 不需要重複聘僱工人（重複利用 <code>Thread</code>）。</li>
+<li><strong>⚡ 高效能：</strong> 降低系統資源的損耗。</li>
+<li><strong>💪 自動管理：</strong> 經理會動態調整池子裡工人的數量。</li>
+</ul>
+<h2 id="3-🚀-Task：你日常會使用的「任務單」抽象">3. 🚀 Task：你日常會使用的「任務單」抽象</h2>
+<p><code>Task</code> 本質不是工人，而是 <strong>一張任務單</strong> 或 <strong>工作承諾</strong>。它是現代 C# 推薦的非同步處理方式。</p>
+<blockquote>
+<p><code>Task</code> 是你送給經理（ThreadPool）的一張「<strong>工作需求</strong>」。至於派哪個工人（Thread）做，那是經理的事，不是你的事。</p>
+</blockquote>
+<h3 id="Task-的運作流程（與-ThreadPool-協作）">Task 的運作流程（與 ThreadPool 協作）</h3>
+<ol>
+<li>你建立一個 <code>Task</code>（工作內容）。</li>
+<li><code>Task</code> 排隊進入 <code>ThreadPool</code>。</li>
+<li><code>ThreadPool</code> 找到一位工人去執行。</li>
+<li>做完後工人回池子休息。</li>
+<li><code>Task</code> 回報結果（成功 / 例外 / 取消）。</li>
+</ol>
+<h3 id="Task-的優勢">Task 的優勢</h3>
+<ul>
+<li><strong>1. 🧾 易於回傳：</strong> 可以有回傳值 (<code>Task&lt;T&gt;</code>)。</li>
+<li><strong>2. ❌ 易於取消：</strong> 搭配 <code>CancellationToken</code> 實現優雅取消。</li>
+<li><strong>3. 🪝 易於組合：</strong> 可使用 <code>Task.WhenAll</code>、<code>Task.WhenAny</code> 進行協作。</li>
+<li><strong>4. 🛡️ 異常集中：</strong> 例外會被封裝，不會直接把整個程式搞崩。</li>
+<li><strong>5. 🔥 語法支援：</strong> 能搭配 <code>async/await</code>，讓非同步程式碼像同步一樣好寫。</li>
+</ul>
+<h1>🤖 Task 不一定會開 Thread！</h1>
+<p>這是很多人會誤會的關鍵點：<strong><code>Task</code> 只是描述一個工作，不代表一定會佔用一個執行緒（工人）。</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">情境</th>
+<th style="text-align:left">動作</th>
+<th style="text-align:left">是否會佔用 Thread？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>CPU 密集</strong></td>
+<td style="text-align:left">使用 <code>Task.Run(...)</code></td>
+<td style="text-align:left"><strong>會</strong>佔用 ThreadPool 的工人</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>I/O 密集</strong></td>
+<td style="text-align:left">使用 <code>await httpClient.GetAsync()</code></td>
+<td style="text-align:left"><strong>不會</strong>佔用工人</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>解釋：</strong> 執行 I/O（網路、磁碟存取）時，程式在等待資料返回，<code>Task</code> 會暫停執行緒，讓工人去處理其他任務，等到 OS 通知資料回來才繼續。這就是高效的<strong>非同步 I/O</strong>。</p>
+</blockquote>
+<h1>🏆 三者總結圖（最重要）</h1>
+<ul>
+<li>❌ <strong>不要</strong>再大量使用 <code>new Thread()</code>（成本超高，不必要）</li>
+<li>✔️ 一律使用 <strong>Task + async/await</strong></li>
+<li>✔️ 讓 ThreadPool 自己去調度執行緒</li>
+<li>✔️ CPU 密集 → 可用 <code>Task.Run</code></li>
+<li>✔️ I/O 密集 → 使用非同步 API，例如 <code>.ReadAsync()</code>、<code>.GetAsync()</code></li>
+</ul>
+<p>這樣你的程式碼：</p>
+<ul>
+<li>更效能高</li>
+<li>更省資源</li>
+<li>更好維護</li>
+<li>更不會踩 Thread 雷</li>
+</ul>
+<h1>🎯 最後總結（一句話）</h1>
+<blockquote>
+<p><strong>Thread 是工人、ThreadPool 是工頭、Task 是任務單 ──<br>
+而你只需要填任務單，不需要自己管工人。</strong></p>
+</blockquote>
+<p>這就是為什麼現代 C# 幾乎全部都用 Task 來做非同步與多工。</p>
+<h2 id="📚-參考資料">📚 參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://kenny88881234.gitlab.io/2020/12/05/Csharp-thread-and-Async/#%E7%AD%86%E8%A8%98-C-%E5%A4%9A%E5%9F%B7%E8%A1%8C%E7%B7%92%E8%88%87%E9%9D%9E%E5%90%8C%E6%AD%A5">C# 多執行緒與非同步</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/questions/10196377">請問 多工 和 非同步 是一樣的嬤?</a></li>
+<li><a target="_blank" rel="noopener" href="https://exceptionnotfound.net/async-await-in-asp-net-csharp-ultimate-guide/">The Ultimate Guide to Async and Await in C# and ASP.NET</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42504097/article/details/132026576">Thread 与 Task 的差异比较及使用环境</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.darkthread.net/blog/tpl-threadpool-usage/">新時代 .NET ThreadPool 程式寫法以及為什麼你該用力 async/await</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Thread/" rel="tag"># Thread</a>
+              <a href="/tags/ThreadPool/" rel="tag"># ThreadPool</a>
+              <a href="/tags/Task/" rel="tag"># Task</a>
+              <a href="/tags/async-await/" rel="tag"># async-await</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/11/19/abstractClassVsInterface/" rel="prev" title="抽象類別 vs 介面差異">
+                  <i class="fa fa-angle-left"></i> 抽象類別 vs 介面差異
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">looperhuang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: '32px',
+  left: 'unset',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>
