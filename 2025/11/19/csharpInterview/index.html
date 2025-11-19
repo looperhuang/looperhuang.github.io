@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LHBlog.svg">
+  <link rel="mask-icon" href="/images/LHBlog.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="簡單記錄一下面試可能的問題或遇到的問題。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C# 面試問題紀錄">
+<meta property="og:url" content="https://looperhuang.github.io/2025/11/19/csharpInterview/index.html">
+<meta property="og:site_name" content="Looper&#39;s Blog">
+<meta property="og:description" content="簡單記錄一下面試可能的問題或遇到的問題。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-11-19T08:27:19.000Z">
+<meta property="article:modified_time" content="2025-11-19T10:09:19.638Z">
+<meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="面試">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://looperhuang.github.io/2025/11/19/csharpInterview/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/11/19/csharpInterview/","path":"2025/11/19/csharpInterview/","title":"C# 面試問題紀錄"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>C# 面試問題紀錄 | Looper's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Looper's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一個菜鳥工程師</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E4%B8%AD%E7%9A%84%E5%80%BC%E5%9E%8B%E5%88%A5%E8%88%87%E5%8F%83%E8%80%83%E5%9E%8B%E5%88%A5%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">C# 中的值型別與參考型別差在哪？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#string-%E7%82%BA%E4%BB%80%E9%BA%BC%E6%98%AF%E4%B8%8D%E5%8F%AF%E8%AE%8A%E7%9A%84%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">string 為什麼是不可變的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class-%E8%88%87-struct-%E7%9A%84%E5%B7%AE%E5%88%A5%EF%BC%9F%E4%BB%80%E9%BA%BC%E6%99%82%E5%80%99%E7%94%A8-struct%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">class 與 struct 的差別？什麼時候用 struct？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#for%E3%80%81foreach-%E5%B7%AE%E5%88%A5%EF%BC%9F%E5%93%AA%E5%80%8B%E6%95%88%E8%83%BD%E8%BC%83%E5%A5%BD%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">for、foreach 差別？哪個效能較好？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#var-%E8%88%87-dynamic-%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">var 與 dynamic 差在哪？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#using-%E5%8D%80%E5%A1%8A%E6%98%AF%E5%81%9A%E4%BB%80%E9%BA%BC%E7%9A%84%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">using 區塊是做什麼的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E4%BE%8B%E5%A4%96%E8%99%95%E7%90%86%EF%BC%88Exception-Handling%EF%BC%89%EF%BC%9Ftry-catch-finally-%E7%9A%84%E7%94%A8%E9%80%94%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">什麼是例外處理（Exception Handling）？try&#x2F;catch&#x2F;finally 的用途？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D-NullReferenceException%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">如何避免 NullReferenceException？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-OOP%EF%BC%9F%E8%AA%AA%E5%87%BA%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7%E3%80%82"><span class="nav-number">9.</span> <span class="nav-text">什麼是 OOP？說出四大特性。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#override%E3%80%81virtual%E3%80%81abstract-%E5%B7%AE%E5%88%A5%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">override、virtual、abstract 差別？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINQ-%E7%9A%84-Where-%E3%80%81Select-%E6%9C%89%E4%BB%80%E9%BA%BC%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-number">11.</span> <span class="nav-text">LINQ 的 Where()、Select() 有什麼作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List-T-%E5%92%8C-Array-%E5%B7%AE%E5%9C%A8%E4%BB%80%E9%BA%BC%E5%9C%B0%E6%96%B9%EF%BC%9F"><span class="nav-number">12.</span> <span class="nav-text">List 和 Array 差在什麼地方？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IEnumerable-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F%E6%9C%89%E4%BB%80%E9%BA%BC%E7%94%A8%E9%80%94%EF%BC%9F"><span class="nav-number">13.</span> <span class="nav-text">IEnumerable 是什麼？有什麼用途？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%88%87-Equals-%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="nav-number">14.</span> <span class="nav-text">&#x3D;&#x3D; 與 .Equals() 差在哪？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%8B%E8%A7%A3%E9%87%8B-C-%E5%B1%AC%E6%80%A7%EF%BC%88Property%EF%BC%89%E7%9A%84%E7%94%A8%E9%80%94"><span class="nav-number">15.</span> <span class="nav-text">請解釋 C# 屬性（Property）的用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%A3%E5%91%8A%E4%B8%80%E5%80%8B%E6%B3%9B%E5%9E%8B%E6%96%B9%E6%B3%95%EF%BC%88Generic-Method%EF%BC%89%EF%BC%9F"><span class="nav-number">16.</span> <span class="nav-text">如何宣告一個泛型方法（Generic Method）？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Overload-%E8%88%87-Override-%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="nav-number">17.</span> <span class="nav-text">Overload 與 Override 差在哪？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%8B%E8%AA%AA%E5%87%BA-C-%E5%B8%B8%E7%94%A8%E7%9A%84%E9%9B%86%E5%90%88%E9%A1%9E%E5%88%A5%EF%BC%88Collection-Types%EF%BC%89%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">18.</span> <span class="nav-text">請說出 C# 常用的集合類別（Collection Types）有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E5%A7%94%E6%B4%BE%EF%BC%88Delegate%EF%BC%89%EF%BC%9F%E5%AE%83%E8%88%87%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="nav-number">19.</span> <span class="nav-text">什麼是委派（Delegate）？它與事件（Event）差在哪？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%8B%E8%AA%AA%E6%98%8E-async-await-%E7%9A%84%E9%81%8B%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">20.</span> <span class="nav-text">請說明 async&#x2F;await 的運作方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task-%E8%88%87-Thread-%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="nav-number">21.</span> <span class="nav-text">Task 與 Thread 差在哪？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Dependency-Injection%EF%BC%9F%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E7%94%A8%EF%BC%9F"><span class="nav-number">22.</span> <span class="nav-text">什麼是 Dependency Injection？為什麼要用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DI-%E4%B8%AD-Singleton-Scoped-Transient-%E5%B7%AE%E7%95%B0%EF%BC%9F"><span class="nav-number">23.</span> <span class="nav-text">DI 中 Singleton &#x2F; Scoped &#x2F; Transient 差異？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Entity-Framework-%E7%9A%84-Lazy-Loading-vs-Eager-Loading%EF%BC%9F"><span class="nav-number">24.</span> <span class="nav-text">Entity Framework 的 Lazy Loading vs Eager Loading？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINQ-%E7%9A%84-Deferred-Execution-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="nav-number">25.</span> <span class="nav-text">LINQ 的 Deferred Execution 是什麼？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IEnumerable-T-vs-IQueryable-T-%E7%9A%84%E5%B7%AE%E5%88%A5%EF%BC%9F"><span class="nav-number">26.</span> <span class="nav-text">IEnumerable vs IQueryable 的差別？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%8B%E6%8F%8F%E8%BF%B0-RESTful-API-%E7%9A%84%E8%A8%AD%E8%A8%88%E5%8E%9F%E5%89%87%E3%80%82"><span class="nav-number">27.</span> <span class="nav-text">請描述 RESTful API 的設計原則。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Garbage-Collection-%E4%B8%89%E4%BB%A3%EF%BC%88Gen-0-1-2%EF%BC%89%E5%A6%82%E4%BD%95%E9%81%8B%E4%BD%9C%EF%BC%9F"><span class="nav-number">28.</span> <span class="nav-text">Garbage Collection 三代（Gen 0&#x2F;1&#x2F;2）如何運作？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-API-%E7%9A%84-Middleware-%E9%81%8B%E4%BD%9C%E9%A0%86%E5%BA%8F%EF%BC%9F"><span class="nav-number">29.</span> <span class="nav-text">Web API 的 Middleware 運作順序？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Model-Binding%EF%BC%9F%EF%BC%88Web-API%EF%BC%89"><span class="nav-number">30.</span> <span class="nav-text">什麼是 Model Binding？（Web API）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#async-await-%E4%B8%8B%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D-deadlock%EF%BC%9F"><span class="nav-number">31.</span> <span class="nav-text">async&#x2F;await 下如何避免 deadlock？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINQ-Join-%E7%9A%84%E8%AA%9E%E6%B3%95%E8%88%87%E7%94%A8%E9%80%94%EF%BC%9F"><span class="nav-number">32.</span> <span class="nav-text">LINQ Join 的語法與用途？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B-Custom-Exception%EF%BC%9F%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E5%81%9A%EF%BC%9F"><span class="nav-number">33.</span> <span class="nav-text">如何建立 Custom Exception？為什麼要做？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lock%E3%80%81Monitor%E3%80%81SemaphoreSlim-%E5%B7%AE%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="nav-number">34.</span> <span class="nav-text">lock、Monitor、SemaphoreSlim 差在哪？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%8B%E8%A7%A3%E9%87%8B-Clean-Architecture-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E3%80%82"><span class="nav-number">35.</span> <span class="nav-text">請解釋 Clean Architecture 的核心概念。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Memory-Leak%EF%BC%9F-NET-%E4%B8%AD%E6%9C%83%E6%80%8E%E9%BA%BC%E7%99%BC%E7%94%9F%EF%BC%9F"><span class="nav-number">36.</span> <span class="nav-text">什麼是 Memory Leak？.NET 中會怎麼發生？</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="looperhuang"
+      src="/images/LHBlog.svg">
+  <p class="site-author-name" itemprop="name">looperhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/looperhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;looperhuang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:looper841213@gmail.com" title="Gmail → mailto:looper841213@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Gmail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/11/19/csharpInterview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="C# 面試問題紀錄 | Looper's Blog">
+      <meta itemprop="description" content="簡單記錄一下面試可能的問題或遇到的問題。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C# 面試問題紀錄
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-11-19 16:27:19 / 修改時間：18:09:19" itemprop="dateCreated datePublished" datetime="2025-11-19T16:27:19+08:00">2025-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%9D%A2%E8%A9%A6/" itemprop="url" rel="index"><span itemprop="name">面試</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">簡單記錄一下面試可能的問題或遇到的問題。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="C-中的值型別與參考型別差在哪？">C# 中的值型別與參考型別差在哪？</h2>
+<ol>
+<li>值型別（Value Type）：存在 Stack，例如 int、bool、struct、enum</li>
+<li>參考型別（Reference Type）：存在 Heap，例如 class、string、array</li>
+</ol>
+<ul>
+<li>傳遞時值型別是 複製、參考型別是 指向同一物件</li>
+<li>string 雖然是參考型別，但不可變（immutable）</li>
+</ul>
+<h2 id="string-為什麼是不可變的？">string 為什麼是不可變的？</h2>
+<ul>
+<li>原因： 主要是為了安全和執行緒安全。</li>
+<li>安全： 確保字串的雜湊值固定，適合當作 Dictionary 的 Key。</li>
+<li>執行緒安全： 多個執行緒共用同一個字串時，因為它不能被改變，所以不會產生資料衝突</li>
+</ul>
+<h2 id="class-與-struct-的差別？什麼時候用-struct？">class 與 struct 的差別？什麼時候用 struct？</h2>
+<ul>
+<li>class (類別)： 參考類型，資料存在 Heap，傳遞的是記憶體地址。</li>
+<li>struct (結構)： 值類型，資料存在 Stack，傳遞的是資料的完整拷貝。</li>
+<li>使用 struct： 當你的數據輕量、小巧（建議 16 位元組以下）、且不需要繼承時，適合用 struct 獲得效能優勢。</li>
+</ul>
+<h2 id="for、foreach-差別？哪個效能較好？">for、foreach 差別？哪個效能較好？</h2>
+<ul>
+<li>for： 基於索引或計數，用於精確控制。</li>
+<li>foreach： 基於集合元素，用於遍歷。可讀性好，且不能在迴圈內修改集合。</li>
+<li>效能： 大多數情況下差異極小，優先選用可讀性高的 foreach。只有遍歷 Array 或 List<T> 時，for 迴圈可能稍微快一點。</li>
+</ul>
+<h2 id="var-與-dynamic-差在哪？">var 與 dynamic 差在哪？</h2>
+<ul>
+<li>var： 只是語法糖。類型在編譯時就確定了（靜態類型）。編譯後它就是一個確切的類型，無性能損失。</li>
+<li>dynamic： 真正的動態類型。類型要到執行時才確定。失去了編譯時的錯誤檢查，有輕微性能開銷，用於特殊互操作。</li>
+</ul>
+<h2 id="using-區塊是做什麼的？">using 區塊是做什麼的？</h2>
+<ul>
+<li>作用： 確保非受管資源（如檔案連線、資料庫連線）能夠被自動、可靠地釋放。</li>
+<li>機制： using 區塊保證在它結束時，會呼叫物件的 Dispose() 方法，即使發生例外也一樣，避免資源洩漏。
+<blockquote>
+<p>需要實作 IDisposable 介面</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="什麼是例外處理（Exception-Handling）？try-catch-finally-的用途？">什麼是例外處理（Exception Handling）？try/catch/finally 的用途？</h2>
+<ul>
+<li>例外處理： 讓程式在遇到非預期錯誤時不會直接崩潰，而是可以安全地處理或記錄錯誤。</li>
+<li>try： 包圍可能發生錯誤的程式碼。</li>
+<li>catch： 捕獲並執行錯誤發生後的補救邏輯。</li>
+<li>finally： 無論有沒有錯誤，都一定會執行的清理程式碼（例如：關閉連線）。</li>
+</ul>
+<h2 id="如何避免-NullReferenceException？">如何避免 NullReferenceException？</h2>
+<ul>
+<li>現代方法： 使用 Null 條件運算子 ?. 和 Null 合併運算子 ??。</li>
+<li>設計： 避免方法返回 null（例如：返回空集合而非 null）。</li>
+<li>C# 8.0+： 啟用可空參考類型，讓編譯器在編譯時就警告你潛在的 null 風險。</li>
+</ul>
+<h2 id="什麼是-OOP？說出四大特性。">什麼是 OOP？說出四大特性。</h2>
+<p>OOP 是一種程式設計典範，核心是將現實世界中的事物抽象化為物件 (Objects)。它透過讓這些物件彼此合作，來實現複雜的功能。</p>
+<ol>
+<li>
+<p>封裝 (Encapsulation)：</p>
+<ul>
+<li>作用： 把資料和方法綁在一起藏好，不讓外部隨意存取內部細節。</li>
+<li>目的： 隱藏複雜性，只暴露必要的介面。</li>
+</ul>
+</li>
+<li>
+<p>繼承 (Inheritance)：</p>
+<ul>
+<li>作用： 允許新的類別（子類）繼承現有類別（父類）的屬性和方法。</li>
+<li>目的： 實現程式碼重用和建立 is-a 關係（例如：狗是一種動物）。</li>
+</ul>
+</li>
+<li>
+<p>抽象化 (Abstraction)：</p>
+<ul>
+<li>作用： 專注於事物的本質和功能介面，忽略不重要的實作細節。</li>
+<li>目的： 讓使用者只看到他們需要的（例如：開車只看方向盤，不看引擎細節）。</li>
+</ul>
+</li>
+<li>
+<p>多型 (Polymorphism)：</p>
+<ul>
+<li>作用： 允許不同的物件對同一個訊息或同一個方法做出不同的反應。</li>
+<li>目的： 程式碼具有彈性（例如：呼叫 Animal.MakeSound()，貓會「喵」，狗會「汪」）。</li>
+</ul>
+</li>
+</ol>
+<h2 id="override、virtual、abstract-差別？">override、virtual、abstract 差別？</h2>
+<ul>
+<li>virtual (父類)： 我提供一個預設行為，子類可以選擇覆寫。</li>
+<li>abstract (父類)： 我只定義一個方法規格，子類必須提供實現。</li>
+<li>override (子類)： 我正在替換掉父類 virtual 或 abstract 方法的實作。</li>
+</ul>
+<h2 id="LINQ-的-Where-、Select-有什麼作用？">LINQ 的 Where()、Select() 有什麼作用？</h2>
+<ul>
+<li>Where() 的作用：篩選 (Filtering)<br>
+Where 解決「哪些」： 決定哪些元素應該保留。</li>
+<li>Select() 的作用：投影 (Projection)<br>
+Select 解決「長怎樣」： 決定保留下來的元素應該長什麼樣（轉換成什麼）。</li>
+</ul>
+<h2 id="List-T-和-Array-差在什麼地方？">List<T> 和 Array 差在什麼地方？</h2>
+<ul>
+<li>Array (陣列)： 長度固定，建立後不能改變。效能最好，適合數量不變的場景。</li>
+<li>List<T> (列表)： 長度可變，可以隨時新增/刪除。當空間不夠時會自動擴容，彈性高。</li>
+</ul>
+<h2 id="IEnumerable-是什麼？有什麼用途？">IEnumerable 是什麼？有什麼用途？</h2>
+<ul>
+<li>是什麼： 是一個契約標籤，承諾這個集合是可以被遍歷的。</li>
+<li>用途： 它是 foreach 迴圈和 LINQ 查詢的基石。</li>
+<li>核心優勢： 實現延遲執行。它只在真正需要元素時才計算，適合處理大型資料，節省資源。</li>
+</ul>
+<h2 id="與-Equals-差在哪？">== 與 .Equals() 差在哪？</h2>
+<table>
+<thead>
+<tr>
+<th>比較對象</th>
+<th>== (運算子)</th>
+<th>.Equals() (方法)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>預設行為</td>
+<td>比較記憶體地址 (參考)</td>
+<td>比較記憶體地址 (參考)</td>
+</tr>
+<tr>
+<td>自定義 Class</td>
+<td>預設比較地址，但可重載</td>
+<td>預設比較地址，但可覆寫 (用來比較內容，實現邏輯相等)</td>
+</tr>
+<tr>
+<td>String (特殊)</td>
+<td>兩者都比較內容</td>
+<td>兩者都比較內容</td>
+</tr>
+</tbody>
+</table>
+<h2 id="請解釋-C-屬性（Property）的用途">請解釋 C# 屬性（Property）的用途</h2>
+<ul>
+<li>用途： 是一種受控的、安全的方式來存取類別的內部資料。</li>
+<li>核心： 透過 get 和 set 區塊，你可以在讀取或寫入資料時，加入驗證、計算或邏輯，防止外部直接亂改資料，實現封裝。</li>
+</ul>
+<h2 id="如何宣告一個泛型方法（Generic-Method）？">如何宣告一個泛型方法（Generic Method）？</h2>
+<ul>
+<li>方法： 在方法名稱後面加上 <T>，T 就是佔位符。</li>
+<li>範例： public static void Swap<T>(ref T a, ref T b)</li>
+<li>作用： 讓你寫一次邏輯，就能適用於 int、string 等多種資料類型。</li>
+</ul>
+<pre><code class="highlight csharp"><span class="keyword">public</span> <span class="keyword">static</span> T <span class="comment">/* 1. 傳回類型可以是 T */</span>
+    MyGenericMethod&lt;T&gt; <span class="comment">/* 2. 在方法名稱後用 &lt;T&gt; 宣告類型參數 */</span>
+    (T inputParameter, <span class="built_in">string</span> message) <span class="comment">/* 3. 參數也可以使用 T */</span>
+&#123;
+    <span class="comment">// 方法內容</span>
+&#125;</code></pre>
+<h2 id="Overload-與-Override-差在哪？">Overload 與 Override 差在哪？</h2>
+<ul>
+<li>Overload (重載)： 就像是同一個動詞 (方法名)，但可以有不同的用法 (參數)。例如，你有 Add(int a, int b) 和 Add(double a, double b) 兩個方法。</li>
+<li>Override (覆寫)： 就像是繼承。子類替換掉父類的方法，實現多型。例如，Dog 覆寫了 Animal 的 MakeSound() 方法。</li>
+</ul>
+<h2 id="請說出-C-常用的集合類別（Collection-Types）有哪些？">請說出 C# 常用的集合類別（Collection Types）有哪些？</h2>
+<table>
+<thead>
+<tr>
+<th>類別</th>
+<th>簡潔用途</th>
+<th>特點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List<T></td>
+<td>存放會變動的一串資料</td>
+<td>最常用。可增長，內部基於陣列。</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>存放固定數量的資料</td>
+<td>效能最好，但長度不能變。</td>
+</tr>
+<tr>
+<td>Dictionary&lt;TKey, TValue&gt;</td>
+<td>用 Key 查 Value</td>
+<td>查詢速度最快（平均 O(1)）。</td>
+</tr>
+<tr>
+<td>HashSet<T></td>
+<td>存放不重複的資料</td>
+<td>查詢速度極快，不用 Key。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="什麼是委派（Delegate）？它與事件（Event）差在哪？">什麼是委派（Delegate）？它與事件（Event）差在哪？</h2>
+<ul>
+<li>委派 (Delegate)： 就像一張「空白合約」，用來定義方法的規格（參數和返回值），讓你把方法當作參數傳遞。</li>
+<li>事件 (Event)： 是委派的一個安全郵箱。它只允許外部訂閱/退訂（+= / -=），但不允許外部隨意觸發或清空訂閱列表，確保系統穩定。</li>
+</ul>
+<pre><code class="highlight csharp"><span class="comment">// 1. 宣告一個委派類型</span>
+<span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">NotifyHandler</span>(<span class="params"><span class="built_in">string</span> message</span>)</span>;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Publisher</span>
+&#123;
+    <span class="comment">// 2. 宣告一個委派欄位 (這裡還不是事件)</span>
+    <span class="keyword">public</span> NotifyHandler OnNotification;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendMessage</span>(<span class="params"><span class="built_in">string</span> msg</span>)</span>
+    &#123;
+        <span class="comment">// 3. 呼叫委派，所有註冊的方法都會執行</span>
+        OnNotification?.Invoke(msg);
+    &#125;
+&#125;
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Subscriber</span>
+&#123;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Handle</span>(<span class="params">Publisher p</span>)</span>
+    &#123;
+        <span class="comment">// 訂閱事件：允許</span>
+        p.OnNotification += MyMethod;
+
+        <span class="comment">// 外部呼叫：編譯錯誤！</span>
+        <span class="comment">// p.OnNotification.Invoke(&quot;Hack!&quot;);</span>
+
+        <span class="comment">// 外部清空：編譯錯誤！</span>
+        <span class="comment">// p.OnNotification = null;</span>
+    &#125;
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">MyMethod</span>(<span class="params"><span class="built_in">string</span> message</span>)</span> &#123; <span class="comment">/* 處理邏輯 */</span> &#125;
+&#125;</code></pre>
+<h2 id="請說明-async-await-的運作方式">請說明 async/await 的運作方式</h2>
+<p>async/await 的核心是讓程式執行非同步操作時不阻塞主執行緒。</p>
+<ol>
+<li>async (標籤)： 告訴編譯器該方法內有非同步操作，需要特殊處理。方法必須返回 Task。</li>
+<li>await (暫停點)： 當程式執行到 await 時，會釋放當前的執行緒給其他任務使用，程式暫停。
+<blockquote>
+<p>await 就像你對電腦說：「你去幫我處理這個網路下載任務（I/O 任務）。在你等待資料的這段時間，你不用傻等，你可以先去做其他事。等數據一回來，你再回來繼續執行我的後續程式碼！」</p>
+</blockquote>
+</li>
+<li>恢復： 等待的任務（如網路 I/O）完成後，系統會自動在一個新的執行緒上恢復 await 後續的程式碼執行。
+<blockquote>
+<p>總結： 程式在等待 I/O 完成時，執行緒可以去做其他事情，實現高效利用資源。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="Task-與-Thread-差在哪？">Task 與 Thread 差在哪？</h2>
+<p>Task 和 Thread 的差異主要體現在層級和效率上。</p>
+<ul>
+<li>
+<p>Thread (執行緒)</p>
+<ul>
+<li>底層的勞力，直接對應作業系統的執行緒。</li>
+<li>成本高。啟動和銷毀資源消耗大，需要手動管理。現代 C# 很少直接使用。</li>
+</ul>
+</li>
+<li>
+<p>Task (任務)</p>
+<ul>
+<li>高階的抽象，一個工作請求。</li>
+<li>效率高。它會自動交給 ThreadPool (執行緒池) 管理和重複利用底層的 Thread。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Task 是你發出的任務單，ThreadPool 是管理工人的經理，而 Thread 才是真正的工人。我們只需要發任務單，不需要自己管工人。</p>
+</blockquote>
+<h2 id="什麼是-Dependency-Injection？為什麼要用？">什麼是 Dependency Injection？為什麼要用？</h2>
+<p>控制反轉 (IoC) : 把「誰來決定建立物件」這件事，從自己手上交給別人（框架）處理。</p>
+<ul>
+<li>
+<p>是什麼 : 類別不再自己建立所需的依賴物件，而是由外部（DI 容器）傳遞（注入）給它。</p>
+</li>
+<li>
+<p>為什麼用 : 實現高度解耦 (Decoupling)。類別只依賴抽象介面，而非具體實現。</p>
+</li>
+<li>
+<p>主要優勢 :</p>
+<ol>
+<li>易於測試： 可以輕鬆替換為模擬物件 (Mock)。</li>
+<li>高彈性： 替換底層服務（如資料庫）無需修改核心程式碼。</li>
+</ol>
+</li>
+</ul>
+<h2 id="DI-中-Singleton-Scoped-Transient-差異？">DI 中 Singleton / Scoped / Transient 差異？</h2>
+<ol>
+<li>Singleton： 像公司的總裁，整個公司（應用程式）只有一個。無論誰找，都是找同一個人。</li>
+<li>Scoped： 像一個部門經理，在這次專案（Scope / HTTP Request）裡，大家找的都是同一個經理。但換到下一個專案，大家會創建和找新的經理。</li>
+<li>Transient： 像一份外賣訂單，每次你餓了（請求），DI 容器就給你做一份新的。</li>
+</ol>
+<h2 id="Entity-Framework-的-Lazy-Loading-vs-Eager-Loading？">Entity Framework 的 Lazy Loading vs Eager Loading？</h2>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Lazy Loading (延遲加載)</th>
+<th>Eager Loading (急切加載)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>加載時機</td>
+<td>需要時才加載。當你第一次存取導航屬性時（例如 order.Details），EF 才會發送查詢。</td>
+<td>查詢主要實體時就加載。在最初的查詢中就同時抓取相關資料。</td>
+</tr>
+<tr>
+<td>資料庫查詢</td>
+<td>多次查詢。第一次查詢主實體，後續每次存取關聯物件都會發送一個新的查詢。</td>
+<td>一次查詢。通常使用 JOIN 或多個查詢語句在資料庫端完成。</td>
+</tr>
+<tr>
+<td>實現方式</td>
+<td>需要導航屬性是 virtual (虛擬)。</td>
+<td>需要使用 Include() 擴展方法。</td>
+</tr>
+<tr>
+<td>效能影響</td>
+<td>可能導致 N+1 問題 (性能殺手)。如果遍歷很多實體，會發出過多的小查詢。</td>
+<td>效率較高，但可能一次載入過多不必要的資料，導致單次查詢變慢。</td>
+</tr>
+<tr>
+<td>適用場景</td>
+<td>關聯資料很少被存取；或只需要存取極少數實體的關聯資料。</td>
+<td>確定需要使用關聯資料時；高效處理大量關聯實體。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Eager Loading (Include()): 推薦使用。在需要關聯數據時，明確告訴 EF 要抓取哪些數據，可以有效避免 N+1 查詢問題，提升效能。</li>
+<li>Lazy Loading: 方便但危險。當你不小心在迴圈中存取關聯屬性時，會不知不覺中產生大量的資料庫往返，應謹慎使用。</li>
+</ul>
+<h2 id="LINQ-的-Deferred-Execution-是什麼？">LINQ 的 Deferred Execution 是什麼？</h2>
+<p>延遲執行是指 LINQ 查詢在程式碼中被定義時，並不會立即執行，而只是建立一個查詢定義 (Query Definition)。<br>
+實際的資料獲取和運算會被推遲到結果真正被需要的時候。</p>
+<ul>
+<li>資源效率 (Lazy Evaluation)：<br>
+只有在你需要時才計算元素。如果你只需要查詢的前 5 筆資料，LINQ 就會停止計算後續的資料，節省運算時間和資源。</li>
+<li>優化查詢：<br>
+對於 Entity Framework (LINQ to Entities)，延遲執行允許 EF 將多個 LINQ 操作合併並翻譯成一個優化過的 SQL 查詢，減少資料庫的往返次數。</li>
+<li>獲取最新數據：<br>
+由於查詢是延遲執行的，每次執行時都會從底層資料源（例如資料庫）獲取最新的數據。</li>
+</ul>
+<p>延遲執行就像是點餐不開火。</p>
+<ol>
+<li>服務生（程式）先寫下你的訂單（查詢定義）</li>
+<li>直到你確定要吃（開始遍歷或 ToList()）時</li>
+<li>廚房（資料源）才開始製作（執行查詢）。</li>
+</ol>
+<h2 id="IEnumerable-T-vs-IQueryable-T-的差別？">IEnumerable<T> vs IQueryable<T> 的差別？</h2>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>IEnumerable<T></th>
+<th>IQueryable<T></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>資料處理位置</td>
+<td>本地端 (Local)：在應用程式的記憶體中處理資料。</td>
+<td>遠端端 (Remote)：在資料庫伺服器端處理資料。</td>
+</tr>
+<tr>
+<td>查詢執行</td>
+<td>先拉後篩：從資料庫拉取所有符合條件的資料，到記憶體後再進行 Where 或 Select 篩選。</td>
+<td>先篩後拉：將整個 LINQ 查詢翻譯成 SQL，讓資料庫伺服器執行篩選和運算，只拉取最終需要的結果。</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>所有集合：適用於任何實現 IEnumerable 的集合（如 List<T>, Array）。</td>
+<td>資料庫/遠端來源：通常由 ORM（如 Entity Framework）提供。</td>
+</tr>
+<tr>
+<td>底層機制</td>
+<td>基於 委派 和 迭代器。</td>
+<td>基於 Expression Trees (表達式樹)。</td>
+</tr>
+<tr>
+<td>性能影響</td>
+<td>低效：如果資料庫中有 100 萬筆記錄，你可能會拉取 100 萬筆到應用程式的記憶體中。</td>
+<td>高效：只拉取你需要的 10 筆記錄，節省網路帶寬和應用程式記憶體。</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>IEnumerable<T>： 適合處理已經在記憶體中的資料。</li>
+<li>IQueryable<T>： 適合處理遠端資料庫的資料，它能將你的 C# 程式碼轉換成高效的 SQL 查詢。</li>
+</ol>
+<blockquote>
+<p>核心記憶點： 永遠應該先使用 IQueryable<T> 進行篩選和排序，在確定資料量變小後，最後再使用 ToList() 或 AsEnumerable() 轉換成 IEnumerable<T> 進行本地處理。</p>
+</blockquote>
+<h2 id="請描述-RESTful-API-的設計原則。">請描述 RESTful API 的設計原則。</h2>
+<ol>
+<li>資源 (Resource-Based)：
+<ul>
+<li>原則： 將網路上的所有事物視為資源，每個資源都透過唯一的 URL (URI) 來識別。</li>
+<li>實踐： URL 應該使用名詞來表示資源集合（例如 /users, /products/123），避免使用動詞。</li>
+</ul>
+</li>
+<li>統一介面 (Uniform Interface)：
+<ul>
+<li>原則： 採用一組標準化的操作方法來處理資源。</li>
+<li>實踐： 使用標準的 HTTP 動詞對資源進行操作（CRUD）：
+<ul>
+<li>GET： 獲取（讀取）資源。</li>
+<li>POST： 創建（新增）資源。</li>
+<li>PUT / PATCH： 更新（修改）資源。</li>
+<li>DELETE： 刪除資源。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>無狀態性 (Statelessness)：
+<ul>
+<li>原則： 伺服器不會在兩次請求之間儲存任何客戶端的狀態資訊。</li>
+<li>實踐： 客戶端發出的每一個請求都必須包含伺服器處理該請求所需的所有資訊（例如，認證資訊、Session ID 等）。</li>
+</ul>
+</li>
+<li>分層系統 (Layered System)：
+<ul>
+<li>原則： 客戶端無法區分它是直接連線到最終的伺服器，還是中間有代理、負載平衡器或其他中介層。</li>
+<li>目的： 提高系統的可擴展性和安全性。</li>
+</ul>
+</li>
+</ol>
+<h2 id="Garbage-Collection-三代（Gen-0-1-2）如何運作？">Garbage Collection 三代（Gen 0/1/2）如何運作？</h2>
+<p>.NET 的 GC 採用分代回收策略，目的是根據物件的存活時間將它們分配到不同的代（Generation），從而只檢查那些最有可能被回收的物件。</p>
+<ol>
+<li>
+<p>Gen 0 (第一代：年輕的、短命的)</p>
+<ul>
+<li>物件： 剛創建的新物件。</li>
+<li>回收頻率： 最高，因為絕大多數物件（約 90% 以上）生命週期極短。</li>
+<li>運作： 空間滿時，GC 執行 Gen 0 回收。如果物件仍被引用（存活），則將其提升到 Gen 1。</li>
+</ul>
+</li>
+<li>
+<p>Gen 1 (第二代：中年的、過渡期)</p>
+<ul>
+<li>物件： 從 Gen 0 存活下來的物件。</li>
+<li>回收頻率： 較低。</li>
+<li>運作： Gen 0 的回收無法釋放足夠的記憶體時，GC 會執行 Gen 1 回收。存活下來的物件被提升到 Gen 2。Gen 1 充當一個緩衝區。</li>
+</ul>
+</li>
+<li>
+<p>Gen 2 (第三代：老年的、長命的)</p>
+<ul>
+<li>物件： 從 Gen 1 存活下來的物件，通常是長時間存活的物件（如靜態物件、單例服務）。</li>
+<li>回收頻率： 最低，且最昂貴。</li>
+<li>運作： 只有當 Gen 0 和 Gen 1 都無法釋放足夠記憶體時，才會執行 Gen 2 回收。GC 會遍歷整個堆積 (Heap)。</li>
+</ul>
+</li>
+</ol>
+<h2 id="Web-API-的-Middleware-運作順序？">Web API 的 Middleware 運作順序？</h2>
+<p>Middleware 是一系列組件，它們在處理 HTTP 請求 (Request) 和生成 HTTP 響應 (Response) 的過程中，以一個管道 (Pipeline) 的方式依序執行。</p>
+<ol>
+<li>洋蔥模型 (The Onion Model)<br>
+Middleware 的執行順序遵循一個經典的洋蔥模型：</li>
+</ol>
+<ul>
+<li>請求 (Request)： 請求從最外層的 Middleware 依序進入到最內層（通常是應用程式的實際處理邏輯，如 Controller）。</li>
+<li>響應 (Response)： 響應從最內層的處理邏輯生成後，會反向穿出，依序經過每個 Middleware，直到返回給客戶端。</li>
+</ul>
+<ol start="2">
+<li>關鍵順序與控制<br>
+Middleware 的順序由你在 Program.cs 檔案中呼叫 app.Use…() 方法的順序來決定。</li>
+</ol>
+<ul>
+<li>越早註冊，越早進入、越晚離開。
+<ul>
+<li>外層 (先註冊)： 負責高階的任務，如異常處理、日誌記錄、安全性。</li>
+<li>內層 (後註冊)： 負責低階、具體的任務，如路由、CORS、身份驗證。</li>
+</ul>
+</li>
+</ul>
+<h2 id="什麼是-Model-Binding？（Web-API）">什麼是 Model Binding？（Web API）</h2>
+<p>Model Binding 是一種 <a target="_blank" rel="noopener" href="http://ASP.NET">ASP.NET</a> Core 機制，它的作用是自動將 HTTP 請求中的數據，轉換並映射到方法的參數 (Model) 中。</p>
+<table>
+<thead>
+<tr>
+<th>參數類型</th>
+<th>預設綁定來源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>簡單類型 (Primitive types: int, string, bool 等)</td>
+<td>預設從 路由、查詢字串、表單 中查找。</td>
+</tr>
+<tr>
+<td>複雜類型 (Complex types: User 類別, ProductModel 等)</td>
+<td>預設從 請求主體 (Request Body) 中查找，並使用格式化器 (Formatter) 來解析 JSON 或 XML。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Model Binding 就像一個翻譯官兼自動填表器，它將雜亂的 HTTP 請求數據，自動整理成乾淨、可用的 C# 物件，供你的程式碼直接使用</p>
+</blockquote>
+<h2 id="async-await-下如何避免-deadlock？">async/await 下如何避免 deadlock？</h2>
+<ul>
+<li>全程使用 await
+<ul>
+<li>永遠不要使用 .Wait(), .Result, 或 Task.GetAwaiter().GetResult() 來同步地等待一個 Task 完成。</li>
+<li>如果你的方法呼叫了一個 async 方法，那麼你的方法也應該是 async 的，並使用 await 來等待結果。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="highlight csharp"><span class="comment">// 推薦：從頭到尾保持非同步</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">AsyncMethod</span>()</span>
+&#123;
+    <span class="comment">// ✅ 不阻塞，只是暫停並釋放執行緒</span>
+    <span class="keyword">await</span> MyAsyncMethod();
+&#125;</code></pre>
+<ul>
+<li>使用 ConfigureAwait(false)
+<ul>
+<li>告訴 await 系統，不需要回到原來的同步上下文來恢復後續程式碼。</li>
+<li>在所有不關心 UI 或請求上下文的通用庫程式碼中，使用 ConfigureAwait(false)。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="highlight csharp"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">MyLibraryMethod</span>()</span>
+&#123;
+    <span class="comment">// ✅ 恢復時不需要回到原來的執行緒，可以找任何空閒執行緒</span>
+    <span class="keyword">await</span> Task.Delay(<span class="number">100</span>).ConfigureAwait(<span class="literal">false</span>);
+&#125;</code></pre>
+<ul>
+<li>避免鎖定資源
+<ul>
+<li>盡量不要在 await 關鍵字前後持有共享資源鎖（例如 lock 區塊）。因為 await 會釋放執行緒，可能導致鎖資源長期被佔用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="LINQ-Join-的語法與用途？">LINQ Join 的語法與用途？</h2>
+<pre><code class="highlight csharp"><span class="keyword">var</span> result = employees.Join(
+    departments,                <span class="comment">// 要連接的目標集合</span>
+    employee =&gt; employee.DeptId,  <span class="comment">// 來源集合的 Key (外鍵)</span>
+    department =&gt; department.Id,  <span class="comment">// 目標集合的 Key (主鍵)</span>
+    (employee, department) =&gt; <span class="keyword">new</span> &#123;  <span class="comment">// 結果選擇器</span>
+        employee.Name,
+        department.DeptName
+    &#125;
+);</code></pre>
+<ul>
+<li>資料整合： 將分散在不同列表或資料表中的資料，根據共同的 ID 關聯起來。</li>
+<li>等同 SQL INNER JOIN： 只有在兩個集合中都有匹配的 Key 時，才會產生結果。</li>
+<li>多對一關聯： 常用於將多個「子項」與一個「父項」對應起來。</li>
+</ul>
+<h2 id="如何建立-Custom-Exception？為什麼要做？">如何建立 Custom Exception？為什麼要做？</h2>
+<ol>
+<li>繼承標準 Exception 類別</li>
+</ol>
+<p>你的自定義例外類別必須直接或間接繼承自 System.Exception 或其衍生類別（最常見的是 System.ApplicationException 或直接繼承 System.Exception）。</p>
+<ol start="2">
+<li>實現標準建構函式</li>
+</ol>
+<pre><code class="highlight csharp"><span class="comment">// 假設我們的應用程式不允許年齡小於 18 歲</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AgeTooYoungException</span> : <span class="title">Exception</span>
+&#123;
+    <span class="comment">// 1. 無參數建構函式</span>
+    <span class="function"><span class="keyword">public</span> <span class="title">AgeTooYoungException</span>() : <span class="title">base</span>(<span class="params"><span class="string">&quot;使用者年齡小於最小限制。&quot;</span></span>)</span> &#123; &#125;
+
+    <span class="comment">// 2. 帶訊息建構函式</span>
+    <span class="function"><span class="keyword">public</span> <span class="title">AgeTooYoungException</span>(<span class="params"><span class="built_in">string</span> message</span>) : <span class="title">base</span>(<span class="params">message</span>)</span> &#123; &#125;
+
+    <span class="comment">// 3. 帶訊息和內部例外建構函式</span>
+    <span class="function"><span class="keyword">public</span> <span class="title">AgeTooYoungException</span>(<span class="params"><span class="built_in">string</span> message, Exception innerException</span>)</span>
+<span class="function">        : <span class="title">base</span>(<span class="params">message, innerException</span>)</span> &#123; &#125;
+
+    <span class="comment">// (可選) 添加自定義屬性</span>
+    <span class="keyword">public</span> <span class="built_in">int</span> MinimumAge &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125; = <span class="number">18</span>;
+&#125;</code></pre>
+<p>用途 :<br>
+建立自定義例外的主要目的是為了讓程式碼更清晰、專業、易於偵錯，並提供特定情境的錯誤訊息。</p>
+<h2 id="lock、Monitor、SemaphoreSlim-差在哪？">lock、Monitor、SemaphoreSlim 差在哪？</h2>
+<p>用於控制多執行緒對共享資源的存取，但設計的目的和適用場景不同</p>
+<table>
+<thead>
+<tr>
+<th>機制</th>
+<th>簡潔用途</th>
+<th>核心特性</th>
+<th>適用場景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lock</td>
+<td>互斥鎖 (Mutex)：一次只允許 1 個執行緒進入臨界區。</td>
+<td>語法糖：編譯器會自動轉換為 try…finally 包裹的 Monitor.Enter() 和 Monitor.Exit()。最簡單、最安全。</td>
+<td>簡單的單執行緒獨佔存取共享資源（例如：更新計數器）。</td>
+</tr>
+<tr>
+<td>Monitor</td>
+<td>底層鎖：提供更細膩的控制能力。</td>
+<td>功能完整：提供 Wait(), Pulse(), PulseAll() 等方法，允許執行緒在持有鎖時暫時釋放，等待特定條件後被喚醒。</td>
+<td>需要執行緒間通訊、複雜的生產者/消費者模式。</td>
+</tr>
+<tr>
+<td>SemaphoreSlim</td>
+<td>信號量：一次允許 N 個執行緒進入臨界區。</td>
+<td>計數鎖：維護一個計數器，只有計數器大於零時才允許進入。支援 async/await。</td>
+<td>限制並行數量：限制同時處理的連線數、限制對資源的存取流量。</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>lock： 最簡單、最安全。一次只能進一個。</li>
+<li>Monitor： lock 的底層實現，更靈活，可以控制執行緒暫停和喚醒。</li>
+<li>SemaphoreSlim： 控制最大並行數（可以同時進 N 個）。支援現代的 async/await。</li>
+</ol>
+<h2 id="請解釋-Clean-Architecture-的核心概念。">請解釋 Clean Architecture 的核心概念。</h2>
+<p>核心思想是：關注點分離 (Separation of Concerns)，特別是將業務規則與外部細節完全隔離。</p>
+<ol>
+<li>核心原則：依賴規則 (The Dependency Rule)<br>
+這是 Clean Architecture 的絕對核心。
+<ul>
+<li>規則： 程式碼的依賴關係只能由外向內，永遠不能由內向外。</li>
+<li>意義： 內層的程式碼（業務規則）對外層的程式碼（框架、資料庫、UI）一無所知。這確保了最寶貴的業務邏輯不會受到外部技術變化的影響。</li>
+</ul>
+</li>
+<li>架構層次 (同心圓)
+<table>
+<thead>
+<tr>
+<th>層次 (由內而外)</th>
+<th>簡潔用途</th>
+<th>依賴對象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entities (實體)</td>
+<td>企業級業務規則。最基本的資料結構和高層次的業務規則。</td>
+<td>任何外部事物。</td>
+</tr>
+<tr>
+<td>Use Cases (使用案例)</td>
+<td>應用程式的業務規則。特定應用程式的操作流程。</td>
+<td>僅依賴 Entities。</td>
+</tr>
+<tr>
+<td>Interface Adapters (介面配接器)</td>
+<td>轉換器。負責將外部世界（如 Web, DB）的資料轉換為內層 Use Cases 能接受的格式。</td>
+<td>依賴 Use Cases 和 Entities。</td>
+</tr>
+<tr>
+<td>Frameworks and Drivers (框架與驅動)</td>
+<td>外部細節。Web 框架（<a target="_blank" rel="noopener" href="http://ASP.NET">ASP.NET</a> Core）、資料庫（EF Core）、UI 界面等。</td>
+<td>依賴 Interface Adapters。</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="什麼是-Memory-Leak？-NET-中會怎麼發生？">什麼是 Memory Leak？.NET 中會怎麼發生？</h2>
+<p>記憶體洩漏是指應用程式中已經不再使用、但卻無法被釋放的記憶體空間。這些記憶體被「鎖住」或「佔用」，導致應用程式可用的記憶體越來越少，最終可能導致效能下降或應用程式崩潰。</p>
+<p>.NET 中 Memory Leak 的常見發生方式</p>
+<ul>
+<li>事件訂閱未取消 (Event Subscription Leaks)
+<ul>
+<li>當一個短生命週期的物件 (Subscriber) 訂閱了一個長生命週期的物件 (Publisher) 的事件後，Publisher 持有了 Subscriber 的強引用。</li>
+<li>必須在 Subscriber 準備被銷毀時，手動呼叫 Publisher.SomeEvent -= Handler 來取消訂閱。</li>
+</ul>
+</li>
+<li>靜態集合持有引用 (Static Collection References)
+<ul>
+<li>將短生命週期的物件錯誤地添加到靜態 (Static) 的 List 或 Dictionary 中。</li>
+<li>確保在使用完畢後，手動將物件從靜態集合中移除。</li>
+</ul>
+</li>
+<li>未釋放非受管資源 (Unmanaged Resource Leaks)
+<ul>
+<li>使用了未實現或未正確使用 IDisposable 介面的物件，或忘記使用 using 區塊來處理需要清理的資源</li>
+<li>總是對實作 IDisposable 的物件使用 using 區塊</li>
+</ul>
+</li>
+<li>不正確的快取機制 (Caching Issues)
+<ul>
+<li>應用程式使用了一個沒有過期策略或大小限制的快取 (Cache) 實例。</li>
+<li>確保快取系統具備合理的淘汰策略（例如：基於時間或基於容量）。</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
+              <a href="/tags/%E9%9D%A2%E8%A9%A6/" rel="tag"># 面試</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/11/19/threadVsTask/" rel="prev" title="🚀 Thread、ThreadPool、Task 介紹">
+                  <i class="fa fa-angle-left"></i> 🚀 Thread、ThreadPool、Task 介紹
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">looperhuang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: '32px',
+  left: 'unset',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

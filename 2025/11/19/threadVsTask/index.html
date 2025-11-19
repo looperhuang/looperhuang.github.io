@@ -19,16 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Thread、ThreadPool、Task 之介紹 在 C# 中，只要提到「一次做很多事」（多工），一定會遇到 Thread、ThreadPool、Task 這三兄弟。 它們是什麼？又該怎麼選？ 先講結論，用最生活化的一句話：  Thread 是工人，ThreadPool 是經理，Task 是任務單。  三個雖然都跟「執行工作」有關，但層級和設計目的完全不同。搞懂它們，你就能理解為什麼現代 C#">
+    <meta name="description" content="用最生活化的方式，解釋在 C# 中 Thread、ThreadPool 與 Task 的角色差異，就像工人、經理與任務單的分工。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="🚀 Thread、ThreadPool、Task 介紹">
 <meta property="og:url" content="https://looperhuang.github.io/2025/11/19/threadVsTask/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="Thread、ThreadPool、Task 之介紹 在 C# 中，只要提到「一次做很多事」（多工），一定會遇到 Thread、ThreadPool、Task 這三兄弟。 它們是什麼？又該怎麼選？ 先講結論，用最生活化的一句話：  Thread 是工人，ThreadPool 是經理，Task 是任務單。  三個雖然都跟「執行工作」有關，但層級和設計目的完全不同。搞懂它們，你就能理解為什麼現代 C#">
+<meta property="og:description" content="用最生活化的方式，解釋在 C# 中 Thread、ThreadPool 與 Task 的角色差異，就像工人、經理與任務單的分工。">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-11-19T05:58:01.000Z">
-<meta property="article:modified_time" content="2025-11-19T06:13:30.029Z">
+<meta property="article:modified_time" content="2025-11-19T10:10:16.452Z">
 <meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="C#">
 <meta property="article:tag" content="Thread">
 <meta property="article:tag" content="ThreadPool">
 <meta property="article:tag" content="Task">
@@ -163,12 +164,12 @@
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -217,7 +218,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="🚀 Thread、ThreadPool、Task 介紹 | Looper's Blog">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="用最生活化的方式，解釋在 C# 中 Thread、ThreadPool 與 Task 的角色差異，就像工人、經理與任務單的分工。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -233,7 +234,7 @@
       <span class="post-meta-item-text">發表於</span>
       
 
-      <time title="創建時間：2025-11-19 13:58:01 / 修改時間：14:13:30" itemprop="dateCreated datePublished" datetime="2025-11-19T13:58:01+08:00">2025-11-19</time>
+      <time title="創建時間：2025-11-19 13:58:01 / 修改時間：18:10:16" itemprop="dateCreated datePublished" datetime="2025-11-19T13:58:01+08:00">2025-11-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -252,6 +253,7 @@
   
 </div>
 
+            <div class="post-description">用最生活化的方式，解釋在 C# 中 Thread、ThreadPool 與 Task 的角色差異，就像工人、經理與任務單的分工。</div>
         </div>
       </header>
 
@@ -384,6 +386,7 @@
 
     <footer class="post-footer">
           <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
               <a href="/tags/Thread/" rel="tag"># Thread</a>
               <a href="/tags/ThreadPool/" rel="tag"># ThreadPool</a>
               <a href="/tags/Task/" rel="tag"># Task</a>
@@ -399,6 +402,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2025/11/19/csharpInterview/" rel="next" title="C# 面試問題紀錄">
+                  C# 面試問題紀錄 <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
