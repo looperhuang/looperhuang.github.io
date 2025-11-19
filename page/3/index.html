@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -184,6 +184,385 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/11/linq-search/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/12/11/linq-search/" class="post-title-link" itemprop="url">LINQ</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-12-11 08:57:01" itemprop="dateCreated datePublished" datetime="2024-12-11T08:57:01+08:00">2024-12-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:50:07" itemprop="dateModified" datetime="2025-04-25T10:50:07+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="LINQ-Language-Integrated-Query">LINQ ( Language Integrated Query)</h3>
+<p>微軟開發的技術<code>具有查詢資料的程式語言</code><br>
+讓工程師能夠使用原生 C#對資料進行處理<br>
+且相同語法可以查詢不同類型的資料，降低學習成本<br>
+擴充類型 :</p>
+<ul>
+<li>LINQ to Objects</li>
+<li>LINQ to SQL</li>
+<li>LINQ to XML</li>
+<li>…etc</li>
+</ul>
+<h2 id="LINQ-查詢的兩種語法">LINQ 查詢的兩種語法</h2>
+<ol>
+<li>查詢表達式 ( Query Expression Syntax )</li>
+</ol>
+<ul>
+<li>類似 SQL 的語法 : 使用 select 、 from 、where 等關鍵字</li>
+<li>較容易理解</li>
+<li>結構固定 : 必須 from 起始，select 或 group by 結尾</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
+&#123;
+    <span class="comment">// Data source.</span>
+    <span class="built_in">int</span>[] scores = <span class="keyword">new</span> <span class="built_in">int</span>[] &#123; <span class="number">90</span>, <span class="number">71</span>, <span class="number">82</span>, <span class="number">93</span>, <span class="number">75</span>, <span class="number">82</span> &#125;;
+
+    <span class="comment">// Query Expression.</span>
+    IEnumerable&lt;<span class="built_in">int</span>&gt; scoreQuery = <span class="comment">//query variable</span>
+        <span class="keyword">from</span> score <span class="keyword">in</span> scores <span class="comment">//required</span>
+        <span class="keyword">where</span> score &gt; <span class="number">80</span> <span class="comment">// optional</span>
+        <span class="keyword">orderby</span> score <span class="keyword">descending</span> <span class="comment">// optional</span>
+        <span class="keyword">select</span> score; <span class="comment">//must end with select or group</span>
+
+    <span class="comment">// Execute the query to produce the results</span>
+    <span class="keyword">foreach</span> (<span class="keyword">var</span> testScore <span class="keyword">in</span> scoreQuery)
+    &#123;
+        Console.WriteLine(testScore);
+    &#125;
+
+    <span class="comment">// Output: 93 90 82 82</span>
+&#125;</code></pre>
+<ol start="2">
+<li>流利語法（Fluent Syntax）</li>
+</ol>
+<ul>
+<li>靈活性高 : 可以方便地鏈結調用多個方法</li>
+<li>Lambda 表達式 : 代碼簡潔</li>
+<li>沒有固定結構 : 沒有特定的開始或結束語句</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span>
+&#123;
+    <span class="comment">// Data source.</span>
+    <span class="built_in">int</span>[] scores = <span class="keyword">new</span> <span class="built_in">int</span>[] &#123; <span class="number">90</span>, <span class="number">71</span>, <span class="number">82</span>, <span class="number">93</span>, <span class="number">75</span>, <span class="number">82</span> &#125;;
+
+    <span class="comment">// Query Expression.</span>
+    <span class="keyword">var</span> scoreQuery = scores
+        .Where(score =&gt; score &gt; <span class="number">80</span>)
+        .OrderByDescending(score =&gt; score);
+
+    <span class="comment">// Execute the query to produce the results</span>
+    <span class="keyword">foreach</span> (<span class="keyword">var</span> testScore <span class="keyword">in</span> scoreQuery)
+    &#123;
+        Console.WriteLine(testScore);
+    &#125;
+
+    <span class="comment">// Output: 93 90 82 82</span>
+&#125;</code></pre>
+<table>
+<thead>
+<tr>
+<th>特徵</th>
+<th>查詢表達式</th>
+<th>流利語法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>風格</td>
+<td>類似 sql</td>
+<td>方法鏈結</td>
+</tr>
+<tr>
+<td>可讀性</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>結構要求</td>
+<td>from 開頭、select 或 group by 結尾</td>
+<td>無特定要求</td>
+</tr>
+<tr>
+<td>靈活性</td>
+<td>某些情況下較低</td>
+<td>更高的靈活性，尤其是動態</td>
+</tr>
+</tbody>
+</table>
+<h3 id="參考資料">參考資料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-tw/%E8%AF%AD%E8%A8%80%E9%9B%86%E6%88%90%E6%9F%A5%E8%AF%A2">https://zh.wikipedia.org/zh-tw/语言集成查询</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.perplexity.ai/">https://www.perplexity.ai/</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10194251">https://ithelp.ithome.com.tw/articles/10194251</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/27/time-complexity/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/27/time-complexity/" class="post-title-link" itemprop="url">時間複雜度</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-27 13:47:35" itemprop="dateCreated datePublished" datetime="2024-11-27T13:47:35+08:00">2024-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-04-25 10:52:09" itemprop="dateModified" datetime="2025-04-25T10:52:09+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="概述">概述</h2>
+<p>時間複雜度代表的是演算法隨著資料量變大時的增長趨勢<br>
+數學符號<code>大O記號(big-O notation)</code></p>
+<h2 id="常見型別">常見型別</h2>
+<ul>
+<li>常數階 O(1)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Constant</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="comment">// 迴圈次數與 n 無關</span>
+    <span class="built_in">int</span> size = <span class="number">10000</span>;
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; size; i++)
+    &#123;
+        count++;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>線性階 O(n)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Linear</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="comment">// 迴圈次數 n 次</span>
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        count++;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>平方階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Quadratic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="comment">// 迴圈次數 n*n 次</span>
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; n; j++)
+        &#123;
+            count++;
+        &#125;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>指數階 O(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Exponential</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="built_in">int</span> bas = <span class="number">1</span>;
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        <span class="comment">//迴圈次數為2^n次</span>
+        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; bas; j++)
+        &#123;
+            count++;
+        &#125;
+        bas *= <span class="number">2</span>;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>對數階 O(logn)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">Logarithmic</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="keyword">while</span> (n &gt; <span class="number">1</span>) &#123;
+        n /= <span class="number">2</span>;
+        count++;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>線性對數階 O(nlogn)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">LinearLogRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="built_in">int</span> count = LinearLogRecur(n / <span class="number">2</span>);
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        count++;
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<ul>
+<li>階乘階 O(n!)</li>
+</ul>
+<pre><code class="highlight C#"><span class="function"><span class="built_in">int</span> <span class="title">FactorialRecur</span>(<span class="params"><span class="built_in">int</span> n</span>)</span>
+&#123;
+    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="built_in">int</span> count = <span class="number">0</span>;
+    <span class="comment">// n * (n - 1) * (n - 2) * ... * 2 * 1</span>
+    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    &#123;
+        count += FactorialRecur(n - <span class="number">1</span>);
+    &#125;
+    <span class="keyword">return</span> count;
+&#125;</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/">https://www.hello-algo.com/zh-hant/chapter_computational_complexity/time_complexity/</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1405,88 +1784,6 @@ Source Code 如下</p>
 <p><a target="_blank" rel="noopener" href="https://www.quartz-scheduler.net/">https://www.quartz-scheduler.net/</a><br>
 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/75443765/quartz-aspnetcore-and-hosting-in-asp-net-core">https://stackoverflow.com/questions/75443765/quartz-aspnetcore-and-hosting-in-asp-net-core</a><br>
 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_18932003/article/details/139672249">https://blog.csdn.net/qq_18932003/article/details/139672249</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/19/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/11/19/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-11-19 10:10:27" itemprop="dateCreated datePublished" datetime="2024-11-19T10:10:27+08:00">2024-11-19</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<pre><code class="highlight bash">$ hexo new <span class="string">&quot;My New Post&quot;</span></code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<pre><code class="highlight bash">$ hexo server</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<pre><code class="highlight bash">$ hexo generate</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<pre><code class="highlight bash">$ hexo deploy</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
       
     </div>
