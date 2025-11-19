@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -184,6 +184,149 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/01/webrtc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/01/webrtc/" class="post-title-link" itemprop="url">WebRTC</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-05-01 11:32:40" itemprop="dateCreated datePublished" datetime="2025-05-01T11:32:40+08:00">2025-05-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-09-15 14:53:14" itemprop="dateModified" datetime="2025-09-15T14:53:14+08:00">2025-09-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>簡易記錄一下 WebRTC 的基本概念</p>
+<h2 id="基本建立點對點連線的流程">基本建立點對點連線的流程</h2>
+<p><img src="/images/webrtc/P2PConnFlow.png" alt="p2pConnFlow.png"></p>
+<h3 id="信令-Signaling-：">信令 (Signaling)：</h3>
+<ol>
+<li>兩個 WebRTC 客户端（Peer A 和 Peer B）透過一個<code>信令伺服器</code>進行初始的資訊交換。這個伺服器不參與實際的媒體傳輸。</li>
+<li>Peer A (發起方 - Offerer) 創建一個包含其媒體能力和網路資訊的 SDP Offer。</li>
+<li>Peer A 收集其 ICE Candidates（潛在的網路位址）。</li>
+<li>Peer A 將 SDP Offer 和 ICE Candidates 透過信令伺服器發送給 Peer B。</li>
+<li>Peer B (接收方 - Answerer) 收到 SDP Offer 和 ICE Candidates。</li>
+<li>Peer B 設定遠端的 SDP Offer，並創建包含其自身媒體能力和網路資訊的 SDP Answer。</li>
+<li>Peer B 也收集其 ICE Candidates。</li>
+<li>Peer B 將 SDP Answer 和 ICE Candidates 透過信令伺服器發送回 Peer A。</li>
+<li>Peer A 收到 SDP Answer 和 ICE Candidates，並設定遠端的 SDP Answer。</li>
+<li>雙方持續透過信令伺服器交換 ICE Candidates。</li>
+</ol>
+<h3 id="ICE-連線建立-ICE-Connection-Establishment-：">ICE 連線建立 (ICE Connection Establishment)：</h3>
+<ol>
+<li>每個 Peer 在收到對方的 ICE Candidates 後，會嘗試與這些候選者建立網路連線。</li>
+<li>這個過程會嘗試各種可能的路徑（直接連接、透過 STUN、透過 TURN）。</li>
+<li>當找到一個可用的連線路徑時，ICE 連線建立成功。</li>
+</ol>
+<h3 id="媒體和資料傳輸：">媒體和資料傳輸：</h3>
+<ol>
+<li>一旦 ICE 連線建立，兩個 Peer 就可以直接透過這個點對點連線傳輸音訊、視訊或任意資料（使用 Data Channels）。</li>
+</ol>
+<h2 id="相關名詞簡介：">相關名詞簡介：</h2>
+<h3 id="WebRTC-Web-Real-Time-Communication-：">WebRTC (Web Real-Time Communication)：</h3>
+<p>一個開放原始碼專案，提供瀏覽器和行動應用程式之間即時音訊、視訊和資料交換的能力，無需外掛程式。(目前只有 js)</p>
+<h3 id="Peer-對等方-：">Peer (對等方)：</h3>
+<p>在 WebRTC 通訊中的一個端點，通常是一個瀏覽器或應用程式。</p>
+<h3 id="點對點-Peer-to-Peer-P2P-：">點對點 (Peer-to-Peer, P2P)：</h3>
+<p>一種網路模型，其中兩個或多個參與者可以直接互相通信，而不需要透過中央伺服器（在媒體和資料傳輸階段）。</p>
+<h3 id="信令-Signaling-：-t2">信令 (Signaling)：</h3>
+<p>在 WebRTC 連線建立之前，兩個 Peer 之間交換控制資訊（例如 SDP 和 ICE Candidates）的過程。信令機制不是 WebRTC 本身定義的，需要開發者自行實作。</p>
+<h3 id="信令伺服器-Signaling-Server-：">信令伺服器 (Signaling Server)：</h3>
+<p>一個中介伺服器，用於在 WebRTC 連線建立的初始階段協助 Peer 發現彼此並交換信令訊息。</p>
+<h3 id="SDP-Session-Description-Protocol-：">SDP (Session Description Protocol)：</h3>
+<p>一種標準化的文字格式，用於描述多媒體會話的屬性，例如支援的媒體類型、編解碼器、網路位址等。在 WebRTC 中，SDP 用於在連接建立前協商媒體格式。</p>
+<h3 id="Offer-Answer-模型-Offer-Answer-Model-：">Offer/Answer 模型 (Offer/Answer Model)：</h3>
+<p>WebRTC 使用這個模型來協商會話參數。發起方創建一個 Offer SDP，接收方回應一個 Answer SDP。</p>
+<h3 id="ICE-Interactive-Connectivity-Establishment-：">ICE (Interactive Connectivity Establishment)：</h3>
+<p>一個用於 NAT 穿透的協定。ICE 的目標是找到兩個 Peer 之間最佳的網路路徑來建立直接連線。</p>
+<h3 id="ICE-Candidate-ICE-候選者-：">ICE Candidate (ICE 候選者)：</h3>
+<p>描述一個 Peer 可能的網路位址和連接埠的資訊，用於 ICE 連線建立過程。</p>
+<h3 id="STUN-Session-Traversal-Utilities-for-NAT-伺服器：">STUN (Session Traversal Utilities for NAT) 伺服器：</h3>
+<p>一種協助位於 NAT 後面的 Peer 發現其公有 IP 位址和連接埠的伺服器。</p>
+<h3 id="TURN-Traversal-Using-Relays-around-NAT-伺服器：">TURN (Traversal Using Relays around NAT) 伺服器：</h3>
+<p>一種在直接連線和 STUN 無法工作時，作為中繼伺服器轉發 Peer 之間流量的伺服器。</p>
+<h3 id="NAT-Network-Address-Translator-：">NAT (Network Address Translator)：</h3>
+<p>一種網路設備，用於將私有網路中的多個裝置的 IP 位址轉換為一個或少數幾個公有 IP 位址，以便它們可以存取網際網路。NAT 會導致直接的點對點連線變得困難。</p>
+<h2 id="範例">範例</h2>
+<p>Google 給的範例，可以參考參考對照學習 <a target="_blank" rel="noopener" href="https://github.com/webrtc/samples">Samples</a></p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/">https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/</a></li>
+<li><a target="_blank" rel="noopener" href="https://webrtc.org/?hl=zh-tw">https://webrtc.org/?hl=zh-tw</a></li>
+<li><a target="_blank" rel="noopener" href="https://webrtcforthecurious.com/zh/">https://webrtcforthecurious.com/zh/</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1593,303 +1736,6 @@ $ dotnet add <span class="keyword">package</span> <span class="title">SqlKata.Ex
 <ul>
 <li><a target="_blank" rel="noopener" href="https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html">https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://claude.ai/new">https://claude.ai/new</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/12/11/signalr/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/12/11/signalr/" class="post-title-link" itemprop="url">SignalR</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2024-12-11 10:26:22" itemprop="dateCreated datePublished" datetime="2024-12-11T10:26:22+08:00">2024-12-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:50:57" itemprop="dateModified" datetime="2025-04-25T10:50:57+08:00">2025-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="概述">概述</h3>
-<p>簡單利用 SignalR 去時做一個簡易的 Webhook Api</p>
-<h3 id="Installed">Installed</h3>
-<pre><code class="highlight ada">dotnet add <span class="keyword">package</span> <span class="title">Microsoft.AspNet.SignalR.Core</span></code></pre>
-<h3 id="Program-cs">Program.cs</h3>
-<p>註冊 SignalR 服務，且設定路由</p>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span>
-&#123;
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span>
-    &#123;
-        <span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
-        <span class="comment">// Add services to the container.</span>
-        builder.Services.AddSignalR();   <span class="comment">// 註冊 SignalR 服務</span>
-        <span class="comment">//....</span>
-        <span class="keyword">var</span> app = builder.Build();
-        app.UseHttpsRedirection();
-        app.UseAuthorization();
-        app.MapControllers();
-        app.MapHub&lt;MessageHub&gt;(<span class="string">&quot;/hub&quot;</span>); <span class="comment">//SignalR路由</span>
-        app.Run();
-    &#125;
-&#125;</code></pre>
-<h3 id="MessageHub-cs">MessageHub.cs</h3>
-<p>實作 Hub 類別<br>
-這邊使用單一使用者群組做簡單的連線管理<br>
-因為是暫存在記憶體，關閉後資料就消失ㄌ<br>
-如果需要持久化，要再配合 DB 去進行持久化</p>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MessageHub</span> : <span class="title">Hub</span>
-&#123;
-    <span class="comment">// 紀錄用戶的連線(單一使用者群組)</span>
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">readonly</span> Dictionary&lt;<span class="built_in">string</span>, List&lt;<span class="built_in">string</span>&gt;&gt; _userConnections = <span class="keyword">new</span>();
-
-    <span class="comment">// 連線時要做的事</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">async</span> Task <span class="title">OnConnectedAsync</span>()</span>
-    &#123;
-        <span class="keyword">var</span> userName = Context.GetHttpContext()?.Request.Query[<span class="string">&quot;user&quot;</span>]
-          ?? <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="string">&quot;未知使用者&quot;</span>);
-
-        <span class="keyword">if</span> (_userConnections.TryGetValue(userName,<span class="keyword">out</span> <span class="keyword">var</span> connectionIds))
-        &#123;
-            <span class="keyword">if</span> (!connectionIds.Contains(Context.ConnectionId))
-            &#123;
-                connectionIds.Add(Context.ConnectionId);
-            &#125;
-        &#125;
-        <span class="keyword">else</span>
-        &#123;
-            _userConnections.Add(userName, <span class="keyword">new</span> List&lt;<span class="built_in">string</span>&gt; &#123; Context.ConnectionId &#125;);
-        &#125;
-
-        <span class="keyword">await</span> Groups.AddToGroupAsync(Context.ConnectionId, userName);
-        <span class="keyword">await</span> <span class="keyword">base</span>.OnConnectedAsync();
-    &#125;
-
-    <span class="comment">// 斷線時要做的事</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">async</span> Task <span class="title">OnDisconnectedAsync</span>(<span class="params">Exception? exception</span>)</span>
-    &#123;
-
-        <span class="keyword">var</span> user = _userConnections.FirstOrDefault(x =&gt; x.Value.Contains(Context.ConnectionId)).Key;
-
-        <span class="keyword">if</span> (user <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">null</span>)
-        &#123;
-            <span class="comment">// 移除該用戶的連線</span>
-            _userConnections[user].Remove(Context.ConnectionId);
-
-            <span class="comment">// 如果該用戶已經沒有任何連線</span>
-            <span class="keyword">if</span> (!_userConnections[user].Any())
-            &#123;
-                <span class="comment">// 移除用戶</span>
-                _userConnections.Remove(user);
-            &#125;
-
-            <span class="keyword">await</span> Groups.RemoveFromGroupAsync(Context.ConnectionId, user);
-        &#125;
-
-        <span class="keyword">await</span> <span class="keyword">base</span>.OnDisconnectedAsync(exception);
-    &#125;
-&#125;</code></pre>
-<h3 id="WebhookController-cs">WebhookController.cs</h3>
-<p>簡易提供全域、使用者群組、現有連線 api 端點</p>
-<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
-[<span class="meta">ApiController</span>]
-<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebhookController</span> : <span class="title">ControllerBase</span>
-&#123;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IHubContext&lt;MessageHub&gt; hub;
-
-    <span class="function"><span class="keyword">public</span> <span class="title">WebhookController</span>(<span class="params">IHubContext&lt;MessageHub&gt; hub</span>)</span>
-    &#123;
-        <span class="keyword">this</span>.hub = hub;
-    &#125;
-
-    <span class="comment">//全域推播</span>
-    [<span class="meta">HttpPost(<span class="string">&quot;all&quot;</span>)</span>]
-    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">SendAll</span>(<span class="params">[FromBody]MessageDto message</span>)</span>
-    &#123;
-        <span class="keyword">await</span> hub.Clients.All.SendAsync(<span class="string">&quot;ReceiveMessage&quot;</span>, message);
-        <span class="keyword">return</span> Ok();
-    &#125;
-
-    <span class="comment">//群組推播(使用者群組)</span>
-    [<span class="meta">HttpPost(<span class="string">&quot;group&quot;</span>)</span>]
-    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">SendGroup</span>(<span class="params">[FromBody] WebhookPayload payload</span>)</span>
-    &#123;
-        <span class="keyword">var</span> message = <span class="keyword">new</span> MessageDto
-        &#123;
-            Sender = payload.Sender,
-            Content = payload.Message,
-            TimeSpan = DateTime.Now
-        &#125;;
-        <span class="keyword">await</span> hub.Clients.Groups(payload.Receiver).SendAsync(<span class="string">&quot;ReceiveGroupMessage&quot;</span>, message);
-        <span class="keyword">return</span> Ok();
-    &#125;
-
-    <span class="comment">// 現有連線清單</span>
-    [<span class="meta">HttpGet</span>]
-    <span class="function"><span class="keyword">public</span> IActionResult <span class="title">GetUsers</span>()</span>
-    &#123;
-        <span class="keyword">var</span> users = MessageHub._userConnections;
-        <span class="keyword">return</span> Ok(users);
-    &#125;
-
-    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebhookPayload</span>
-    &#123;
-        <span class="keyword">public</span> <span class="built_in">string</span> Message &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
-        <span class="keyword">public</span> <span class="built_in">string</span> Sender &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
-        <span class="keyword">public</span> <span class="built_in">string</span> Receiver &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
-    &#125;
-&#125;</code></pre>
-<h3 id="webhook-api-curl">webhook api curl</h3>
-<pre><code class="highlight ada">curl -X <span class="symbol">&#x27;POST</span>&#x27; \
-  <span class="symbol">&#x27;https</span>://localhost:<span class="number">7244</span>/api/Webhook/<span class="keyword">all</span>&#x27; \
-  -H <span class="symbol">&#x27;accept</span>: */*&#x27; \
-  -H <span class="symbol">&#x27;Content</span>-<span class="keyword">Type</span>: application/json&#x27; \
-  -d &#x27;&#123;
-  <span class="string">&quot;sender&quot;</span>: <span class="string">&quot;user&quot;</span>,
-  <span class="string">&quot;content&quot;</span>: <span class="string">&quot;test&quot;</span>
-&#125;&#x27;</code></pre>
-<h3 id="前端接收-webhook">前端接收 webhook</h3>
-<p>前端使用 quasar vue typescript</p>
-<pre><code class="highlight ts">&lt;script setup lang=<span class="string">&quot;ts&quot;</span>&gt;
-<span class="keyword">import</span> * <span class="keyword">as</span> signalR <span class="keyword">from</span> <span class="string">&#x27;@microsoft/signalr&#x27;</span>;
-<span class="keyword">import</span> &#123; ref, onMounted &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;
-
-<span class="keyword">type</span> <span class="title class_">MessageDto</span> = &#123;
-  <span class="attr">sender</span>: <span class="built_in">string</span>;
-  <span class="attr">content</span>: <span class="built_in">string</span>;
-  <span class="attr">timeSpan</span>: <span class="title class_">Date</span>;
-&#125;;
-<span class="keyword">const</span> user = <span class="string">&#x27;admin&#x27;</span>;
-<span class="keyword">const</span> receiveMsgs = ref&lt;<span class="title class_">MessageDto</span>[]&gt;([]);
-
-<span class="keyword">const</span> connection = <span class="keyword">new</span> signalR.<span class="title class_">HubConnectionBuilder</span>()
-  .<span class="title function_">withUrl</span>(<span class="string">`https://localhost:7244/hub?user=<span class="subst">$&#123;user&#125;</span>`</span>)
-  .<span class="title function_">withAutomaticReconnect</span>()
-  .<span class="title function_">build</span>();
-
-<span class="comment">//監聽全頻推播</span>
-connection.<span class="title function_">on</span>(<span class="string">&#x27;ReceiveMessage&#x27;</span>, <span class="function">(<span class="params"><span class="attr">res</span>: <span class="title class_">MessageDto</span></span>) =&gt;</span> &#123;
-  receiveMsgs.<span class="property">value</span>.<span class="title function_">push</span>(res);
-&#125;);
-
-<span class="comment">//監聽群組推播</span>
-connection.<span class="title function_">on</span>(<span class="string">&#x27;ReceiveGroupMessage&#x27;</span>, <span class="function">(<span class="params"><span class="attr">res</span>: <span class="title class_">MessageDto</span></span>) =&gt;</span> &#123;
-  receiveMsgs.<span class="property">value</span>.<span class="title function_">push</span>(res);
-&#125;);
-
-<span class="comment">//重新連線</span>
-connection.<span class="title function_">onreconnected</span>(<span class="function">() =&gt;</span> &#123;
-  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Reconnected successfully.&#x27;</span>);
-&#125;);
-
-connection.<span class="title function_">onclose</span>(<span class="title function_">async</span> () =&gt; &#123;
-  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Disconnected. Retrying connection...&#x27;</span>);
-  <span class="keyword">await</span> <span class="title function_">reconnect</span>();
-&#125;);
-
-<span class="keyword">const</span> <span class="title function_">reconnect</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;
-  <span class="keyword">let</span> attempts = <span class="number">0</span>;
-  <span class="keyword">const</span> maxAttempts = <span class="number">100</span>; <span class="comment">// 最大嘗試次數</span>
-  <span class="keyword">const</span> retryDelay = <span class="number">30000</span>; <span class="comment">// 嘗試間隔(ms)</span>
-
-  <span class="keyword">while</span> (attempts &lt; maxAttempts) &#123;
-    <span class="keyword">try</span> &#123;
-      <span class="keyword">await</span> connection.<span class="title function_">start</span>();
-      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Reconnected successfully.&#x27;</span>);
-      <span class="keyword">return</span>; <span class="comment">// 連線成功,退出循環</span>
-    &#125; <span class="keyword">catch</span> (err) &#123;
-      attempts++;
-      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Reconnection attempt <span class="subst">$&#123;attempts&#125;</span> failed.`</span>, err);
-      <span class="keyword">if</span> (attempts &lt; maxAttempts) &#123;
-        <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> <span class="built_in">setTimeout</span>(resolve, retryDelay)); <span class="comment">// 等待后重试</span>
-      &#125; <span class="keyword">else</span> &#123;
-        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Failed to reconnect after several attempts.&#x27;</span>)
-      &#125;
-    &#125;
-  &#125;
-&#125;;
-
-<span class="title function_">onMounted</span>(<span class="title function_">async</span> () =&gt; &#123;
-  <span class="keyword">try</span> &#123;
-    <span class="keyword">await</span> connection.<span class="title function_">start</span>();
-    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;user&#125;</span> has connected`</span>)
-  &#125; <span class="keyword">catch</span> (err) &#123;
-    <span class="variable language_">console</span>.<span class="title function_">log</span>(err);
-  &#125;
-&#125;);
-&lt;/script&gt;</code></pre>
-<h3 id="參考資料">參考資料</h3>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/tutorials/signalr?view=aspnetcore-9.0&amp;WT.mc_id=dotnet-35129-website&amp;tabs=visual-studio">https://learn.microsoft.com/zh-tw/aspnet/core/tutorials/signalr?view=aspnetcore-9.0&amp;WT.mc_id=dotnet-35129-website&amp;tabs=visual-studio</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.perplexity.ai/">https://www.perplexity.ai/</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/@microsoft/signalr">https://www.npmjs.com/package/@microsoft/signalr</a></li>
 </ul>
 
       

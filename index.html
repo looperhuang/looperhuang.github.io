@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -193,7 +193,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/11/19/oop/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/11/19/abstractClassVsInterface/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -211,7 +211,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/11/19/oop/" class="post-title-link" itemprop="url">物件導向（OOP）基礎概念</a>
+          <a href="/2025/11/19/abstractClassVsInterface/" class="post-title-link" itemprop="url">抽象類別 vs 介面差異</a>
         </h2>
 
         <div class="post-meta-container">
@@ -223,7 +223,7 @@
       <span class="post-meta-item-text">發表於</span>
       
 
-      <time title="創建時間：2025-11-19 10:51:14 / 修改時間：11:35:22" itemprop="dateCreated datePublished" datetime="2025-11-19T10:51:14+08:00">2025-11-19</time>
+      <time title="創建時間：2025-11-19 11:42:41 / 修改時間：11:59:39" itemprop="dateCreated datePublished" datetime="2025-11-19T11:42:41+08:00">2025-11-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -245,11 +245,201 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1>物件導向(Object-oriented programming)</h1>
+          <h1>抽象類別（Abstract Class）與介面（Interface）的差異</h1>
+<p>在物件導向程式設計中，抽象化可以透過兩種方式實現：<strong>抽象類別（Abstract Class）</strong> 與 <strong>介面（Interface）</strong>。<br>
+兩者都用來建立規範，但各自的用途、限制與適用場景不同。</p>
+<h2 id="1-抽象類別-Abstract-Class">1. 抽象類別 (Abstract Class)</h2>
+<p>抽象類別是一種<strong>不能被實例化</strong>的類別，通常作為其他相關類別的<strong>基底類別 (Base Class)</strong> 使用，目的是提供共同的結構和部分實現。<br>
+它可以包含：</p>
+<h3 id="🚀-核心特性">🚀 核心特性</h3>
+<ul>
+<li><strong>類別成員:</strong> 可以包含<strong>抽象方法</strong>（無實作）、<strong>已實作的方法</strong>（具體邏輯）、<strong>成員變數</strong>（欄位）和<strong>建構子</strong>。</li>
+<li><strong>繼承限制:</strong> 由於 C# 不支援多重繼承，一個類別<strong>只能繼承一個</strong>抽象類別。</li>
+<li><strong>設計哲學:</strong> 專注於 <strong>is-a</strong> 關係（是一種），強調<strong>族群的共同基礎</strong>。</li>
+</ul>
+<h3 id="📌-適用場合">📌 適用場合</h3>
+<ul>
+<li>你希望定義一組具有**共同狀態(欄位)<strong>和</strong>預設行為(已實作方法)**的子類別。</li>
+<li>你希望提供<strong>部分邏輯實作</strong>，並將特定功能留給子類別強制實作。</li>
+</ul>
+<h3 id="C-範例">C# 範例</h3>
+<pre><code class="highlight csharp"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">Animal</span>
+&#123;
+    <span class="comment">// 1. 可以包含成員變數 (欄位)</span>
+    <span class="keyword">public</span> <span class="built_in">string</span> Name;
+
+    <span class="comment">// 2. 必須被子類別實作的抽象方法</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">MakeSound</span>()</span>;
+
+    <span class="comment">// 3. 可以包含已實作的方法 (共同邏輯)</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Eat</span>()</span>
+    &#123;
+        Console.WriteLine(<span class="string">&quot;Eating...&quot;</span>);
+    &#125;
+&#125;</code></pre>
+<h2 id="2-介面-Interface">2. 介面 (Interface)</h2>
+<p>介面是一份<strong>契約或規範</strong>，它定義了一組類別必須實作的方法、屬性或事件，但不包含任何實作細節（在傳統設計中）</p>
+<h3 id="🚀-核心特性-t2">🚀 核心特性</h3>
+<ul>
+<li>行為契約: 介面主要描述一個類別「能做什麼」（can-do 關係）。</li>
+<li>成員限制: 傳統上不能有欄位或建構子。所有成員預設為 public。</li>
+<li>多重實作: C# 支援一個類別實作多個介面，解決了多重繼承的限制。</li>
+</ul>
+<h3 id="📌-適用場合-t2">📌 適用場合</h3>
+<ul>
+<li>你需要定義一組跨越不同類別層次（不相關類別）的統一行為規範。</li>
+<li>你需要一個鬆散耦合的設計，以便於擴展和測試（依賴注入）。</li>
+</ul>
+<h3 id="C-範例-t2">C# 範例</h3>
+<pre><code class="highlight csharp"><span class="comment">// 定義一個飛行的能力</span>
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IFly</span>
+&#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Fly</span>()</span>;
+&#125;
+
+<span class="comment">// 定義一個奔跑的能力</span>
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IRun</span>
+&#123;
+    <span class="function"><span class="keyword">void</span> <span class="title">Run</span>()</span>;
+&#125;
+
+<span class="comment">// 一個類別可以同時擁有多個能力 (多重介面實作)</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SuperHero</span> : <span class="title">IFly</span>, <span class="title">IRun</span>
+&#123;
+    <span class="comment">// 必須實作 IFly.Fly() 和 IRun.Run()</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Fly</span>()</span> &#123; <span class="comment">/* 飛行邏輯 */</span> &#125;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>()</span> &#123; <span class="comment">/* 奔跑邏輯 */</span> &#125;
+&#125;</code></pre>
+<h2 id="⚖️-抽象類別-Abstract-Class-vs-介面-Interface">⚖️ 抽象類別 (Abstract Class) vs. 介面 (Interface)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">特點</th>
+<th style="text-align:left">抽象類別 (Abstract Class)</th>
+<th style="text-align:left">介面 (Interface)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>設計哲學</strong></td>
+<td style="text-align:left">是一種<strong>類別的抽象</strong>，定義一組<strong>相關</strong>類別的共同基礎。</td>
+<td style="text-align:left">是一種<strong>行為的抽象</strong>，定義一個<strong>契約 (Contract)</strong>，規定必須具備的能力。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>成員實作</strong></td>
+<td style="text-align:left">可以包含<strong>具體實作的方法</strong>和<strong>抽象方法</strong>。</td>
+<td style="text-align:left">傳統上<strong>只能包含抽象方法</strong>（C# 8.0+ 支援 Default 實作）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>成員變數</strong></td>
+<td style="text-align:left">可以包含任何類型的成員變數。</td>
+<td style="text-align:left">只能包含<strong>常數</strong> (<code>public static final</code>)。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>建構函式</strong></td>
+<td style="text-align:left"><strong>可以</strong>有建構函式。</td>
+<td style="text-align:left"><strong>不能</strong>有建構函式。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>多重繼承</strong></td>
+<td style="text-align:left"><strong>不支援</strong>多重繼承 (一個類別只能繼承一個抽象類別)。</td>
+<td style="text-align:left"><strong>支援</strong>多重實作 (一個類別可以實作多個介面)。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>使用時機</strong></td>
+<td style="text-align:left">實現**「is-a」<strong>關係和</strong>程式碼重用**。</td>
+<td style="text-align:left">實現**「can-do」<strong>行為契約和</strong>多型**。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="📚-參考資料">📚 參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10322514?sc=rss.qu">C#基礎與實作(抽象類別.介面)</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/jason%E7%9A%84%E5%89%8D%E7%AB%AF%E4%B9%8B%E8%B7%AF/c-%E6%8A%BD%E8%B1%A1%E9%A1%9E%E5%88%A5%E8%88%87%E4%BB%8B%E9%9D%A2-73b5c8f7be11">C# — 抽象類別與介面</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/11/19/oop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/11/19/oop/" class="post-title-link" itemprop="url">💻 物件導向程式設計（OOP）基礎概念與四大特性</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-11-19 10:51:14 / 修改時間：12:03:18" itemprop="dateCreated datePublished" datetime="2025-11-19T10:51:14+08:00">2025-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1>🚀 物件導向程式設計（Object-Oriented Programming, OOP）基礎概念</h1>
 <p>物件導向程式設計強調 <strong>將資料與操作資料的行為封裝成可重複使用的「零件（物件）」</strong>，再利用這些零件來組合、構建整個程式。</p>
 <hr>
 <h2 id="基本概念：類別（Class）、物件（Object）">基本概念：類別（Class）、物件（Object）</h2>
-<h3 id="類別（Class）">類別（Class）</h3>
+<h3 id="💡-類別（Class）：藍圖">💡 類別（Class）：藍圖</h3>
 <ul>
 <li>類別是一種<strong>抽象的資料模型</strong>，定義事物的共同特性。</li>
 <li>包含：
@@ -260,7 +450,7 @@
 </li>
 <li>可將「類別」視為汽車的設計藍圖，定義如：廠牌、車名、馬力等特性。</li>
 </ul>
-<h3 id="物件（Object）">物件（Object）</h3>
+<h3 id="🧱-物件（Object）：實體">🧱 物件（Object）：實體</h3>
 <ul>
 <li>物件是「類別的實例（Instance）」。</li>
 <li>透過類別這張藍圖可以建立多台「汽車（物件）」，彼此獨立互不影響。</li>
@@ -300,27 +490,36 @@
 <li>「同一個方法介面」，可以根據物件實際型態呈現不同行為。</li>
 <li>提升程式的彈性與可擴充性。</li>
 </ul>
-<h4 id="多型的兩種形式：">多型的兩種形式：</h4>
-<ol>
-<li><strong>方法覆寫（Method Override）</strong>
-<ul>
-<li>子類別重新定義父類別的方法內容。</li>
-</ul>
-</li>
-<li><strong>方法重載（Method Overloading）</strong>
-<ul>
-<li>同一類別中允許相同方法名稱，但參數列表不同。</li>
-</ul>
-</li>
-</ol>
+<h4 id="📌-多型的兩種主要實現形式：">📌 多型的兩種主要實現形式：</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">形式</th>
+<th style="text-align:left">說明</th>
+<th style="text-align:left">實踐</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>方法覆寫 (Method Override)</strong></td>
+<td style="text-align:left">子類別重新定義<strong>繼承自父類別</strong>的方法內容。</td>
+<td style="text-align:left">執行時，根據實際物件類型決定呼叫哪一個版本。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>方法重載 (Method Overloading)</strong></td>
+<td style="text-align:left">同一類別中，允許相同方法名稱，但<strong>參數列表不同</strong>。</td>
+<td style="text-align:left">編譯時，根據傳入的參數類型和數量來決定呼叫哪一個版本。</td>
+</tr>
+</tbody>
+</table>
 <p><strong>範例：</strong></p>
-<p>如果 Animal 類別有 <code>makeSound()</code> 方法：</p>
+<p>如果 <code>Animal</code> 類別有 <code>makeSound()</code> 方法：</p>
 <ul>
 <li><code>Dog.makeSound()</code> → 「汪汪」</li>
 <li><code>Cat.makeSound()</code> → 「喵喵」</li>
 </ul>
 <hr>
-<h2 id="參考">參考</h2>
+<h2 id="📚-參考資料">📚 參考資料</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10268380">C# 雞礎觀念- 物件導向(oop)基本觀念</a></li>
 <li><a target="_blank" rel="noopener" href="https://totoroliu.medium.com/%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91-object-oriented-programming-%E6%A6%82%E5%BF%B5-5f205d437fd6">物件導向(Object Oriented Programming)概念</a></li>
@@ -2040,149 +2239,6 @@ app.Run();</code></pre>
 <li><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/">https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/</a></li>
 <li><a target="_blank" rel="noopener" href="https://medium.com/@amber.fragments/%E6%BC%94%E7%AE%97%E6%B3%95-%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98-14-dijkstra-algorithm-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%91%E6%BC%94%E7%AE%97%E6%B3%95-745983dd4332">https://medium.com/@amber.fragments/演算法-學習筆記-14-dijkstra-algorithm-最短路徑演算法-745983dd4332</a></li>
 <li>chatgpt</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/05/01/webrtc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/LHBlog.svg">
-      <meta itemprop="name" content="looperhuang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Looper's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/05/01/webrtc/" class="post-title-link" itemprop="url">WebRTC</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-05-01 11:32:40" itemprop="dateCreated datePublished" datetime="2025-05-01T11:32:40+08:00">2025-05-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-09-15 14:53:14" itemprop="dateModified" datetime="2025-09-15T14:53:14+08:00">2025-09-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>簡易記錄一下 WebRTC 的基本概念</p>
-<h2 id="基本建立點對點連線的流程">基本建立點對點連線的流程</h2>
-<p><img src="/images/webrtc/P2PConnFlow.png" alt="p2pConnFlow.png"></p>
-<h3 id="信令-Signaling-：">信令 (Signaling)：</h3>
-<ol>
-<li>兩個 WebRTC 客户端（Peer A 和 Peer B）透過一個<code>信令伺服器</code>進行初始的資訊交換。這個伺服器不參與實際的媒體傳輸。</li>
-<li>Peer A (發起方 - Offerer) 創建一個包含其媒體能力和網路資訊的 SDP Offer。</li>
-<li>Peer A 收集其 ICE Candidates（潛在的網路位址）。</li>
-<li>Peer A 將 SDP Offer 和 ICE Candidates 透過信令伺服器發送給 Peer B。</li>
-<li>Peer B (接收方 - Answerer) 收到 SDP Offer 和 ICE Candidates。</li>
-<li>Peer B 設定遠端的 SDP Offer，並創建包含其自身媒體能力和網路資訊的 SDP Answer。</li>
-<li>Peer B 也收集其 ICE Candidates。</li>
-<li>Peer B 將 SDP Answer 和 ICE Candidates 透過信令伺服器發送回 Peer A。</li>
-<li>Peer A 收到 SDP Answer 和 ICE Candidates，並設定遠端的 SDP Answer。</li>
-<li>雙方持續透過信令伺服器交換 ICE Candidates。</li>
-</ol>
-<h3 id="ICE-連線建立-ICE-Connection-Establishment-：">ICE 連線建立 (ICE Connection Establishment)：</h3>
-<ol>
-<li>每個 Peer 在收到對方的 ICE Candidates 後，會嘗試與這些候選者建立網路連線。</li>
-<li>這個過程會嘗試各種可能的路徑（直接連接、透過 STUN、透過 TURN）。</li>
-<li>當找到一個可用的連線路徑時，ICE 連線建立成功。</li>
-</ol>
-<h3 id="媒體和資料傳輸：">媒體和資料傳輸：</h3>
-<ol>
-<li>一旦 ICE 連線建立，兩個 Peer 就可以直接透過這個點對點連線傳輸音訊、視訊或任意資料（使用 Data Channels）。</li>
-</ol>
-<h2 id="相關名詞簡介：">相關名詞簡介：</h2>
-<h3 id="WebRTC-Web-Real-Time-Communication-：">WebRTC (Web Real-Time Communication)：</h3>
-<p>一個開放原始碼專案，提供瀏覽器和行動應用程式之間即時音訊、視訊和資料交換的能力，無需外掛程式。(目前只有 js)</p>
-<h3 id="Peer-對等方-：">Peer (對等方)：</h3>
-<p>在 WebRTC 通訊中的一個端點，通常是一個瀏覽器或應用程式。</p>
-<h3 id="點對點-Peer-to-Peer-P2P-：">點對點 (Peer-to-Peer, P2P)：</h3>
-<p>一種網路模型，其中兩個或多個參與者可以直接互相通信，而不需要透過中央伺服器（在媒體和資料傳輸階段）。</p>
-<h3 id="信令-Signaling-：-t2">信令 (Signaling)：</h3>
-<p>在 WebRTC 連線建立之前，兩個 Peer 之間交換控制資訊（例如 SDP 和 ICE Candidates）的過程。信令機制不是 WebRTC 本身定義的，需要開發者自行實作。</p>
-<h3 id="信令伺服器-Signaling-Server-：">信令伺服器 (Signaling Server)：</h3>
-<p>一個中介伺服器，用於在 WebRTC 連線建立的初始階段協助 Peer 發現彼此並交換信令訊息。</p>
-<h3 id="SDP-Session-Description-Protocol-：">SDP (Session Description Protocol)：</h3>
-<p>一種標準化的文字格式，用於描述多媒體會話的屬性，例如支援的媒體類型、編解碼器、網路位址等。在 WebRTC 中，SDP 用於在連接建立前協商媒體格式。</p>
-<h3 id="Offer-Answer-模型-Offer-Answer-Model-：">Offer/Answer 模型 (Offer/Answer Model)：</h3>
-<p>WebRTC 使用這個模型來協商會話參數。發起方創建一個 Offer SDP，接收方回應一個 Answer SDP。</p>
-<h3 id="ICE-Interactive-Connectivity-Establishment-：">ICE (Interactive Connectivity Establishment)：</h3>
-<p>一個用於 NAT 穿透的協定。ICE 的目標是找到兩個 Peer 之間最佳的網路路徑來建立直接連線。</p>
-<h3 id="ICE-Candidate-ICE-候選者-：">ICE Candidate (ICE 候選者)：</h3>
-<p>描述一個 Peer 可能的網路位址和連接埠的資訊，用於 ICE 連線建立過程。</p>
-<h3 id="STUN-Session-Traversal-Utilities-for-NAT-伺服器：">STUN (Session Traversal Utilities for NAT) 伺服器：</h3>
-<p>一種協助位於 NAT 後面的 Peer 發現其公有 IP 位址和連接埠的伺服器。</p>
-<h3 id="TURN-Traversal-Using-Relays-around-NAT-伺服器：">TURN (Traversal Using Relays around NAT) 伺服器：</h3>
-<p>一種在直接連線和 STUN 無法工作時，作為中繼伺服器轉發 Peer 之間流量的伺服器。</p>
-<h3 id="NAT-Network-Address-Translator-：">NAT (Network Address Translator)：</h3>
-<p>一種網路設備，用於將私有網路中的多個裝置的 IP 位址轉換為一個或少數幾個公有 IP 位址，以便它們可以存取網際網路。NAT 會導致直接的點對點連線變得困難。</p>
-<h2 id="範例">範例</h2>
-<p>Google 給的範例，可以參考參考對照學習 <a target="_blank" rel="noopener" href="https://github.com/webrtc/samples">Samples</a></p>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/">https://clairechang.tw/2023/04/25/webrtc/webrtc-intro/</a></li>
-<li><a target="_blank" rel="noopener" href="https://webrtc.org/?hl=zh-tw">https://webrtc.org/?hl=zh-tw</a></li>
-<li><a target="_blank" rel="noopener" href="https://webrtcforthecurious.com/zh/">https://webrtcforthecurious.com/zh/</a></li>
 </ul>
 
       
