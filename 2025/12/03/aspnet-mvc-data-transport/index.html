@@ -19,28 +19,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="概述 有時候一些大型資料且異動少的資料 每次使用就要從資料重新撈取就很浪費效能資源 這個時候就是快取出場的時候 Install dotnet add package Microsoft.Extensions.Caching.Memory Extensions.cs public static void AddExtension(this IServiceCollection services) &amp;">
+    <meta name="description" content="簡易介紹MVC如何傳遞資料">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C# 資料快取">
-<meta property="og:url" content="https://looperhuang.github.io/2024/11/20/imemorycahce/index.html">
+<meta property="og:title" content="ASP.NET MVC 資料傳值方式整理（ViewBag &#x2F; ViewData &#x2F; TempData &#x2F; Model）">
+<meta property="og:url" content="https://looperhuang.github.io/2025/12/03/aspnet-mvc-data-transport/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="概述 有時候一些大型資料且異動少的資料 每次使用就要從資料重新撈取就很浪費效能資源 這個時候就是快取出場的時候 Install dotnet add package Microsoft.Extensions.Caching.Memory Extensions.cs public static void AddExtension(this IServiceCollection services) &amp;">
+<meta property="og:description" content="簡易介紹MVC如何傳遞資料">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-11-20T07:07:58.000Z">
-<meta property="article:modified_time" content="2025-04-25T02:49:34.215Z">
+<meta property="article:published_time" content="2025-12-03T03:03:00.000Z">
+<meta property="article:modified_time" content="2025-12-03T03:24:41.244Z">
 <meta property="article:author" content="looperhuang">
 <meta property="article:tag" content="C#">
-<meta property="article:tag" content="Cache">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="MVC">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
+<link rel="canonical" href="https://looperhuang.github.io/2025/12/03/aspnet-mvc-data-transport/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/20/imemorycahce/","path":"2024/11/20/imemorycahce/","title":"C# 資料快取"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/12/03/aspnet-mvc-data-transport/","path":"2025/12/03/aspnet-mvc-data-transport/","title":"ASP.NET MVC 資料傳值方式整理（ViewBag / ViewData / TempData / Model）"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>C# 資料快取 | Looper's Blog</title>
+<title>ASP.NET MVC 資料傳值方式整理（ViewBag / ViewData / TempData / Model） | Looper's Blog</title>
   
 
 
@@ -140,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install"><span class="nav-number">2.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Extensions-cs"><span class="nav-number">3.</span> <span class="nav-text">Extensions.cs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage"><span class="nav-number">4.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CacheHelper-cs-Optional"><span class="nav-number">5.</span> <span class="nav-text">CacheHelper.cs(Optional)</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E9%8C%84"><span class="nav-number">1.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Model%EF%BC%88%E6%9C%80%E6%8E%A8%E8%96%A6%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">1. Model（最推薦）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-ViewBag"><span class="nav-number">3.</span> <span class="nav-text">2. ViewBag</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-ViewData"><span class="nav-number">4.</span> <span class="nav-text">3. ViewData</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-TempData"><span class="nav-number">5.</span> <span class="nav-text">4. TempData</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%82%B3%E5%80%BC%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BC%83%E8%A1%A8"><span class="nav-number">6.</span> <span class="nav-text">資料傳值方式比較表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,7 +202,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2024/11/20/imemorycahce/">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2025/12/03/aspnet-mvc-data-transport/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LHBlog.svg">
@@ -214,12 +215,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="C# 資料快取 | Looper's Blog">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="ASP.NET MVC 資料傳值方式整理（ViewBag / ViewData / TempData / Model） | Looper's Blog">
+      <meta itemprop="description" content="簡易介紹MVC如何傳遞資料">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C# 資料快取
+          ASP.NET MVC 資料傳值方式整理（ViewBag / ViewData / TempData / Model）
         </h1>
 
         <div class="post-meta-container">
@@ -229,15 +230,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2024-11-20 15:07:58" itemprop="dateCreated datePublished" datetime="2024-11-20T15:07:58+08:00">2024-11-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:49:34" itemprop="dateModified" datetime="2025-04-25T10:49:34+08:00">2025-04-25</time>
+      <time title="創建時間：2025-12-03 11:03:00 / 修改時間：11:24:41" itemprop="dateCreated datePublished" datetime="2025-12-03T11:03:00+08:00">2025-12-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -252,108 +247,181 @@
   
 </div>
 
+            <div class="post-description">簡易介紹MVC如何傳遞資料</div>
         </div>
       </header>
 
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="概述">概述</h2>
-<p>有時候一些大型資料且異動少的資料<br>
-每次使用就要從資料重新撈取就很浪費效能資源<br>
-這個時候就是快取出場的時候</p>
-<h2 id="Install">Install</h2>
-<pre><code class="highlight powershell">dotnet add package Microsoft.Extensions.Caching.Memory</code></pre>
-<h2 id="Extensions-cs">Extensions.cs</h2>
-<pre><code class="highlight C#"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddExtension</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services</span>)</span>
+    <div class="post-body" itemprop="articleBody"><h2 id="目錄">目錄</h2>
+<ul>
+<li><a href="#1-model%E6%9C%80%E6%8E%A8%E8%96%A6">1. Model（最推薦）</a></li>
+<li><a href="#2-viewbag">2. ViewBag</a></li>
+<li><a href="#3-viewdata">3. ViewData</a></li>
+<li><a href="#4-tempdata">4. TempData</a></li>
+<li><a href="#%E8%B3%87%E6%96%99%E5%82%B3%E5%80%BC%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BC%83%E8%A1%A8">資料傳值方式比較表</a></li>
+</ul>
+<h2 id="1-Model（最推薦）">1. Model（最推薦）</h2>
+<p><strong>用途：</strong><br>
+傳遞主要、結構化的強型別資料至 View。</p>
+<p><strong>特點：</strong></p>
+<ul>
+<li>強型別（編譯期檢查）</li>
+<li>適合複雜資料</li>
+<li>最標準、安全的傳值方式</li>
+</ul>
+<p><strong>範例 :</strong></p>
+<pre><code class="highlight csharp"><span class="comment">// 1. Model 定義 (在 Models 資料夾)</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Student</span>
 &#123;
-    services.AddMemoryCache();
-    <span class="comment">// services.AddScoped&lt;CacheHelper&gt;(); //如果有使用整合工具類</span>
-&#125;</code></pre>
-<h2 id="Usage">Usage</h2>
-<pre><code class="highlight C#">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]
- [<span class="meta">ApiController</span>]
- <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DataController</span> : <span class="title">ControllerBase</span>
- &#123;
-     <span class="keyword">private</span> <span class="keyword">readonly</span> DataBaseService dataBaseService;
-     <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache memoryCache;
+    <span class="keyword">public</span> <span class="built_in">int</span> ID &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
+    <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;
+&#125;
 
-     <span class="function"><span class="keyword">public</span> <span class="title">DataController</span>(<span class="params">DataBaseService dataBaseService, IMemoryCache memoryCache</span>)</span>
-     &#123;
-         <span class="keyword">this</span>.memoryCache = memoryCache;
-         <span class="keyword">this</span>.dataBaseService = dataBaseService;
-     &#125;
-
-     [<span class="meta">HttpGet(<span class="string">&quot;/search&quot;</span>)</span>]
-     <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Search</span>(<span class="params"><span class="built_in">string</span> keyword</span>)</span>
-     &#123;
-        <span class="comment">// 從記憶體快取查看是否存在，沒再去資料庫撈資料並儲存快取</span>
-         <span class="keyword">if</span> (memoryCache.TryGetValue(<span class="string">&quot;MainDataCache&quot;</span>, <span class="keyword">out</span> List&lt;Prs006&gt; dataList))
-         &#123;
-             <span class="keyword">var</span> result = dataList?
-                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
-                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
-
-             <span class="keyword">return</span> Ok(result);
-         &#125;
-         <span class="keyword">else</span>
-         &#123;
-             <span class="keyword">var</span> dbData = <span class="keyword">await</span> dataBaseService.GetDatas();
-             <span class="comment">//寫入記憶體儲存，一天後自動過期</span>
-             memoryCache.Set(<span class="string">&quot;MainDataCache&quot;</span>, dbData, TimeSpan.FromDays(<span class="number">1</span>));
-
-             <span class="keyword">var</span> result = dbData?
-                 .Where(data =&gt; data.Ordnme?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Scitn?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>
-                                || data.Keyword?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == <span class="literal">true</span>)
-                 .ToList() ?? <span class="keyword">new</span> List&lt;Prs006&gt;();
-
-             <span class="keyword">return</span> Ok(result);
-         &#125;
-     &#125;</code></pre>
-<h2 id="CacheHelper-cs-Optional">CacheHelper.cs(Optional)</h2>
-<pre><code class="highlight C#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CacheHelper</span>
+<span class="comment">// 2. Controller</span>
+<span class="function"><span class="keyword">public</span> ActionResult <span class="title">Details</span>()</span>
 &#123;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
+    <span class="keyword">var</span> student = <span class="keyword">new</span> Student &#123; ID = <span class="number">101</span>, Name = <span class="string">&quot;Leo Wang&quot;</span> &#125;;
+    <span class="keyword">return</span> View(student); <span class="comment">// 將強型別 Model 傳遞給 View</span>
+&#125;
 
-    <span class="function"><span class="keyword">public</span> <span class="title">CacheHelper</span>(<span class="params">IMemoryCache cache</span>)</span>
-    &#123;
-        <span class="keyword">this</span>.cache = cache;
-    &#125;
+<span class="comment">// 3. View (Details.cshtml)</span>
+@model YourNamespace.Models.Student <span class="comment">// 宣告 Model 型別</span>
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Set</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire = <span class="number">300</span></span>)</span>
-    &#123;
-        <span class="keyword">var</span> options = <span class="keyword">new</span> MemoryCacheEntryOptions
-        &#123;
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expire),
-        &#125;;
-        cache.Set(key, <span class="keyword">value</span>, options);
-    &#125;
+&lt;h2&gt;學生編號: @Model.ID&lt;/h2&gt;
+&lt;p&gt;學生姓名: @Model.Name&lt;/p&gt;</code></pre>
+<h2 id="2-ViewBag">2. ViewBag</h2>
+<p><strong>用途：</strong><br>
+傳遞短暫、輕量的資料至 View。</p>
+<p><strong>特點：</strong></p>
+<ul>
+<li>動態型別（易拼字錯誤）</li>
+<li>僅於目前 Request 存活</li>
+<li>使用最方便</li>
+</ul>
+<h2 id="3-ViewData">3. ViewData</h2>
+<p><strong>用途：</strong><br>
+與 ViewBag 相同，用於傳遞輕量資料。</p>
+<p><strong>特點：</strong></p>
+<ul>
+<li>字典型別（key-value）</li>
+<li>僅於目前 Request 存活</li>
+<li>舊版 MVC 常使用</li>
+</ul>
+<p><strong>範例 :</strong></p>
+<pre><code class="highlight csharp"><span class="comment">// 1. Controller</span>
+<span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>()</span>
+&#123;
+    <span class="comment">// ViewData (使用字串鍵值存取，需手動轉型)</span>
+    ViewData[<span class="string">&quot;Title&quot;</span>] = <span class="string">&quot;首頁資料列表&quot;</span>;
+    ViewData[<span class="string">&quot;UserCount&quot;</span>] = <span class="number">50</span>;
 
-    <span class="keyword">public</span> T? Get&lt;T&gt;(<span class="built_in">string</span> key)
-    &#123;
-        cache.TryGetValue&lt;T&gt;(key, <span class="keyword">out</span> <span class="keyword">var</span> <span class="keyword">value</span>);
-        <span class="keyword">return</span> <span class="keyword">value</span>;
-    &#125;
+    <span class="comment">// ViewBag (動態屬性存取，不需轉型)</span>
+    ViewBag.IsAdmin = <span class="literal">true</span>;
+    ViewBag.WelcomeMessage = <span class="string">&quot;歡迎回來！&quot;</span>;
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Remove</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
-    &#123;
-        cache.Remove(key);
-    &#125;
+    <span class="keyword">return</span> View();
+&#125;
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Update</span>&lt;<span class="title">T</span>&gt;(<span class="params"><span class="built_in">string</span> key, T <span class="keyword">value</span>, <span class="built_in">int</span> expire</span>)</span>
-    &#123;
-        cache.Remove(key);
-        Set&lt;T&gt;(key, <span class="keyword">value</span>, expire);
-    &#125;
+<span class="comment">// 2. View (Index.cshtml)</span>
+@&#123;
+    ViewBag.Title = ViewData[<span class="string">&quot;Title&quot;</span>]; <span class="comment">// 也可以互相操作</span>
+&#125;
 
-    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">Contains</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>
-    &#123;
-        <span class="keyword">return</span> cache.TryGetValue(key, <span class="keyword">out</span> _);
-    &#125;
+&lt;h3&gt;@(<span class="built_in">string</span>)ViewData[<span class="string">&quot;Title&quot;</span>]&lt;/h3&gt;
+&lt;p&gt;線上人數: @ViewData[<span class="string">&quot;UserCount&quot;</span>]&lt;/p&gt;
+
+@if (ViewBag.IsAdmin)
+&#123;
+    &lt;p&gt;@ViewBag.WelcomeMessage (管理員)&lt;/p&gt;
 &#125;</code></pre>
+<h2 id="4-TempData">4. TempData</h2>
+<p><strong>用途：</strong><br>
+可跨 Request 傳值（通常用於 Redirect 情境）</p>
+<p>例如：Post → Redirect → View</p>
+<p><strong>特點：</strong></p>
+<ul>
+<li>使用 Session 暫存</li>
+<li>一次性資料（讀取後會移除）</li>
+<li>適合用於成功/錯誤提示訊息</li>
+</ul>
+<p><strong>範例 :</strong></p>
+<pre><code class="highlight csharp"><span class="comment">// 1. Controller A: 處理表單提交並重新導向</span>
+[<span class="meta">HttpPost</span>]
+<span class="function"><span class="keyword">public</span> ActionResult <span class="title">Create</span>(<span class="params">SomeModel model</span>)</span>
+&#123;
+    <span class="comment">// ... 執行資料庫儲存操作 ...</span>
+
+    <span class="comment">// 將成功訊息存入 TempData</span>
+    TempData[<span class="string">&quot;StatusMessage&quot;</span>] = <span class="string">$&quot;資料 <span class="subst">&#123;model.Name&#125;</span> 已成功儲存！&quot;</span>;
+
+    <span class="comment">// 重新導向到列表頁</span>
+    <span class="keyword">return</span> RedirectToAction(<span class="string">&quot;List&quot;</span>);
+&#125;
+
+<span class="comment">// 2. Controller B: 列表頁</span>
+<span class="function"><span class="keyword">public</span> ActionResult <span class="title">List</span>()</span>
+&#123;
+    <span class="comment">// 讀取 TempData。讀取後，該資料會自動從 Session 中移除。</span>
+    <span class="keyword">if</span> (TempData.ContainsKey(<span class="string">&quot;StatusMessage&quot;</span>))
+    &#123;
+        ViewBag.Message = TempData[<span class="string">&quot;StatusMessage&quot;</span>];
+    &#125;
+
+    <span class="keyword">return</span> View();
+&#125;
+
+<span class="comment">// 📌 保持資料的方法 (選用)</span>
+<span class="comment">// 如果想在讀取後不清除 TempData，可以使用 TempData.Keep(&quot;Key&quot;) 或 TempData.Peek(&quot;Key&quot;)</span>
+<span class="comment">// TempData.Keep(&quot;StatusMessage&quot;);</span></code></pre>
+<h2 id="資料傳值方式比較表">資料傳值方式比較表</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">傳值方式</th>
+<th style="text-align:left">型別</th>
+<th style="text-align:left">型別安全</th>
+<th style="text-align:left">生命週期</th>
+<th style="text-align:left">適用場景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Model</strong></td>
+<td style="text-align:left">強型別 (<code>class</code>)</td>
+<td style="text-align:left"><strong>高</strong> (編譯時期檢查)</td>
+<td style="text-align:left">單一請求 (Controller -&gt; View)</td>
+<td style="text-align:left">頁面所需的主要資料物件或複雜結構。<strong>最推薦</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>ViewData</strong></td>
+<td style="text-align:left">弱型別 (<code>Dictionary&lt;string, object&gt;</code>)</td>
+<td style="text-align:left">低 (執行時期轉型)</td>
+<td style="text-align:left">單一請求 (Controller -&gt; View)</td>
+<td style="text-align:left">輔助性資料、少量訊息、下拉式選單選項。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>ViewBag</strong></td>
+<td style="text-align:left">弱型別 (<code>dynamic</code>)</td>
+<td style="text-align:left">低 (執行時期錯誤)</td>
+<td style="text-align:left">單一請求 (Controller -&gt; View)</td>
+<td style="text-align:left">與 <code>ViewData</code> 相似，寫法較簡潔。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>TempData</strong></td>
+<td style="text-align:left">弱型別 (<code>Dictionary&lt;string, object&gt;</code>)</td>
+<td style="text-align:left">低 (執行時期轉型)</td>
+<td style="text-align:left"><strong>跨越一次 HTTP 請求</strong></td>
+<td style="text-align:left"><strong>RedirectToAction</strong> 後的訊息傳遞（如：操作成功通知）。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/mvc/views/overview?view=aspnetcore-8.0#strongly-typed-views">Views in ASP.NET Core MVC (模型與資料繫結)</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/aspnet/core/mvc/overview?view=aspnetcore-8.0">ASP.NET Core MVC 概觀</a></li>
+</ul>
 
     </div>
 
@@ -364,21 +432,19 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/C/" rel="tag"># C#</a>
-              <a href="/tags/Cache/" rel="tag"># Cache</a>
+              <a href="/tags/ASP-NET/" rel="tag"># ASP.NET</a>
+              <a href="/tags/MVC/" rel="tag"># MVC</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/19/winscp/" rel="prev" title="C# 使用Winscp上傳檔案">
-                  <i class="fa fa-angle-left"></i> C# 使用Winscp上傳檔案
+                <a href="/2025/11/19/csharpInterview/" rel="prev" title="C# 面試問題紀錄">
+                  <i class="fa fa-angle-left"></i> C# 面試問題紀錄
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/11/26/brotato/" rel="next" title="Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻)">
-                  Brotato + DLC 難度 5 建議(全角色) + 新構建(中翻) <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
