@@ -19,17 +19,19 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="前言 隨著應用程式變得越來越龐大，需要註冊的服務也隨之增加，Program.cs 中的 builder.Services 區塊可能會變得冗長且難以維護。 這時候，IServiceCollection 的擴充方法便能派上用場，幫助我們整理程式碼，使其更加清晰和易於管理。  本文範例基於 .NET 6 或更新版本（如 .NET 8）  什麼是 IServiceCollection 擴充方法？ 簡單來說">
+    <meta name="description" content="用 IServiceCollection 擴充方法整理 Program.cs 的服務註冊">
 <meta property="og:type" content="article">
 <meta property="og:title" content="讓ASP.NET Core服務註冊更優雅">
 <meta property="og:url" content="https://looperhuang.github.io/2025/05/13/IServiceCollection/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="前言 隨著應用程式變得越來越龐大，需要註冊的服務也隨之增加，Program.cs 中的 builder.Services 區塊可能會變得冗長且難以維護。 這時候，IServiceCollection 的擴充方法便能派上用場，幫助我們整理程式碼，使其更加清晰和易於管理。  本文範例基於 .NET 6 或更新版本（如 .NET 8）  什麼是 IServiceCollection 擴充方法？ 簡單來說">
+<meta property="og:description" content="用 IServiceCollection 擴充方法整理 Program.cs 的服務註冊">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-05-13T01:17:38.000Z">
-<meta property="article:modified_time" content="2025-05-13T01:54:55.702Z">
+<meta property="article:modified_time" content="2026-10-09T02:27:53.542Z">
 <meta property="article:author" content="looperhuang">
 <meta property="article:tag" content="C#">
+<meta property="article:tag" content="DI">
+<meta property="article:tag" content="ASP.NET Core">
 <meta name="twitter:card" content="summary">
 
 
@@ -154,18 +156,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -214,7 +216,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="讓ASP.NET Core服務註冊更優雅 | Looper's Blog">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="用 IServiceCollection 擴充方法整理 Program.cs 的服務註冊">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -228,9 +230,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2025-05-13 09:17:38 / 修改時間：09:54:55" itemprop="dateCreated datePublished" datetime="2025-05-13T09:17:38+08:00">2025-05-13</time>
+      <time title="創建時間：2025-05-13 09:17:38" itemprop="dateCreated datePublished" datetime="2025-05-13T09:17:38+08:00">2025-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-10-09 10:27:53" itemprop="dateModified" datetime="2026-10-09T10:27:53+08:00">2026-10-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,13 +246,14 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+          <a href="/categories/C-NET/" itemprop="url" rel="index"><span itemprop="name">C# / .NET</span></a>
         </span>
     </span>
 
   
 </div>
 
+            <div class="post-description">用 IServiceCollection 擴充方法整理 Program.cs 的服務註冊</div>
         </div>
       </header>
 
@@ -395,6 +404,8 @@ app.Run();</code></pre>
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/C/" rel="tag"># C#</a>
+              <a href="/tags/DI/" rel="tag"># DI</a>
+              <a href="/tags/ASP-NET-Core/" rel="tag"># ASP.NET Core</a>
           </div>
 
         
@@ -406,8 +417,8 @@ app.Run();</code></pre>
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/06/26/Csharp-Solid/" rel="next" title="SOLID">
-                  SOLID <i class="fa fa-angle-right"></i>
+                <a href="/2025/06/26/Csharp-Solid/" rel="next" title="SOLID 五大設計原則">
+                  SOLID 五大設計原則 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -428,7 +439,7 @@ app.Run();</code></pre>
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2025</span>
+    <span itemprop="copyrightYear">2026</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>

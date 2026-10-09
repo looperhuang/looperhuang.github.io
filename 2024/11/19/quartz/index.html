@@ -19,18 +19,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Install Install-Package Quartz.AspNetCore Install-Package Quartz.Extensions.DependencyInjection Install-Package Quartz.Serialization.Json appsetting.json 這邊使用 Oracle 資料庫做為持久化儲存各類資料庫腳本 &quot;Quartz&amp;quo">
+    <meta name="description" content="在 ASP.NET Core Web API 使用 Quartz 建立一次性排程任務">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C# Web api使用Quartz進行一次性排程">
+<meta property="og:title" content="C# Web API 使用 Quartz 進行一次性排程">
 <meta property="og:url" content="https://looperhuang.github.io/2024/11/19/quartz/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="Install Install-Package Quartz.AspNetCore Install-Package Quartz.Extensions.DependencyInjection Install-Package Quartz.Serialization.Json appsetting.json 這邊使用 Oracle 資料庫做為持久化儲存各類資料庫腳本 &quot;Quartz&amp;quo">
+<meta property="og:description" content="在 ASP.NET Core Web API 使用 Quartz 建立一次性排程任務">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://looperhuang.github.io/images/InetMgr_ndjANFedAK.png">
 <meta property="og:image" content="https://looperhuang.github.io/images/InetMgr_8EXFtPapjN.png">
 <meta property="og:image" content="https://looperhuang.github.io/images/aplstart.png">
 <meta property="article:published_time" content="2024-11-19T03:43:00.000Z">
-<meta property="article:modified_time" content="2025-04-25T02:50:24.722Z">
+<meta property="article:modified_time" content="2026-10-09T02:27:53.544Z">
 <meta property="article:author" content="looperhuang">
 <meta property="article:tag" content="C#">
 <meta property="article:tag" content="Quartz">
@@ -41,10 +41,10 @@
 <link rel="canonical" href="https://looperhuang.github.io/2024/11/19/quartz/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/19/quartz/","path":"2024/11/19/quartz/","title":"C# Web api使用Quartz進行一次性排程"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2024/11/19/quartz/","path":"2024/11/19/quartz/","title":"C# Web API 使用 Quartz 進行一次性排程"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>C# Web api使用Quartz進行一次性排程 | Looper's Blog</title>
+<title>C# Web API 使用 Quartz 進行一次性排程 | Looper's Blog</title>
   
 
 
@@ -159,18 +159,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -218,12 +218,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="C# Web api使用Quartz進行一次性排程 | Looper's Blog">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="C# Web API 使用 Quartz 進行一次性排程 | Looper's Blog">
+      <meta itemprop="description" content="在 ASP.NET Core Web API 使用 Quartz 建立一次性排程任務">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C# Web api使用Quartz進行一次性排程
+          C# Web API 使用 Quartz 進行一次性排程
         </h1>
 
         <div class="post-meta-container">
@@ -241,7 +241,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:50:24" itemprop="dateModified" datetime="2025-04-25T10:50:24+08:00">2025-04-25</time>
+      <time title="修改時間：2026-10-09 10:27:53" itemprop="dateModified" datetime="2026-10-09T10:27:53+08:00">2026-10-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -249,13 +249,14 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BE%8C%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">後端</span></a>
+          <a href="/categories/C-NET/" itemprop="url" rel="index"><span itemprop="name">C# / .NET</span></a>
         </span>
     </span>
 
   
 </div>
 
+            <div class="post-description">在 ASP.NET Core Web API 使用 Quartz 建立一次性排程任務</div>
         </div>
       </header>
 
@@ -457,8 +458,8 @@ Source Code 如下</p>
             <div class="post-nav-item">
             </div>
             <div class="post-nav-item">
-                <a href="/2024/11/19/snowflake/" rel="next" title="C# 使用IdGen產生Id(雪花算法)">
-                  C# 使用IdGen產生Id(雪花算法) <i class="fa fa-angle-right"></i>
+                <a href="/2024/11/19/snowflake/" rel="next" title="C# 使用 IdGen 產生 ID(雪花演算法)">
+                  C# 使用 IdGen 產生 ID(雪花演算法) <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -479,7 +480,7 @@ Source Code 如下</p>
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2025</span>
+    <span itemprop="copyrightYear">2026</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>

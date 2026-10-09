@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LHBlog.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LHBlog.svg">
+  <link rel="mask-icon" href="/images/LHBlog.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Docker 基本概念、容器、網路、資料持久化、Dockerfile、Compose 與常見問題整理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 學習筆記">
+<meta property="og:url" content="https://looperhuang.github.io/2026/10/09/docker-learn/index.html">
+<meta property="og:site_name" content="Looper&#39;s Blog">
+<meta property="og:description" content="Docker 基本概念、容器、網路、資料持久化、Dockerfile、Compose 與常見問題整理">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2026-10-09T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-09T02:27:53.540Z">
+<meta property="article:author" content="looperhuang">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Docker Compose">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://looperhuang.github.io/2026/10/09/docker-learn/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2026/10/09/docker-learn/","path":"2026/10/09/docker-learn/","title":"Docker 學習筆記"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker 學習筆記 | Looper's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Looper's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一個菜鳥工程師</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">0. 基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Images%EF%BC%88%E6%98%A0%E5%83%8F%E6%AA%94%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">1. Images（映像檔）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Container%EF%BC%88%E5%AE%B9%E5%99%A8%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">2. Container（容器）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%AE%A1%E7%90%86%E6%8C%87%E4%BB%A4"><span class="nav-number">3.1.</span> <span class="nav-text">常用管理指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Network%EF%BC%88%E7%B6%B2%E8%B7%AF%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">3. Network（網路）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%B3%87%E6%96%99%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">5.</span> <span class="nav-text">4. 資料持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-Container-%E7%9A%84%E5%8F%AF%E5%AF%AB%E5%B1%A4%EF%BC%88writable-layer%EF%BC%89"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 Container 的可寫層（writable layer）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Docker-Volume"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 Docker Volume</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AF%84%E4%BE%8B%EF%BC%9A%E7%94%A8-Volume-%E4%BF%9D%E5%AD%98-PostgreSQL-%E8%B3%87%E6%96%99"><span class="nav-number">5.2.1.</span> <span class="nav-text">範例：用 Volume 保存 PostgreSQL 資料</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Bind-Mount"><span class="nav-number">5.3.</span> <span class="nav-text">4.3 Bind Mount</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E4%B8%89%E7%A8%AE%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BC%83"><span class="nav-number">5.4.</span> <span class="nav-text">4.4 三種方式比較</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%A7%8B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E6%87%89%E7%94%A8%E6%98%A0%E5%83%8F%E6%AA%94%EF%BC%88Dockerfile%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">5. 構建自己的應用映像檔（Dockerfile）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 常用指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E7%AF%84%E4%BE%8B%E4%B8%80%EF%BC%9AC-ASP-NET-Core-API"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 範例一：C# (ASP.NET Core) API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E7%AF%84%E4%BE%8B%E4%BA%8C%EF%BC%9AReact-%E5%89%8D%E7%AB%AF%EF%BC%88Vite%EF%BC%89"><span class="nav-number">6.3.</span> <span class="nav-text">5.3 範例二：React 前端（Vite）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-dockerignore"><span class="nav-number">6.4.</span> <span class="nav-text">5.4 .dockerignore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-%E5%BB%BA%E7%BD%AE%E8%88%87%E5%9F%B7%E8%A1%8C"><span class="nav-number">6.5.</span> <span class="nav-text">5.5 建置與執行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-%E5%84%AA%E5%8C%96%E9%87%8D%E9%BB%9E"><span class="nav-number">6.6.</span> <span class="nav-text">5.6 優化重點</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Docker-Compose"><span class="nav-number">7.</span> <span class="nav-text">6. Docker Compose</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-docker-run-%E8%88%87-Compose-%E5%B0%8D%E7%85%A7"><span class="nav-number">7.1.</span> <span class="nav-text">6.1 docker run 與 Compose 對照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E7%AF%84%E4%BE%8B%EF%BC%9AC-API-React-%E5%89%8D%E7%AB%AF-PostgreSQL"><span class="nav-number">7.2.</span> <span class="nav-text">6.2 範例：C# API + React 前端 + PostgreSQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E9%87%8D%E9%BB%9E%E8%AA%AA%E6%98%8E"><span class="nav-number">7.3.</span> <span class="nav-text">6.3 重點說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">7.4.</span> <span class="nav-text">6.4 常用指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">7.5.</span> <span class="nav-text">6.5 常見問題</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%8E%A8%E9%80%81%E6%98%A0%E5%83%8F%E6%AA%94%E5%88%B0-Registry"><span class="nav-number">8.</span> <span class="nav-text">7. 推送映像檔到 Registry</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%B8%85%E7%90%86%E8%88%87%E7%96%91%E9%9B%A3%E6%8E%92%E8%A7%A3"><span class="nav-number">9.</span> <span class="nav-text">8. 清理與疑難排解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%B8%85%E7%90%86%E7%A3%81%E7%A2%9F%E7%A9%BA%E9%96%93"><span class="nav-number">9.1.</span> <span class="nav-text">8.1 清理磁碟空間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">9.2.</span> <span class="nav-text">8.2 常見問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-%E9%99%A4%E9%8C%AF%E6%B5%81%E7%A8%8B%E5%BB%BA%E8%AD%B0"><span class="nav-number">9.3.</span> <span class="nav-text">8.3 除錯流程建議</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="looperhuang"
+      src="/images/LHBlog.svg">
+  <p class="site-author-name" itemprop="name">looperhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/looperhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;looperhuang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:looper841213@gmail.com" title="Gmail → mailto:looper841213@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Gmail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://looperhuang.github.io/2026/10/09/docker-learn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LHBlog.svg">
+      <meta itemprop="name" content="looperhuang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Looper's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Docker 學習筆記 | Looper's Blog">
+      <meta itemprop="description" content="Docker 基本概念、容器、網路、資料持久化、Dockerfile、Compose 與常見問題整理">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker 學習筆記
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-10-09 12:00:00 / 修改時間：10:27:53" itemprop="dateCreated datePublished" datetime="2026-10-09T12:00:00+08:00">2026-10-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%B3%BB%E7%B5%B1%E8%88%87%E7%B6%AD%E9%81%8B/" itemprop="url" rel="index"><span itemprop="name">系統與維運</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Docker 基本概念、容器、網路、資料持久化、Dockerfile、Compose 與常見問題整理</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="0-基本概念">0. 基本概念</h2>
+<table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Image（映像檔）</td>
+<td>唯讀的應用程式範本，包含程式、執行環境與設定，由多個 layer 疊成</td>
+</tr>
+<tr>
+<td>Container（容器）</td>
+<td>由 image 啟動出來的<strong>執行實例</strong>；一個 image 可以啟動多個 container</td>
+</tr>
+<tr>
+<td>Registry（倉庫）</td>
+<td>存放與分享 image 的服務，例如 Docker Hub</td>
+</tr>
+<tr>
+<td>Dockerfile</td>
+<td>描述如何建出 image 的腳本</td>
+</tr>
+<tr>
+<td>Volume</td>
+<td>讓資料脫離 container 生命週期的持久化儲存</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>讓 container 之間互相連線的虛擬網路</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>類比：image 像「類別（class）」，container 像「物件（instance）」。</p>
+</blockquote>
+<pre><code class="highlight bash">docker version        <span class="comment"># 確認 Docker 已安裝（Client 與 Server 都有輸出才代表 daemon 正在運行）</span>
+docker info           <span class="comment"># 查看系統資訊（Storage Driver 等）</span>
+docker --<span class="built_in">help</span>         <span class="comment"># 指令說明；也可用 docker &lt;指令&gt; --help</span></code></pre>
+<blockquote>
+<p>💻 Windows／macOS 使用 Docker Desktop，container 實際跑在內部的 Linux VM（WSL2）中，所以文中的 <code>/var/lib/docker/...</code> 路徑位於 VM 內，不是在 Windows 的資料夾裡。</p>
+</blockquote>
+<h2 id="1-Images（映像檔）">1. Images（映像檔）</h2>
+<pre><code class="highlight bash">docker pull &lt;image&gt;[:tag]     <span class="comment"># 下載映像檔，未指定 tag 預設為 latest</span>
+docker images                 <span class="comment"># 列出本機映像檔</span>
+docker rmi &lt;image&gt;            <span class="comment"># 刪除映像檔（需先移除使用它的 container）</span>
+docker image prune            <span class="comment"># 清除未被使用的懸空（dangling）映像檔</span>
+docker <span class="built_in">history</span> &lt;image&gt;        <span class="comment"># 查看映像檔每一層的內容與大小</span></code></pre>
+<blockquote>
+<p>💡 <strong>tag 請固定版本</strong>（如 <code>postgres:17</code>），避免用 <code>latest</code>，否則不同時間拉到的內容可能不同。</p>
+</blockquote>
+<h2 id="2-Container（容器）">2. Container（容器）</h2>
+<blockquote>
+<p><code>docker run</code> = <code>docker create</code> + <code>docker start</code></p>
+</blockquote>
+<pre><code class="highlight bash">docker run -d -p 8080:80 --name my-web --network my-net &lt;image&gt;</code></pre>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-d</code></td>
+<td>背景運行（detached）</td>
+</tr>
+<tr>
+<td><code>-p &lt;主機埠&gt;:&lt;容器埠&gt;</code></td>
+<td>埠號映射，例如 <code>8080:80</code></td>
+</tr>
+<tr>
+<td><code>--name &lt;name&gt;</code></td>
+<td>自訂 container 名稱</td>
+</tr>
+<tr>
+<td><code>--network &lt;network&gt;</code></td>
+<td>指定要加入的 network（<strong>network 必須已存在</strong>，見第 3 章）</td>
+</tr>
+<tr>
+<td><code>-e &lt;KEY&gt;=&lt;VALUE&gt;</code></td>
+<td>設定環境變數</td>
+</tr>
+<tr>
+<td><code>-v &lt;來源&gt;:&lt;容器目錄&gt;</code></td>
+<td>掛載 volume 或目錄（見第 4 章）</td>
+</tr>
+<tr>
+<td><code>-it</code></td>
+<td>互動模式並配置終端機（進入 container 時使用）</td>
+</tr>
+<tr>
+<td><code>--rm</code></td>
+<td>container 停止後自動刪除（適合一次性測試）</td>
+</tr>
+<tr>
+<td><code>--restart &lt;policy&gt;</code></td>
+<td>重啟策略，常用 <code>unless-stopped</code>、<code>always</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ 忘記設定 <code>-p</code> 映射，就必須刪除 container 重建（已建立的 container 無法補設）。</p>
+</blockquote>
+<blockquote>
+<p>📌 <code>-p</code> 的左邊是<strong>宿主機埠</strong>、右邊是<strong>容器埠</strong>；宿主機的埠不能重複使用。</p>
+</blockquote>
+<h3 id="常用管理指令">常用管理指令</h3>
+<pre><code class="highlight bash">docker ps                     <span class="comment"># 列出運行中的 container</span>
+docker ps -a                  <span class="comment"># 列出全部（含已停止）</span>
+docker ps -qa                 <span class="comment"># 只顯示全部 container 的 id（-q: quiet, -a: all）</span>
+
+docker stop &lt;<span class="built_in">id</span> | name&gt;       <span class="comment"># 停止</span>
+docker start &lt;<span class="built_in">id</span> | name&gt;      <span class="comment"># 啟動已停止的 container</span>
+docker <span class="built_in">rm</span> &lt;<span class="built_in">id</span> | name&gt;         <span class="comment"># 刪除（需先 stop，或加 -f 強制）</span>
+
+docker logs [-f] &lt;<span class="built_in">id</span> | name&gt;  <span class="comment"># 查看 log（-f 持續追蹤）</span>
+docker <span class="built_in">exec</span> -it &lt;<span class="built_in">id</span> | name&gt; bash   <span class="comment"># 進入 container（沒有 bash 就改用 sh）</span>
+docker inspect &lt;<span class="built_in">id</span> | name&gt;    <span class="comment"># 查看詳細設定（JSON）</span>
+
+docker <span class="built_in">cp</span> &lt;container&gt;:&lt;路徑&gt; &lt;本機路徑&gt;   <span class="comment"># 在 container 與本機之間複製檔案（反向也可）</span>
+docker stats                  <span class="comment"># 即時查看 CPU／記憶體使用量</span>
+docker top &lt;<span class="built_in">id</span> | name&gt;        <span class="comment"># 查看 container 內的行程</span></code></pre>
+<blockquote>
+<p>📌 <code>&lt;id&gt;</code> 只需輸入前幾碼、不與其他 id 重複即可。<code>docker stop</code> 會先送 SIGTERM，等待約 10 秒後仍未結束才強制終止。</p>
+</blockquote>
+<h2 id="3-Network（網路）">3. Network（網路）</h2>
+<blockquote>
+<p>同一個自訂 network 內的 container，可直接用 <strong>container 名稱</strong>互相連線。</p>
+</blockquote>
+<pre><code class="highlight bash">docker network <span class="built_in">ls</span>                                  <span class="comment"># 列出 network</span>
+docker network create &lt;network&gt;                    <span class="comment"># 建立 network</span>
+docker network connect &lt;network&gt; &lt;container&gt;      <span class="comment"># 將既有 container 加入 network</span>
+docker network inspect &lt;network&gt;                   <span class="comment"># 查看 network 詳細資訊（含成員）</span>
+docker network disconnect &lt;network&gt; &lt;container&gt;   <span class="comment"># 將 container 移出 network</span>
+docker network <span class="built_in">rm</span> &lt;network&gt;                        <span class="comment"># 刪除 network（需無 container 使用中）</span></code></pre>
+<blockquote>
+<p>⚠️ 只有<strong>自訂 network</strong> 才支援用名稱連線；預設的 <code>bridge</code> network 不支援，container 之間只能用 IP。</p>
+<p>常見 driver：<code>bridge</code>（預設，單機內的虛擬網路）、<code>host</code>（直接共用宿主機網路，不需 <code>-p</code>；Docker Desktop 上行為有差異）、<code>none</code>（無網路）。</p>
+</blockquote>
+<h2 id="4-資料持久化">4. 資料持久化</h2>
+<h3 id="4-1-Container-的可寫層（writable-layer）">4.1 Container 的可寫層（writable layer）</h3>
+<p>每個 container 都有自己的<strong>可寫層</strong>，容器內寫入的檔案都存放在這裡。</p>
+<pre><code class="highlight bash">docker run -d --name mynginx nginx   <span class="comment"># 先建立並啟動 container</span>
+docker <span class="built_in">exec</span> -it mynginx bash   <span class="comment"># 進入 container</span>
+<span class="built_in">echo</span> hello &gt; /tmp/test.txt     <span class="comment"># 建立檔案並寫入 hello</span>
+<span class="built_in">cat</span> /tmp/test.txt              <span class="comment"># =&gt; hello</span>
+<span class="built_in">exit</span>                           <span class="comment"># 離開 container</span>
+
+docker stop mynginx            <span class="comment"># 停止</span>
+docker start mynginx           <span class="comment"># 重新啟動</span>
+docker <span class="built_in">exec</span> mynginx <span class="built_in">cat</span> /tmp/test.txt   <span class="comment"># 檔案還在</span>
+
+docker <span class="built_in">rm</span> -f mynginx           <span class="comment"># 刪除 container</span>
+<span class="comment"># =&gt; 可寫層一併消失，檔案也就不見了</span></code></pre>
+<p><strong>結論</strong>：可寫層的生命週期跟著 container 走。資料庫這類需要長期保存的資料，不適合放在這裡：</p>
+<ul>
+<li>container 可能被刪除，資料會跟著消失</li>
+<li>頻繁寫入可寫層，效能較差</li>
+</ul>
+<p>→ 改用 <strong>Volume</strong> 或 <strong>Bind Mount</strong>。</p>
+<blockquote>
+<p>📌 補充：可寫層的檔案其實仍存放在宿主機上，實際位置依 Storage Driver 而異。<br>
+例如使用 <code>overlay2</code> 時，位於 <code>/var/lib/docker/overlay2/&lt;id&gt;/diff</code>；<br>
+使用 containerd image store（overlayfs snapshotter）時，位於 <code>/var/lib/docker/rootfs/overlayfs/&lt;container id&gt;</code>。<br>
+這些路徑不建議手動修改。</p>
+</blockquote>
+<h3 id="4-2-Docker-Volume">4.2 Docker Volume</h3>
+<p>由 <strong>Docker 管理</strong>的持久化儲存空間：在宿主機上建立一個獨立的資料目錄，再掛載進 container。</p>
+<pre><code class="highlight bash">docker volume create &lt;name&gt;        <span class="comment"># 建立 volume</span>
+docker volume <span class="built_in">ls</span>                   <span class="comment"># 列出 volume</span>
+docker volume inspect &lt;name&gt;       <span class="comment"># 查看詳細資訊（含 Mountpoint）</span>
+docker volume <span class="built_in">rm</span> &lt;name&gt;            <span class="comment"># 刪除 volume（不可有 container 使用中）</span>
+docker volume prune                <span class="comment"># 清除未被使用的 volume</span></code></pre>
+<ul>
+<li>實際資料目錄預設位於 <code>/var/lib/docker/volumes/&lt;name&gt;/_data</code></li>
+<li>就是一般的資料目錄，<strong>不是</strong> LVM 之類的區塊裝置</li>
+<li>即使 container 被刪除，volume 仍然保留</li>
+</ul>
+<h4 id="範例：用-Volume-保存-PostgreSQL-資料">範例：用 Volume 保存 PostgreSQL 資料</h4>
+<pre><code class="highlight bash">docker pull postgres:17
+
+docker run -d --name postgres \
+  -v pgdata:/var/lib/postgresql/data \
+  -e POSTGRES_PASSWORD=123456 \
+  -e POSTGRES_USER=app \
+  -e POSTGRES_DB=appdb \
+  postgres:17</code></pre>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-v &lt;volume 名稱&gt;:&lt;容器內目錄&gt;</code></td>
+<td>掛載 volume；volume 不存在時會自動建立</td>
+</tr>
+<tr>
+<td><code>-e &lt;KEY&gt;=&lt;VALUE&gt;</code></td>
+<td>設定環境變數</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ 密碼 <code>123456</code> 僅供學習示範，正式環境請改用更安全的方式（如 secrets 或 <code>.env</code>）。</p>
+</blockquote>
+<h3 id="4-3-Bind-Mount">4.3 Bind Mount</h3>
+<p>由<strong>使用者指定宿主機目錄</strong>，直接掛載進 container，不經過 Docker 管理的 volume。</p>
+<pre><code class="highlight bash">docker run -d --name nginx \
+  -v /home/user/nginx/conf:/etc/nginx/conf.d \
+  nginx</code></pre>
+<p>將宿主機的 <code>/home/user/nginx/conf</code> 掛載到 container 內的 <code>/etc/nginx/conf.d</code>，不需要事先建立 volume。</p>
+<blockquote>
+<p>💡 加上 <code>:ro</code>（如 <code>-v &lt;宿主機目錄&gt;:&lt;容器目錄&gt;:ro</code>）可設為唯讀，避免 container 修改宿主機檔案。</p>
+</blockquote>
+<blockquote>
+<p>💻 Windows 上宿主機路徑可寫成 <code>C:\Users\me\conf</code>（PowerShell 可用 <code>$&#123;PWD&#125;\conf</code> 代表目前目錄）。<strong>注意</strong>：宿主機目錄不存在時，<code>-v</code> 會自動建立一個空目錄；若路徑拼錯，容易誤以為掛載成功卻是空的。</p>
+</blockquote>
+<blockquote>
+<p>📌 掛載到 container 內<strong>已有內容</strong>的目錄時：Bind Mount 會<strong>覆蓋</strong>原內容；具名 Volume 在第一次為空時會先複製原內容進去。</p>
+</blockquote>
+<h3 id="4-4-三種方式比較">4.4 三種方式比較</h3>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>需要建立 Volume</th>
+<th>資料位置</th>
+<th>適用情境</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Volume</td>
+<td>需要（或自動建立）</td>
+<td>Docker 管理的目錄</td>
+<td>資料庫、正式環境資料</td>
+</tr>
+<tr>
+<td>Bind Mount</td>
+<td>不需要</td>
+<td>自行指定的宿主機目錄</td>
+<td>設定檔、開發時同步原始碼</td>
+</tr>
+<tr>
+<td>容器可寫層</td>
+<td>不需要</td>
+<td>container 內部</td>
+<td>暫存檔案</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>辨識方式：<code>-v</code> 冒號左邊是<strong>名稱</strong> → Volume；是<strong>絕對路徑</strong> → Bind Mount。</p>
+</blockquote>
+<h2 id="5-構建自己的應用映像檔（Dockerfile）">5. 構建自己的應用映像檔（Dockerfile）</h2>
+<p><strong>Dockerfile</strong> 是一份文字腳本，描述如何一步步建出映像檔；每一個指令會產生一層（layer）。</p>
+<h3 id="5-1-常用指令">5.1 常用指令</h3>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FROM &lt;image&gt;</code></td>
+<td>指定基礎映像檔（每個 Dockerfile 的第一個指令）</td>
+</tr>
+<tr>
+<td><code>WORKDIR &lt;dir&gt;</code></td>
+<td>設定工作目錄，後續指令都在此執行（不存在會自動建立）</td>
+</tr>
+<tr>
+<td><code>COPY &lt;來源&gt; &lt;目標&gt;</code></td>
+<td>將建置目錄中的檔案複製進映像檔</td>
+</tr>
+<tr>
+<td><code>RUN &lt;command&gt;</code></td>
+<td><strong>建置映像檔時</strong>執行指令（如安裝套件、編譯）</td>
+</tr>
+<tr>
+<td><code>ENV &lt;KEY&gt;=&lt;VALUE&gt;</code></td>
+<td>設定環境變數</td>
+</tr>
+<tr>
+<td><code>EXPOSE &lt;port&gt;</code></td>
+<td>宣告應用監聽的 container 埠（僅說明，不會自動映射，仍需 <code>-p</code>）</td>
+</tr>
+<tr>
+<td><code>CMD [...]</code></td>
+<td><strong>container 啟動時</strong>預設執行的指令，可被 <code>docker run</code> 後面的參數覆蓋</td>
+</tr>
+<tr>
+<td><code>ENTRYPOINT [...]</code></td>
+<td>固定的啟動指令，<code>docker run</code> 的參數會接在後面</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <code>RUN</code> 是「建置時」執行，<code>CMD</code> 是「啟動時」執行，不要混淆。</p>
+</blockquote>
+<h3 id="5-2-範例一：C-ASP-NET-Core-API">5.2 範例一：C# (<a target="_blank" rel="noopener" href="http://ASP.NET">ASP.NET</a> Core) API</h3>
+<p>採用 <strong>multi-stage build（多階段建置）</strong>：第一階段用 SDK 編譯，第二階段只帶 runtime 與編譯結果，最終映像檔會小很多。</p>
+<pre><code class="highlight dockerfile"><span class="comment"># ===== 階段一：編譯 =====</span>
+<span class="keyword">FROM</span> mcr.microsoft.com/dotnet/sdk:<span class="number">10.0</span> AS build
+<span class="keyword">WORKDIR</span><span class="language-bash"> /src</span>
+
+<span class="comment"># 先只複製專案檔並還原套件，讓 Docker 能重複利用快取</span>
+<span class="keyword">COPY</span><span class="language-bash"> MyApi.csproj ./</span>
+<span class="keyword">RUN</span><span class="language-bash"> dotnet restore</span>
+
+<span class="comment"># 再複製其餘原始碼並發佈</span>
+<span class="keyword">COPY</span><span class="language-bash"> . .</span>
+<span class="keyword">RUN</span><span class="language-bash"> dotnet publish -c Release -o /app/publish --no-restore</span>
+
+<span class="comment"># ===== 階段二：執行 =====</span>
+<span class="keyword">FROM</span> mcr.microsoft.com/dotnet/aspnet:<span class="number">10.0</span>
+<span class="keyword">WORKDIR</span><span class="language-bash"> /app</span>
+<span class="keyword">COPY</span><span class="language-bash"> --from=build /app/publish .</span>
+
+<span class="comment"># .NET 8 之後的 container 預設監聽 8080</span>
+<span class="keyword">EXPOSE</span> <span class="number">8080</span>
+<span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;dotnet&quot;</span>, <span class="string">&quot;MyApi.dll&quot;</span>]</span></code></pre>
+<blockquote>
+<p>📌 <code>MyApi</code> 請換成自己的專案名稱；<code>dotnet</code> 版本標籤請與專案的 <code>TargetFramework</code> 一致。</p>
+</blockquote>
+<h3 id="5-3-範例二：React-前端（Vite）">5.3 範例二：React 前端（Vite）</h3>
+<p>同樣用 multi-stage：先用 Node 建置出靜態檔，再交給 <strong>nginx</strong> 提供服務，最終映像檔不含 Node。</p>
+<pre><code class="highlight dockerfile"><span class="comment"># ===== 階段一：建置 =====</span>
+<span class="keyword">FROM</span> node:<span class="number">22</span>-alpine AS build
+<span class="keyword">WORKDIR</span><span class="language-bash"> /app</span>
+
+<span class="comment"># 先安裝套件（package*.json 沒變就會用快取）</span>
+<span class="keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+<span class="keyword">RUN</span><span class="language-bash"> npm ci</span>
+
+<span class="keyword">COPY</span><span class="language-bash"> . .</span>
+<span class="keyword">RUN</span><span class="language-bash"> npm run build</span>
+
+<span class="comment"># ===== 階段二：用 nginx 提供靜態檔 =====</span>
+<span class="keyword">FROM</span> nginx:alpine
+<span class="keyword">COPY</span><span class="language-bash"> --from=build /app/dist /usr/share/nginx/html</span>
+<span class="keyword">EXPOSE</span> <span class="number">80</span></code></pre>
+<blockquote>
+<p>📌 Vite 的輸出目錄是 <code>dist</code>；若使用 Create React App，則改為 <code>build</code>。</p>
+</blockquote>
+<p><strong>補充（常見需求）</strong>：</p>
+<ul>
+<li>
+<p><strong>API 位址</strong>：Vite 的環境變數在<strong>建置時</strong>就寫死進靜態檔（如 <code>import.meta.env.VITE_API_URL</code>），container 啟動後無法再改。要換位址必須重新 build（可用 <code>ARG VITE_API_URL</code> 搭配 <code>docker build --build-arg</code> 傳入）。</p>
+</li>
+<li>
+<p><strong>React Router 重新整理出現 404</strong>：nginx 需要把找不到的路徑導回 <code>index.html</code>。新增 <code>nginx.conf</code>：</p>
+<pre><code class="highlight nginx"><span class="section">server</span> &#123;
+  <span class="attribute">listen</span> <span class="number">80</span>;
+  <span class="attribute">root</span> /usr/share/nginx/html;
+  <span class="section">location</span> / &#123;
+    <span class="attribute">try_files</span> <span class="variable">$uri</span> /index.html;
+  &#125;
+&#125;</code></pre>
+<p>並在 Dockerfile 最後階段加上 <code>COPY nginx.conf /etc/nginx/conf.d/default.conf</code>。</p>
+</li>
+<li>
+<p><strong>CORS</strong>：前端（<code>localhost:3000</code>）呼叫 API（<code>localhost:5000</code>）屬於跨來源，C# API 必須設定 CORS，否則瀏覽器會擋下請求。</p>
+</li>
+</ul>
+<h3 id="5-4-dockerignore">5.4 .dockerignore</h3>
+<p>與 Dockerfile 放在同一層，避免把不必要的檔案送進建置流程（加快建置、避免洩漏機密）。</p>
+<pre><code class="highlight text"># C# API
+bin/
+obj/
+.vs/
+
+# React
+node_modules/
+dist/
+
+# 共用
+.git/
+.env
+Dockerfile
+.dockerignore</code></pre>
+<h3 id="5-5-建置與執行">5.5 建置與執行</h3>
+<pre><code class="highlight bash"><span class="comment"># 建置（最後的 . 是 build context，不可省略）</span>
+<span class="built_in">cd</span> docker-demo1/backend
+docker build -t my-backend:1.0 .
+
+<span class="built_in">cd</span> ../frontend
+docker build -t my-frontend:1.0 .
+
+<span class="comment"># 執行</span>
+docker run -d --name my-backend  -p 5000:8080 my-backend:1.0
+docker run -d --name my-frontend -p 3000:80   my-frontend:1.0</code></pre>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-t &lt;name&gt;:&lt;tag&gt;</code></td>
+<td>為映像檔命名並指定版本標籤</td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td>build context（建置目錄），<code>COPY</code> 的來源以此為根</td>
+</tr>
+<tr>
+<td><code>-f &lt;file&gt;</code></td>
+<td>指定 Dockerfile 路徑（檔名不是 <code>Dockerfile</code> 時使用）</td>
+</tr>
+</tbody>
+</table>
+<p>驗證：瀏覽器開啟 <code>http://localhost:3000</code>（前端）與 <code>http://localhost:5000</code>（API）。</p>
+<blockquote>
+<p>⚠️ 前端在瀏覽器執行，呼叫 API 時要用<strong>宿主機可存取的位址</strong>（如 <code>http://localhost:5000</code>），不是 container 名稱。container 名稱只有在 container 之間互連（同一個自訂 network）時才有效。</p>
+</blockquote>
+<h3 id="5-6-優化重點">5.6 優化重點</h3>
+<ol>
+<li><strong>依賴先複製、原始碼後複製</strong>：套件清單很少變動，這樣修改程式碼時可沿用快取，不必重新安裝套件。</li>
+<li><strong>使用 multi-stage</strong>：建置工具不進最終映像檔，體積更小、更安全。</li>
+<li><strong>選擇精簡的基礎映像檔</strong>：如 <code>-alpine</code>、<code>-slim</code>，並固定版本標籤，不要用 <code>latest</code>。</li>
+<li><strong>務必寫 <code>.dockerignore</code></strong>。</li>
+<li><strong>減少 layer 數量</strong>：相關的 <code>RUN</code> 可用 <code>&amp;&amp;</code> 合併。</li>
+</ol>
+<h2 id="6-Docker-Compose">6. Docker Compose</h2>
+<p>前面都是一個指令啟動一個 container，服務一多（API、前端、資料庫…）就要打一堆 <code>docker run</code>、<code>docker network</code>、<code>docker volume</code>。<strong>Docker Compose</strong> 用一個 YAML 檔描述整組服務，再以一個指令啟動或關閉。</p>
+<blockquote>
+<p>📌 現在使用的是 Compose V2：指令是 <code>docker compose</code>（中間為空格，不是舊版的 <code>docker-compose</code>），檔案建議命名為 <code>compose.yaml</code>，且<strong>不需要</strong>再寫 <code>version:</code> 欄位。</p>
+</blockquote>
+<h3 id="6-1-docker-run-與-Compose-對照">6.1 <code>docker run</code> 與 Compose 對照</h3>
+<table>
+<thead>
+<tr>
+<th><code>docker run</code> 參數</th>
+<th>Compose 欄位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--name</code></td>
+<td><code>container_name</code>（通常省略，用服務名稱即可）</td>
+</tr>
+<tr>
+<td><code>-p 8080:80</code></td>
+<td><code>ports</code></td>
+</tr>
+<tr>
+<td><code>-e KEY=VALUE</code></td>
+<td><code>environment</code></td>
+</tr>
+<tr>
+<td><code>-v pgdata:/path</code></td>
+<td><code>volumes</code></td>
+</tr>
+<tr>
+<td><code>--network</code></td>
+<td><code>networks</code>（預設會自動建立一個共用 network）</td>
+</tr>
+<tr>
+<td><code>docker build</code></td>
+<td><code>build</code></td>
+</tr>
+<tr>
+<td><code>--restart</code></td>
+<td><code>restart</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-2-範例：C-API-React-前端-PostgreSQL">6.2 範例：C# API + React 前端 + PostgreSQL</h3>
+<p>專案結構：</p>
+<pre><code class="highlight text">docker-demo1/
+├── compose.yaml
+├── .env
+├── backend/      # 內含 Dockerfile（見 5.2）
+└── frontend/     # 內含 Dockerfile（見 5.3）</code></pre>
+<p><code>compose.yaml</code>：</p>
+<pre><code class="highlight yaml"><span class="attr">services:</span>
+  <span class="attr">db:</span>
+    <span class="attr">image:</span> <span class="string">postgres:17</span>
+    <span class="attr">restart:</span> <span class="string">unless-stopped</span>
+    <span class="attr">environment:</span>
+      <span class="attr">POSTGRES_USER:</span> <span class="string">app</span>
+      <span class="attr">POSTGRES_PASSWORD:</span> <span class="string">$&#123;DB_PASSWORD&#125;</span>
+      <span class="attr">POSTGRES_DB:</span> <span class="string">appdb</span>
+    <span class="attr">volumes:</span>
+      <span class="bullet">-</span> <span class="string">pgdata:/var/lib/postgresql/data</span>
+    <span class="attr">healthcheck:</span>
+      <span class="attr">test:</span> [<span class="string">&quot;CMD-SHELL&quot;</span>, <span class="string">&quot;pg_isready -U app -d appdb&quot;</span>]
+      <span class="attr">interval:</span> <span class="string">5s</span>
+      <span class="attr">timeout:</span> <span class="string">3s</span>
+      <span class="attr">retries:</span> <span class="number">10</span>
+
+  <span class="attr">backend:</span>
+    <span class="attr">build:</span> <span class="string">./backend</span>
+    <span class="attr">restart:</span> <span class="string">unless-stopped</span>
+    <span class="attr">environment:</span>
+      <span class="comment"># 同一個 Compose 專案內，直接用「服務名稱」(db) 當主機名稱</span>
+      <span class="attr">ConnectionStrings__Default:</span> <span class="string">Host=db;Port=5432;Database=appdb;Username=app;Password=$&#123;DB_PASSWORD&#125;</span>
+    <span class="attr">ports:</span>
+      <span class="bullet">-</span> <span class="string">&quot;5000:8080&quot;</span>
+    <span class="attr">depends_on:</span>
+      <span class="attr">db:</span>
+        <span class="attr">condition:</span> <span class="string">service_healthy</span>
+
+  <span class="attr">frontend:</span>
+    <span class="attr">build:</span> <span class="string">./frontend</span>
+    <span class="attr">restart:</span> <span class="string">unless-stopped</span>
+    <span class="attr">ports:</span>
+      <span class="bullet">-</span> <span class="string">&quot;3000:80&quot;</span>
+    <span class="attr">depends_on:</span>
+      <span class="bullet">-</span> <span class="string">backend</span>
+
+<span class="attr">volumes:</span>
+  <span class="attr">pgdata:</span></code></pre>
+<p><code>.env</code>（與 <code>compose.yaml</code> 同層，Compose 會自動讀取，並用來替換 <code>$&#123;DB_PASSWORD&#125;</code>）：</p>
+<pre><code class="highlight text">DB_PASSWORD=123456</code></pre>
+<blockquote>
+<p>⚠️ <code>.env</code> 含機密，務必加進 <code>.gitignore</code>；<code>123456</code> 僅供學習示範。</p>
+</blockquote>
+<h3 id="6-3-重點說明">6.3 重點說明</h3>
+<ul>
+<li><strong>services</strong>：每個項目就是一個 container，<strong>服務名稱</strong>同時是 network 內的主機名稱（所以連線字串寫 <code>Host=db</code>）。</li>
+<li><strong>自動建立 network</strong>：同一份 <code>compose.yaml</code> 的服務預設在同一個 network，不必手動 <code>docker network create</code>。</li>
+<li><strong>volumes</strong>（最外層）：宣告具名 volume，等同先執行 <code>docker volume create pgdata</code>。</li>
+<li><strong>build vs image</strong>：有自己的 Dockerfile 用 <code>build</code>，直接使用現成映像檔用 <code>image</code>。</li>
+<li><strong>depends_on</strong>：只決定<strong>啟動順序</strong>；加上 <code>condition: service_healthy</code> 才會等 <code>healthcheck</code> 通過，避免 API 比資料庫先啟動而連線失敗。</li>
+<li><strong>環境變數的巢狀寫法</strong>：<a target="_blank" rel="noopener" href="http://ASP.NET">ASP.NET</a> Core 以雙底線 <code>__</code> 代表層級，<code>ConnectionStrings__Default</code> 對應 <code>appsettings.json</code> 的 <code>ConnectionStrings:Default</code>。</li>
+</ul>
+<h3 id="6-4-常用指令">6.4 常用指令</h3>
+<p>在 <code>compose.yaml</code> 所在目錄執行：</p>
+<pre><code class="highlight bash">docker compose up -d              <span class="comment"># 建立並啟動全部服務（背景）</span>
+docker compose up -d --build      <span class="comment"># 程式碼或 Dockerfile 有改動時，重新建置映像檔再啟動</span>
+docker compose ps                 <span class="comment"># 查看服務狀態</span>
+docker compose logs -f [service]  <span class="comment"># 查看 log（可指定服務）</span>
+docker compose <span class="built_in">exec</span> &lt;service&gt; sh  <span class="comment"># 進入服務的 container</span>
+docker compose stop               <span class="comment"># 停止（不刪除）</span>
+docker compose start              <span class="comment"># 啟動已停止的服務</span>
+docker compose down               <span class="comment"># 停止並刪除 container 與 network（volume 保留）</span>
+docker compose down -v            <span class="comment"># 連同 volume 一起刪除（資料會消失！）</span>
+docker compose config             <span class="comment"># 檢查並顯示最終解析後的設定</span></code></pre>
+<blockquote>
+<p>⚠️ <code>down -v</code> 會刪除資料庫資料，執行前請確認。</p>
+</blockquote>
+<h3 id="6-5-常見問題">6.5 常見問題</h3>
+<ol>
+<li><strong>改了程式碼沒生效</strong>：Compose 不會自動重新建置，需加 <code>--build</code>。</li>
+<li><strong>API 連不到資料庫</strong>：確認連線字串的主機是服務名稱 <code>db</code>，<strong>不是</strong> <code>localhost</code>（container 內的 <code>localhost</code> 是它自己）。</li>
+<li><strong>PostgreSQL 的 <code>POSTGRES_PASSWORD</code> 改了沒效果</strong>：這些環境變數只在<strong>第一次初始化資料目錄</strong>時生效；要重來需 <code>docker compose down -v</code> 清掉 volume。</li>
+<li><strong>埠號衝突</strong>：宿主機的埠已被占用時，修改 <code>ports</code> 左邊的數字。</li>
+</ol>
+<h2 id="7-推送映像檔到-Registry">7. 推送映像檔到 Registry</h2>
+<p>建好的映像檔可以推送到 Docker Hub（或公司內部的 registry），讓其他機器 <code>docker pull</code>。</p>
+<pre><code class="highlight bash">docker login                                   <span class="comment"># 登入 Docker Hub</span>
+docker tag my-backend:1.0 &lt;帳號&gt;/my-backend:1.0   <span class="comment"># 加上帳號前綴（命名規則：&lt;帳號&gt;/&lt;名稱&gt;:&lt;tag&gt;）</span>
+docker push &lt;帳號&gt;/my-backend:1.0              <span class="comment"># 推送</span>
+docker pull &lt;帳號&gt;/my-backend:1.0              <span class="comment"># 在其他機器拉取</span></code></pre>
+<blockquote>
+<p>⚠️ 推送前確認映像檔內沒有機密（密碼、金鑰、<code>.env</code>）；一旦推上公開 registry 就可能被他人取得，即使事後刪除也無法保證。</p>
+</blockquote>
+<h2 id="8-清理與疑難排解">8. 清理與疑難排解</h2>
+<h3 id="8-1-清理磁碟空間">8.1 清理磁碟空間</h3>
+<pre><code class="highlight bash">docker system <span class="built_in">df</span>             <span class="comment"># 查看 image／container／volume 佔用的空間</span>
+docker container prune       <span class="comment"># 刪除所有已停止的 container</span>
+docker image prune -a        <span class="comment"># 刪除所有未被 container 使用的 image</span>
+docker volume prune          <span class="comment"># 刪除未使用的 volume（資料會消失！）</span>
+docker system prune          <span class="comment"># 一次清除已停止的 container、未使用的 network 與懸空 image（不含 volume）</span></code></pre>
+<h3 id="8-2-常見問題">8.2 常見問題</h3>
+<table>
+<thead>
+<tr>
+<th>狀況</th>
+<th>排查方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>container 一啟動就退出</td>
+<td><code>docker logs &lt;name&gt;</code> 查看錯誤；container 的主行程結束，container 就會結束</td>
+</tr>
+<tr>
+<td><code>port is already allocated</code></td>
+<td>宿主機的埠被占用，換一個 <code>-p</code> 左邊的數字，或停掉占用的 container</td>
+</tr>
+<tr>
+<td><code>name is already in use</code></td>
+<td>同名 container 已存在，先 <code>docker rm</code> 或換名稱</td>
+</tr>
+<tr>
+<td>連不到服務</td>
+<td>確認有設定 <code>-p</code>；服務是否監聽 <code>0.0.0.0</code>（只監聽 <code>127.0.0.1</code> 時，外部連不到）</td>
+</tr>
+<tr>
+<td>container 之間連不上</td>
+<td>確認在同一個<strong>自訂</strong> network，並使用 container／服務名稱，不是 <code>localhost</code></td>
+</tr>
+<tr>
+<td>改了 Dockerfile 沒生效</td>
+<td>重新 <code>docker build</code>（必要時加 <code>--no-cache</code>），並確認使用的是新的 tag</td>
+</tr>
+<tr>
+<td><code>permission denied</code>（Linux）</td>
+<td>目前使用者不在 <code>docker</code> 群組，或掛載目錄權限不足</td>
+</tr>
+</tbody>
+</table>
+<h3 id="8-3-除錯流程建議">8.3 除錯流程建議</h3>
+<pre><code class="highlight bash">docker ps -a                 <span class="comment"># 1. 確認狀態（Up／Exited）</span>
+docker logs &lt;name&gt;           <span class="comment"># 2. 看 log</span>
+docker inspect &lt;name&gt;        <span class="comment"># 3. 檢查設定（Ports、Mounts、Networks、Env）</span>
+docker <span class="built_in">exec</span> -it &lt;name&gt; sh    <span class="comment"># 4. 進入 container 實際檢查</span></code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/Docker-Compose/" rel="tag"># Docker Compose</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/12/03/aspnet-mvc-data-transport/" rel="prev" title="ASP.NET MVC 資料傳值方式整理（ViewBag / ViewData / TempData / Model）">
+                  <i class="fa fa-angle-left"></i> ASP.NET MVC 資料傳值方式整理（ViewBag / ViewData / TempData / Model）
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">looperhuang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: '32px',
+  left: 'unset',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

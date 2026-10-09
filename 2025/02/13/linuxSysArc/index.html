@@ -19,21 +19,21 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="BIOS 基本輸入輸出系統(Basic Input&#x2F;Output System) 主要作用為將系統硬體帶到可以準備交給作業系統的狀態，通常包含下列步驟:  系統初始化 測試記憶體與其他周邊 檢測儲存裝置 在數個儲存裝置之間找出作業系統的起始點  且提供操作介面，供使用者設定系統的低階參數、選擇開機裝置、配置系統資源等等。 日期與時間 BIOS 的主要功能之一是管理主機板內建的硬體時鐘。 作業系統本">
+    <meta name="description" content="從 BIOS 到作業系統，整理 Linux 的系統架構與開機流程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="系統架構">
+<meta property="og:title" content="Linux 系統架構與開機流程">
 <meta property="og:url" content="https://looperhuang.github.io/2025/02/13/linuxSysArc/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="BIOS 基本輸入輸出系統(Basic Input&#x2F;Output System) 主要作用為將系統硬體帶到可以準備交給作業系統的狀態，通常包含下列步驟:  系統初始化 測試記憶體與其他周邊 檢測儲存裝置 在數個儲存裝置之間找出作業系統的起始點  且提供操作介面，供使用者設定系統的低階參數、選擇開機裝置、配置系統資源等等。 日期與時間 BIOS 的主要功能之一是管理主機板內建的硬體時鐘。 作業系統本">
+<meta property="og:description" content="從 BIOS 到作業系統，整理 Linux 的系統架構與開機流程">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://looperhuang.github.io/images/linuxSysArc/proc_interrupts.png">
 <meta property="og:image" content="https://looperhuang.github.io/images/linuxSysArc/proc_dma.png">
 <meta property="og:image" content="https://looperhuang.github.io/images/linuxSysArc/proc_ioports.png">
 <meta property="og:image" content="https://looperhuang.github.io/images/linuxSysArc/lsusb.png">
 <meta property="article:published_time" content="2025-02-13T01:24:48.000Z">
-<meta property="article:modified_time" content="2025-04-25T02:50:14.601Z">
+<meta property="article:modified_time" content="2026-10-09T02:27:53.543Z">
 <meta property="article:author" content="looperhuang">
-<meta property="article:tag" content="linux">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://looperhuang.github.io/images/linuxSysArc/proc_interrupts.png">
 
@@ -41,10 +41,10 @@
 <link rel="canonical" href="https://looperhuang.github.io/2025/02/13/linuxSysArc/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/02/13/linuxSysArc/","path":"2025/02/13/linuxSysArc/","title":"系統架構"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/02/13/linuxSysArc/","path":"2025/02/13/linuxSysArc/","title":"Linux 系統架構與開機流程"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>系統架構 | Looper's Blog</title>
+<title>Linux 系統架構與開機流程 | Looper's Blog</title>
   
 
 
@@ -159,18 +159,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -218,12 +218,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="系統架構 | Looper's Blog">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="Linux 系統架構與開機流程 | Looper's Blog">
+      <meta itemprop="description" content="從 BIOS 到作業系統，整理 Linux 的系統架構與開機流程">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          系統架構
+          Linux 系統架構與開機流程
         </h1>
 
         <div class="post-meta-container">
@@ -241,7 +241,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:50:14" itemprop="dateModified" datetime="2025-04-25T10:50:14+08:00">2025-04-25</time>
+      <time title="修改時間：2026-10-09 10:27:53" itemprop="dateModified" datetime="2026-10-09T10:27:53+08:00">2026-10-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -249,13 +249,14 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9F%BA%E7%A4%8E/" itemprop="url" rel="index"><span itemprop="name">基礎</span></a>
+          <a href="/categories/%E7%B3%BB%E7%B5%B1%E8%88%87%E7%B6%AD%E9%81%8B/" itemprop="url" rel="index"><span itemprop="name">系統與維運</span></a>
         </span>
     </span>
 
   
 </div>
 
+            <div class="post-description">從 BIOS 到作業系統，整理 Linux 的系統架構與開機流程</div>
         </div>
       </header>
 
@@ -372,20 +373,20 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2025/02/05/tree/" rel="prev" title="樹狀資料">
-                  <i class="fa fa-angle-left"></i> 樹狀資料
+                <a href="/2025/02/05/tree/" rel="prev" title="樹狀資料結構">
+                  <i class="fa fa-angle-left"></i> 樹狀資料結構
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/02/14/server-certificate/" rel="next" title="IIS 安裝憑證">
-                  IIS 安裝憑證 <i class="fa fa-angle-right"></i>
+                <a href="/2025/02/14/server-certificate/" rel="next" title="IIS 安裝 SSL 憑證">
+                  IIS 安裝 SSL 憑證 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -406,7 +407,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2025</span>
+    <span itemprop="copyrightYear">2026</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>

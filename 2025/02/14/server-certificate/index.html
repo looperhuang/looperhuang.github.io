@@ -19,20 +19,21 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"looperhuang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="簡易紀錄 IIS 站台如何安裝憑證  取得憑證檔案  開啟 IIS 管理員 選擇伺服器 進入伺服器憑證 匯入憑證檔案  選擇站台 新增繫結  重新啟動並測試">
+    <meta name="description" content="IIS 站台安裝伺服器憑證的步驟">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IIS 安裝憑證">
+<meta property="og:title" content="IIS 安裝 SSL 憑證">
 <meta property="og:url" content="https://looperhuang.github.io/2025/02/14/server-certificate/index.html">
 <meta property="og:site_name" content="Looper&#39;s Blog">
-<meta property="og:description" content="簡易紀錄 IIS 站台如何安裝憑證  取得憑證檔案  開啟 IIS 管理員 選擇伺服器 進入伺服器憑證 匯入憑證檔案  選擇站台 新增繫結  重新啟動並測試">
+<meta property="og:description" content="IIS 站台安裝伺服器憑證的步驟">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://looperhuang.github.io/images/server-certificate/ssl.png">
 <meta property="og:image" content="https://looperhuang.github.io/images/server-certificate/import_certificate.png">
 <meta property="og:image" content="https://looperhuang.github.io/images/server-certificate/add_link.png">
 <meta property="article:published_time" content="2025-02-14T00:32:46.000Z">
-<meta property="article:modified_time" content="2025-04-25T02:52:23.354Z">
+<meta property="article:modified_time" content="2026-10-09T02:27:53.547Z">
 <meta property="article:author" content="looperhuang">
 <meta property="article:tag" content="IIS">
+<meta property="article:tag" content="SSL">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://looperhuang.github.io/images/server-certificate/ssl.png">
 
@@ -40,10 +41,10 @@
 <link rel="canonical" href="https://looperhuang.github.io/2025/02/14/server-certificate/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/02/14/server-certificate/","path":"2025/02/14/server-certificate/","title":"IIS 安裝憑證"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://looperhuang.github.io/2025/02/14/server-certificate/","path":"2025/02/14/server-certificate/","title":"IIS 安裝 SSL 憑證"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>IIS 安裝憑證 | Looper's Blog</title>
+<title>IIS 安裝 SSL 憑證 | Looper's Blog</title>
   
 
 
@@ -157,18 +158,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -216,12 +217,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="IIS 安裝憑證 | Looper's Blog">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="IIS 安裝 SSL 憑證 | Looper's Blog">
+      <meta itemprop="description" content="IIS 站台安裝伺服器憑證的步驟">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          IIS 安裝憑證
+          IIS 安裝 SSL 憑證
         </h1>
 
         <div class="post-meta-container">
@@ -239,7 +240,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-04-25 10:52:23" itemprop="dateModified" datetime="2025-04-25T10:52:23+08:00">2025-04-25</time>
+      <time title="修改時間：2026-10-09 10:27:53" itemprop="dateModified" datetime="2026-10-09T10:27:53+08:00">2026-10-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -247,13 +248,14 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/IIS/" itemprop="url" rel="index"><span itemprop="name">IIS</span></a>
+          <a href="/categories/%E7%B3%BB%E7%B5%B1%E8%88%87%E7%B6%AD%E9%81%8B/" itemprop="url" rel="index"><span itemprop="name">系統與維運</span></a>
         </span>
     </span>
 
   
 </div>
 
+            <div class="post-description">IIS 站台安裝伺服器憑證的步驟</div>
         </div>
       </header>
 
@@ -284,19 +286,20 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/IIS/" rel="tag"># IIS</a>
+              <a href="/tags/SSL/" rel="tag"># SSL</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2025/02/13/linuxSysArc/" rel="prev" title="系統架構">
-                  <i class="fa fa-angle-left"></i> 系統架構
+                <a href="/2025/02/13/linuxSysArc/" rel="prev" title="Linux 系統架構與開機流程">
+                  <i class="fa fa-angle-left"></i> Linux 系統架構與開機流程
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/04/03/sqlkata/" rel="next" title="sqlkata">
-                  sqlkata <i class="fa fa-angle-right"></i>
+                <a href="/2025/04/03/sqlkata/" rel="next" title="SqlKata：C# SQL 查詢產生器">
+                  SqlKata：C# SQL 查詢產生器 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -317,7 +320,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2025</span>
+    <span itemprop="copyrightYear">2026</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
